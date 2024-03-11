@@ -82,14 +82,10 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 일정 -->
-                  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" 
-                  	data-bs-target="#collapseResv" aria-expanded="false" aria-controls="collapseResv">
+                  <a class="nav-link" href="#">
                      <div class="nav-link-icon">
                         <i data-feather="calendar"></i>
                      </div> 일정
-                     <div class="sidenav-collapse-arrow">
-                        <i class="fas fa-angle-down"></i>
-                     </div>
                   </a>
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
