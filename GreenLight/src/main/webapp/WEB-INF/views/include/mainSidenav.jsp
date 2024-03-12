@@ -143,7 +143,7 @@
                   <div class="collapse" id="collapseApr"
                      data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">전자서명 관리</a> 
+                        <a class="nav-link" href="signature.do">전자서명 관리</a> 
                      </nav>
                   </div>
 			 </div>    
