@@ -18265,9 +18265,9 @@ body {
   background: inherit;
 }
 @media (pointer: fine) and (hover: hover) {
-  .dropdown-notifications .dropdown-menu {
+ /*  .dropdown-notifications .dropdown-menu {
     overflow-y: hidden;
-  }
+  } */
   .dropdown-notifications .dropdown-menu:hover {
     overflow-y: overlay;
   }
