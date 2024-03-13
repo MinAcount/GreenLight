@@ -15,7 +15,7 @@ import lombok.ToString;
 @AllArgsConstructor
 public class EmployeeVo {
 
-	private int id;
+	private String id;
 	private String name;
 	private String password;
 	private String email;
