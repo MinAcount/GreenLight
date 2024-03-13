@@ -390,9 +390,7 @@ th {
   border-width: 0;
 }
 
-label {
-  display: inline-block;
-}
+
 
 button {
   border-radius: 0;
@@ -2145,7 +2143,7 @@ progress {
 }
 
 .form-control, .datatable-input {
-  display: block;
+  display: inline-block;
   width: 100%;
   padding: 0.875rem 1.125rem;
   font-size: 0.875rem;
@@ -2296,6 +2294,7 @@ textarea.form-control-lg {
 }
 
 .form-select, .datatable-selector {
+
   display: block;
   width: 100%;
   padding: 0.875rem 3.375rem 0.875rem 1.125rem;
@@ -3047,7 +3046,22 @@ textarea.form-control-lg {
   --bs-btn-disabled-bg: #EFF5F2;
   --bs-btn-disabled-border-color: #EFF5F2;
 }
-
+.btn-dsecondary {
+  --bs-btn-color: #69707a;
+  --bs-btn-bg: #faf5f5;
+  --bs-btn-border-color: #faf5f5;
+/*   --bs-btn-hover-color: #faf5f5; */
+  --bs-btn-hover-bg: #f6ebeb;
+  /* --bs-btn-hover-border-color: #faf5f5; */
+  --bs-btn-focus-shadow-rgb: 128, 38, 207;
+  --bs-btn-active-color: #69707a;
+  --bs-btn-active-bg: #f6ebeb;
+  --bs-btn-active-border-color: #faf5f5;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: #faf5f5;
+  --bs-btn-disabled-border-color: #faf5f5;
+}
 .btn-success {
   --bs-btn-color: #fff;
   --bs-btn-bg: #00ac69;
@@ -6947,7 +6961,7 @@ textarea.form-control-lg {
   --bs-toast-padding-x: 0.75rem;
   --bs-toast-padding-y: 0.5rem;
   --bs-toast-spacing: 1.5rem;
-  --bs-toast-max-width: 350px;
+  --bs-toast-max-width: 500px;
   --bs-toast-font-size: 0.875rem;
   --bs-toast-color: ;
   --bs-toast-bg: rgba(255, 255, 255, 0.85);
@@ -7031,7 +7045,7 @@ textarea.form-control-lg {
   --bs-modal-footer-gap: 0.5rem;
   --bs-modal-footer-bg: ;
   --bs-modal-footer-border-color: var(--bs-border-color);
-  --bs-modal-footer-border-width: 1px;
+/*   --bs-modal-footer-border-width: 1px; */
   position: fixed;
   top: 0;
   left: 0;
@@ -18084,9 +18098,7 @@ body {
   transform: translateX(-15rem);
 }
 
-#layoutSidenav_content{
-	
-}
+
 #layoutSidenav #layoutSidenav_content {
   position: relative;
   display: flex;
@@ -18142,7 +18154,7 @@ body {
 }
 
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav {
-  padding-top: 3.625rem;
+  padding-top: 4.5rem;
 }
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
   overflow-y: overlay;
@@ -18171,7 +18183,7 @@ body {
 }
 @media (pointer: fine) and (hover: hover) {
   .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
-    overflow-y: hidden;
+    overflow-y: scroll;
   }
   .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu:hover {
     overflow-y: overlay;
@@ -18477,6 +18489,7 @@ body {
 }
 
 .topnav {
+  min-height : 43px;
   padding-left: 0;
   height: 8vh;
   z-index: 1039;
@@ -19646,6 +19659,7 @@ pre[class*=language-] {
 	width: 80%;
 	height: 100%;
 	margin: auto;
+	padding-top: 80px;
 }
 
 /* #chatList{
@@ -19681,4 +19695,15 @@ pre[class*=language-] {
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active {
 	transition: background-color 5000s; 
 	-webkit-text-fill-color: black !important;	
+}
+label {
+  display: inline-block;
+}
+
+.thcss {
+	width: 120px;
+}
+td, th {
+	height: 60px;
+	font-size: 15px;
 }

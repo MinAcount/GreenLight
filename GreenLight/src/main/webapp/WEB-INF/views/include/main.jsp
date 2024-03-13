@@ -18,7 +18,20 @@
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
          <div id="main_content">
- 
+         
+         
+<!-- 테이블-->
+			<table>
+				<tbody>
+					<tr class="trcss">
+						<th class="thcss">작성자</th>
+						<td><input type="text" class="form-control table-input"></td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+			
+			
 <!-- 드롭다운 -->
 	         <div class="dropdown">
 	           	<button class="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown Button</button>
@@ -32,7 +45,7 @@
                <br>
                 
 <!-- 버튼 -->
-               <button class="btn btn-primary btn-sm" type="button" style="margin-right:10px;" onclick="location='./admin.jsp'">Admin</button>
+               <button class="btn btn-primary btn-sm" type="button" style="margin-right:10px;" onclick="javascript:location.href='./templateAdd.do'">문서양식등록</button>
                <button class="btn btn-danger btn-sm" type="button" style="margin-right:10px;">Danger</button>
                <button class="btn btn-secondary btn-sm" type="button">Secondary</button>
                
@@ -48,7 +61,9 @@
 			   </div>
 				<div class="toast-body">This toast uses the primary text utility on the toast header.</div>
 			</div>
-			<br><br>
+			
+			<br><br><br>
+			
 			<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
 			    <div class="toast-header text-danger">
 			        <i data-feather="alert-circle" id="toastFeather"></i>
@@ -57,7 +72,42 @@
 			    </div>
 			    <div class="toast-body">This toast uses the danger text utility on the toast header.</div>
 			</div>
-				
+			
+			<br><br><br>
+			
+<!-- confirm 모달 -->
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			    <div class="toast-header text-primary">
+			        <i data-feather="check-circle" id="toastFeather"></i>
+			        <strong class="me-auto">Primary Text Toast</strong>
+				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
+			   </div>
+				<div class="toast-body">This toast uses the primary text utility on the toast header.
+					<br><br><br>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+					    <button style="margin-left: 10px;" class="btn btn-primary" type="button">Save changes</button>
+				    </div>
+			    </div>
+			</div>
+			
+			<br><br><br>
+			
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			    <div class="toast-header text-danger">
+			        <i data-feather="alert-circle" id="toastFeather"></i>
+			        <strong class="me-auto">Danger Text Toast</strong>
+				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
+			   </div>
+				<div class="toast-body">This toast uses the danger text utility on the toast header.
+					<br><br><br>
+					<div class="modal-footer">
+						<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+					    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Delete</button>
+				    </div>
+			    </div>
+			</div>
+			
 			<br><br>
 				
 <!-- 체크박스 -->
@@ -97,14 +147,14 @@
     			<span class="input-group-text" id="litepickerSpan">
         			<i data-feather="calendar"></i>
     			</span>
-   				<input class="form-control ps-0" id="litepickerRangePlugin" placeholder="Select date range..." />
+   				<input class="form-control ps-0" id="litepickerSingleDate" placeholder="Select date range..." />
 			</div>
    			<script>
 			    //총 4가지 모양의 달력.
 			    window.addEventListener('DOMContentLoaded', event => {
 			
 			 
-			    const litepickerDateRange2Months = document.getElementById('litepickerRangePlugin');
+			    const litepickerDateRange2Months = document.getElementById('litepickerRangePlugin'); // 두달, 기간설정
 			    if (litepickerRangePlugin) {
 				    new Litepicker({
 					    element: litepickerRangePlugin,
@@ -112,12 +162,60 @@
 					    numberOfMonths: 2,
 					    numberOfColumns: 2,
 					    format: 'MMM DD, YYYY',
-					    lang: "ko-KR"
+					    lang: "ko-KR" //한글로 변경
 						});
 					}
 			 
 				});
 			</script>
+			<!-- <script>
+    //총 4가지 모양의 달력.
+    window.addEventListener('DOMContentLoaded', event => {
+
+    const litepickerSingleDate = document.getElementById('litepickerSingleDate'); // 한달, 하루
+    if (litepickerSingleDate) {
+    new Litepicker({
+    element: litepickerSingleDate,
+    format: 'YYYY-MM-DD'
+});
+}
+
+    const litepickerDateRange = document.getElementById('litepickerDateRange');
+    if (litepickerDateRange) {
+    new Litepicker({
+    element: litepickerDateRange,
+    singleMode: false,
+    format: 'MMM DD, YYYY'
+});
+}
+
+    const litepickerDateRange2Months = document.getElementById('litepickerDateRange2Months');
+    if (litepickerDateRange2Months) {
+    new Litepicker({
+    element: litepickerDateRange2Months,
+    singleMode: false,
+    numberOfMonths: 2,
+    numberOfColumns: 2,
+    format: 'MMM DD, YYYY'
+});
+}
+
+    const litepickerRangePlugin = document.getElementById('litepickerRangePlugin');
+    if (litepickerRangePlugin) {
+    new Litepicker({
+    element: litepickerRangePlugin,
+    startDate: new Date(),
+    endDate: new Date(),
+    singleMode: false,
+    numberOfMonths: 2,
+    numberOfColumns: 2,
+    format: 'MMM DD, YYYY',
+    plugins: ['ranges']
+});
+}
+});
+
+</script> -->
 				
 <!-- 페이징바 -->
 			<nav aria-label="Page navigation example">
@@ -189,7 +287,9 @@
 	    		<div class="modal-dialog" role="document">
 	        		<div class="modal-content">
 	            		<div class="modal-header">
-	                		<h5 class="modal-title" id="exampleModalLabel">Default Bootstrap Modal</h5>
+	                		<h5 class="modal-title" id="exampleModalLabel">
+	                			<i style="margin-top: 2px;" class="feather-lg" data-feather="check-circle"></i>
+	                			Default Bootstrap Modal</h5>
 	                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 	            		</div>
 	            		<div class="modal-body">...</div>
