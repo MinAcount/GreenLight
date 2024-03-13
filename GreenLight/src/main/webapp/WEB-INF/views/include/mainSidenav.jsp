@@ -82,14 +82,10 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 일정 -->
-                  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" 
-                  	data-bs-target="#collapseResv" aria-expanded="false" aria-controls="collapseResv">
+                  <a class="nav-link" href="#">
                      <div class="nav-link-icon">
                         <i data-feather="calendar"></i>
                      </div> 일정
-                     <div class="sidenav-collapse-arrow">
-                        <i class="fas fa-angle-down"></i>
-                     </div>
                   </a>
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
@@ -147,7 +143,7 @@
                   <div class="collapse" id="collapseApr"
                      data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">전자서명 관리</a> 
+                        <a class="nav-link" href="signature.do">전자서명 관리</a> 
                      </nav>
                   </div>
 			 </div>    
