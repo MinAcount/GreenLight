@@ -2,7 +2,13 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
+		<typeAlias type="com.green.light.vo.EmployeeVo" alias="EmpVo"/>
+		<typeAlias type="com.green.light.vo.DepartmentVo" alias="DeptVo"/>
+		<typeAlias type="com.green.light.vo.HeadquartersVo" alias="HeadVo"/>
 	</typeAliases>
 	<mappers>
+		<mapper resource="sqls/EmployeeStatement.xml"/>
+		<mapper resource="sqls/DepartmentStatement.xml"/>
+		<mapper resource="sqls/HeadquartersStatement.xml"/>
 	</mappers>
 </configuration>
