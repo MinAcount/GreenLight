@@ -3,6 +3,7 @@ package com.green.light.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.SignVo;
 
 public interface ISignService {
@@ -25,4 +26,5 @@ public interface ISignService {
 	
 //  대표서명 변경 및 지정 updateMainSign
 	public int updateMainSign(String id);
+	
 }
