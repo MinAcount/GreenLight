@@ -2,30 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.SignatureDaoImpl">
 
-<select id="selectAllSign" resultType="SignVo">
-SELECT SIGNNO ,ID ,SAVE_SIGN ,MAIN 
-        FROM SIGNLIST s
-        WHERE ID =#{id}
-</select>
+	<!-- 서명조회 selectAllSign -->
+	<select id="selectAllSign" resultType="SignVo"
+		parameterType="java.lang.String">
+		SELECT SIGNNO ,ID ,SAVE_SIGN ,MAIN
+			FROM SIGNLIST s
+			WHERE ID = #{id}
+	</select>
 
-<insert id="insertSign" parameterType="SignVo">
-INSERT INTO SIGNLIST (SIGNNO, ID, SAVE_SIGN, MAIN)
-		VALUES ((SELECT NVL(MAX(SIGNNO)+1, 0) FROM SIGNLIST), #{id}, #{save_sign}, #{main})
-</insert>
+	<!-- 서명등록 insertSign -->
+	<insert id="insertSign" parameterType="SignVo">
+		INSERT INTO SIGNLIST (SIGNNO, ID, SAVE_SIGN, MAIN)
+		VALUES ((SELECT NVL(MAX(SIGNNO), 0)+1 FROM SIGNLIST), #{id}, #{save_sign},#{main})
+	</insert>
 
-<delete id="delSign">
-DELETE FROM SIGNLIST
-		WHERE ID = #{id} AND SIGNNO = #{signno}
-</delete>
-<update id="changeMainSign">
-UPDATE SIGNLIST
-		SET MAIN = 'N'
-		WHERE ID = #{id}
-</update>
+	<!-- 서명삭제 delSign -->
+	<delete id="delSign" parameterType="SignVo">
+		DELETE FROM SIGNLIST
+			WHERE ID = #{id} 
+			AND SIGNNO = #{signno}
+	</delete>
 
-<update id="setMainSign">
-UPDATE SIGNLIST
-		SET MAIN = 'Y'
-		WHERE ID = #{id} AND SIGNNO = #{signno}
-</update>
+	<!-- 대표서명 변경 changeMainSign -->
+	<update id="changeMainSign" parameterType="java.lang.String">
+		UPDATE SIGNLIST
+			SET MAIN = 'N'
+			WHERE ID = #{id}
+	</update>
+
+	<!-- 대표서명 지정 setMainSign -->
+	<update id="setMainSign" parameterType="java.util.Map">
+		UPDATE SIGNLIST
+			SET MAIN = 'Y'
+			WHERE ID = #{id} AND SIGNNO = #{signno}
+	</update>
+
 </mapper>

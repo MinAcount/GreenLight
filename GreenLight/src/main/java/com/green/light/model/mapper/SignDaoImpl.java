@@ -17,22 +17,49 @@ import lombok.extern.slf4j.Slf4j;
 public class SignDaoImpl implements ISignDao {
 
 	@Autowired
-	private SqlSessionTemplate sessionTemplate;
+	private SqlSessionTemplate session;
 	
 	private final String NS = "com.green.light.model.mapper.SignatureDaoImpl.";
 
 	
 	
 	@Override
-	public List<SignVo> selectAllSign() {
+	public List<SignVo> selectAllSign(String id) {
 		log.info("SignDaoImpl selectAllSign동작");
-		return sessionTemplate.selectList(NS+"selectAllSign");
+		return session.selectList(NS+"selectAllSign");
 	}
+
+
 
 	@Override
 	public int insertSign(SignVo signVo) {
-		// TODO Auto-generated method stub
-		return 0;
+		log.info("SignDaoImpl insertSign동작");
+		return session.insert(NS+"insertSign", signVo);
 	}
+
+
+
+	@Override
+	public int delSign(SignVo signVo) {
+		log.info("SignDaoImpl delSign동작");
+		return session.delete(NS+"delSign", signVo);
+	}
+
+
+
+	@Override
+	public int changeMainSign(String id) {
+		log.info("SignDaoImpl changeMainSign동작");
+		return session.update(NS+"changeMainSign", id);
+	}
+
+
+
+	@Override
+	public int setMainSign(Map<String, Object> map) {
+		log.info("SignDaoImpl setMainSign동작");
+		return session.update(NS+"setMainSign", map);
+	}
+
 
 }

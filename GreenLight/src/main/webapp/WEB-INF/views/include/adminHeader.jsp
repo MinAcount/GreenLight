@@ -140,9 +140,8 @@
             </div>
          </li>
       </ul>
+     
       
-<!-- 검색창 -->      
-      <input class="form-control" id="search" type="text" placeholder="Search..." aria-label="Search" style="width:200px; height:35px; margin-right:30px">
    </nav>
    
    

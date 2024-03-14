@@ -34,7 +34,7 @@
 			
 <!-- 드롭다운 -->
 	         <div class="dropdown">
-	           	<button class="btn btn-primary btn-sm dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown Button</button>
+	           	<button class="btn btn-primary dropdown-toggle" id="dropdownMenuButton" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown Button</button>
 	               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
 		               <a class="dropdown-item" href="#!">Action</a>
 		               <a class="dropdown-item" href="#!">Another action</a>
@@ -45,9 +45,9 @@
                <br>
                 
 <!-- 버튼 -->
-               <button class="btn btn-primary btn-sm" type="button" style="margin-right:10px;" onclick="javascript:location.href='./templateAdd.do'">문서양식등록</button>
-               <button class="btn btn-danger btn-sm" type="button" style="margin-right:10px;">Danger</button>
-               <button class="btn btn-secondary btn-sm" type="button">Secondary</button>
+               <button class="btn btn-primary" type="button" style="margin-right:10px;" onclick="javascript:location.href='./templateAdd.do'">문서양식등록</button>
+               <button class="btn btn-danger" type="button" style="margin-right:10px;">Danger</button>
+               <button class="btn btn-secondary" type="button">Secondary</button>
                
                <br>
                <br>
@@ -172,7 +172,7 @@
     //총 4가지 모양의 달력.
     window.addEventListener('DOMContentLoaded', event => {
 
-    const litepickerSingleDate = document.getElementById('litepickerSingleDate'); // 한달, 하루
+    const litepickerSingleDate = document.getElementById('litepickerSingleDate'); // 한달, 하루 선택
     if (litepickerSingleDate) {
     new Litepicker({
     element: litepickerSingleDate,
@@ -243,7 +243,7 @@
 			<br>
 			
 <!-- 검색창 -->
-			<input class="form-control" type="text" placeholder="Search..." aria-label="Search" style="width:200px; height:35px;">		
+			<input class="form-control" type="text" placeholder="Search..." aria-label="Search" style="width:200px;">		
 				
 <!-- 로그인창 -->
             <div class="card shadow-lg border-0 rounded-lg mt-5" id="loginForm">

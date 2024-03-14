@@ -7,19 +7,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
 @Data
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignVo {
+public class CommonVo {
 	
-	private String signno;
-	private String id;
-	private String save_sign;
-	private String main;
-	
-
+	private String type;
+	private String code;
+	private String code_name;
+	private String description;
 }
