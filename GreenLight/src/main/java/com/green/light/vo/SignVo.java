@@ -21,6 +21,5 @@ public class SignVo {
 	private String save_sign;
 	private String main;
 	
-	
 
 }
