@@ -7,13 +7,13 @@
 </head>
 <body class="nav-fixed">
    
-  <%@ include file="./include/mainHeader.jsp" %>
+  <%@ include file="./include/adminHeader.jsp" %>
    
    
    
 <!-- 사이드나브바 & 콘텐트 영역 -->
    <div id="layoutSidenav">
-      <%@ include file="./include/mainSidenav.jsp" %>
+      <%@ include file="./include/adminSidenav.jsp" %>
       
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
@@ -34,12 +34,14 @@
 						<tr>
 							<th>문서양식유형</th>
 							<td>
-								<select class="form-control">
-						            <option value="none">선택</option>
-						            <option value="휴가신청서">휴가신청서</option>
-						            <option value="부서발령신청서">부서발령신청서</option>
-						            <option value="지출결의서">지출결의서</option>
-						        </select>
+								<div class="datatable-dropdown">
+									<select class="datatable-selector" style="width: 100%;">
+							            <option value="none">선택</option>
+							            <option value="휴가신청서">휴가신청서</option>
+							            <option value="부서발령신청서">부서발령신청서</option>
+							            <option value="지출결의서">지출결의서</option>
+							        </select>
+						        </div>
 							</td>
 						</tr>
 						<tr class="trcss">
@@ -48,12 +50,12 @@
 						</tr>
 						<tr class="trcss">
 							<th class="thcss">내용</th>
-							<td><textarea cols="70" rows="25" class="form-control" style="margin-top: 10px" id="exampleFormControlTextarea1" rows="3"></textarea></td>
+							<td><textarea cols="70" rows="25" class="form-control" style="margin-top: 10px; margin-bottom: 20px;" id="exampleFormControlTextarea1" rows="3"></textarea></td>
 						</tr>
 					</tbody>
 					<tfoot>
 					<tr>
-						<td colspan="2">
+						<td colspan="2" style="text-align: right;">
 							<button class="btn btn-secondary" type="button">취소</button>
 							<button class="btn btn-primary" type="button" style="margin-left:15px;">등록</button>
 						</td>

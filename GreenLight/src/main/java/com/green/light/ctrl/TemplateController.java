@@ -14,4 +14,10 @@ public class TemplateController {
 		log.info("TemplateController templateAdd.do");
 		return "templateAdd";
 	}
+	
+	@GetMapping(value = "/templateList.do")
+	public String templateList() {
+		log.info("TemplateController templateList.do");
+		return "templateList";
+	}
 }

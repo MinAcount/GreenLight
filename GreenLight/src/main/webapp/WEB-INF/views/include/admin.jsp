@@ -55,7 +55,42 @@
 			</div>
 				
 			<br><br>
-				
+			
+<!-- confirm 모달 -->
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			    <div class="toast-header text-primary">
+			        <i data-feather="check-circle" id="toastFeather"></i>
+			        <strong class="me-auto">Primary Text Toast</strong>
+				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
+			   </div>
+				<div class="toast-body">This toast uses the primary text utility on the toast header.
+					<br><br><br>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+					    <button style="margin-left: 10px;" class="btn btn-primary" type="button">Save changes</button>
+				    </div>
+			    </div>
+			</div>
+			
+			<br><br><br>
+			
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			    <div class="toast-header text-danger">
+			        <i data-feather="alert-circle" id="toastFeather"></i>
+			        <strong class="me-auto">Danger Text Toast</strong>
+				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
+			   </div>
+				<div class="toast-body">This toast uses the danger text utility on the toast header.
+					<br><br><br>
+					<div class="modal-footer">
+						<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+					    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Delete</button>
+				    </div>
+			    </div>
+			</div>
+			
+			<br><br>
+								
 <!-- 체크박스 -->
 			<div class="form-check">
 			    <input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
