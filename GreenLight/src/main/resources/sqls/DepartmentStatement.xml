@@ -1,4 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.DepartmentDaoImpl">
+
+<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
+	<result property="dname" column="DNAME"/>
+	<collection property="comVo" resultMap="CommonVo"/>
+	<collection property="EmpVo" resultMap="EmployeeVo"/>
+</resultMap>
+<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+	<result property="type" column="TYPE"/>
+	<result property="code" column="DNAME"/>
+	<result property="code_name" column="CODE_NAME"/>
+</resultMap>
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+	<result property="id" column="ID"/>
+	<result property="name" column="NAME"/>
+	<result property="spot" column="SPOT"/>
+	<result property="position" column="POSITION"/>
+</resultMap>
+
+<!-- 부서 전체 조회	getAllDept -->
+<select id="getAllDept" resultMap="DepartmentVo">
+	SELECT d.DEPTNO , d.DNAME, d.DEPT_MGR, d.HEADNO, h.HNAME
+        FROM DEPARTMENT d JOIN HEADQUARTERS h
+        ON d.HEADNO = h.HEADNO
+</select>
+<!-- 부서 상세 조회	getOneDept -->
+<select id="getOneDept" parameterType="java.lang.String" resultMap="DepartmentVo">
+	SELECT ID, NAME, DNAME, c2.CODE_NAME AS SPOT ,
+           CASE WHEN "POSITION" IS NULL THEN '부서원' 
+            	ELSE (SELECT CODE_NAME 
+                      	FROM COMMON c 
+						WHERE "TYPE" = '직책' AND CODE = "POSITION") END AS POSITION 
+        FROM EMPLOYEE e JOIN DEPARTMENT d 
+        ON e.DEPTNO = d.DEPTNO JOIN COMMON c2
+        ON e.SPOT = c2.CODE AND c2."TYPE" ='직위' 
+        AND e.DEPTNO = #{deptno}
+</select>
+<!-- 본부별 부서 조회	getDeptByHead -->
+<select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">
+	SELECT DEPTNO , DNAME
+        FROM DEPARTMENT d
+        WHERE HEADNO = #{headno}
+</select>
+<!-- 부서명 수정	updateDeptName -->
+<update id="updateDeptName" parameterType="java.util.Map">
+	UPDATE DEPARTMENT SET DNAME = #{dname}
+        WHERE DEPTNO = #{deptno}
+</update>
+<!-- 부서 등록	insertDept -->
+<insert id="insertDept" parameterType="java.util.Map">
+	INSERT INTO DEPARTMENT d (DEPTNO, DNAME,HEADNO)
+        VALUES (LPAD((SELECT MAX(DEPTNO)+1 FROM DEPARTMENT d),2,'0'), #{dname}, #{headno})
+</insert>
+<!-- 부서 삭제	updateDeptDelete -->
+<update id="updateDeptDelete" parameterType="java.lang.String">
+	<![CDATA[
+		UPDATE DEPARTMENT SET DELFLAG ='Y'
+	        WHERE (SELECT COUNT(*)
+			        FROM EMPLOYEE e 
+			        WHERE DEPTNO = #{deptno}) < 1 AND DEPTNO = #{deptno}
+	]]>
+</update>
+<!-- 부서 완전 삭제	deleteDept -->
+<delete id="deleteDept" parameterType="java.lang.String">
+	<![CDATA[
+		DELETE FROM DEPARTMENT d 
+	        WHERE (SELECT COUNT(*)
+			        FROM EMPLOYEE e 
+			        WHERE DEPTNO = #{deptno}) < 1 AND DEPTNO = #{deptno}
+	]]>
+</delete>
+<!-- 부서 복구	restoreDept -->
+<update id="restoreDept" parameterType="java.lang.String">
+	UPDATE DEPARTMENT SET DELFLAG ='N'
+        WHERE DEPTNO = #{deptno}
+</update>
+<!-- 직원 직책 수거 및 부여	updateDeptPosition -->
+<update id="updateDeptPosition" parameterType="java.util.Map">
+	UPDATE EMPLOYEE 
+        SET "POSITION"= CASE WHEN ID = #{id} THEN '01' 
+                             WHEN ID = (SELECT DEPT_MGR 
+                                        	FROM DEPARTMENT d
+                                            WHERE DEPTNO = #{deptno}) THEN NULL 
+                                                 ELSE "POSITION" END
+        WHERE ID IN (#{id},(SELECT DEPT_MGR 
+                            	FROM DEPARTMENT d
+                                WHERE DEPTNO = #{deptno}))
+</update>
+<!-- 부서장 등록 및 변경	updateDeptMgr -->
+<update id="updateDeptMgr" parameterType="java.util.Map">
+	UPDATE DEPARTMENT SET DEPT_MGR = #{id}
+        WHERE DEPTNO = #{deptno}
+</update>
 </mapper>

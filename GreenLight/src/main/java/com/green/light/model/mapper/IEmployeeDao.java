@@ -27,11 +27,19 @@ public interface IEmployeeDao {
 //	직원 정보 수정	updateOneEmployee
 	public int updateOneEmployee(EmployeeVo vo);
 //	권한 변경	updateEmployeeAuth
-	public int updateEmployeeAuth(Map<String, Object> map);
+	public int updateEmployeeAuth(String id);
 //	직원 퇴사 처리	updateExitEmployee
 	public int updateExitEmployee(Map<String, Object> map);
+//	퇴사한 직원의 직책 지우기	 deleteDeptMgr
+	public int deleteDeptMgr(String id);
+//	퇴사한 직원의 직책 지우기 deleteHeadMgr
+	public int deleteHeadMgr(String id);
 //	퇴사일 수정	updateEmployeeExitDay
 	public int updateEmployeeExitDay(Map<String, Object> map);
-//	직원 입사 처리	isertEmployee
-	public int isertEmployee(EmployeeVo vo);
+//	직원 입사 처리	insertEmployee
+	public int insertEmployee(EmployeeVo vo);
+//	부서장 후보 조회	getDeptMgrHubo
+	public List<EmployeeVo> getDeptMgrHubo(String deptno);
+//	본부장 후보 조회	getHeadMgrHubo
+	public List<EmployeeVo> getHeadMgrHubo(String headno);
 }

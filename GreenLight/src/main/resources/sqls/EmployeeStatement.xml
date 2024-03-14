@@ -22,6 +22,7 @@
 </resultMap>
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
 	<result property="dname" column="DNAME"/>
+	<result property="headno" column="HEADNO"/>
 </resultMap>
 
 <!-- 로그인	getLogin -->
@@ -105,13 +106,31 @@
 </update>
 <!-- 권한 변경	updateEmployeeAuth -->
 <update id="updateEmployeeAuth" parameterType="java.lang.String">
-	UPDATE EMPLOYEE SET AUTH = #{auth}
-        WHERE ID = #{id} AND DEPTNO = #{deptno}
+	UPDATE EMPLOYEE SET AUTH = CASE WHEN DEPTNO = '09' THEN '02' ELSE '01' END
+        WHERE ID = #{id}
 </update>
 <!-- 직원 퇴사 처리	updateExitEmployee -->
 <update id="updateExitEmployee" parameterType="java.lang.String">
 	UPDATE EMPLOYEE SET ESTATUS = 'N' , EXIT_DAY = #{exit_day}
         WHERE ID = #{id}
+</update>
+<!-- 퇴사한 직원의 직책 지우기    deleteDeptMgr -->
+<update id="deleteDeptMgr" parameterType="java.lang.String">
+	UPDATE DEPARTMENT SET DEPT_MGR = ''
+        WHERE DEPT_MGR = #{id}
+        AND (SELECT "POSITION" 
+                        FROM EMPLOYEE e
+                        WHERE "POSITION" = '01'
+                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
+</update>
+<!-- 퇴사한 직원의 직책 지우기    deleteHeadMgr -->
+<update id="deleteHeadMgr" parameterType="java.lang.String">
+	UPDATE HEADQUARTERS SET HEAD_MGR = ''
+        WHERE HEAD_MGR = #{id}
+        AND (SELECT "POSITION"
+                        FROM EMPLOYEE e
+                        WHERE "POSITION" = '02'
+                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
 </update>
 <!-- 퇴사일 수정	updateEmployeeExitDay -->
 <update id="updateEmployeeExitDay" parameterType="java.lang.String">
@@ -119,8 +138,8 @@
         SET EXIT_DAY = #{exit_day}
         WHERE ID = #{id} AND ESTATUS = 'N'
 </update>
-<!-- 직원 입사 처리	isertEmployee -->
-<insert id="isertEmployee" parameterType="EmpVo">
+<!-- 직원 입사 처리	insertEmployee -->
+<insert id="insertEmployee" parameterType="EmpVo">
 	INSERT INTO EMPLOYEE e (ID, NAME,
 		EMAIL, PHONE, BIRTHDAY, GENDER,
 		ADDRESS, DEPTNO, SPOT, "POSITION",
@@ -135,4 +154,23 @@
 		#{address},#{deptno},#{spot},#{position},
 		TO_DATE(#{join_day}),#{exit_day},#{etype},#{profile})
 </insert>
+<!-- 부서장 후보 조회	getDeptMgrHubo -->
+<select id="getDeptMgrHubo" parameterType="java.lang.String" resultType="EmpVo">
+	SELECT "POSITION" , ID, NAME, DEPTNO, SPOT
+        FROM EMPLOYEE e
+        WHERE "POSITION" IS NULL 
+        AND DEPTNO IS NOT NULL
+        AND DEPTNO = #{deptno}
+        AND SPOT >= '04'
+</select>
+<!-- 본부장 후보 조회	getHeadMgrHubo -->
+<select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo">
+	SELECT "POSITION" , ID, NAME, e.DEPTNO, SPOT, HEADNO
+        FROM EMPLOYEE e JOIN DEPARTMENT d
+        ON e.DEPTNO = d.DEPTNO
+        WHERE "POSITION" IS NULL 
+        AND d.DEPTNO IS NOT NULL
+        AND d.HEADNO = #{headno}
+        AND SPOT >= '04'
+</select>
 </mapper>
