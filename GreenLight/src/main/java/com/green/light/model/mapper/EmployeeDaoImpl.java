@@ -15,7 +15,7 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	@Autowired
 	private SqlSessionTemplate sqlsession;
 	
-	private final String NS = "com.green.light.model.mapper.EmployeeDaoImpl";
+	private final String NS = "com.green.light.model.mapper.EmployeeDaoImpl.";
 
 	@Override
 	public EmployeeVo getLogin(Map<String, Object> map) {
@@ -63,13 +63,23 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	}
 
 	@Override
-	public int updateEmployeeAuth(Map<String, Object> map) {
-		return sqlsession.update(NS+"updateEmployeeAuth", map);
+	public int updateEmployeeAuth(String id) {
+		return sqlsession.update(NS+"updateEmployeeAuth", id);
 	}
 
 	@Override
 	public int updateExitEmployee(Map<String, Object> map) {
 		return sqlsession.update(NS+"updateExitEmployee", map);
+	}
+	
+	@Override
+	public int deleteDeptMgr(String id) {
+		return sqlsession.update(NS+"deleteDeptMgr", id);
+	}
+
+	@Override
+	public int deleteHeadMgr(String id) {
+		return sqlsession.update(NS+"deleteHeadMgr", id);
 	}
 
 	@Override
@@ -78,8 +88,20 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	}
 
 	@Override
-	public int isertEmployee(EmployeeVo vo) {
-		return sqlsession.insert(NS+"isertEmployee", vo);
+	public int insertEmployee(EmployeeVo vo) {
+		return sqlsession.insert(NS+"insertEmployee", vo);
 	}
+
+	@Override
+	public List<EmployeeVo> getDeptMgrHubo(String deptno) {
+		return sqlsession.selectList(NS+"getDeptMgrHubo",deptno);
+	}
+
+	@Override
+	public List<EmployeeVo> getHeadMgrHubo(String headno) {
+		return sqlsession.selectList(NS+"getHeadMgrHubo",headno);
+	}
+
+	
 
 }

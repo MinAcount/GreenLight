@@ -8,7 +8,7 @@ import com.green.light.vo.EmployeeVo;
 public interface IEmployeeService {
 	
 //	로그인 및 로그인횟수 증가 혹은 초기화	getLogin
-	public boolean getLogin(Map<String, Object> Map);
+	public EmployeeVo getLogin(Map<String, Object> Map);
 //	비밀번호 찾기	getPassword
 	public EmployeeVo getPassword(Map<String, Object> map);
 //	비밀번호 변경	updatePassword
@@ -22,5 +22,12 @@ public interface IEmployeeService {
 	public List<EmployeeVo> getAllEmployeeByStatus(String estatus);
 //	직원 검색	getEmployeeBySearch
 	public List<EmployeeVo> getEmployeeBySearch(String option);
-
+//	직원 정보 수정	updateEmployee
+	public boolean updateEmployee(EmployeeVo vo);
+//	직원 퇴사 처리	updateExit
+	public boolean updateExit(Map<String, Object> map, String id);
+//	퇴사일 수정	updateEmployeeExitDay
+	public int updateEmployeeExitDay(Map<String, Object> map);
+//	직원 입사 처리	insertEmployee
+	public boolean insertEmployee(EmployeeVo vo);
 }
