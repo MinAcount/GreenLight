@@ -114,4 +114,14 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return (n+m)>0 ? true : false;
 	}
 
+	@Override
+	public List<EmployeeVo> getDeptMgrHubo(String deptno) {
+		return null;
+	}
+
+	@Override
+	public List<EmployeeVo> getHeadMgrHubo(String headno) {
+		return null;
+	}
+
 }

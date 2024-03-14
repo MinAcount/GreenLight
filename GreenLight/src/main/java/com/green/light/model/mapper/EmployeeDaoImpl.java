@@ -94,14 +94,12 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 
 	@Override
 	public List<EmployeeVo> getDeptMgrHubo(String deptno) {
-		return sqlsession.selectList(NS+"getDeptMgrHubo",deptno);
+		return sqlsession.selectList(NS+"getDeptMgrHubo", deptno);
 	}
 
 	@Override
 	public List<EmployeeVo> getHeadMgrHubo(String headno) {
-		return sqlsession.selectList(NS+"getHeadMgrHubo",headno);
+		return sqlsession.selectList(NS+"getHeadMgrHubo", headno);
 	}
-
-	
 
 }

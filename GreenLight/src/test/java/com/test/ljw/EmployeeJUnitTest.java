@@ -37,7 +37,7 @@ public class EmployeeJUnitTest {
 		//로그인
 		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("id", "2303100101");
-//		map.put("password", "0000");
+//		map.put("password", "q1w2e3r4~!");
 //		EmployeeVo vo = service.getLogin(map);
 //		if(vo == null) {
 //			
@@ -48,11 +48,11 @@ public class EmployeeJUnitTest {
 //		assertNotNull(vo);
 		
 		//비밀번호 찾기
-//		map.put("id", "2303100101");
-//		map.put("email", "2ji@naver.com");
-//		EmployeeVo vo = service.getPassword(map);
-//		System.out.println(vo.getPassword());
-//		assertNotNull(vo);
+		map.put("id", "2303100101");
+		map.put("email", "2ji@naver.com");
+		EmployeeVo vo = service.getPassword(map);
+		System.out.println(vo.getPassword());
+		assertNotNull(vo);
 		
 		//비밀번호 변경
 //		map.put("id", "2303100101");
