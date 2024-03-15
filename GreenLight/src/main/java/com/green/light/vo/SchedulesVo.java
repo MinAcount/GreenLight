@@ -1,18 +1,22 @@
 package com.green.light.vo;
 
+import java.util.Date;
+
+import oracle.sql.DATE;
+
 public class SchedulesVo {
 
 	private String schedule_id;
 	private String cno;
 	private String creator;
 	private String phone;
-	private String modified;
+	private Date modified;
 	private String usertype;
 	private String category;
 	private String title;
 	private String memo;
-	private String start_date;
-	private String end_date;
+	private Date start_date;
+	private Date end_date;
 	private String location;
 	private String priority;
 	private String recur;
