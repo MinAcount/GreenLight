@@ -17,6 +17,7 @@
 <select id="getAllHead" resultType="HeadVo">
 	SELECT HEADNO , HNAME, HEAD_MGR, DELFLAG
         FROM HEADQUARTERS h
+        ORDER BY HNAME
 </select>
 <!-- 	본부 상세 조회	getOneHead -->
 <select id="getOneHead" parameterType="java.lang.String" resultMap="HeadquartersVo">
@@ -39,12 +40,12 @@
 <!-- 	직원 직책 수거 및 부여	updateHeadPosition -->
 <update id="updateHeadPosition" parameterType="java.util.Map">
 	UPDATE EMPLOYEE 
-        SET "POSITION"= CASE WHEN ID = #{id} THEN '02' 
+        SET "POSITION"= CASE WHEN ID = #{head_mgr} THEN '02' 
                              WHEN ID = (SELECT HEAD_MGR 
                                         	FROM HEADQUARTERS h
                                             WHERE HEADNO = #{headno}) THEN NULL 
                          	 ELSE "POSITION" END
-        WHERE ID IN (#{id},(SELECT HEAD_MGR 
+        WHERE ID IN (#{head_mgr},(SELECT HEAD_MGR 
                             	FROM HEADQUARTERS h
                                 WHERE HEADNO = #{headno}))
 </update>

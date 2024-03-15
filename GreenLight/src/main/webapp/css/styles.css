@@ -2399,11 +2399,11 @@ textarea.form-control-lg {
 .form-check-input:active {
   filter: brightness(90%);
 }
-.form-check-input:focus {
-  border-color: transparent;
-  outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2);
-}
+/* .form-check-input:focus { */
+/*   border-color: transparent; */
+/*   outline: 0; */
+/*   box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2); */
+/* } */
 .form-check-input:checked {
   background-color: #428A46;
   border-color: #428A46;
