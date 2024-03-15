@@ -22,7 +22,7 @@
    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/bootstrap-icons.svg"
    crossorigin="anonymous"></script>
    <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
-  
+  <script src="https://cdn.ckeditor.com/ckeditor5/41.2.0/classic/ckeditor.js"></script>
 </head>
 <body class="nav-fixed" style="background-color:rgba(255, 255, 255, 0.9)">
    <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-dark bg-dark" id="sidenavAccordion">
