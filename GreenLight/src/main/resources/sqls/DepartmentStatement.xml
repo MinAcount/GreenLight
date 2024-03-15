@@ -5,7 +5,7 @@
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
 	<result property="dname" column="DNAME"/>
 	<collection property="comVo" resultMap="CommonVo"/>
-	<collection property="EmpVo" resultMap="EmployeeVo"/>
+	<collection property="empVo" resultMap="EmployeeVo"/>
 </resultMap>
 <resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
 	<result property="type" column="TYPE"/>
@@ -21,13 +21,13 @@
 
 <!-- 부서 전체 조회	getAllDept -->
 <select id="getAllDept" resultMap="DepartmentVo">
-	SELECT d.DEPTNO , d.DNAME, d.DEPT_MGR, d.HEADNO, h.HNAME
+	SELECT d.DEPTNO , d.DNAME, d.DEPT_MGR, d.HEADNO, h.HNAME, d.DELFLAG
         FROM DEPARTMENT d JOIN HEADQUARTERS h
         ON d.HEADNO = h.HEADNO
 </select>
 <!-- 부서 상세 조회	getOneDept -->
 <select id="getOneDept" parameterType="java.lang.String" resultMap="DepartmentVo">
-	SELECT ID, NAME, DNAME, c2.CODE_NAME AS SPOT ,
+	SELECT ID, NAME, d.DEPTNO, DNAME, c2.CODE_NAME AS SPOT ,
            CASE WHEN "POSITION" IS NULL THEN '부서원' 
             	ELSE (SELECT CODE_NAME 
                       	FROM COMMON c 
@@ -39,9 +39,11 @@
 </select>
 <!-- 본부별 부서 조회	getDeptByHead -->
 <select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">
-	SELECT DEPTNO , DNAME
-        FROM DEPARTMENT d
+	SELECT d.DEPTNO , DNAME, DEPT_MGR, NAME
+        FROM DEPARTMENT d JOIN EMPLOYEE e
+        ON e.DEPTNO = d.DEPTNO
         WHERE HEADNO = #{headno}
+        AND d.DELFLAG = 'N'
 </select>
 <!-- 부서명 수정	updateDeptName -->
 <update id="updateDeptName" parameterType="java.util.Map">

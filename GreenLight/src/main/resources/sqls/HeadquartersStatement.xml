@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.HeadquartersDaoImpl">
 	
-<resultMap type="com.green.light.vo.HeadquatersVo" id="HeadquatersVo">
+<resultMap type="com.green.light.vo.HeadquartersVo" id="HeadquartersVo">
 	<result property="headno" column="HEADNO"/>
 	<result property="hname" column="HNAME"/>
 	<result property="head_mgr" column="HEAD_MGR"/>
@@ -19,7 +19,7 @@
         FROM HEADQUARTERS h
 </select>
 <!-- 	본부 상세 조회	getOneHead -->
-<select id="getOneHead" parameterType="java.lang.String" resultMap="HeadquatersVo">
+<select id="getOneHead" parameterType="java.lang.String" resultMap="HeadquartersVo">
 	SELECT h.HEADNO , h.HNAME, h.HEAD_MGR, d.DNAME
         FROM HEADQUARTERS h LEFT JOIN DEPARTMENT d
         ON h.HEADNO = d.HEADNO
@@ -30,14 +30,14 @@
 	UPDATE HEADQUARTERS SET HNAME = #{hname}
         WHERE HEADNO = #{headno}
 </update>
-<!-- 	본부 등록	InsertHead -->
-<insert id="InsertHead" parameterType="java.lang.String">
+<!-- 	본부 등록	insertHead -->
+<insert id="insertHead" parameterType="java.lang.String">
 	INSERT INTO HEADQUARTERS (HEADNO, HNAME)
         VALUES (LPAD((SELECT MAX(HEADNO)
         FROM HEADQUARTERS h)+1,2,'0'), #{hname})
 </insert>
 <!-- 	직원 직책 수거 및 부여	updateHeadPosition -->
-<update id="updateHeadPosition" parameterMap="java.util.Map">
+<update id="updateHeadPosition" parameterType="java.util.Map">
 	UPDATE EMPLOYEE 
         SET "POSITION"= CASE WHEN ID = #{id} THEN '02' 
                              WHEN ID = (SELECT HEAD_MGR 
@@ -50,7 +50,7 @@
 </update>
 <!-- 	본부장 등록 및 변경	updateHeadMgr -->
 <update id="updateHeadMgr" parameterType="java.util.Map">
-	UPDATE HEADQUARTERS SET HEAD_MGR = #{id}
+	UPDATE HEADQUARTERS SET HEAD_MGR = #{head_mgr}
         WHERE HEADNO = #{headno}
 </update>
 <!-- 	본부 삭제	updateHeadDelete -->

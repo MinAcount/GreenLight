@@ -32,7 +32,9 @@
 		        ADDRESS, DEPTNO, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
 		        LEAVE, AUTH, PROFILE, FAIL
 	        FROM EMPLOYEE e 
-	        WHERE ID= #{id} AND PASSWORD = #{password} AND FAIL < 5
+	        WHERE ID= #{id} AND PASSWORD = #{password} 
+	        AND ESTATUS = 'Y'
+	        AND FAIL < 5
 	]]>
 </select>
 <!-- 로그인 시도 횟수 증가 및 초기화	updateFail -->
@@ -133,7 +135,7 @@
                         AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
 </update>
 <!-- 퇴사일 수정	updateEmployeeExitDay -->
-<update id="updateEmployeeExitDay" parameterType="java.lang.String">
+<update id="updateEmployeeExitDay" parameterType="java.util.Map">
 	UPDATE EMPLOYEE 
         SET EXIT_DAY = #{exit_day}
         WHERE ID = #{id} AND ESTATUS = 'N'
@@ -162,6 +164,7 @@
         AND DEPTNO IS NOT NULL
         AND DEPTNO = #{deptno}
         AND SPOT >= '04'
+        AND ESTATUS = 'Y'
 </select>
 <!-- 본부장 후보 조회	getHeadMgrHubo -->
 <select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo">
@@ -171,6 +174,7 @@
         WHERE "POSITION" IS NULL 
         AND d.DEPTNO IS NOT NULL
         AND d.HEADNO = #{headno}
-        AND SPOT >= '04'
+        AND SPOT >= '06'
+        AND ESTATUS = 'Y'
 </select>
 </mapper>

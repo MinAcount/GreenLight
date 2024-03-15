@@ -13,12 +13,14 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class HeadquartersVo {
-	
-	private String headno;
-	private String hname;
-	private String head_mgr;
-	private String delflag;
-	
-	private DepartmentVo deptVo;
+public class VacationVo {
+
+	private String vacno;
+	private String id;
+	private String start_day;
+	private String end_day;
+	private String half;
+	private int getsu;
+	private String bigo;
+
 }

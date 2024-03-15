@@ -3,7 +3,9 @@ package com.test.ktm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +20,7 @@ import com.green.light.vo.SignVo;
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/**/*.xml" })
 public class SigntureJUnitTest {
 
-
+	
 	@Autowired
 	private ISignService service;
 
@@ -29,19 +31,28 @@ public class SigntureJUnitTest {
 //		List<SignVo>  lists = service.selectAllSign("2303100101");
 //		assertNotNull(lists);
 		
-		SignVo inVo = new SignVo();
-		inVo.setId("2303100101");
-		inVo.setSave_sign("clob");
-		inVo.setMain("Y");
-		
+//		SignVo inVo = new SignVo();
+//		inVo.setId("2303100101");
+//		inVo.setSave_sign("clob");
+//		inVo.setMain("Y");
+//		
 //		int i = service.insertSign(inVo);
 //		assertEquals(i, 1);
 
-		inVo.setSignno("2");
+//		inVo.setSignno("2");
+//		
+//		int d = service.delSign(inVo);
+//		System.out.println(inVo);
+//		assertEquals(d, 1);
+//		int u = service.changeMainSign("2303100101");
+//		assertEquals(u, 1);
 		
-		int d = service.delSign(inVo);
-		System.out.println(inVo);
-		assertEquals(d, 1);
+
+		
+		SignVo inVo = new SignVo();
+		inVo.setId("2303100101");
+		inVo.setSignno("1");
+		service.updateMainSign(inVo);
 	}
 
 }

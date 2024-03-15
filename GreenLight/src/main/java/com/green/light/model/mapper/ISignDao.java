@@ -23,6 +23,6 @@ public interface ISignDao {
 	public int changeMainSign(String id);
 
 //	대표서명 지정	setMainSign
-	public int setMainSign(Map<String, Object> map);
+	public int setMainSign(SignVo signVo);
 	
 }

@@ -31,7 +31,7 @@
 	</update>
 
 	<!-- 대표서명 지정 setMainSign -->
-	<update id="setMainSign" parameterType="java.util.Map">
+	<update id="setMainSign" parameterType="SignVo">
 		UPDATE SIGNLIST
 			SET MAIN = 'Y'
 			WHERE ID = #{id} AND SIGNNO = #{signno}

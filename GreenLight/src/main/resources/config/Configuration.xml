@@ -7,6 +7,8 @@
 		<typeAlias type="com.green.light.vo.HeadquartersVo" alias="HeadVo"/>
 		<typeAlias type="com.green.light.vo.SignVo" alias="SignVo"/>
 		<typeAlias type="com.green.light.vo.ConferenceVo" alias="ConferenceVo"/>
+		<typeAlias type="com.green.light.vo.AttendainceVo" alias="AttendainceVo"/>
+		<typeAlias type="com.green.light.vo.VacationVo" alias="VacationVo"/>
 	</typeAliases>
 	
 	<mappers>
@@ -15,5 +17,7 @@
 		<mapper resource="sqls/HeadquartersStatement.xml"/>
 		<mapper resource="sqls/SignatureStatement.xml"/>
 		<mapper resource="sqls/ConferenceStatement.xml"/>
+		<mapper resource="sqls/AttendanceStatement.xml"/>
+		<mapper resource="sqls/VacationStatement.xml"/>
 	</mappers>
 </configuration>

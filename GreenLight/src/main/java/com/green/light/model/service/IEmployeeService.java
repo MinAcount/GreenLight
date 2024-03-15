@@ -21,7 +21,7 @@ public interface IEmployeeService {
 //	직원 재직상태별 조회	getAllEmployeeByStatus
 	public List<EmployeeVo> getAllEmployeeByStatus(String estatus);
 //	직원 검색	getEmployeeBySearch
-	public List<EmployeeVo> getEmployeeBySearch(String option);
+	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo);
 //	직원 정보 수정	updateEmployee
 	public boolean updateEmployee(EmployeeVo vo);
 //	직원 퇴사 처리	updateExit
@@ -30,4 +30,8 @@ public interface IEmployeeService {
 	public int updateEmployeeExitDay(Map<String, Object> map);
 //	직원 입사 처리	insertEmployee
 	public boolean insertEmployee(EmployeeVo vo);
+//	부서장 후보 조회	getDeptMgrHubo
+	public List<EmployeeVo> getDeptMgrHubo(String deptno);
+//	본부장 후보 조회	getHeadMgrHubo
+	public List<EmployeeVo> getHeadMgrHubo(String headno);
 }

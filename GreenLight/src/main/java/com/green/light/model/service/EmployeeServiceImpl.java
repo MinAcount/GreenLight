@@ -1,6 +1,5 @@
 package com.green.light.model.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +64,9 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	}
 
 	@Override
-	public List<EmployeeVo> getEmployeeBySearch(String option) {
+	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo) {
 		log.info("EmployeeServiceImpl getEmployeeBySearch 인사팀 전용 전체 직원 검색하여 조회");
-		List<EmployeeVo> list = dao.getEmployeeBySearch(option);
+		List<EmployeeVo> list = dao.getEmployeeBySearch(vo);
 		return list;
 	}
 	
@@ -76,7 +75,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	public boolean updateEmployee(EmployeeVo vo) {
 		log.info("EmployeeServiceImpl updateEmployee 인사팀 전용 직원 정보 수정 및 권한 변경");
 		int n = dao.updateOneEmployee(vo);
-		Map<String , Object> map = new HashMap<String, Object>();
 		int m = dao.updateEmployeeAuth(vo.getId());
 		return (n+m)>0 ? true : false;
 	}
@@ -112,6 +110,20 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		int n = dao.insertEmployee(vo);
 		int m = dao.updateEmployeeAuth(vo.getId());
 		return (n+m)>0 ? true : false;
+	}
+
+	@Override
+	public List<EmployeeVo> getDeptMgrHubo(String deptno) {
+		log.info("EmployeeServiceImpl getDeptMgrHubo 부서장 후보 조회");
+		List<EmployeeVo> vo = dao.getDeptMgrHubo(deptno);
+		return vo;
+	}
+
+	@Override
+	public List<EmployeeVo> getHeadMgrHubo(String headno) {
+		log.info("EmployeeServiceImpl getHeadMgrHubo 본부장 후보 조회");
+		List<EmployeeVo> vo = dao.getHeadMgrHubo(headno);
+		return vo;
 	}
 
 }
