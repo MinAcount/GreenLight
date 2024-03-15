@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ConferenceDaoImpl">
 	<!-- 회의실 전체조회 -->
+	<!-- 회의실 전체조회 -->
 	<!-- <select id="getAllRoom" parameterType="java.util.Map" resultMap="ConferenceVo">
 		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO
         	FROM CONFERENCE
