@@ -19,17 +19,33 @@
 	<result property="auth" column="AUTH"/>
 	<result property="profile" column="PROFILE"/>
 	<collection property="deptVo" resultMap="DepartmentVo"/>
+	<collection property="comVo" resultMap="CommonVo"/>
 </resultMap>
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
 	<result property="dname" column="DNAME"/>
 	<result property="headno" column="HEADNO"/>
+</resultMap>
+<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+	<result property="type" column="TYPE"/>
+	<result property="code" column="DNAME"/>
+	<result property="code_name" column="CODE_NAME"/>
 </resultMap>
 
 <!-- 로그인	getLogin -->
 <select id="getLogin" parameterType="java.util.Map" resultType="EmpVo">
 	<![CDATA[
 		SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-		        ADDRESS, DEPTNO, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
+		        ADDRESS, DEPTNO, (SELECT c.CODE_NAME
+									FROM EMPLOYEE e JOIN COMMON c
+									ON e.SPOT = c.CODE
+									WHERE ID = #{id}
+									AND c."TYPE" = '직위') AS SPOT,
+				(SELECT c.CODE_NAME
+					FROM EMPLOYEE e JOIN COMMON c
+					ON e."POSITION" = c.CODE
+					WHERE ID = #{id}
+					AND c."TYPE" = '직책') AS "POSITION",
+				ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
 		        LEAVE, AUTH, PROFILE, FAIL
 	        FROM EMPLOYEE e 
 	        WHERE ID= #{id} AND PASSWORD = #{password} 

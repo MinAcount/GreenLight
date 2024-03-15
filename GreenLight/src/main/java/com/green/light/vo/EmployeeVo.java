@@ -39,6 +39,7 @@ public class EmployeeVo {
 	private String keyword;
 	
 	private DepartmentVo deptVo;
+	private CommonVo comVo;
 	
 	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String profile) {
 		this.id = id;

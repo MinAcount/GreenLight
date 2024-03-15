@@ -38,7 +38,7 @@
       
 <!-- 상단나브바 -->
       <ul class="navbar-nav align-items-center ms-auto">
- 		<li>이지원 사원&nbsp;&nbsp;&nbsp;</li>
+ 		<li>${loginVo.name} ${loginVo.spot} &nbsp;&nbsp;&nbsp;</li>
 <!-- 상단 나브바 알림-->
          <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
             <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" 
