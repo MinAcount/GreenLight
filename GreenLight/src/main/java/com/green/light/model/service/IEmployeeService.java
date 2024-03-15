@@ -21,7 +21,7 @@ public interface IEmployeeService {
 //	직원 재직상태별 조회	getAllEmployeeByStatus
 	public List<EmployeeVo> getAllEmployeeByStatus(String estatus);
 //	직원 검색	getEmployeeBySearch
-	public List<EmployeeVo> getEmployeeBySearch(String option);
+	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo);
 //	직원 정보 수정	updateEmployee
 	public boolean updateEmployee(EmployeeVo vo);
 //	직원 퇴사 처리	updateExit
