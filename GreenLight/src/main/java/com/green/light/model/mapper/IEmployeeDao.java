@@ -23,7 +23,7 @@ public interface IEmployeeDao {
 //	직원 재직상태별 조회	getAllEmployeeByStatus
 	public List<EmployeeVo> getAllEmployeeByStatus(String estatus);
 //	직원 검색	getEmployeeBySearch
-	public List<EmployeeVo> getEmployeeBySearch(String option);
+	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo);
 //	직원 정보 수정	updateOneEmployee
 	public int updateOneEmployee(EmployeeVo vo);
 //	권한 변경	updateEmployeeAuth

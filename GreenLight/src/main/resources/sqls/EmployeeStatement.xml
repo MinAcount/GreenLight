@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.EmployeeDaoImpl">
 
-<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo1">
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
 	<result property="id" column="ID"/>
 	<result property="name" column="NAME"/>
 	<result property="phone" column="PHONE"/>
@@ -18,9 +18,9 @@
 	<result property="leave" column="LEAVE"/>
 	<result property="auth" column="AUTH"/>
 	<result property="profile" column="PROFILE"/>
-	<collection property="deptVo" resultMap="DepartmentVo1"/>
+	<collection property="deptVo" resultMap="DepartmentVo"/>
 </resultMap>
-<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo1">
+<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
 	<result property="dname" column="DNAME"/>
 	<result property="headno" column="HEADNO"/>
 </resultMap>
@@ -32,7 +32,9 @@
 		        ADDRESS, DEPTNO, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
 		        LEAVE, AUTH, PROFILE, FAIL
 	        FROM EMPLOYEE e 
-	        WHERE ID= #{id} AND PASSWORD = #{password} AND FAIL < 5
+	        WHERE ID= #{id} AND PASSWORD = #{password} 
+	        AND ESTATUS = 'Y'
+	        AND FAIL < 5
 	]]>
 </select>
 <!-- 로그인 시도 횟수 증가 및 초기화	updateFail -->
@@ -54,7 +56,7 @@
 </update>
 
 <!-- 직원 전체 조회	getAllEmployee -->
-<select id="getAllEmployee" resultMap="EmployeeVo1">
+<select id="getAllEmployee" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
         ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
@@ -63,7 +65,7 @@
         ORDER BY NAME
 </select>
 <!-- 직원 상세 조회	getOneEmployee -->
-<select id="getOneEmployee" parameterType="java.lang.String" resultMap="EmployeeVo1">
+<select id="getOneEmployee" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
         ADDRESS, DNAME , SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
@@ -72,7 +74,7 @@
         WHERE ID=#{id}
 </select>
 <!-- 직원 재직상태별 조회	getAllEmployeeByStatus -->
-<select id="getAllEmployeeByStatus" parameterType="java.lang.String" resultMap="EmployeeVo1">
+<select id="getAllEmployeeByStatus" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
         ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
@@ -81,7 +83,7 @@
         WHERE ESTATUS = #{estatus}
 </select>
 <!-- 직원 검색	getEmployeeBySearch -->
-<select id="getEmployeeBySearch" parameterType="EmpVo" resultMap="EmployeeVo1">
+<select id="getEmployeeBySearch" parameterType="EmpVo" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
         ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
@@ -162,15 +164,17 @@
         AND DEPTNO IS NOT NULL
         AND DEPTNO = #{deptno}
         AND SPOT >= '04'
+        AND ESTATUS = 'Y'
 </select>
 <!-- 본부장 후보 조회	getHeadMgrHubo -->
-<select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo1">
+<select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT "POSITION" , ID, NAME, e.DEPTNO, SPOT, HEADNO
         FROM EMPLOYEE e JOIN DEPARTMENT d
         ON e.DEPTNO = d.DEPTNO
         WHERE "POSITION" IS NULL 
         AND d.DEPTNO IS NOT NULL
         AND d.HEADNO = #{headno}
-        AND SPOT >= '04'
+        AND SPOT >= '06'
+        AND ESTATUS = 'Y'
 </select>
 </mapper>
