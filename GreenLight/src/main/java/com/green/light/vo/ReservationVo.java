@@ -17,10 +17,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class ReservationVo {
 
-	private String reserveno   ;
-	private String applicant   ;
-	private String phone       ;
+	private String reserveno;
+	private String applicant;
+	private String phone;
 	private Date reserve_date;
 	private String meetingtitle;
-	
+
 }
