@@ -1899,7 +1899,7 @@ progress {
   --bs-table-active-color: var(--bs-body-color);
   --bs-table-active-bg: rgba(0, 0, 0, 0.1);
   --bs-table-hover-color: var(--bs-body-color);
-  --bs-table-hover-bg: rgba(224, 229, 236, 0.25);
+  --bs-table-hover-bg: #EFF5F2;
   width: 100%;
   margin-bottom: 1rem;
   color: var(--bs-table-color);
@@ -19717,5 +19717,26 @@ td, th {
 }
 .title-td{
 	width: 55%;
+}
+
+.ck.ck-editor {
+   	width: 800px;
+   	margin: auto;
+}
+.ck-editor__editable {
+	min-height: 500px;
+	max-height: 500px;
+}
+	 
+#editor th, td{
+	height: 50px;
+	width: 200px;
+}
+	
+#editor {
+	width:500px; 
+}
+.birth-td {
+	width: 100px;
 }
 
