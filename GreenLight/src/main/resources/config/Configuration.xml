@@ -2,22 +2,26 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<typeAliases>
+		<!-- 인사 -->
 		<typeAlias type="com.green.light.vo.EmployeeVo" alias="EmpVo"/>
 		<typeAlias type="com.green.light.vo.DepartmentVo" alias="DeptVo"/>
 		<typeAlias type="com.green.light.vo.HeadquartersVo" alias="HeadVo"/>
 		<typeAlias type="com.green.light.vo.SignVo" alias="SignVo"/>
-		<typeAlias type="com.green.light.vo.ConferenceVo" alias="ConferenceVo"/>
 		<typeAlias type="com.green.light.vo.AttendainceVo" alias="AttendainceVo"/>
 		<typeAlias type="com.green.light.vo.VacationVo" alias="VacationVo"/>
+		<!-- 회의실 -->
+		<typeAlias type="com.green.light.vo.ConferenceVo" alias="ConferenceVo"/>
 	</typeAliases>
 	
 	<mappers>
+		<!-- 인사 -->
 		<mapper resource="sqls/EmployeeStatement.xml"/>
 		<mapper resource="sqls/DepartmentStatement.xml"/>
 		<mapper resource="sqls/HeadquartersStatement.xml"/>
 		<mapper resource="sqls/SignatureStatement.xml"/>
-		<mapper resource="sqls/ConferenceStatement.xml"/>
 		<mapper resource="sqls/AttendanceStatement.xml"/>
 		<mapper resource="sqls/VacationStatement.xml"/>
+		<!-- 회의실 -->
+		<mapper resource="sqls/ConferenceStatement.xml"/>
 	</mappers>
 </configuration>
