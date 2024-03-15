@@ -20,4 +20,7 @@ public class DepartmentVo {
 	private String dept_mgr;
 	private String headno;
 	private String delflag;
+	
+	private CommonVo comVo;
+	private EmployeeVo empVo;
 }

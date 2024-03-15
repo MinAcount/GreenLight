@@ -19,4 +19,6 @@ public class HeadquartersVo {
 	private String hname;
 	private String head_mgr;
 	private String delflag;
+	
+	private DepartmentVo deptVo;
 }

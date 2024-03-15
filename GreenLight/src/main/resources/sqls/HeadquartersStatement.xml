@@ -1,5 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.HeadquartersDaoImpl">
-
+	
+<resultMap type="com.green.light.vo.HeadquartersVo" id="HeadquartersVo">
+	<result property="headno" column="HEADNO"/>
+	<result property="hname" column="HNAME"/>
+	<result property="head_mgr" column="HEAD_MGR"/>
+	<result property="delflag" column="DELFLAG"/>
+	<collection property="deptVo" resultMap="DepartmentVo"/>
+</resultMap>
+<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
+	<result property="dname" column="DNAME"/>
+</resultMap>
+	
+<!-- 	본부 전체 조회	getAllHead -->
+<select id="getAllHead" resultType="HeadVo">
+	SELECT HEADNO , HNAME, HEAD_MGR, DELFLAG
+        FROM HEADQUARTERS h
+</select>
+<!-- 	본부 상세 조회	getOneHead -->
+<select id="getOneHead" parameterType="java.lang.String" resultMap="HeadquartersVo">
+	SELECT h.HEADNO , h.HNAME, h.HEAD_MGR, d.DNAME
+        FROM HEADQUARTERS h LEFT JOIN DEPARTMENT d
+        ON h.HEADNO = d.HEADNO
+        WHERE h.HEADNO = #{headno}
+</select>
+<!-- 	본부명 수정	updateHeadName -->
+<update id="updateHeadName" parameterType="java.util.Map">
+	UPDATE HEADQUARTERS SET HNAME = #{hname}
+        WHERE HEADNO = #{headno}
+</update>
+<!-- 	본부 등록	insertHead -->
+<insert id="insertHead" parameterType="java.lang.String">
+	INSERT INTO HEADQUARTERS (HEADNO, HNAME)
+        VALUES (LPAD((SELECT MAX(HEADNO)
+        FROM HEADQUARTERS h)+1,2,'0'), #{hname})
+</insert>
+<!-- 	직원 직책 수거 및 부여	updateHeadPosition -->
+<update id="updateHeadPosition" parameterType="java.util.Map">
+	UPDATE EMPLOYEE 
+        SET "POSITION"= CASE WHEN ID = #{id} THEN '02' 
+                             WHEN ID = (SELECT HEAD_MGR 
+                                        	FROM HEADQUARTERS h
+                                            WHERE HEADNO = #{headno}) THEN NULL 
+                         	 ELSE "POSITION" END
+        WHERE ID IN (#{id},(SELECT HEAD_MGR 
+                            	FROM HEADQUARTERS h
+                                WHERE HEADNO = #{headno}))
+</update>
+<!-- 	본부장 등록 및 변경	updateHeadMgr -->
+<update id="updateHeadMgr" parameterType="java.util.Map">
+	UPDATE HEADQUARTERS SET HEAD_MGR = #{head_mgr}
+        WHERE HEADNO = #{headno}
+</update>
+<!-- 	본부 삭제	updateHeadDelete -->
+<update id="updateHeadDelete" parameterType="java.lang.String">
+	<![CDATA[
+		UPDATE HEADQUARTERS SET DELFLAG ='Y'
+        WHERE (SELECT COUNT(*)
+               		FROM DEPARTMENT d  
+                    WHERE HEADNO = #{headno}) < 1 AND HEADNO = #{headno}
+        AND HEAD_MGR IS NULL
+	]]>
+</update>
+<!-- 	본부 완전 삭제	deleteHead -->
+<delete id="deleteHead" parameterType="java.lang.String">
+	<![CDATA[
+		DELETE FROM HEADQUARTERS h 
+        WHERE (SELECT COUNT(*)
+               		FROM DEPARTMENT d  
+                    WHERE HEADNO = #{headno}) < 1 AND HEADNO = #{headno}
+        AND HEAD_MGR IS NULL
+	]]>
+</delete>
+<!-- 	본부 복구	restoreHead -->
+<update id="restoreHead" parameterType="java.lang.String">
+	UPDATE HEADQUARTERS SET DELFLAG = 'N'
+        WHERE HEADNO = #{headno}
+</update>
 </mapper>

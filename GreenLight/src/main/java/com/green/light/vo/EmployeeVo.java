@@ -35,16 +35,20 @@ public class EmployeeVo {
 	private String profile;
 	private int fail;
 	
-	private String option;
+	private String opt;
 	private String keyword;
 	
-	public EmployeeVo(String id, String name, String email, String address, String deptno, String spot) {
+	private DepartmentVo deptVo;
+	
+	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String profile) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
+		this.phone = phone;
 		this.address = address;
 		this.deptno = deptno;
 		this.spot = spot;
+		this.profile = profile;
 	}
 
 	public EmployeeVo(String id, String name, String email, String phone, String birthday, String gender,
