@@ -2,15 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ConferenceDaoImpl">
 	<!-- 회의실 전체조회 -->
-	<select id="getAllRoom" parameterType="" resultMap="">
+	<select id="getAllRoom" parameterType="java.util.Map" resultMap="ConferenceVo">
+		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO
+        	FROM CONFERENCE
+        	ORDER BY #{sorting} ASC
 	</select>
 	<!-- 회의실 상세조회 -->
-	<select id="getOenRoom" parameterType="" resultMap="">
+	<select id="getOenRoom" parameterType="java.util.Map" resultMap="ConferenceVo">
+		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO
+        FROM CONFERENCE
+        WHERE CONF_ID = #{conf_id}
 	</select>
 	<!-- 회의실 생성 -->
-	<insert id="insertRoom" parameterType="">
+	<insert id="insertRoom" parameterType="java.lang.String">
+	    <![CDATA[
+	        BEGIN
+	            INSERT INTO CONFERENCE (CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO)
+	            VALUES ('NEW', #{cname}, #{capacity}, 'Y', #{ho}, #{roominfo})
+	    		
+	            UPDATE CONFERENCE
+	                SET CONF_ID = 'F' || SUBSTR(HO, 1, 1) || '_' || LPAD(CONFERENCE_SEQ.NEXTVAL, 3, '0') || '_' || SUBSTR(HO, 1, INSTR(HO, '호') - 1) 
+	                WHERE CONF_ID = 'NEW'
+	    
+	            COMMIT
+	        END
+	    ]]>
 	</insert>
 	<!-- 회의실 정보수정 -->
-	<update id="updateRoom" parameterType="">
+	<update id="updateRoom" parameterType="java.lang.String">
+		UPDATE CONFERENCE
+        	SET CNAME=#{cname}, CAPACITY=#{capacity}, AVAILABILITY=#{availability} , HO=#{ho}, ROOMINFO=#{roominfo}
+        	WHERE CONF_ID = #{conf_id}
 	</update>
 </mapper>
