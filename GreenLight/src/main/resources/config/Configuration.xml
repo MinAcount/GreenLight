@@ -11,6 +11,9 @@
 		<typeAlias type="com.green.light.vo.VacationVo" alias="VacationVo"/>
 		<!-- 회의실 -->
 		<typeAlias type="com.green.light.vo.ConferenceVo" alias="ConferenceVo"/>
+		<!-- 전자결재 -->
+		<typeAlias type="com.green.light.vo.DocumentVo" alias="DocumentVo"/>
+		<typeAlias type="com.green.light.vo.ApprovalVo" alias="ApprovalVo"/>
 	</typeAliases>
 	
 	<mappers>
@@ -23,5 +26,7 @@
 		<mapper resource="sqls/VacationStatement.xml"/>
 		<!-- 회의실 -->
 		<mapper resource="sqls/ConferenceStatement.xml"/>
+		<!-- 전자결재 -->
+		<mapper resource="sqls/DocumentStatement.xml"/>
 	</mappers>
 </configuration>

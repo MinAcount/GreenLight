@@ -56,141 +56,38 @@
 							<th style="width: 9%;">작성자</th>
 							<th style="width: 15%;">기안일</th>
 							<th style="width: 12%;">문서양식유형</th>
-							<th style="width: 8%;">첨부</th>
-							<th style="width: 9%;">기안서상태</th>
+							<th style="width: 6%;">첨부</th>
+							<th style="width: 11%;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="chkbox-td">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
+						<c:forEach var="vo" items="${lists}" varStatus="vs">
+							<tr>
+								<td class="chkbox-td">
+									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
+								</td>
+								<td>${vo.docno}</td>
+								<td>${vo.title}</td>
+								<td>
+									<c:choose>
+						                <c:when test="${vo.urgency eq 'Y'}">
+						                    긴급
+						                </c:when>
+						                <c:otherwise>
+						                    &nbsp; <!-- 공백 처리 -->
+						                </c:otherwise>
+						            </c:choose>
+								</td>
+								<td>${vo.empVo.getName()}</td>
+								<td>
+									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
+									<fmt:formatDate value="${dDate}"/>
+								</td>
+								<td>${vo.commVo.getCode_name()}</td>
+								<td>${vo.file_count}</td>
+								<td>${vo.commVo2.getCode_name()}</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 			</div>

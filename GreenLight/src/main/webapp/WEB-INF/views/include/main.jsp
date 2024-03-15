@@ -147,7 +147,7 @@
     			<span class="input-group-text" id="litepickerSpan">
         			<i data-feather="calendar"></i>
     			</span>
-   				<input class="form-control ps-0" id="litepickerSingleDate" placeholder="Select date range..." />
+   				<input class="form-control ps-0" id="litepickerRangePlugin" placeholder="Select date range..." />
 			</div>
    			<script>
 			    //총 4가지 모양의 달력.

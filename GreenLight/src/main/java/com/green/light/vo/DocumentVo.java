@@ -23,4 +23,14 @@ public class DocumentVo {
 	private String urgency;
 	private String tempno;
 	private String doc_status;
+	private int file_count;
+	
+	private CommonVo commVo;
+	private CommonVo2 commVo2;
+	private DepartmentVo deptVo;
+	private HeadquartersVo headVo;
+	private EmployeeVo empVo;
+	private ApprovalVo apprVo;
+	private FileStorageVo fileVo;
+	
 }
