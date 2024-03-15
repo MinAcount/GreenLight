@@ -1,8 +1,6 @@
 package com.green.light.model.service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,19 +43,18 @@ public class SignServiceImpl implements ISignService {
 	}
 
 	@Override
-	public int setMainSign(Map<String, Object> map) {
-		log.info("SignServiceImpl setMainSign 전달받은 값 : {}",map);
-		return dao.setMainSign(map);
+	public int setMainSign(SignVo signVo) {
+		log.info("SignServiceImpl setMainSign 전달받은 값 : {}",signVo);
+		return dao.setMainSign(signVo);
 	}
 	
 	@Transactional(readOnly = true)
 	@Override
-	public int updateMainSign(String id) {
-		log.info("SignServiceImpl updateMainSign 전달받은 값 : {}",id);
-		int n = dao.changeMainSign(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		int m = dao.setMainSign(map);
+	public int updateMainSign(SignVo signVo) {
+		log.info("SignServiceImpl updateMainSign 전달받은 값 : {}",signVo);
+		int n = dao.changeMainSign(signVo.getId());
+		signVo.setSignno("1");
+		int m = dao.setMainSign(signVo);
 		return (n+m)>0 ? 1 : 0;
 	}
 }

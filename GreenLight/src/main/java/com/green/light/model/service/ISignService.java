@@ -22,9 +22,9 @@ public interface ISignService {
 	public int changeMainSign(String id);
 
 //	대표서명 지정	setMainSign
-	public int setMainSign(Map<String, Object> map);
+	public int setMainSign(SignVo signVo);
 	
 //  대표서명 변경 및 지정 updateMainSign
-	public int updateMainSign(String id);
+	public int updateMainSign(SignVo signVo);
 	
 }

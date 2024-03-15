@@ -56,9 +56,9 @@ public class SignDaoImpl implements ISignDao {
 
 
 	@Override
-	public int setMainSign(Map<String, Object> map) {
+	public int setMainSign(SignVo signVo) {
 		log.info("SignDaoImpl setMainSign동작");
-		return session.update(NS+"setMainSign", map);
+		return session.update(NS+"setMainSign", signVo);
 	}
 
 
