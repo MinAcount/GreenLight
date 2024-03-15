@@ -60,7 +60,7 @@
                   <div class="collapse" id="collapseBoxes" data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
                         <a class="nav-link" href="multi-tenant-select.html">임시저장함</a> 
-                        <a class="nav-link" href="wizard.html">기안문서함</a>
+                        <a class="nav-link" href="./draftList.do">기안문서함</a>
                         <a class="nav-link" href="wizard.html">결재문서함</a>
                         <a class="nav-link" href="wizard.html">참조문서함</a>
                         <a class="nav-link" href="wizard.html">열람문서함</a>
