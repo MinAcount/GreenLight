@@ -10,8 +10,10 @@
 <link href="css/styles.css" rel="stylesheet" />
 <body>
 	<div class="card shadow-lg border-0 rounded-lg mt-5" id="loginForm">
-		<div class="card-header justify-content-center">
-			<h3 class="fw-light my-4">로그인</h3>
+		<div class="card-header justify-content-center" style="text-align: center;">
+			<img alt="logo" src="./assets/img/grn.png" width="100px"><br/>
+			<img alt="logo2" src="./assets/img/logo_grn.png" width="200px">
+<!-- 			<h3 class="fw-light my-4" style="font-family: Giants-Inline; font-size: 28px; color: #777; margin-top:0px;">GreenLight</h3> -->
 		</div>
 		<div class="card-body">
 			<form method="post" action="./login.do">
@@ -35,7 +37,7 @@
 
 				<!-- 로그인 박스-->
 				<div class="d-flex align-items-center justify-content-between mt-4 mb-0">
-					<a class="small" href="#">비밀번호 찾기</a>
+					<a class="small" href="./findPassword.do">비밀번호 찾기</a>
 					<button class="btn btn-primary" type="submit">로그인</button>
 				</div>
 			</form>
