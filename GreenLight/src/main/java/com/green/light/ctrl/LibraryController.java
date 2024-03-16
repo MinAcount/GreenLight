@@ -22,10 +22,20 @@ public class LibraryController {
 	
 	 @GetMapping(value = "/draftList.do")
 	 public String draftList(Model model) {
-		 log.info("LibraryController GET draftList.do draftList로 이동");
-		 List<DocumentVo> lists = dao.getAllDraftDocument("2403110902");
+		 log.info("LibraryController GET draftList.do 기안보관함 전체조회");
+		 List<DocumentVo> lists = dao.getAllDraft("2403110902");
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
 		 return "draftList";
+	 }
+	 
+	 
+	 @GetMapping(value = "/tempDraftList.do")
+	 public String tempDraftList(Model model) {
+		 log.info("LibraryController GET tempDraftList.do 임시보관함 전체조회");
+		 List<DocumentVo> lists = dao.getAllTempDraft("2403110902");
+		 model.addAttribute("lists", lists);
+		 System.out.println(lists);
+		 return "tempDraftList";
 	 }
 }

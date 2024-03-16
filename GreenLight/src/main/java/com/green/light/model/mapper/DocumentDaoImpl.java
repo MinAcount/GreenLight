@@ -17,7 +17,12 @@ public class DocumentDaoImpl implements IDocumentDao{
 	private final String NS = "com.green.light.model.mapper.DocumentDaoImpl.";
 
 	@Override
-	public List<DocumentVo> getAllDraftDocument(String id) {
-		return sqlsession.selectList(NS+"getAllDraftDocument",id);
+	public List<DocumentVo> getAllDraft(String id) {
+		return sqlsession.selectList(NS+"getAllDraft",id);
+	}
+
+	@Override
+	public List<DocumentVo> getAllTempDraft(String id) {
+		return sqlsession.selectList(NS+"getAllTempDraft",id);
 	}
 }

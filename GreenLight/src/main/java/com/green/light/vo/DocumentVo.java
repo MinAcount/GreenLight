@@ -26,7 +26,6 @@ public class DocumentVo {
 	private int file_count;
 	
 	private CommonVo commVo;
-	private CommonVo2 commVo2;
 	private DepartmentVo deptVo;
 	private HeadquartersVo headVo;
 	private EmployeeVo empVo;

@@ -16,19 +16,8 @@
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
          <div id="main_content">
-         	<h1 style="margin-bottom: 70px; text-align: center;">기안문서함</h1>
-         	<div style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
-         		<div>
-         			<nav class="nav nav-borders">
-         				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li class="nav-link active ms-0" onclick="location.href='#'">전체</li>
-                            <li class="nav-link">진행</li>
-                            <li class="nav-link">승인</li>
-                            <li class="nav-link">반려</li>
-                        </ul>
-                    </nav>
-                    
-         		</div>
+         	<h1 style="margin-bottom: 70px; text-align: center;">임시저장함</h1>
+         	<div style="display: flex; justify-content: flex-end; margin-top: 50px; height: 60.8px;">
          		<div style="display: flex; flex-direction: row;">
 					<input class="form-control" type="text" placeholder="Search..." aria-label="Search" style="width:200px; margin-right: 15px; height: 42px;">
 					<div class="datatable-dropdown">
@@ -50,14 +39,11 @@
 							<th style="width: 2.5%;">
 								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 							</th>
-							<th style="width: 9%;">문서번호</th>
-							<th style="width: 20.5%;">제목</th>
-							<th style="width: 5%;">긴급</th>
-							<th style="width: 9%;">작성자</th>
-							<th style="width: 15%;">기안일</th>
-							<th style="width: 12%;">문서양식유형</th>
-							<th style="width: 6%;">첨부</th>
-							<th style="width: 11%;">기안서상태</th>
+							<th style="width: 35%;">제목</th>
+							<th style="width: 17.5%;">생성일</th>
+							<th style="width: 20%;">문서양식유형</th>
+							<th style="width: 10%;">첨부</th>
+							<th style="width: 15%;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -66,19 +52,7 @@
 								<td class="chkbox-td">
 									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 								</td>
-								<td>${vo.docno}</td>
 								<td>${vo.title}</td>
-								<td>
-									<c:choose>
-						                <c:when test="${vo.urgency eq 'Y'}">
-						                    긴급
-						                </c:when>
-						                <c:otherwise>
-						                    &nbsp; <!-- 공백 처리 -->
-						                </c:otherwise>
-						            </c:choose>
-								</td>
-								<td>${vo.empVo.getName()}</td>
 								<td>
 									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
 									<fmt:formatDate value="${dDate}"/>

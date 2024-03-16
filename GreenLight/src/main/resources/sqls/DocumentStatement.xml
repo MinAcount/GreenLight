@@ -11,8 +11,8 @@
 		<result property="urgency" column="URGENCY"/>
 		<result property="tempno" column="TEMPNO"/>
 		<result property="doc_status" column="DOC_STATUS"/>
+		<result property="file_count" column="FILE_COUNT"/>
 		<collection property="commVo" resultMap="CommonVo"/>
-		<collection property="commVo2" resultMap="CommonVo2"/>
 		<collection property="deptVo" resultMap="DepartmentVo"/>
 		<collection property="headVo" resultMap="HeadquartersVo"/>
 		<collection property="empVo" resultMap="EmployeeVo"/>
@@ -21,12 +21,7 @@
 	</resultMap>
 	<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
 		<result property="type" column="TYPE"/>
-		<result property="code_name" column="CODE_NAME_1"/>
-		<result property="code" column="CODE"/>
-	</resultMap>
-	<resultMap type="com.green.light.vo.CommonVo2" id="CommonVo2">
-		<result property="type" column="TYPE"/>
-		<result property="code_name" column="CODE_NAME_2"/>
+		<result property="code_name" column="CODE_NAME"/>
 		<result property="code" column="CODE"/>
 	</resultMap>
 	<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
@@ -88,17 +83,25 @@
 	
 	
 	<!-- 기안문서함 전체조회 getAllDraftDocument -->
-	<select id="getAllDraftDocument" resultMap="DocumentVo">
+	<select id="getAllDraft" resultMap="DocumentVo">
 		SELECT d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE, d.URGENCY, 
-       c.CODE_NAME AS CODE_NAME_1, 
-       c2.CODE_NAME AS CODE_NAME_2, 
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
 		FROM DOCUMENT d 
-		JOIN COMMON c ON d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드'
-		JOIN COMMON c2 ON d.DOC_STATUS = c2.CODE AND c2."TYPE" = '기안서상태'
 		JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
 		WHERE d.WRITER_ID = #{id}
 		ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
 	</select>
+	
+	<select id="getAllTempDraft" resultMap="DocumentVo">
+		SELECT d.DOCNO , d.TITLE , d.DRAFT_DATE ,
+			(SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+			(SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
+            (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
+        FROM DOCUMENT d 
+        WHERE d.DOC_STATUS = '04' AND d.WRITER_ID = #{id}
+	</select>
+	
 </mapper>

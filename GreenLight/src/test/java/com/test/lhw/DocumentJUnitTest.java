@@ -27,7 +27,7 @@ public class DocumentJUnitTest {
 	
 	@Test
 	public void DocumentTest() {
-		List<DocumentVo> list = dao.getAllDraftDocument("2403110902");
+		List<DocumentVo> list = dao.getAllDraft("2403110902");
 		System.out.println(list);
 		assertNotEquals(0, list.size());
 	}
