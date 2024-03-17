@@ -8,6 +8,7 @@
 	<url>http://maven.apache.org</url>
 	<properties>
 		<org.springframework>5.3.20</org.springframework>
+		<org.springsecurity>5.7.1</org.springsecurity>
 		<org.aspect>1.9.21</org.aspect>
 		<slf4j>2.0.7</slf4j>
 	</properties>
@@ -23,6 +24,30 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${org.springsecurity}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${org.springsecurity}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${org.springsecurity}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${org.springsecurity}</version>
 		</dependency>
 
 		<dependency>

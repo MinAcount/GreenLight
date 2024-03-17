@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 
@@ -10,7 +11,7 @@
                <div class="nav accordion" id="accordionSidenav">
                   <div class="sidenav-menu-heading d-sm-none">Account</div>
                   
-                  
+                  <c:if test="${loginVo.auth =='02'}">
 <!-- 인사팀 전용 메뉴 -->
                   <a class="nav-link collapsed" href="javascript:void(0);"
                      data-bs-toggle="collapse" data-bs-target="#collapseEmpl"
@@ -26,7 +27,8 @@
                   <div class="collapse" id="collapseEmpl"
                      data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">직원 정보</a> 
+                        <a class="nav-link" href="./employeeAddForm.do">직원 추가</a> 
+                        <a class="nav-link" href="./employeeList.do">직원 정보</a> 
                         <a class="nav-link" href="wizard.html">휴가 관리</a>
                         <a class="nav-link" href="wizard.html">근태 관리</a>
                         <a class="nav-link" href="wizard.html">인사서류 관리</a>
@@ -38,7 +40,7 @@
                   </a>
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
-                  
+                  </c:if>
 <!-- 전자결재 -->
                   <a class="nav-link" href="charts.html"><div class="nav-link-icon">
                   	<i data-feather="file"></i></div>

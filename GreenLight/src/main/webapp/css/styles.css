@@ -10,6 +10,18 @@
  * Copyright 2011-2022 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+ @font-face {
+    font-family: 'Giants-Inline';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Inline.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Giants-Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-1@1.1/Giants-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+}
 :root {
   --bs-blue: #428A46;
   --bs-indigo: #5800e8;
@@ -9857,7 +9869,7 @@ textarea.form-control-lg {
 }
 
 .my-4 {
-  margin-top: 1.5rem !important;
+  margin-top: 1.5rem /* !important */;
   margin-bottom: 1.5rem !important;
 }
 
@@ -19689,7 +19701,7 @@ pre[class*=language-] {
 	margin-right: 8px;
 }
 #loginForm{
-	width: 500px;
+	width: 400px;
 	margin: auto;
 }
 input:-webkit-autofill,input:-webkit-autofill:hover,input:-webkit-autofill:focus,input:-webkit-autofill:active {
