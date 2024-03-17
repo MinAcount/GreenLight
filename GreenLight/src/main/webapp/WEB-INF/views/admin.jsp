@@ -5,11 +5,11 @@
 
 <body class="nav-fixed" style="background-color:rgba(255, 255, 255, 0.9)">
 
-<%@ include file="./adminHeader.jsp" %>
+<%@ include file="./include/adminHeader.jsp" %>
 
 <!-- 사이드나브바 & 콘텐트 영역 -->
    <div id="layoutSidenav">
-      <%@ include file="./adminSidenav.jsp" %>
+      <%@ include file="./include/adminSidenav.jsp" %>
       
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
@@ -232,7 +232,7 @@
 		    	</div>
 			</div>
 		</div>
-         <%@ include file="./footer.jsp" %>
+         <%@ include file="./include/footer.jsp" %>
       </div>
    </div>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

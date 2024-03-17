@@ -24,6 +24,7 @@ public class DocumentVo {
 	private String tempno;
 	private String doc_status;
 	private int file_count;
+	private String appr_date;
 	
 	private CommonVo commVo;
 	private DepartmentVo deptVo;

@@ -12,6 +12,7 @@
 		<result property="tempno" column="TEMPNO"/>
 		<result property="doc_status" column="DOC_STATUS"/>
 		<result property="file_count" column="FILE_COUNT"/>
+		<result property="appr_date" column="APPR_DATE"/>
 		<collection property="commVo" resultMap="CommonVo"/>
 		<collection property="deptVo" resultMap="DepartmentVo"/>
 		<collection property="headVo" resultMap="HeadquartersVo"/>
@@ -82,7 +83,7 @@
 	
 	
 	
-	<!-- 기안문서함 전체조회 getAllDraftDocument -->
+	<!-- 기안문서함 전체조회 getAllDraft -->
 	<select id="getAllDraft" resultMap="DocumentVo">
 		SELECT d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE, d.URGENCY, 
@@ -92,9 +93,11 @@
 		FROM DOCUMENT d 
 		JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
 		WHERE d.WRITER_ID = #{id}
+		AND NOT d.DOC_STATUS = '04'
 		ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
 	</select>
 	
+	<!-- 임시저장함 전체조회 getAllTempDraft -->
 	<select id="getAllTempDraft" resultMap="DocumentVo">
 		SELECT d.DOCNO , d.TITLE , d.DRAFT_DATE ,
 			(SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
@@ -104,4 +107,42 @@
         WHERE d.DOC_STATUS = '04' AND d.WRITER_ID = #{id}
 	</select>
 	
+	<!-- 결재문서함 전체조회 getAllApprovalDraft -->
+	<select id="getAllApprovalDraft" resultMap="DocumentVo">
+		SELECT d.DOCNO, e.NAME , d.TITLE, 
+       d.DRAFT_DATE,
+       (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO) AS APPR_DATE,
+       d.URGENCY, 
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
+       (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
+			FROM DOCUMENT d 
+			        JOIN APPROVAL_STEP_CHECK_VIEW a ON d.DOCNO = a.DOCNO
+			        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID  
+			WHERE (a.APPR_CURRENT = '01' AND a.APPR_PREV ='02'
+			       AND a.EMP_ID=#{id} AND a.ATYPE='01'
+			       AND NOT d.DOC_STATUS = '04')
+			OR (a.ORDERNO = 1
+			AND a.EMP_ID=#{id} AND a.ATYPE='01'
+			AND NOT d.DOC_STATUS = '04')
+			OR (a.APPR_CURRENT ='02'
+			        AND a.EMP_ID=#{id} AND a.ATYPE='01'
+			    AND NOT d.DOC_STATUS = '04')
+	</select>
+	
+	<!-- 참조문서함 전체조회 getAllReferenceDraft -->
+	<select id="getAllReferenceDraft" resultMap="DocumentVo">
+		SELECT d.DOCNO, e.NAME , d.TITLE, 
+       d.DRAFT_DATE,
+       (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO) AS APPR_DATE,
+       d.URGENCY, 
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
+       (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
+			FROM DOCUMENT d 
+			        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
+			        JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
+			WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
+			AND NOT d.DOC_STATUS = '04'
+	</select>
 </mapper>

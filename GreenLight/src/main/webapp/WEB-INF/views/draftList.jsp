@@ -42,7 +42,7 @@
 		       		</div>
 	       		</div>
 			</div>
-         	<hr class="mt-0 mb-4">
+         	<hr class="mt-0 mb-5">
 			<div>
 				<table class="datatable-table">
 					<thead>
@@ -74,7 +74,7 @@
 						                    긴급
 						                </c:when>
 						                <c:otherwise>
-						                    &nbsp; <!-- 공백 처리 -->
+						                    - <!-- 공백 처리 -->
 						                </c:otherwise>
 						            </c:choose>
 								</td>
@@ -90,6 +90,30 @@
 						</c:forEach>
 					</tbody>
 				</table>
+			</div>
+			<div style="margin-top: 50px;">
+				<!-- 페이징바 -->
+				<nav aria-label="Page navigation example">
+				  <ul class="pagination pagination justify-content-center">
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				        <span class="sr-only">Previous</span>
+				      </a>
+				    </li>
+				    <li class="page-item"><a class="page-link" href="#">1</a></li>
+				    <li class="page-item"><a class="page-link" href="#">2</a></li>
+				    <li class="page-item"><a class="page-link" href="#">3</a></li>
+				    <li class="page-item"><a class="page-link" href="#">4</a></li>
+				    <li class="page-item"><a class="page-link" href="#">5</a></li>
+				    <li class="page-item">
+				      <a class="page-link" href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				        <span class="sr-only">Next</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
 			</div>
 		</div>
          <%@ include file="./include/footer.jsp" %>

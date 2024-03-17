@@ -25,4 +25,14 @@ public class DocumentDaoImpl implements IDocumentDao{
 	public List<DocumentVo> getAllTempDraft(String id) {
 		return sqlsession.selectList(NS+"getAllTempDraft",id);
 	}
+
+	@Override
+	public List<DocumentVo> getAllApprovalDraft(String id) {
+		return sqlsession.selectList(NS+"getAllApprovalDraft",id);
+	}
+
+	@Override
+	public List<DocumentVo> getAllReferenceDraft(String id) {
+		return sqlsession.selectList(NS+"getAllReferenceDraft",id);
+	}
 }

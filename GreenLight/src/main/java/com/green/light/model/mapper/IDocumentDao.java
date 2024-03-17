@@ -11,4 +11,10 @@ public interface IDocumentDao {
 	
 	// 임시저장함 전체조회 getAllTempDraft
 	public List<DocumentVo> getAllTempDraft(String id);
+	
+	// 결재문서함 전체조회 getAllApprovalDraft
+	public List<DocumentVo> getAllApprovalDraft(String id);
+	
+	// 참조문서함 전체조회 getAllReferenceDraft
+	public List<DocumentVo> getAllReferenceDraft(String id);
 }

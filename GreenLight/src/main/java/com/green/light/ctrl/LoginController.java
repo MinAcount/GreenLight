@@ -42,7 +42,7 @@ public class LoginController {
 			session.setAttribute("loginVo", vo);
 			if(vo.getAuth().equals("00")) {
 				log.info("관리자 로그인 성공");
-				return "include/admin";
+				return "admin";
 			}else {
 				log.info("직원 로그인 성공");
 				return "main";
