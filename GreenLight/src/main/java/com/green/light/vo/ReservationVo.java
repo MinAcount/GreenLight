@@ -22,5 +22,7 @@ public class ReservationVo {
 	private String phone;
 	private Date reserve_date;
 	private String meetingtitle;
+	
+	private CheckListVo checkVo;
 
 }
