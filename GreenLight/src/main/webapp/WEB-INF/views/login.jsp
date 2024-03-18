@@ -30,8 +30,8 @@
 				<!-- 비밀번호 저장-->
 				<div class="mb-3">
 					<div class="form-check">
-						<input class="form-check-input" id="remember-me" type="checkbox">
-						<label class="form-check-label" for="remember-me">자동 로그인</label>
+						<input class="form-check-input" id="remember" type="checkbox" name="remember-me">
+						<label class="form-check-label" for="remember">자동 로그인</label>
 					</div>
 				</div>
 

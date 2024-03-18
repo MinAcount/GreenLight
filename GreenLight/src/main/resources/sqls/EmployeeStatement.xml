@@ -91,7 +91,7 @@
 </select>
 <!-- 직원 상세 조회	getOneEmployee -->
 <select id="getOneEmployee" parameterType="java.lang.String" resultMap="EmployeeVo">
-	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
+	SELECT ID, NAME, PASSWORD, EMAIL, PHONE, BIRTHDAY, GENDER,
         ADDRESS, DNAME , SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
         FROM EMPLOYEE e JOIN DEPARTMENT d 

@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class LoginController {
-	@Autowired
-	private JavaMailSender mailSender;
+//	@Autowired
+//	private JavaMailSender mailSender;
 	
 	@Autowired
 	private IEmployeeService service;
@@ -65,6 +65,7 @@ public class LoginController {
 		return "findPassword";
 	}
 	
+	/*
 	@PostMapping("/getPassword.do")
 	public String getPassword(String id, String email) {
 		log.info("EmployeeController POST getPassword.do 비밀번호 찾기: {}/{}", id, email);
@@ -92,6 +93,6 @@ public class LoginController {
 		}else {
 			return "redirect:/getPassword.do";
 		}
-	}
+	}*/
 
 }

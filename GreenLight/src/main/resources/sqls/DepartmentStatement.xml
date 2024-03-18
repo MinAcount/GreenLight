@@ -3,7 +3,10 @@
 <mapper namespace="com.green.light.model.mapper.DepartmentDaoImpl">
 
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
+	<result property="deptno" column="DEPTNO"/>
 	<result property="dname" column="DNAME"/>
+	<result property="dept_mgr" column="DEPT_MGR"/>
+	<result property="headno" column="HEADNO"/>
 	<collection property="comVo" resultMap="CommonVo"/>
 	<collection property="empVo" resultMap="EmployeeVo"/>
 </resultMap>
@@ -24,6 +27,7 @@
 	SELECT d.DEPTNO , d.DNAME, d.DEPT_MGR, d.HEADNO, h.HNAME, d.DELFLAG
         FROM DEPARTMENT d JOIN HEADQUARTERS h
         ON d.HEADNO = h.HEADNO
+        ORDER BY DNAME ASC
 </select>
 <!-- 부서 상세 조회	getOneDept -->
 <select id="getOneDept" parameterType="java.lang.String" resultMap="DepartmentVo">
