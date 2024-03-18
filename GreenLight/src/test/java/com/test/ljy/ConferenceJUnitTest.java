@@ -39,7 +39,7 @@ public class ConferenceJUnitTest {
 		assertNotNull(lists);
 	}
 	
-//	@Test
+	@Test
 	public void OneRoomTest() {
 		String conf_id = "F5_001_501";
 		ConferenceVo vo = service.getOenRoom(conf_id);
