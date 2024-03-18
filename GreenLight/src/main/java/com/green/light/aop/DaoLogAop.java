@@ -9,10 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class DaoLogAop {
 	
 	@Pointcut("execution(public * com.green.light.model.mapper.*Dao*.*(..))")
@@ -23,7 +21,7 @@ public class DaoLogAop {
 		Logger logger = LoggerFactory.getLogger(j.getTarget()+"");
 		logger.warn("메서드 실행 전");
 		Object[] args = j.getArgs();
-		if(args == null) {
+		if(args != null) {
 			logger.warn("====={}=====",j.getSignature().getName());
 			for(int i=0; i<args.length; i++) {
 				logger.warn("{}번째 args : \t {}", (i+1), String.valueOf(args[i]));

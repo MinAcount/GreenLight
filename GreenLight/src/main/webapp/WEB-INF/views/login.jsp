@@ -1,13 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="com.raonsecure.touchenkey.*"%>
+<%
+// 	String tnk_srnd = E2ECrypto.CreateSessionRandom(session, true);
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>GreenLight</title>
+<script type="text/javascript">
+<%-- 	var TNK_SR = '<%=tnk_srnd%>'; --%>
+</script>
 <!-- 주석처리encodingTest -->
 </head>
 <link href="css/styles.css" rel="stylesheet" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="/GreenLight/raonnx/cmn/TouchEnNx.js"></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/cmn/json2.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/cmn/TouchEnNx_exproto.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/cmn/TouchEnNx_install.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/cmn/TouchEnNx_daemon.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/nxKey/js/nxkey_config.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/nxKey/js/TouchEnNxKey_Interface.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/nxKey/js/TouchEnNxKey.js'></script>
+<script type='text/javascript' charset='utf-8' src='/GreenLight/raonnx/cmn/TouchEnNx_loader.js'></script>
 <body>
 	<div class="card shadow-lg border-0 rounded-lg mt-5" id="loginForm">
 		<div class="card-header justify-content-center" style="text-align: center;">
@@ -16,7 +33,7 @@
 <!-- 			<h3 class="fw-light my-4" style="font-family: Giants-Inline; font-size: 28px; color: #777; margin-top:0px;">GreenLight</h3> -->
 		</div>
 		<div class="card-body">
-			<form method="post" action="./login.do">
+			<form method="post" action="./login.do" name="loginFrm">
 				<!-- 아이디-->
 				<div class="mb-3">
 					<input class="form-control" id="id" name="id" placeholder="사원번호 입력">
@@ -24,7 +41,7 @@
 
 				<!-- 비밀번호-->
 				<div class="mb-3">
-					<input class="form-control" id="password" name="password" type="password" placeholder="비밀번호 입력">
+					<input class="form-control" enc="on" id="password" name="password" type="password" placeholder="비밀번호 입력">
 				</div>
 
 				<!-- 비밀번호 저장-->
