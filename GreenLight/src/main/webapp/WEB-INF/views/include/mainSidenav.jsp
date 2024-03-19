@@ -151,4 +151,10 @@
          </nav>
       </div>
 </body>
+<script type="text/javascript">
+    window.onload = function() {
+        console.log(document.getElementById('id'));
+    }
+</script>
+
 </html>
