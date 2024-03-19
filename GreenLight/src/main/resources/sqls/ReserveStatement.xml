@@ -77,7 +77,7 @@
    </select>
    선택 회의실 및 선택 날짜의예약 가능 시간 조회
    <select id="timeListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
-	<!-- <resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
+	 <resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
 		<result property="reserveno" column="RESERVENO" />
 		<result property="applicant" column="APPLICANT" />
 		<result property="phone" column="PHONE" />
@@ -297,7 +297,7 @@
                RAISE;
        END;
    ]]>
-   </delete> -->
+   </delete> 
 	</insert>
 	예약 수정
 	<update id="updateReserve" parameterType="ReservationVo">
