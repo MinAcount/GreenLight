@@ -48,8 +48,11 @@ public class EmployeeController {
 	@PostMapping("/employeeAdd.do")
 	public String employeeAdd(EmployeeVo vo) {
 		log.info("EmployeeController POST employeeAdd 직원 추가 : {}", vo);
-		String encodePassword = passwordEncoder.encode(vo.getPassword());
+		String encodePassword = passwordEncoder.encode("q1w2e3r4!!");
 		vo.setPassword(encodePassword);
+		if(vo.getProfile() == null) {
+			vo.setProfile("");
+		}
 		boolean isc = employeeService.insertEmployee(vo);
 		log.info("성공여부 : {}",isc);
 		return "redirect:/employeeList.do";

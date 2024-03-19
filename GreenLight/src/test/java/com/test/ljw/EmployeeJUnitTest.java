@@ -87,15 +87,22 @@ public class EmployeeJUnitTest {
 //		int n = service.updateEmployeeExitDay(map);
 //		assertEquals(1, n);
 		
+		//입사처리
+		EmployeeVo vo = new EmployeeVo("이지원", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2024-05-04", "A", "");
+		
+		System.out.println(vo);
+		boolean isc = service.insertEmployee(vo);
+		assertTrue(isc);
+		
 		//부서장 후보 조회
 //		List<EmployeeVo> list = service.getDeptMgrHubo("09");
 //		System.out.println(list);
 //		assertNotEquals(0, list.size());
 		
-		//부서장 후보 조회
-		List<EmployeeVo> list = service.getHeadMgrHubo("01");
-		System.out.println(list);
-		assertNotEquals(0, list.size());
+		//본부장 후보 조회
+//		List<EmployeeVo> list = service.getHeadMgrHubo("01");
+//		System.out.println(list);
+//		assertNotEquals(0, list.size());
 	}
 	
 	

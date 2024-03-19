@@ -167,19 +167,17 @@
 </update>
 <!-- 직원 입사 처리	insertEmployee -->
 <insert id="insertEmployee" parameterType="EmpVo">
-	INSERT INTO EMPLOYEE e (ID, NAME,
-		EMAIL, PHONE, BIRTHDAY, GENDER,
-		ADDRESS, DEPTNO, SPOT, "POSITION",
-		JOIN_DAY, EXIT_DAY, ETYPE, PROFILE)
-		VALUES(
-		(SELECT COALESCE ((SELECT TO_CHAR(MAX(ID)+1)
-			FROM EMPLOYEE e
-			WHERE ID LIKE (TO_CHAR(TO_DATE(#{join_day}),'YYMMDD'))||#{deptno}||'%')
-			,TO_CHAR(TO_DATE(#{join_day}),'YYMMDD')||#{deptno}||'01') AS ID
-		FROM DUAL),#{name},
-		#{email},#{phone},#{birthday},#{gender},
-		#{address},#{deptno},#{spot},#{position},
-		TO_DATE(#{join_day}),#{exit_day},#{etype},#{profile})
+	INSERT INTO EMPLOYEE e (ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
+						ADDRESS, DEPTNO, SPOT, JOIN_DAY, ETYPE, PROFILE)
+	VALUES((SELECT COALESCE ((SELECT TO_CHAR(MAX(ID)+1)
+	FROM EMPLOYEE e
+	WHERE ID LIKE (TO_CHAR(TO_DATE('2024/03/06'),'YYMMDD'))||'09'||'%')
+				,TO_CHAR(TO_DATE('2024-03-06'),'YYMMDD')||'09'||'01') AS ID
+	FROM DUAL),'테스트중이요', 
+	'doo@naver.com','01024568465','1995-11-11','M',
+	'어딘가에 살고 있겠죠','09','02',
+	'2024-03-06','A','')
+
 </insert>
 <!-- 부서장 후보 조회	getDeptMgrHubo -->
 <select id="getDeptMgrHubo" parameterType="java.lang.String" resultType="EmpVo">

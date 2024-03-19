@@ -25,13 +25,13 @@
 									<div class="card-header">프로필 사진</div>
 									<div class="card-body text-center">
 										<img class="img-account-profile rounded-circle mb-2"
-											src="assets/img/illustrations/profiles/profile-2.png" alt="" />
+											src="assets/img/illustrations/profiles/profile-2.png" alt=""/>
 										<div class="small font-italic text-muted mb-4">5MB 이하의 이미지만 가능합니다</div>
 										<button class="btn btn-primary" type="button" onclick="profileUpload()">사진 올리기</button>
 									</div>
 								</div>
 							</div>
-							<div class="col-xl-8">
+							<div class="col-xl-8" style="width: 100%; margin: 10px auto;">
 								<div class="card mb-4">
 									<div class="card-header">직원정보</div>
 									<div class="card-body">
@@ -43,7 +43,7 @@
 											<div class="col-md-6">
 												<label class="control-label col-sm-2" for="gender">성별</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector">
+													<select class="datatable-selector" name="gender">
 														<option value="M" selected="selected">남성</option>
 														<option value="F">여성</option>
 													</select>
@@ -54,7 +54,7 @@
 											<div class="col-md-6">
 												<label class="small mb-1" for="dept">부서</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector">
+													<select class="datatable-selector" name="deptno">
 														<c:forEach var="dept" items="${deptList}" varStatus="vs">
 															<option value="${dept.deptno}">${dept.dname}</option>
 														</c:forEach>
@@ -68,7 +68,7 @@
 													<span class="input-group-text" id="litepickerSpan">
 														<i data-feather="calendar"></i>
 													</span> <input class="form-control ps-0"
-														id="litepickerSingleDate"
+														id="litepickerSingleDate" name="join_day"
 														placeholder="YYYY-MM-DD" />
 												</div>
 											</div>
@@ -77,7 +77,7 @@
 											<div class="col-md-6">
 												<label class="small mb-1" for="spot">직위</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector">
+													<select class="datatable-selector" name="spot">
 														<option value="01" selected="selected">사원</option>
 														<option value="02">주임</option>
 														<option value="03">대리</option>
@@ -91,7 +91,7 @@
 											<div class="col-md-6">
 												<label class="control-label col-sm-6" for="etype">근무형태</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector">
+													<select class="datatable-selector" name="etype">
 														<option value="A" selected="selected">정규직</option>
 														<option value="B">비정규직</option>
 													</select>
@@ -122,7 +122,7 @@
 													<span class="input-group-text" id="litepickerSpan">
 														<i data-feather="calendar"></i>
 													</span> <input class="form-control ps-0"
-														id="litepickerSingleDate"
+														id="litepicker" name="birthday"
 														placeholder="YYYY-MM-DD" />
 												</div>
 											</div>
@@ -146,9 +146,16 @@
     window.addEventListener('DOMContentLoaded', event => {
 
     const litepickerSingleDate = document.getElementById('litepickerSingleDate');
+    const litepicker = document.getElementById('litepicker');
     if (litepickerSingleDate) {
 	    new Litepicker({
 		    element: litepickerSingleDate,
+		    format: 'YYYY-MM-DD'
+		});
+	}
+    if (litepicker) {
+	    new Litepicker({
+		    element: litepicker,
 		    format: 'YYYY-MM-DD'
 		});
 	}
