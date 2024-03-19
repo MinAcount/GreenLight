@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ReserveDaoImpl">
-	<resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
+	<!-- <resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
 		<result property="reserveno" column="RESERVENO" />
 		<result property="applicant" column="APPLICANT" />
 		<result property="phone" column="PHONE" />
@@ -28,7 +28,7 @@
 		<result property="code" column="commonVo.DNAME" />
 		<result property="code_name" column="commonVo.CODE_NAME" />
 	</resultMap>
-	<!-- 전체 예약 조회 -->
+	전체 예약 조회
 	<select id="getAllReserve" resultMap="ReservationMapVo">
 		SELECT LSEQ , RESERVENO , CONF_ID , 
            CNAME , CAPACITY, AVAILABILITY , HO , 
@@ -38,7 +38,7 @@
     	JOIN RESERVATION r USING (RESERVENO)
     	ORDER BY LSEQ ASC
 	</select>
-	<!-- 선택 회의실 예약 조회 -->
+	선택 회의실 예약 조회
 	<select id="confListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
 	    SELECT LSEQ , RESERVENO , CONF_ID , 
 	       CNAME , CAPACITY, AVAILABILITY , HO , 
@@ -57,7 +57,7 @@
 	    </if>
 	</select>
 
-	<!-- 선택 날짜 예약 조회 -->
+	선택 날짜 예약 조회
 	<select id="dateListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
 	    SELECT LSEQ , RESERVENO , CONF_ID , TO_CHAR(RESERVE_DATE, 'HH24') "TIME",
 	        CNAME , CAPACITY, AVAILABILITY , HO , 
@@ -75,7 +75,7 @@
 	        CNAME DESC
 	    </if>
 	</select>
-	<!-- 선택 회의실 및 선택 날짜의예약 가능 시간 조회 -->
+	선택 회의실 및 선택 날짜의예약 가능 시간 조회
 	<select id="timeListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
     <![CDATA[
         WITH TimeSlots AS (
@@ -108,7 +108,7 @@
         <otherwise>RESERVENO</otherwise>
     </choose> DESC
 	</sql>
-	<!-- 나의 예약 조회 -->
+	나의 예약 조회
 	<select id="getMyReserve" parameterType="java.lang.String" resultMap="ReservationMapVo">
 		SELECT LSEQ , RESERVENO , CONF_ID , 
 	   		CNAME , CAPACITY, AVAILABILITY , HO , 
@@ -119,7 +119,7 @@
     	WHERE APPLICANT = #{applicant}
    		ORDER BY <include refid="orderByDesc"/>
 	</select>
-	<!-- 예약 정보 상세 조회 -->
+	예약 정보 상세 조회
 	<select id="getOneReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
 		SELECT LSEQ , RESERVENO , CONF_ID , 
 	   		CNAME , CAPACITY, AVAILABILITY , HO , 
@@ -129,7 +129,7 @@
     	JOIN RESERVATION r USING (RESERVENO)
 		WHERE RESERVENO = #{reserveno}
 	</select>
-	<!-- 예약 -->
+	예약
 	<insert id="insertReserve" parameterType="java.util.Map">
     <![CDATA[
         BEGIN
@@ -174,12 +174,12 @@
         END;
     ]]>
 	</insert>
-	<!-- 예약 수정 -->
+	예약 수정
 	<update id="updateReserve" parameterType="ReservationVo">
 		UPDATE RESERVATION SET PHONE=#{phone}, MEETINGTITLE=#{meetingtitle}
 		WHERE RESERVENO=#{reserveno}
 	</update>
-	<!-- 예약 취소 -->
+	예약 취소
 	<delete id="deleteReserve" parameterType="ReservationMapVo">
 	<![CDATA[
 	    DECLARE
@@ -197,5 +197,5 @@
 	            RAISE;
 	    END;
 	]]>
-	</delete>
+	</delete> -->
 </mapper>
