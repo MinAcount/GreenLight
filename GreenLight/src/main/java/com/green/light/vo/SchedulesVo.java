@@ -35,5 +35,7 @@ public class SchedulesVo {
 	private String participants;
 	private String permission;
 	private String alarm;
+	
+	private CommonVo commVo;
 
 }

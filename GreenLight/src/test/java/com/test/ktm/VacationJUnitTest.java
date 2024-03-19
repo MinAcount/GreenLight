@@ -6,9 +6,4 @@ import org.junit.Test;
 
 public class VacationJUnitTest {
 
-	@Test
-	public void test() {
-		fail("Not yet implemented");
-	}
-
 }

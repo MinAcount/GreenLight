@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.green.light.model.mapper.ReserveDaoImpl">
+	<resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
+		<result property="reserveno" column="RESERVENO" />
+		<result property="applicant" column="APPLICANT" />
+		<result property="phone" column="PHONE" />
+		<result property="reserve_date" column="RESERVE_DATE" />
+		<result property="meetingtitle" column="MEETINGTITLE" />
+		
+		<result property="lseq" column="checkVo.LSEQ" />
+		<result property="reserveno" column="checkVo.RESERVENO" />
+		<result property="conf_id" column="checkVo.CONF_ID" />
+	</resultMap>
+	
+	<resultMap type="com.green.light.vo.ConferenceVo" id="ConferenceMapVo">
+		<result property="conf_id" column="conf_id" />
+		<result property="cname" column="cname" />
+		<result property="capacity" column="capacity" />
+		<result property="ho" column="ho" />
+		<result property="roominfo" column="roominfo" />
+		
+		<result property="lseq" column="checkVo.LSEQ" />
+		<result property="reserveno" column="checkVo.RESERVENO" />
+		<result property="conf_id" column="checkVo.CONF_ID" />
+		
+		<result property="type" column="commonVo.TYPE" />
+		<result property="code" column="commonVo.DNAME" />
+		<result property="code_name" column="commonVo.CODE_NAME" />
+	</resultMap>
+	<!-- 전체 예약 조회 -->
+	<select id="getAllReserve" resultMap="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+           CNAME , CAPACITY, AVAILABILITY , HO , 
+           APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+    	ORDER BY LSEQ ASC
+	</select>
+	<!-- 선택 회의실 예약 조회 -->
+	<select id="confListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+	    SELECT LSEQ , RESERVENO , CONF_ID , 
+	       CNAME , CAPACITY, AVAILABILITY , HO , 
+	       APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+	    FROM CONFERENCE c
+	    JOIN CHECKLIST l USING (CONF_ID)
+	    JOIN RESERVATION r USING (RESERVENO)
+	    WHERE AVAILABILITY = 'Y' 
+	    AND CONF_ID = #{conf_id}
+	    ORDER BY 
+	    <if test="sorting != null and sorting == 'ASC'">
+	        RESERVE_DATE ASC
+	    </if>
+	    <if test="sorting != null and sorting == 'DESC'">
+	        RESERVE_DATE DESC
+	    </if>
+	</select>
+
+	<!-- 선택 날짜 예약 조회 -->
+	<select id="dateListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+	    SELECT LSEQ , RESERVENO , CONF_ID , TO_CHAR(RESERVE_DATE, 'HH24') "TIME",
+	        CNAME , CAPACITY, AVAILABILITY , HO , 
+	        APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+	    FROM CONFERENCE c
+	    JOIN CHECKLIST l USING (CONF_ID)
+	    JOIN RESERVATION r USING (RESERVENO)
+	    WHERE AVAILABILITY = 'Y'
+	    AND TRUNC(RESERVE_DATE) = TO_DATE(#{click_date}, 'YYYY-MM-DD')
+	    ORDER BY 
+	    <if test="sorting != null and sorting == 'ASC'">
+	        CNAME ASC
+	    </if>
+	    <if test="sorting != null and sorting == 'DESC'">
+	        CNAME DESC
+	    </if>
+	</select>
+	<!-- 선택 회의실 및 선택 날짜의예약 가능 시간 조회 -->
+	<select id="timeListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+    <![CDATA[
+        WITH TimeSlots AS (
+            SELECT LPAD(LEVEL + 8, 2, '00') AS TimeSlot
+            FROM DUAL
+            CONNECT BY LEVEL <= 10
+        ), Reservations AS (
+            SELECT TO_CHAR(RESERVE_DATE, 'HH24') AS TT, CONF_ID
+            FROM CHECKLIST l
+            JOIN RESERVATION r USING(RESERVENO)
+            WHERE CONF_ID = #{conf_id}
+            AND TRUNC(RESERVE_DATE) = TO_DATE('2024-03-21', 'YYYY-MM-DD')
+        )
+        SELECT COALESCE(r.CONF_ID, #{conf_id}) AS CONF_ID, t.TimeSlot,
+            CASE 
+                WHEN r.TT IS NULL THEN '예약가능'
+                WHEN t.TimeSlot = r.TT OR LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00') = r.TT THEN '사용중'
+                ELSE '점검중'
+            END AS STATUS
+        FROM TimeSlots t
+        LEFT JOIN Reservations r ON t.TimeSlot = r.TT OR LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00') = r.TT
+        ORDER BY t.TimeSlot ASC
+    ]]>
+	</select>
+	<sql id="orderByDesc">
+    <choose>
+        <when test="sorting == 'reserveno'">RESERVENO</when>
+        <when test="sorting == 'cname'">CNAME</when>
+        <when test="sorting == 'capacity'">CAPACITY</when>
+        <otherwise>RESERVENO</otherwise>
+    </choose> DESC
+	</sql>
+	<!-- 나의 예약 조회 -->
+	<select id="getMyReserve" parameterType="java.lang.String" resultMap="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+	   		CNAME , CAPACITY, AVAILABILITY , HO , 
+	   		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+    	WHERE APPLICANT = #{applicant}
+   		ORDER BY <include refid="orderByDesc"/>
+	</select>
+	<!-- 예약 정보 상세 조회 -->
+	<select id="getOneReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+	   		CNAME , CAPACITY, AVAILABILITY , HO , 
+	   		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+		WHERE RESERVENO = #{reserveno}
+	</select>
+	<!-- 예약 -->
+	<insert id="insertReserve" parameterType="java.util.Map">
+    <![CDATA[
+        BEGIN
+            DECLARE
+                v_count NUMBER;
+                v_reserveno VARCHAR2(10);
+                v_applicant VARCHAR2(10) := #{applicant};
+                v_phone VARCHAR2(20) := #{phone};
+                v_reserve_date DATE := TO_DATE(#{reserve_date}, 'YYYY-MM-DD HH24:MI');
+                v_meetingtitle VARCHAR2(100) := #{meetingtitle};
+                v_conf_id VARCHAR2(10) := #{conf_id};
+            BEGIN
+                SELECT COUNT(*) INTO v_count FROM CONFERENCE WHERE CONF_ID = v_conf_id;
+				
+                IF v_count > 0 THEN
+                    SELECT COUNT(*) INTO v_count
+                    FROM CHECKLIST l
+                    JOIN RESERVATION r ON l.RESERVENO = r.RESERVENO
+                    WHERE l.CONF_ID = v_conf_id
+                    AND r.RESERVE_DATE IN (v_reserve_date - INTERVAL '1' HOUR, v_reserve_date,
+                        v_reserve_date + INTERVAL '1' HOUR);
+
+                    IF v_count = 0 THEN
+                        SELECT TO_CHAR(CURRENT_DATE, 'YYMMDD') || 'R' ||
+                        LPAD(RESERVATION_SEQ.NEXTVAL, 3, '0')
+                        INTO v_reserveno
+                        FROM DUAL;
+
+                        INSERT INTO RESERVATION(RESERVENO, APPLICANT, PHONE, RESERVE_DATE,
+                            MEETINGTITLE)
+                        VALUES(v_reserveno, v_applicant, v_phone, v_reserve_date, v_meetingtitle);
+
+                        INSERT INTO CHECKLIST(LSEQ, RESERVENO, CONF_ID)
+                            VALUES(CHECKLIST_SEQ.NEXTVAL, v_reserveno, v_conf_id);
+                    ELSE
+                        RAISE_APPLICATION_ERROR(-20001, '중복된 예약이 있어 INSERT를 수행할 수 없습니다.');
+                    END IF;
+                ELSE
+                    RAISE_APPLICATION_ERROR(-20002, '주어진 회의실 정보가 없습니다.');
+                END IF;
+            END;
+        END;
+    ]]>
+	</insert>
+	<!-- 예약 수정 -->
+	<update id="updateReserve" parameterType="ReservationVo">
+		UPDATE RESERVATION SET PHONE=#{phone}, MEETINGTITLE=#{meetingtitle}
+		WHERE RESERVENO=#{reserveno}
+	</update>
+	<!-- 예약 취소 -->
+	<delete id="deleteReserve" parameterType="ReservationMapVo">
+	<![CDATA[
+	    DECLARE
+	        v_reserveno VARCHAR2(20) := #{reserveno};
+	    BEGIN
+	        SAVEPOINT START_TRANSACTION;
+	        DELETE FROM CHECKLIST
+	        WHERE RESERVENO = v_reserveno;
+	        DELETE FROM RESERVATION
+	        WHERE RESERVENO = v_reserveno;
+	        COMMIT;
+	    EXCEPTION
+	        WHEN OTHERS THEN
+	            ROLLBACK TO START_TRANSACTION;
+	            RAISE;
+	    END;
+	]]>
+	</delete>
+</mapper>
