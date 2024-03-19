@@ -22,9 +22,9 @@
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
                             <li class="nav-link active ms-0" onclick="location.href='#'">전체</li>
-                            <li class="nav-link">진행</li>
-                            <li class="nav-link">승인</li>
-                            <li class="nav-link">반려</li>
+                            <li class="nav-link" onclick="draftListByDocStatus('01')">진행</li>
+                            <li class="nav-link" onclick="draftListByDocStatus('02')">승인</li>
+                            <li class="nav-link" onclick="draftListByDocStatus('03')">반려</li>
                         </ul>
                     </nav>
                     

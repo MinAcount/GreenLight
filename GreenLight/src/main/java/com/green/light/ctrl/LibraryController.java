@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.vo.DocumentVo;
@@ -34,6 +36,15 @@ public class LibraryController {
 		 return "draftList";
 	 }
 	 
+	 @GetMapping(value = "/draftListByDocStatus")
+	 @ResponseBody
+	 public List<DocumentVo> draftListByDocStatus(HttpSession session, @RequestParam String doc_status) {
+		 log.info("LibraryController GET draftListByDocStatus.do 기안보관함 기안서상태별 전체조회");
+		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		 String id = loginVo.getId();
+		 List<DocumentVo> lists = dao.getAllDraftByDocStatus(id, doc_status);
+		 return lists;
+	 }	 
 	 
 	 @GetMapping(value = "/tempDraftList.do")
 	 public String tempDraftList(Model model, HttpSession session) {
