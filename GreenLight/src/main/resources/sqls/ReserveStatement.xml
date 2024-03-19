@@ -77,6 +77,82 @@
    </select>
    선택 회의실 및 선택 날짜의예약 가능 시간 조회
    <select id="timeListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+	<!-- <resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
+		<result property="reserveno" column="RESERVENO" />
+		<result property="applicant" column="APPLICANT" />
+		<result property="phone" column="PHONE" />
+		<result property="reserve_date" column="RESERVE_DATE" />
+		<result property="meetingtitle" column="MEETINGTITLE" />
+		
+		<result property="lseq" column="checkVo.LSEQ" />
+		<result property="reserveno" column="checkVo.RESERVENO" />
+		<result property="conf_id" column="checkVo.CONF_ID" />
+	</resultMap>
+	
+	<resultMap type="com.green.light.vo.ConferenceVo" id="ConferenceMapVo">
+		<result property="conf_id" column="conf_id" />
+		<result property="cname" column="cname" />
+		<result property="capacity" column="capacity" />
+		<result property="ho" column="ho" />
+		<result property="roominfo" column="roominfo" />
+		
+		<result property="lseq" column="checkVo.LSEQ" />
+		<result property="reserveno" column="checkVo.RESERVENO" />
+		<result property="conf_id" column="checkVo.CONF_ID" />
+		
+		<result property="type" column="commonVo.TYPE" />
+		<result property="code" column="commonVo.DNAME" />
+		<result property="code_name" column="commonVo.CODE_NAME" />
+	</resultMap>
+	전체 예약 조회
+	<select id="getAllReserve" resultMap="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+           CNAME , CAPACITY, AVAILABILITY , HO , 
+           APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+    	ORDER BY LSEQ ASC
+	</select>
+	선택 회의실 예약 조회
+	<select id="confListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+	    SELECT LSEQ , RESERVENO , CONF_ID , 
+	       CNAME , CAPACITY, AVAILABILITY , HO , 
+	       APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+	    FROM CONFERENCE c
+	    JOIN CHECKLIST l USING (CONF_ID)
+	    JOIN RESERVATION r USING (RESERVENO)
+	    WHERE AVAILABILITY = 'Y' 
+	    AND CONF_ID = #{conf_id}
+	    ORDER BY 
+	    <if test="sorting != null and sorting == 'ASC'">
+	        RESERVE_DATE ASC
+	    </if>
+	    <if test="sorting != null and sorting == 'DESC'">
+	        RESERVE_DATE DESC
+	    </if>
+	</select>
+
+	선택 날짜 예약 조회
+	<select id="dateListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+	    SELECT LSEQ , RESERVENO , CONF_ID , TO_CHAR(RESERVE_DATE, 'HH24') "TIME",
+	        CNAME , CAPACITY, AVAILABILITY , HO , 
+	        APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+	    FROM CONFERENCE c
+	    JOIN CHECKLIST l USING (CONF_ID)
+	    JOIN RESERVATION r USING (RESERVENO)
+	    WHERE AVAILABILITY = 'Y'
+	    AND TRUNC(RESERVE_DATE) = TO_DATE(#{click_date}, 'YYYY-MM-DD')
+	    ORDER BY 
+	    <if test="sorting != null and sorting == 'ASC'">
+	        CNAME ASC
+	    </if>
+	    <if test="sorting != null and sorting == 'DESC'">
+	        CNAME DESC
+	    </if>
+	</select>
+	선택 회의실 및 선택 날짜의예약 가능 시간 조회
+	<select id="timeListReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
     <![CDATA[
         WITH TimeSlots AS (
             SELECT LPAD(LEVEL + 8, 2, '00') AS TimeSlot
@@ -131,6 +207,30 @@
    </select>
    예약
    <insert id="insertReserve" parameterType="java.util.Map">
+	</sql>
+	나의 예약 조회
+	<select id="getMyReserve" parameterType="java.lang.String" resultMap="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+	   		CNAME , CAPACITY, AVAILABILITY , HO , 
+	   		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+    	WHERE APPLICANT = #{applicant}
+   		ORDER BY <include refid="orderByDesc"/>
+	</select>
+	예약 정보 상세 조회
+	<select id="getOneReserve" parameterType="java.lang.String" resultType="ReservationMapVo">
+		SELECT LSEQ , RESERVENO , CONF_ID , 
+	   		CNAME , CAPACITY, AVAILABILITY , HO , 
+	   		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE  
+    	FROM CONFERENCE c
+    	JOIN CHECKLIST l USING (CONF_ID)
+    	JOIN RESERVATION r USING (RESERVENO)
+		WHERE RESERVENO = #{reserveno}
+	</select>
+	예약
+	<insert id="insertReserve" parameterType="java.util.Map">
     <![CDATA[
         BEGIN
             DECLARE
@@ -198,4 +298,29 @@
        END;
    ]]>
    </delete> -->
+	</insert>
+	예약 수정
+	<update id="updateReserve" parameterType="ReservationVo">
+		UPDATE RESERVATION SET PHONE=#{phone}, MEETINGTITLE=#{meetingtitle}
+		WHERE RESERVENO=#{reserveno}
+	</update>
+	예약 취소
+	<delete id="deleteReserve" parameterType="ReservationMapVo">
+	<![CDATA[
+	    DECLARE
+	        v_reserveno VARCHAR2(20) := #{reserveno};
+	    BEGIN
+	        SAVEPOINT START_TRANSACTION;
+	        DELETE FROM CHECKLIST
+	        WHERE RESERVENO = v_reserveno;
+	        DELETE FROM RESERVATION
+	        WHERE RESERVENO = v_reserveno;
+	        COMMIT;
+	    EXCEPTION
+	        WHEN OTHERS THEN
+	            ROLLBACK TO START_TRANSACTION;
+	            RAISE;
+	    END;
+	]]>
+	</delete> -->
 </mapper>
