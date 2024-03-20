@@ -73,7 +73,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 채팅 -->
-                  <a class="nav-link" href="charts.html">
+                  <a class="nav-link" href="./chatGroup.do">
                   	<div class="nav-link-icon">
                   		<i data-feather="message-circle"></i>
                   	</div>
@@ -151,10 +151,5 @@
          </nav>
       </div>
 </body>
-<script type="text/javascript">
-    window.onload = function() {
-        console.log(document.getElementById('id'));
-    }
-</script>
 
 </html>
