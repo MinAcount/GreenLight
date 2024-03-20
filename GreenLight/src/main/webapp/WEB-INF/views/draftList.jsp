@@ -22,7 +22,7 @@
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
                             <li class="nav-link active ms-0" onclick="location.href='#'">전체</li>
-                            <li class="nav-link" onclick="draftListByDocStatus('01')">진행</li>
+                            <li class="nav-link" onclick="allDraftList()">진행</li>
                             <li class="nav-link" onclick="draftListByDocStatus('02')">승인</li>
                             <li class="nav-link" onclick="draftListByDocStatus('03')">반려</li>
                         </ul>
@@ -60,32 +60,32 @@
 							<th style="width: 11%;">기안서상태</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tableBody">
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
-							<tr>
+							<tr class="item">
 								<td class="chkbox-td">
 									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 								</td>
-								<td>${vo.docno}</td>
-								<td>${vo.title}</td>
-								<td>
+								<td class="docno">${vo.docno}</td>
+								<td class="title">${vo.title}</td>
+								<td class="urgency">
 									<c:choose>
 						                <c:when test="${vo.urgency eq 'Y'}">
 						                    긴급
 						                </c:when>
 						                <c:otherwise>
-						                    - <!-- 공백 처리 -->
+						                    -
 						                </c:otherwise>
 						            </c:choose>
 								</td>
-								<td>${vo.empVo.getName()}</td>
+								<td class="name">${vo.empVo.getName()}</td>
 								<td>
 									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
 									<fmt:formatDate value="${dDate}"/>
 								</td>
-								<td>${vo.tempno}</td>
-								<td>${vo.file_count}</td>
-								<td>${vo.doc_status}</td>
+								<td class="tempno">${vo.tempno}</td>
+								<td class="file_count">${vo.file_count}</td>
+								<td class="doc_status">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
 					</tbody>
