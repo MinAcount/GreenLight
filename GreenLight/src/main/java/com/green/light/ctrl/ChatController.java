@@ -11,10 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ChatController {
 
-	private ServletContext servletContext;
-	
-	@Autowired
-	public ChatController(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+//	private ServletContext servletContext;
+//	
+//	@Autowired
+//	public ChatController(ServletContext servletContext) {
+//		this.servletContext = servletContext;
+//	}
 }

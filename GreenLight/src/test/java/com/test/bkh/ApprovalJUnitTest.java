@@ -19,10 +19,20 @@ public class ApprovalJUnitTest {
 
 	@Test
 	public void test() {
-		String id = "2312120601";
-		EmployeeVo employeeVo = service.selectDrafterDeptMgr(id);
-		System.out.println(employeeVo);
-		assertNotNull(employeeVo);
+		// 기안자의 부서장 조회 2403110901
+//		EmployeeVo vo1 = service.selectDrafterDeptMgr("2403110901");
+//		System.out.println(vo1);
+//		assertNotNull(vo1);
+		
+		// 부서별 부서장 조회 02
+		EmployeeVo vo2 = service.selectDeptMgrByDept("02");
+		System.out.println(vo2);
+		assertNotNull(vo2);
+//		
+//		// 대표이사 조회
+//		EmployeeVo vo3 = service.selectCEO();
+//		System.out.println(vo3);
+//		assertNotNull(vo3);
 	}
 
 }
