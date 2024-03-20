@@ -27,16 +27,25 @@ public class LibraryController {
 	
 	 @GetMapping(value = "/draftList.do")
 	 public String draftList(Model model, HttpSession session) {
-		 log.info("LibraryController GET draftList.do 기안보관함 전체조회");
+		 log.info("LibraryController GET draftList.do 기안보관함 페이지 이동");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
 		 List<DocumentVo> lists = dao.getAllDraft(id);
 		 model.addAttribute("lists", lists);
-		 System.out.println(lists);
 		 return "draftList";
 	 }
 	 
-	 @GetMapping(value = "/draftListByDocStatus")
+	 @GetMapping(value = "/allDraftList")
+	 @ResponseBody
+	 public List<DocumentVo> allDraftList(HttpSession session){
+		 log.info("LibraryController GET allDraftList 기안보관함 전체조회");
+		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		 String id = loginVo.getId();
+		 List<DocumentVo> lists = dao.getAllDraft(id);
+		 return lists;
+	 }
+	 
+	 @GetMapping(value = "/draftListByDocStatalus")
 	 @ResponseBody
 	 public List<DocumentVo> draftListByDocStatus(HttpSession session, @RequestParam String doc_status) {
 		 log.info("LibraryController GET draftListByDocStatus.do 기안보관함 기안서상태별 전체조회");
