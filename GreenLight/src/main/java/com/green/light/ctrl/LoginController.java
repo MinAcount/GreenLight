@@ -8,12 +8,16 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.EmployeeVo;
@@ -29,28 +33,24 @@ public class LoginController {
 	@Autowired
 	private IEmployeeService service;
 
-	@PostMapping("/login.do")
-	public String login(String id, String password, HttpSession session, Model model) {
-		log.info("EmployeeController POST login.do 로그인 : {}/{}", id, password);
-		Map<String, Object> map = new HashMap<String, Object>(){{
-			put("id", id);
-			put("password", password);
-		}};
+	@PostMapping("/loginCheck.do")
+	@ResponseBody
+	public ResponseEntity<?> login(@RequestBody Map<String, Object> map, HttpSession session, Model model) {
+		log.info("EmployeeController POST loginCheck.do 로그인 : {}", map);
+		
 		EmployeeVo vo = service.getLogin(map);
 		if(vo != null) {
-			model.addAttribute("loginVo", vo);
 			session.setAttribute("loginVo", vo);
-			if(vo.getAuth().equals("00")) {
-				log.info("관리자 로그인 성공");
-				return "admin";
-			}else {
-				log.info("직원 로그인 성공");
-				return "main";
-			}
-			
+			return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
 		}else {
-			return "redirect:/loginForm.do";
+			return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
 		}
+	}
+	
+	@GetMapping("/login.do")
+	public String login() {
+		log.info("EmployeeController GET login.do 로그인 후 메인으로 이동");
+		return "main";
 	}
 	
 	@GetMapping("/loginForm.do")
