@@ -21,4 +21,6 @@ public class MessageVo {
 	private String content;
 	private String send_date;
 	private String file_yn;
+	
+	private GroupMemberVo gmvo;
 }
