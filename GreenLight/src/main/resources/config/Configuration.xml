@@ -16,6 +16,7 @@
 		<!-- 전자결재 -->
 		<typeAlias type="com.green.light.vo.DocumentVo" alias="DocumentVo"/>
 		<typeAlias type="com.green.light.vo.ApprovalVo" alias="ApprovalVo"/>
+		<typeAlias type="com.green.light.vo.TemplateVo" alias="TemplateVo"/>
 	</typeAliases>
 	
 	<mappers>
@@ -31,5 +32,6 @@
 		<mapper resource="sqls/ReserveStatement.xml"/>
 		<!-- 전자결재 -->
 		<mapper resource="sqls/DocumentStatement.xml"/>
+		<mapper resource="sqls/TemplateStatement.xml"/>
 	</mappers>
 </configuration>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.green.light.model.mapper.TemplateDaoImpl">
+<insert id="insertTemplate" parameterType="TemplateVo">
+INSERT INTO TEMPLATE (TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG)
+	VALUES(#{tempcode}||TEMPLATE_SEQ.NEXTVAL, #{emp_id}, #{content}, #{tempcode}, CURRENT_DATE , 'N' )
+</insert>
+</mapper>
