@@ -16,7 +16,7 @@
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
          <div id="main_content">
-         	<h1 style="margin-bottom: 70px; text-align: center;">결재문서함</h1>
+         	<h1 style="margin-bottom: 70px; text-align: center;">참조문서함</h1>
          	<div style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
          		<div>
          			<nav class="nav nav-borders">

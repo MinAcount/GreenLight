@@ -24,11 +24,8 @@ public class DocumentDaoImpl implements IDocumentDao{
 	}
 
 	@Override
-	public List<DocumentVo> getAllDraftByDocStatus(String id, String doc_status) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		params.put("doc_status", doc_status);
-		return sqlsession.selectList(NS+"getAllDraftByDocStatus",params);
+	public List<DocumentVo> getAllDraftByDocStatus(Map<String,  Object> map) {
+		return sqlsession.selectList(NS+"getAllDraftByDocStatus",map);
 	}
 	
 	@Override
@@ -40,10 +37,16 @@ public class DocumentDaoImpl implements IDocumentDao{
 	public List<DocumentVo> getAllApprovalDraft(String id) {
 		return sqlsession.selectList(NS+"getAllApprovalDraft",id);
 	}
+	
+	@Override
+	public List<DocumentVo> getAllApprDraftByDocStatus(Map<String, Object> map) {
+		return sqlsession.selectList(NS+"getAllApprDraftByDocStatus", map);
+	}
 
 	@Override
 	public List<DocumentVo> getAllReferenceDraft(String id) {
 		return sqlsession.selectList(NS+"getAllReferenceDraft",id);
 	}
+
 
 }

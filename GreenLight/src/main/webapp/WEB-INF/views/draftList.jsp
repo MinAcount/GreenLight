@@ -16,15 +16,17 @@
 <!-- 콘텐츠 영역 -->      
       <div id="layoutSidenav_content">
          <div id="main_content">
+         
+                       
          	<h1 style="margin-bottom: 70px; text-align: center;">기안문서함</h1>
          	<div style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
          		<div>
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li class="nav-link active ms-0" onclick="location.href='#'">전체</li>
-                            <li class="nav-link" onclick="allDraftList()">진행</li>
-                            <li class="nav-link" onclick="draftListByDocStatus('02')">승인</li>
-                            <li class="nav-link" onclick="draftListByDocStatus('03')">반려</li>
+                            <li class="nav-link active ms-0" onclick="allDraftList(${loginVo.id}); setActive(this)">전체</li>
+                            <li class="nav-link" id="doc_status1" onclick="draftListByDocStatus('01'); setActive(this)">진행</li>
+                            <li class="nav-link" id="doc_status2" onclick="draftListByDocStatus('02'); setActive(this)">승인</li>
+                            <li class="nav-link" id="doc_status3" onclick="draftListByDocStatus('03'); setActive(this)">반려</li>
                         </ul>
                     </nav>
                     
@@ -43,21 +45,23 @@
 	       		</div>
 			</div>
          	<hr class="mt-0 mb-5">
+         	
 			<div>
+				<input type="hidden" value="${loginVo.id}" id="id">
 				<table class="datatable-table">
 					<thead>
 						<tr style="width: 100%;">
 							<th style="width: 2.5%;">
 								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 							</th>
-							<th style="width: 9%;">문서번호</th>
-							<th style="width: 20.5%;">제목</th>
-							<th style="width: 5%;">긴급</th>
+							<th style="width: 11%;">문서번호</th>
+							<th style="width: 23.5%;">제목</th>
+							<th style="width: 6%;">긴급</th>
 							<th style="width: 9%;">작성자</th>
-							<th style="width: 15%;">기안일</th>
-							<th style="width: 12%;">문서양식유형</th>
+							<th style="width: 10%;">기안일</th>
+							<th style="width: 14%;">문서양식유형</th>
 							<th style="width: 6%;">첨부</th>
-							<th style="width: 11%;">기안서상태</th>
+							<th style="width: 10%;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
@@ -67,7 +71,7 @@
 									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 								</td>
 								<td class="docno">${vo.docno}</td>
-								<td class="title">${vo.title}</td>
+								<td class="title"><a href="#">${vo.title}</a></td>
 								<td class="urgency">
 									<c:choose>
 						                <c:when test="${vo.urgency eq 'Y'}">
@@ -80,8 +84,10 @@
 								</td>
 								<td class="name">${vo.empVo.getName()}</td>
 								<td>
-									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
-									<fmt:formatDate value="${dDate}"/>
+									<script>
+								        var dDate = formatDate("${vo.draft_date}");
+								        document.write(dDate);
+								    </script>
 								</td>
 								<td class="tempno">${vo.tempno}</td>
 								<td class="file_count">${vo.file_count}</td>
@@ -124,4 +130,5 @@
 
    
 </body>
+
 </html>
