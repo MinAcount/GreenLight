@@ -40,7 +40,6 @@ public class EmployeeVo {
 	
 	private DepartmentVo deptVo;
 	private CommonVo comVo;
-	private String e2;
 	
 	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String profile) {
 		this.id = id;
@@ -53,8 +52,9 @@ public class EmployeeVo {
 		this.profile = profile;
 	}
 
-	public EmployeeVo(String name, String email, String phone, String birthday, String gender,
+	public EmployeeVo(String id, String name, String email, String phone, String birthday, String gender,
 			String address, String deptno, String spot, String join_day, String etype, String profile) {
+		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.phone = phone;
@@ -67,5 +67,4 @@ public class EmployeeVo {
 		this.etype = etype;
 		this.profile = profile;
 	}
-
 }

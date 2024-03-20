@@ -11,6 +11,8 @@ public interface IEmployeeService {
 	public EmployeeVo getLogin(Map<String, Object> Map);
 //	비밀번호 찾기	getPassword
 	public EmployeeVo getPassword(Map<String, Object> map);
+//	로그인 시도 횟수 조회
+	public EmployeeVo getLoginFail(String id);
 //	비밀번호 변경	updatePassword
 	public int updatePassword(Map<String, Object> map);
 	
