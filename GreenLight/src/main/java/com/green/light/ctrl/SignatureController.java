@@ -5,9 +5,13 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.ISignService;
 import com.green.light.vo.EmployeeVo;
@@ -35,7 +39,23 @@ public class SignatureController {
 		List<SignVo> signlist = service.selectAllSign(id);
 //		List<SignVo> signlist =service.selectAllSign(loginVo.getId());
 		model.addAttribute("signlist",signlist);
+		System.out.println(signlist);
 		return "signature";
+	}
+	
+	
+	@PostMapping(value = "/mainSign.do")
+	@ResponseBody
+	public ResponseEntity<?> mainSign(@RequestBody String signno , HttpSession session) {
+		log.info("SignatureController mainSign 대표서명변경 signno :{} session : {}",signno , session);
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		SignVo signVo = new SignVo();
+		signVo.setId(loginVo.getId());
+		signVo.setSignno(signno);
+		service.updateMainSign(signVo);
+		return ResponseEntity.ok("\"isc\":\"true\"");
+		
+			
 	}
 
 }
