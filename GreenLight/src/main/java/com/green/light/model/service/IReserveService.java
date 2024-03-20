@@ -21,9 +21,9 @@ public interface IReserveService {
 	//예약 정보 상세 조회
 	public List<CheckListVo> getOneReserve(String reserveno);
 	//예약
-	public int insertReserve(ReservationVo rVo, CheckListVo cVo);
+	public int insertReserve(Map<String, Object> map);
 	//예약 수정
 	public int updateReserve(ReservationVo vo);
 	//예약 취소
-	public int deleteReserve(ReservationVo rVo, CheckListVo cVo);
+	public int deleteReserve(String reserveno);
 }
