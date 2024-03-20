@@ -26,7 +26,7 @@ public class SignDaoImpl implements ISignDao {
 	@Override
 	public List<SignVo> selectAllSign(String id) {
 		log.info("SignDaoImpl selectAllSign동작");
-		return session.selectList(NS+"selectAllSign");
+		return session.selectList(NS+"selectAllSign",id);
 	}
 
 

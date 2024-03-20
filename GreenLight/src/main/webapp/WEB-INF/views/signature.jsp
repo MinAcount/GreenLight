@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,9 +29,20 @@
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>
 				<hr class="mt-0 mb-4">
-				<div>
-				
-				</div>
+					<div>
+		<table class="table">
+			<tbody>
+				<c:forEach var="lists" items="${signlist}" varStatus="vr">
+					<tr>
+						<td>${vr.count}</td>
+						<td>${lists.getId()}</td>
+						<td><a href="./selectOneSign.do?s_seq=${lists.getS_seq()}">${lists.getS_title()}</a></td>
+						<td>${lists.getS_indate()}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+	</div>
 			</div>
 			<%@ include file="./include/footer.jsp"%>
 		</div>
