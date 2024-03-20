@@ -8,6 +8,7 @@
 		SELECT SIGNNO ,ID ,SAVE_SIGN ,MAIN
 			FROM SIGNLIST s
 			WHERE ID = #{id}
+			ORDER BY SIGNNO
 	</select>
 
 	<!-- 서명등록 insertSign -->
