@@ -33,13 +33,13 @@ public class SigntureJUnitTest {
 //		List<SignVo>  lists = service.selectAllSign("2403110901");
 //		assertNotNull(lists);
 		
-		SignVo inVo = new SignVo();
-		inVo.setId("2303100101");
-		inVo.setSave_sign("clob");
-		inVo.setMain("Y");
-		
-		int i = service.insertSign(inVo);
-		assertEquals(i, 1);
+//		SignVo inVo = new SignVo();
+//		inVo.setId("2303100101");
+//		inVo.setSave_sign("clob");
+//		inVo.setMain("Y");
+//		
+//		int i = service.insertSign(inVo);
+//		assertEquals(i, 1);
 
 //		inVo.setSignno("2");
 //		
@@ -51,11 +51,11 @@ public class SigntureJUnitTest {
 		
 
 		
-//		SignVo inVo = new SignVo();
-//		inVo.setId("2303100101");
-//		inVo.setSignno("1");
-//		service.updateMainSign(inVo);
-//		assertNotNull(sessionTemplate);
+		SignVo inVo = new SignVo();
+		inVo.setId("2303100101");
+		inVo.setSignno("2");
+		int updateI = service.updateMainSign(inVo);
+		assertEquals(updateI, 1);
 		
 	}
 

@@ -53,7 +53,6 @@ public class SignServiceImpl implements ISignService {
 	public int updateMainSign(SignVo signVo) {
 		log.info("SignServiceImpl updateMainSign 전달받은 값 : {}",signVo);
 		int n = dao.changeMainSign(signVo.getId());
-		signVo.setSignno("1");
 		int m = dao.setMainSign(signVo);
 		return (n+m)>0 ? 1 : 0;
 	}
