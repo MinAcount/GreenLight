@@ -31,6 +31,7 @@
 		<mapper resource="sqls/ConferenceStatement.xml"/>
 		<mapper resource="sqls/ReserveStatement.xml"/>
 		<!-- 전자결재 -->
+		<mapper resource="sqls/ApprovalStatement.xml"/>
 		<mapper resource="sqls/DocumentStatement.xml"/>
 		<mapper resource="sqls/TemplateStatement.xml"/>
 	</mappers>
