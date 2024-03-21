@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchedulesVo {
+public class ScheduleVo {
 
 	private String schedule_id;
 	private String cno;
@@ -36,6 +36,6 @@ public class SchedulesVo {
 	private String permission;
 	private String alarm;
 	
-	private CommonVo commVo;
+	private CommonVo commonVo;
 
 }

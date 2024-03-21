@@ -83,7 +83,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 일정 -->
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="./month.do">
                      <div class="nav-link-icon">
                         <i data-feather="calendar"></i>
                      </div> 일정
@@ -105,7 +105,7 @@
                      <nav class="sidenav-menu-nested nav">
                         <a class="nav-link" href="multi-tenant-select.html">회의실 예약</a> 
                         <a class="nav-link" href="multi-tenant-select.html">예약가능 회의실</a> 
-                        <a class="nav-link" href="multi-tenant-select.html">나의 예약 현황</a> 
+                        <a class="nav-link" href="./myReserve.do">나의 예약 현황</a> 
                      </nav>
                   </div>
                   
