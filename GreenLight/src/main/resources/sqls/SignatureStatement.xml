@@ -5,16 +5,16 @@
 	<!-- 서명조회 selectAllSign -->
 	<select id="selectAllSign" resultType="SignVo"
 		parameterType="java.lang.String">
-		SELECT SIGNNO ,ID ,SAVE_SIGN ,MAIN
-			FROM SIGNLIST s
-			WHERE ID = #{id}
-			ORDER BY SIGNNO
+    SELECT SIGNNO ,ID ,SAVE_SIGN ,MAIN
+    FROM SIGNLIST s
+    WHERE ID = #{id}
+    ORDER BY TO_NUMBER(SIGNNO) ASC
 	</select>
 
 	<!-- 서명등록 insertSign -->
 	<insert id="insertSign" parameterType="SignVo">
-		INSERT INTO SIGNLIST (SIGNNO, ID, SAVE_SIGN, MAIN)
-		VALUES ((SELECT NVL(MAX(SIGNNO), 0)+1 FROM SIGNLIST), #{id}, #{save_sign},#{main})
+		INSERT INTO SIGNLIST s (SIGNNO, ID, SAVE_SIGN, MAIN)
+		   VALUES ((SELECT NVL(MAX(TO_NUMBER(SIGNNO)),0)+1 FROM SIGNLIST s),  #{id}, #{save_sign},#{main})
 	</insert>
 
 	<!-- 서명삭제 delSign -->
