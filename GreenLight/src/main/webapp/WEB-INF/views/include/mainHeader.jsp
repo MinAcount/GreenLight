@@ -124,15 +124,15 @@
             	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid"
                	src="assets/img/illustrations/profiles/profile-1.png" /></a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-               <a class="dropdown-item" href="#!">
+               <a class="dropdown-item" href="./mypage.do">
                   <div class="dropdown-item-icon">
                      <i data-feather="settings"></i>
-                  </div> Account
+                  </div> 마이페이지
                </a>
                <a class="dropdown-item" href="./logout.do">
                   <div class="dropdown-item-icon">
                      <i data-feather="log-out"></i>
-                  </div> Logout
+                  </div> 로그아웃
                </a>
             </div>
          </li>
