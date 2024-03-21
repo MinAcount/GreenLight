@@ -18154,7 +18154,7 @@ body {
 }
 
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav {
-  padding-top: 3.625rem;
+  padding-top: 8vh;
 }
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
   overflow-y: overlay;

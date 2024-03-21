@@ -107,4 +107,29 @@ public class LibraryController {
 		 System.out.println(lists);
 		 return "referenceList";
 	 }
+	 
+	 
+	 @PostMapping(value = "/allReferenceList.do")
+	 @ResponseBody
+	 public ResponseEntity<?> allReferenceList(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST allReferenceList 참조문서함 전체조회 {}", map);
+		 List<DocumentVo> lists = dao.getAllReferenceDraft(String.valueOf(map.get("id")));
+		 return ResponseEntity.ok(lists);
+	 }
+	 
+	 @PostMapping(value = "/refListByDocStatus.do")
+	 @ResponseBody
+	 public ResponseEntity<?> refListByDocStatus(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST refListByDocStatus.do 참조문서함 기안서상태별 전체조회{}",map);
+		 List<DocumentVo> lists = dao.getAllRefDraftByDocStatus(map);
+		 System.out.println("lists"+lists);
+		 return ResponseEntity.ok(lists);
+	 }
+	 
+	 
+	 
+	 @GetMapping(value = "/test.do")
+	 public String test() {
+		 return "test";
+	 }
 }
