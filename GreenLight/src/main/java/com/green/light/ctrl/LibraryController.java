@@ -1,14 +1,18 @@
 package com.green.light.ctrl;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.mapper.IDocumentDao;
@@ -27,33 +31,31 @@ public class LibraryController {
 	
 	 @GetMapping(value = "/draftList.do")
 	 public String draftList(Model model, HttpSession session) {
-		 log.info("LibraryController GET draftList.do 기안보관함 페이지 이동");
+		 log.info("LibraryController GET draftList.do 기안문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
 		 List<DocumentVo> lists = dao.getAllDraft(id);
 		 model.addAttribute("lists", lists);
+		 System.out.println(lists);
 		 return "draftList";
 	 }
 	 
-	 @GetMapping(value = "/allDraftList")
+	 @PostMapping(value = "/allDraftList.do")
 	 @ResponseBody
-	 public List<DocumentVo> allDraftList(HttpSession session){
-		 log.info("LibraryController GET allDraftList 기안보관함 전체조회");
-		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
-		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllDraft(id);
-		 return lists;
+	 public ResponseEntity<?> allDraftList(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST allDraftList 기안문서함 전체조회 {}", map);
+		 List<DocumentVo> lists = dao.getAllDraft(String.valueOf(map.get("id")));
+		 return ResponseEntity.ok(lists);
 	 }
 	 
-	 @GetMapping(value = "/draftListByDocStatalus")
+	 @PostMapping(value = "/draftListByDocStatus.do")
 	 @ResponseBody
-	 public List<DocumentVo> draftListByDocStatus(HttpSession session, @RequestParam String doc_status) {
-		 log.info("LibraryController GET draftListByDocStatus.do 기안보관함 기안서상태별 전체조회");
-		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
-		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllDraftByDocStatus(id, doc_status);
-		 return lists;
+	 public ResponseEntity<?> draftListByDocStatus(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST draftListByDocStatus.do 기안문서함 기안서상태별 전체조회{}",map);
+		 List<DocumentVo> lists = dao.getAllDraftByDocStatus(map);
+		 return ResponseEntity.ok(lists);
 	 }	 
+	 
 	 
 	 @GetMapping(value = "/tempDraftList.do")
 	 public String tempDraftList(Model model, HttpSession session) {
@@ -68,7 +70,7 @@ public class LibraryController {
 	 
 	 @GetMapping(value = "/approvalList.do")
 	 public String approvalList(Model model, HttpSession session) {
-		 log.info("LibraryController GET approvalList.do 결재문서함 전체조회");
+		 log.info("LibraryController GET approvalList.do 결재문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
 		 List<DocumentVo> lists = dao.getAllApprovalDraft(id);
@@ -77,6 +79,23 @@ public class LibraryController {
 		 return "approvalList";
 	 }
 	 
+	 @PostMapping(value = "/allApprList.do")
+	 @ResponseBody
+	 public ResponseEntity<?> allApprList(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST allApprList.do 결재문서함 전체조회 {}", map);
+		 List<DocumentVo> lists = dao.getAllApprovalDraft(String.valueOf(map.get("id")));
+		 return ResponseEntity.ok(lists);
+	 }
+	 
+	 
+	 @PostMapping(value = "/apprListByDocStatus.do")
+	 @ResponseBody
+	 public ResponseEntity<?> apprListByDocStatus(@RequestBody Map<String, Object> map) {
+		 log.info("LibraryController POST apprListByDocStatus.do 결재문서함 기안서상태별 전체조회{}",map);
+		 List<DocumentVo> lists = dao.getAllApprDraftByDocStatus(map);
+		 return ResponseEntity.ok(lists);
+	 }	
+	 
 	 @GetMapping(value = "/referenceList.do")
 	 public String referenceList(Model model, HttpSession session) {
 		 log.info("LibraryController GET referenceList.do 참조문서함 전체조회");
@@ -84,6 +103,7 @@ public class LibraryController {
 		 String id = loginVo.getId();
 		 List<DocumentVo> lists = dao.getAllReferenceDraft(id);
 		 model.addAttribute("lists", lists);
+		 log.info("listsize:{}",lists.size());
 		 System.out.println(lists);
 		 return "referenceList";
 	 }

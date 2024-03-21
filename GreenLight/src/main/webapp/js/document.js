@@ -1,31 +1,194 @@
-// 기안문서함 전체조회
-
-function allDraftList() {
-	var item = document.querySelectorAll('.item');
-	var itemList = [];
-       
-	item.forEach(function(item){
-		var docno = item.querySelector('.docno').textContent;
-		var title = item.querySelector('.title').textContent;
-		var urgency = item.querySelector('.urgency').textContent;
-		var name = item.querySelector('.name').textContent;
-		var tempno = item.querySelector('.tempno').textContent;
-		var file_count = item.querySelector('.file_count').textContent;
-		var doc_status = item.querySelector('.doc_status').textContent;
+// 카테고리별 기안문서함 조회
+		function draftListByDocStatus(val){
+			var doc_status = val
+			console.log("val",val)
+			var id = document.getElementById('id').value;
+			console.log("id",id)
+			
+			fetch('./draftListByDocStatus.do', {
+				method:'POST',
+				headers:{"Content-Type":"application/json"},
+				body: JSON.stringify({
+					id:id, 
+					doc_status:doc_status
+				}),
+			})
+			.then(response => response.json())
+			.then(result => {
+				console.log("result:",result);
+				if(result != null){
+					lists(result)
+				}else{
+					alert('실패..')
+				}
+			});
+			function lists(result){
+				var tableBody = document.getElementById('tableBody');
+				var tableHTML = '';
+				
+				tableBody.innerHTML = '';
+				
+				result.forEach(function(item){
+					tableHTML += '<tr>';
+			        tableHTML += '<td class="chkbox-td"><input class="form-check-input" type="checkbox"></td>';
+			        tableHTML += '<td>' + item.docno + '</td>';
+			        tableHTML += '<td><a href="#">' + item.title + '</a></td>';
+			        tableHTML += '<td>' + (item.urgency === 'Y' ? '긴급' : '-') + '</td>';
+			        tableHTML += '<td>' + item.empVo.name + '</td>';
+			        tableHTML += '<td>' + formatDate(item.draft_date) + '</td>';
+			        tableHTML += '<td>' + item.tempno + '</td>';
+			        tableHTML += '<td>' + item.file_count + '</td>';
+			        tableHTML += '<td>' + item.doc_status + '</td>';
+			        tableHTML += '</tr>';
+				});
+				
+				tableBody.innerHTML = tableHTML;
+			}
+		}
 		
-		var items = {
-			docno: docno,
-			title: title,
-			urgency: urgency,
-			name: name,
-			tempno: tempno,
-			file_count: file_count,
-			doc_status: doc_status
-		};
-		itemList.push(items);
+		// 전체 기안문서함 조회
+		function allDraftList(val){
+			var id = val
+			console.log(val)
+			
+			fetch('./allDraftList.do', {
+				method:'POST',
+				headers:{"Content-Type":"application/json"},
+				body: JSON.stringify({
+					id:id
+				}),
+			})
+			.then(response => response.json())
+			.then(result => {
+				console.log("result:",result);
+				if(result != null){
+					lists(result)
+				}else{
+					alert('실패..')
+				}
+			});
+			
+			function lists(result){
+				var tableBody = document.getElementById('tableBody');
+				var tableHTML = '';
+				
+				tableBody.innerHTML = '';
+				
+				result.forEach(function(item){
+					tableHTML += '<tr>';
+			        tableHTML += '<td class="chkbox-td"><input class="form-check-input" type="checkbox"></td>';
+			        tableHTML += '<td>' + item.docno + '</td>';
+			        tableHTML += '<td><a href="#">' + item.title + '</a></td>';
+			        tableHTML += '<td>' + (item.urgency === 'Y' ? '긴급' : '-') + '</td>';
+			        tableHTML += '<td>' + item.empVo.name + '</td>';
+			        tableHTML += '<td>' + formatDate(item.draft_date) + '</td>';
+			        tableHTML += '<td>' + item.tempno + '</td>';
+			        tableHTML += '<td>' + item.file_count + '</td>';
+			        tableHTML += '<td>' + item.doc_status + '</td>';
+			        tableHTML += '</tr>';
+				});
+				tableBody.innerHTML = tableHTML;
+			}
+		}
+		
+		
+		
+		
+// 결재문서함 전체조회
+function allApprovalList(val){
+	var id = val
+	console.log(val)
+	
+	fetch('./allApprList.do', {
+		method:'POST',
+		headers:{"Content-Type":"application/json"},
+		body: JSON.stringify({
+			id:id
+		}),
+	})
+	.then(response => response.json())
+	.then(result => {
+		console.log("result:",result);
+		if(result != null){
+			lists(result)
+		}else{
+			alert('실패..')
+		}
 	});
 	
-	console.log(itemList)
+	function lists(result){
+		var tableBody = document.getElementById('tableBody');
+		var tableHTML = '';
+		
+		tableBody.innerHTML = '';
+		
+		result.forEach(function(item){
+	        tableHTML += '<tr>';
+	        tableHTML += '<td class="chkbox-td"><input class="form-check-input" type="checkbox"></td>';
+	        tableHTML += '<td>' + item.docno + '</td>';
+	        tableHTML += '<td><a href="#">' + item.title + '</a></td>';
+	        tableHTML += '<td>' + (item.urgency === 'Y' ? '긴급' : '-') + '</td>';
+	        tableHTML += '<td>' + item.empVo.name + '</td>';
+	        tableHTML += '<td>' + formatDate(item.draft_date) + '</td>';
+	        tableHTML += '<td>' + (item.appr_date != null ? formatDate(item.appr_date) : '-') + '</td>';
+	        tableHTML += '<td>' + item.tempno + '</td>';
+	        tableHTML += '<td>' + item.file_count + '</td>';
+	        tableHTML += '<td>' + item.doc_status + '</td>';
+	        tableHTML += '</tr>';
+	    });
+		
+		tableBody.innerHTML = tableHTML;
+	}
+}
+
+
+
+// 결재문서함 기안서상태별 전체조회
+function approvalListByDocStatus(val){
+	var doc_status = val
+	console.log("val",val)
+	var id = document.getElementById('id').value;
+	console.log("id",id)
+	
+	fetch('./apprListByDocStatus.do', {
+		method:'POST',
+		headers:{"Content-Type":"application/json"},
+		body: JSON.stringify({
+			id:id, 
+			doc_status:doc_status
+		}),
+	})
+	.then(response => response.json())
+	.then(result => {
+		console.log("result:",result);
+		if(result != null){
+			lists(result)
+		}else{
+			alert('실패..')
+		}
+	});
+	function lists(result){
+		var tableBody = document.getElementById('tableBody');
+		var tableHTML = '';
+		
+		tableBody.innerHTML = '';
+		
+		result.forEach(function(item){
+	        tableHTML += '<tr>';
+	        tableHTML += '<td class="chkbox-td"><input class="form-check-input" type="checkbox"></td>';
+	        tableHTML += '<td>' + item.docno + '</td>';
+	        tableHTML += '<td><a href="#">' + item.title + '</a></td>';
+	        tableHTML += '<td>' + (item.urgency === 'Y' ? '긴급' : '-') + '</td>';
+	        tableHTML += '<td>' + item.empVo.name + '</td>';
+	        tableHTML += '<td>' + formatDate(item.draft_date) + '</td>';
+	        tableHTML += '<td>' + (item.appr_date != null ? formatDate(item.appr_date) : '-') + '</td>';
+	        tableHTML += '<td>' + item.tempno + '</td>';
+	        tableHTML += '<td>' + item.file_count + '</td>';
+	        tableHTML += '<td>' + item.doc_status + '</td>';
+	        tableHTML += '</tr>';
+	    });
+		tableBody.innerHTML = tableHTML;
+	}
 }
 
 
@@ -34,20 +197,25 @@ function allDraftList() {
 
 
 
-// 기안서 상태별 전체조회
-//function draftListByDocStatus(docStatus) {
-//    $.ajax({
-//        url: '/draftListByDocStatus',
-//        method: 'GET',
-//        data: {
-//            doc_status: docStatus
-//        },
-//        success: function(response) {
-//            console.log(response);
-//            // 서버로부터 받은 응답을 처리합니다.
-//        },
-//        error: function(xhr, status, error) {
-//            console.error(error);
-//        }
-//    });
-//}
+
+
+// 클릭한 li css 바꾸기
+		function setActive(clicked){
+			var lis = document.querySelectorAll("li.nav-link");
+			lis.forEach(function(li){
+				li.classList.remove("active");
+			});
+			clicked.classList.add("active");
+		}
+		
+		
+		
+function formatDate(date){
+	var date = new Date(date);
+	
+	var day = date.getDate().toString().padStart(2, '0');
+	var month = (date.getMonth() + 1).toString().padStart(2,'0');
+	var year = date.getFullYear();
+	
+	return year + '.' + month + '.' + day; 
+}
