@@ -31,30 +31,27 @@ public class ReserveDaoImpl implements IReserveDao{
 
 	@Override
 	public List<CheckListVo> dateListReserve(String reserve_day) {
-		return sqlsession.selectList(NS+"getAllReserve", reserve_day);
+		return sqlsession.selectList(NS+"dateListReserve", reserve_day);
 	}
 
 	@Override
 	public List<CheckListVo> timeListReserve(Map<String, Object> map) {
-		return sqlsession.selectList(NS+"getAllReserve", map);
+		return sqlsession.selectList(NS+"timeListReserve", map);
 	}
 
 	@Override
 	public List<CheckListVo> getMyReserve(String applicant) {
-		return sqlsession.selectList(NS+"getAllReserve", applicant);
+		return sqlsession.selectList(NS+"getMyReserve", applicant);
 	}
 
 	@Override
 	public List<CheckListVo> getOneReserve(String reserveno) {
-		return sqlsession.selectList(NS+"getAllReserve");
+		return sqlsession.selectList(NS+"getOneReserve", reserveno);
 	}
 
 	@Override
-	public int insertReserve(ReservationVo rVo, CheckListVo cVo) {
-		 Map<String, Object> paramMap = new HashMap<String, Object>();
-		 paramMap.put("rVo", rVo);
-		 paramMap.put("cVo", cVo);
-		 return sqlsession.insert(NS + "insertReserve", paramMap);
+	public int insertReserve(Map<String, Object> map) {
+		return sqlsession.insert(NS+"insertReserve", map);
 	}
 
 	@Override
@@ -63,11 +60,8 @@ public class ReserveDaoImpl implements IReserveDao{
 	}
 
 	@Override
-	public int deleteReserve(ReservationVo rVo, CheckListVo cVo) {
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("rVo", rVo);
-		paramMap.put("cVo", cVo);
-		return sqlsession.delete(NS+"deleteReserve", paramMap);
+	public int deleteReserve(String reserveno) {
+		return sqlsession.insert(NS+"deleteReserve", reserveno);
 	}
 
 	

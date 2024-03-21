@@ -23,6 +23,4 @@ public class ReservationVo {
 	private Date reserve_date;
 	private String meetingtitle;
 	
-	private CheckListVo checkVo;
-
 }

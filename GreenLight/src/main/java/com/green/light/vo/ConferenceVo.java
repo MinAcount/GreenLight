@@ -22,7 +22,4 @@ public class ConferenceVo {
 	private String ho;
 	private String roominfo;
 	
-	private CheckListVo checkVo;
-	private CommonVo commonVo;
-	
 }

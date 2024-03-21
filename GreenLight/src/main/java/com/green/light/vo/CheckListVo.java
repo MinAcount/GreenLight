@@ -19,4 +19,7 @@ public class CheckListVo {
 	private String reserveno;
 	private String conf_id;
 	
+	private ConferenceVo conferenceVo;
+	private ReservationVo reservationVo;
+	
 }

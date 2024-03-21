@@ -53,14 +53,14 @@ public class ReserveServiceImpl implements IReserveService {
 
 	@Override
 	public List<CheckListVo> getOneReserve(String reserveno) {
-		log.info("ReserveServiceImpl getAllReserve 예약 정보 상세 조회");
+		log.info("ReserveServiceImpl getOneReserve 예약 정보 상세 조회");
 		return dao.getOneReserve(reserveno);
 	}
 
 	@Override
-	public int insertReserve(ReservationVo rVo, CheckListVo cVo) {
+	public int insertReserve(Map<String, Object> map) {
 		log.info("ReserveServiceImpl insertReserve 예약");
-		return dao.insertReserve(rVo, cVo);
+		return dao.insertReserve(map);
 	}
 
 	@Override
@@ -70,9 +70,9 @@ public class ReserveServiceImpl implements IReserveService {
 	}
 
 	@Override
-	public int deleteReserve(ReservationVo rVo, CheckListVo cVo) {
+	public int deleteReserve(String reserveno) {
 		log.info("ReserveServiceImpl deleteReserve 예약 취소");
-		return dao.deleteReserve(rVo, cVo);
+		return dao.deleteReserve(reserveno);
 	}
 
 }
