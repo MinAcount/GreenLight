@@ -36,19 +36,19 @@
 								<tr>
 									<td>${vr.count}</td>
 									<td>${lists.id}</td>
-									<%-- <td>${lists.save_sign}<input type="radio" name="${lists.signno}" ${lists.main eq 'Y' ? 'checked' : ''}></td> --%>
-									<td>${lists.save_sign}<input type="radio"
+									<td><img alt="서명" src="${lists.save_sign}"> <input type="radio"
 										name="signnoGroup" ${lists.main eq 'Y' ? 'checked' : ''}
-										value="${lists.signno}"></td>
+										value="${lists.signno}" data-main="${lists.main}"></td>
 									<td>${lists.main}</td>
 								</tr>
 							</c:forEach>
+
 						</tbody>
 						<tfoot>
 							<td>
 								<input type="button" value="대표서명으로 지정" onclick="mainSign()">
 								<input type="button" value="삭제" onclick="delSign()">
-								<input type="button" value="등록" onclick="addSign()">
+								<input type="button" value="등록" onclick="openChildWindow()">
 							</td>
 						</tfoot>
 					</table>
@@ -64,12 +64,17 @@
 <script type="text/javascript">
     function mainSign() {
         var selectedRadio = document.querySelector('input[name="signnoGroup"]:checked');
-        if (selectedRadio) {
             var selectedValue = selectedRadio.value;
-            console.log(selectedValue);        
+            var mainStatus = selectedRadio.getAttribute('data-main'); // 대표서명 상태 가져오기
+            console.log(selectedValue);
             
-            // 패치 요청
-            fetch('/GreenLight/mainSign.do', {
+            // 대표서명 상태가 'Y'이면 이미 대표서명으로 지정되어 있음을 알림
+            if (mainStatus === 'Y') {
+                alert('이미 대표서명으로 지정되어 있습니다.');
+                return; // 함수 종료
+            }
+
+            fetch('./mainSign.do', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -79,6 +84,8 @@
             .then(response => {
                 if (response.ok) {
                     console.log('대표서명으로 지정 성공!');
+                    window.location.reload();
+                    alert('대표서명이 변경되었습니다.');
                 } else {
                     console.error('대표서명으로 지정 실패...');
                 }
@@ -86,10 +93,68 @@
             .catch(error => {
                 console.error('오류 발생:', error);
             });
-        } else {
-            alert('라디오 버튼을 선택해주세요.');
-        } 
     }
+    
+    function delSign(){
+        var selectedRadio = document.querySelector('input[name="signnoGroup"]:checked');
+        if(selectedRadio){
+            var selectedValue = selectedRadio.value;
+            var mainStatus = selectedRadio.getAttribute('data-main');
+            
+            // 대표서명인 경우 삭제할 수 없음
+            if (mainStatus === 'Y') {
+                alert('대표서명은 삭제할 수 없습니다.');
+                return; 
+            }
+            
+            if (confirm('정말로 삭제하시겠습니까?')) {
+                executeDelSign(selectedValue);
+            }
+        }
+    }
+
+    function executeDelSign(selectedValue) {
+        // 패치 요청
+        fetch('./delSign.do', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ signno : selectedValue })
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('서명삭제 성공');
+                window.location.reload(); // 페이지 새로고침
+                alert('서명이 삭제되었습니다.');
+            } else {
+                console.error('서명삭제 실패');
+            }
+        })
+        .catch(error => {
+            console.error('오류 발생:', error);
+        });
+    }
+    
+    function openChildWindow() {
+        // 등록된 서명 개수 확인
+        var signCount = document.querySelectorAll('input[name="signnoGroup"]').length;
+        
+        // 등록된 서명이 3개 이상인 경우 경고 메시지 표시
+        if (signCount >= 3) {
+            alert('서명은 최대 3개까지만 등록할 수 있습니다.');
+        } else {
+            var childWindow = window.open('./insertSign.do', 'childWindow', 'width=600,height=400');
+            
+            if (childWindow) {
+                childWindow.focus();
+            } else {
+                alert('팝업 창이 차단되었습니다. 팝업 창을 허용해주세요.');
+            }
+        }
+    }
+
+
 </script>
 
 
