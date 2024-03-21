@@ -88,11 +88,10 @@ public class EmployeeJUnitTest {
 //		assertEquals(1, n);
 		
 		//입사처리
-//		EmployeeVo vo = new EmployeeVo("이지원", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2024-05-04", "A", "");
-//		
-//		System.out.println(vo);
-//		boolean isc = service.insertEmployee(vo);
-//		assertTrue(isc);
+		EmployeeVo vo = new EmployeeVo("","주인공", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
+		System.out.println(vo);
+		boolean isc = service.insertEmployee(vo);
+		assertTrue(isc);
 		
 		//부서장 후보 조회
 //		List<EmployeeVo> list = service.getDeptMgrHubo("09");
@@ -100,9 +99,14 @@ public class EmployeeJUnitTest {
 //		assertNotEquals(0, list.size());
 		
 		//본부장 후보 조회
-		List<EmployeeVo> list = service.getHeadMgrHubo("01");
-		System.out.println(list);
-		assertNotEquals(0, list.size());
+//		List<EmployeeVo> list = service.getHeadMgrHubo("01");
+//		System.out.println(list);
+//		assertNotEquals(0, list.size());
+		
+		//로그인 실패 횟수 조회
+//		EmployeeVo vo = service.getLoginFail("2403120901");
+//		System.out.println(vo);
+//		assertNotNull(vo);
 	}
 	
 	

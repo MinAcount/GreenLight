@@ -126,4 +126,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return vo;
 	}
 
+	@Override
+	public EmployeeVo getLoginFail(String id) {
+		log.info("EmployeeServiceImpl getLoginFail 로그인 실패 횟수 조회");
+		EmployeeVo vo = dao.getLoginFail(id);
+		return vo;
+	}
+
 }

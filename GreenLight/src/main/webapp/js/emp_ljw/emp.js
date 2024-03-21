@@ -1,8 +1,5 @@
 
-window.onload = function(){
-	
-}
 
-function profileUpload(){
-	
+function checkUploadEmployee(){
+	console.log("Employee Add in");
 }

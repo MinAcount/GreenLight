@@ -11,6 +11,8 @@ public interface IEmployeeDao {
 	public EmployeeVo getLogin(Map<String, Object> map);
 //	로그인 시도 횟수 증가 및 초기화	updateFail
 	public int updateFail(Map<String, Object> map);
+//	로그인 시도 횟수 조회
+	public EmployeeVo getLoginFail(String id);
 //	비밀번호 찾기	getPassword
 	public EmployeeVo getPassword(Map<String, Object> map);
 //	비밀번호 변경	updatePassword

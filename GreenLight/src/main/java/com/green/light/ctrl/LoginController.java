@@ -1,26 +1,13 @@
 package com.green.light.ctrl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.green.light.model.service.IEmployeeService;
-import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,27 +17,16 @@ public class LoginController {
 //	@Autowired
 //	private JavaMailSender mailSender;
 	
-	@Autowired
-	private IEmployeeService service;
-
-	@PostMapping("/loginCheck.do")
-	@ResponseBody
-	public ResponseEntity<?> login(@RequestBody Map<String, Object> map, HttpSession session, Model model) {
-		log.info("EmployeeController POST loginCheck.do 로그인 : {}", map);
-		
-		EmployeeVo vo = service.getLogin(map);
-		if(vo != null) {
-			session.setAttribute("loginVo", vo);
-			return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
-		}else {
-			return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
-		}
-	}
-	
 	@GetMapping("/login.do")
 	public String login() {
 		log.info("EmployeeController GET login.do 로그인 후 메인으로 이동");
 		return "main";
+	}
+	
+	@GetMapping("/loginAdmin.do")
+	public String loginAdmin() {
+		log.info("EmployeeController GET loginAdmin.do 로그인 후 관리자 메인으로 이동");
+		return "admin";
 	}
 	
 	@GetMapping("/loginForm.do")

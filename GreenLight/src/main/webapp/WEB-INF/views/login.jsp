@@ -48,7 +48,7 @@
 		</div>
 	</div>
 	<div class="toast show" role="alert" aria-live="assertive"
-		aria-atomic="true" style="opacity: 1;">
+		aria-atomic="true" style="opacity: 1; /* position: absolute; left: 50%; top:50%; margin-left:-250px; margin-top:-50px; */">
 		<div class="toast-header text-danger">
 			<i data-feather="alert-circle" id="toastFeather"></i> <strong
 				class="me-auto">로그인 실패</strong>
@@ -58,7 +58,7 @@
 		<div class="toast-body">
 			아이디 혹은 비밀번호를 다시 확인해주세요.<br/>
 			5회이상 틀릴 경우 해당 아이디의 로그인이 제한됩니다.
-			(<span id="fail">0</span>/5)
+			(<span id="fail">${failCount.fail+1}</span>/5)
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -67,11 +67,16 @@
 		function loginSubmit() {
 			var id = document.getElementById("id").value;
 			var password = document.getElementById("password").value;
-			var failCount = document.getElementById("fail").innerHTML;
+			var failCount = parseInt(document.getElementById("fail").innerHTML);
 			console.log("id:",id);
 			console.log("pwd:",password);
-			console.log("fail:",failCount);
-			console.log(typeof failCount);
+			console.log("failCount:",failCount);
+			console.log("failCount:",typeof failCount);
+			
+			if(id == "" || password == ""){
+				alert("아이디와 비밀번호를 입력해주세요.");
+				return;
+			}
 			fetch('./loginCheck.do', {
 				method:'POST',
 				headers:{"Content-Type":"application/json"},
@@ -83,15 +88,19 @@
 			.then(data => data.json())
 			.then(result => {
 				console.log(result);
-				if(result.msg == 'SUCCESS'){
+				if(result.msg == 'NULL'){
+					alert("없는 아이디입니다. 다시 확인하여주세요");
+					return;
+				}else if(result.msg == 'LOCK'){
+					alert("접근이 제한된 아이디입니다. 관리자에게 문의해주세요");
+					return;
+				}else if(result.msg == 'SUCCESS'){
 					location.href="./login.do";
-				}else{
-					if(failCount > 4){
-						return;
-					}
-					failCount++;
-					document.getElementById("fail").innerHTML = failCount;
-					alert("실패 엉엉");
+				}else if (result.msg == 'SUCCESSADMIN'){
+					location.href="./loginAdmin.do";
+				}else if(result.msg == 'FAIL'){
+					alert("비밀번호를 다시 확인하여주세요");
+					location.reload();
 				}
 			});
 		}

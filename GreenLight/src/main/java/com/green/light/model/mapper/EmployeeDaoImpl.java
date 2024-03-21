@@ -102,4 +102,9 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		return sqlsession.selectList(NS+"getHeadMgrHubo", headno);
 	}
 
+	@Override
+	public EmployeeVo getLoginFail(String id) {
+		return sqlsession.selectOne(NS+"getLoginFail",id);
+	}
+
 }

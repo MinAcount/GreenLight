@@ -59,6 +59,13 @@
 		SET FAIL = CASE WHEN PASSWORD = #{password} THEN 0 ELSE FAIL + 1 END
 		WHERE ID = #{id}
 </update>
+
+<!-- 로그인 시도 횟수 조회 및 암호화된 비밀번호 조회 -->
+<select id="getLoginFail" parameterType="java.lang.String" resultType="EmpVo">
+	SELECT FAIL , ID, PASSWORD
+		FROM EMPLOYEE e
+		WHERE ID =#{id}
+</select>
 <!-- 비밀번호 찾기	getPassword -->
 <select id="getPassword" parameterType="java.util.Map" resultType="EmpVo">
 	SELECT ID, PASSWORD, EMAIL
@@ -70,7 +77,6 @@
 	UPDATE EMPLOYEE SET PASSWORD = #{password}
         WHERE ID = #{id}
 </update>
-
 <!-- 직원 전체 조회	getAllEmployee -->
 <select id="getAllEmployee" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
@@ -167,17 +173,14 @@
 </update>
 <!-- 직원 입사 처리	insertEmployee -->
 <insert id="insertEmployee" parameterType="EmpVo">
-	INSERT INTO EMPLOYEE e (ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
+	INSERT INTO EMPLOYEE e (ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, PASSWORD, 
 						ADDRESS, DEPTNO, SPOT, JOIN_DAY, ETYPE, PROFILE)
 	VALUES((SELECT COALESCE ((SELECT TO_CHAR(MAX(ID)+1)
 	FROM EMPLOYEE e
-	WHERE ID LIKE (TO_CHAR(TO_DATE('2024/03/06'),'YYMMDD'))||'09'||'%')
-				,TO_CHAR(TO_DATE('2024-03-06'),'YYMMDD')||'09'||'01') AS ID
-	FROM DUAL),'테스트중이요', 
-	'doo@naver.com','01024568465','1995-11-11','M',
-	'어딘가에 살고 있겠죠','09','02',
-	'2024-03-06','A','')
-
+	WHERE ID LIKE (TO_CHAR(TO_DATE(#{join_day}),'YYMMDD'))||#{deptno}||'%')
+				,TO_CHAR(TO_DATE(#{join_day}),'YYMMDD')||#{deptno}||'01') AS ID
+	FROM DUAL),#{name}, #{email},#{phone},#{birthday},#{gender}, #{password},
+	#{address},#{deptno},#{spot}, #{join_day},#{etype},#{profile})
 </insert>
 <!-- 부서장 후보 조회	getDeptMgrHubo -->
 <select id="getDeptMgrHubo" parameterType="java.lang.String" resultType="EmpVo">
