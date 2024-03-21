@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ApprovalDaoImpl">
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVoMap">
+	<result property="id" column="ID"/>
 	<result property="name" column="NAME"/>
 	<result property="deptno" column="DEPTNO"/>
-	<result property="id" column="ID"/>
 	<result property="position" column="POSITION"/>
 	<result property="spot" column="SPOT"/>
 	<collection property="deptVo" resultMap="DepartmentVoMap"/>
@@ -12,7 +12,6 @@
 </resultMap>
 
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVoMap">
-	<result property="dept_mgr" column="DEPT_MGR"/>
 	<result property="deptno" column="DEPTNO"/>
 </resultMap>
 
@@ -20,12 +19,11 @@
 	<result property="code_name" column="CODE_NAME"/>
 	<result property="code" column="CODE"/>
 	<result property="type" column="TYPE"/>
-	
 </resultMap>
 
 <!-- 자동결재선 기안자의 부서장 조회 selectDrafterDeptMgr -->
 <select id="selectDrafterDeptMgr" resultMap="EmployeeVoMap">
-SELECT E2.ID , E2.NAME , C.CODE_NAME 
+SELECT E2.ID AS ID, E2.NAME AS NAME, C.CODE_NAME AS CODE_NAME
 	FROM EMPLOYEE E
 	JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO 
 	JOIN EMPLOYEE E2 ON D.DEPT_MGR = E2.ID 
@@ -35,7 +33,7 @@ SELECT E2.ID , E2.NAME , C.CODE_NAME
 
 <!-- 자동결재선 부서별 부서장 조회 selectDeptMgrByDept -->
 <select id="selectDeptMgrByDept" resultMap="EmployeeVoMap">
-SELECT E.ID , E.NAME , C.CODE_NAME 
+SELECT E.ID AS ID, E.NAME AS NAME, C.CODE_NAME AS CODE_NAME
 	FROM EMPLOYEE E
 	JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO AND E."POSITION" = '01'
 	JOIN COMMON C ON C.CODE = E.SPOT AND C."TYPE" = '직위'
@@ -44,7 +42,7 @@ SELECT E.ID , E.NAME , C.CODE_NAME
 
 <!-- 자동결재선 대표이사 조회 selectCEO -->
 <select id="selectCEO" resultMap="EmployeeVoMap">
-SELECT E.ID , E.NAME , C.CODE_NAME 
+SELECT E.ID AS ID, E.NAME AS NAME, C.CODE_NAME AS CODE_NAME
 	FROM EMPLOYEE E
 	JOIN COMMON C ON C.CODE = E."POSITION"  AND C."TYPE" = '직책'
 	WHERE E."POSITION" = '04'

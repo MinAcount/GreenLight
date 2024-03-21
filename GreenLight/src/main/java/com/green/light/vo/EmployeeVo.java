@@ -40,7 +40,6 @@ public class EmployeeVo {
 	
 	private DepartmentVo deptVo;
 	private CommonVo comVo;
-	private String e2;
 	
 	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String profile) {
 		this.id = id;
