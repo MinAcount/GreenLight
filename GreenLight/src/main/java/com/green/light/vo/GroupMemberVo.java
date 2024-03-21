@@ -23,4 +23,6 @@ public class GroupMemberVo {
 	private String group_out;
 	private String last_mesg;
 	private String favor;
+	
+	private MessageVo mesgvo;
 }
