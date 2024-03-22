@@ -68,91 +68,23 @@
 <!-- 사이드나브바 & 콘텐트 영역 -->
 	<div id="layoutSidenav">
 		<%@ include file="./include/mainSidenav.jsp" %>
-
+<input type="hidden" value="${loginVo.id}" id="id">
 <!-- 콘텐트 영역 -->
 	<div id="layoutSidenav_content">
 		<div id="main_content">
 			<div class="container">
-				<div id="chatList">
+				<div>
 					<form id="searchChat">
 						<input type="text" id="searchChatRoom" name="searchChatRoom" placeholder="대화방 이름 검색">
 					</form>
-					<div class="table-container-div-first">
-						<table class="table-container">
-							<thead>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>4</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="table-container-div">
-						<table class="table-container">
-							<thead>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>4</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="table-container-div">
-						<table class="table-container">
-							<thead>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>4</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="table-container-div">
-						<table class="table-container">
-							<thead>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>4</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
-					<div class="table-container-div">
-						<table class="table-container">
-							<thead>
-								<tr>
-									<td>1</td>
-									<td>2</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>4</td>
-								</tr>
-							</thead>
-						</table>
-					</div>
+						<div class="table-container-div" id="chatList">
+						</div>
 					<div class="create-btn">
 						<button class="btn btn-primary btn-sm" type="button">생성</button>
 					</div>
 				</div>
 				<div style="justify-content: space-between; width: 3%;"></div>
-				<div id="chatRoom">
+				<div id="chatRoom" style="display: none">
 				채팅방
 				</div>
 			</div>
@@ -162,5 +94,6 @@
 	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
+<script src="js/chatFn.js"></script>
 </body>
 </html>
