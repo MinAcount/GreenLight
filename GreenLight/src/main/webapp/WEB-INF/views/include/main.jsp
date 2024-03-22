@@ -53,60 +53,136 @@
                <br>
                
 <!-- 알림창 -->
-               <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
-			    <div class="toast-header text-primary">
-			        <i data-feather="check-circle" id="toastFeather"></i>
-			        <strong class="me-auto">Primary Text Toast</strong>
-				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
-			   </div>
-				<div class="toast-body">This toast uses the primary text utility on the toast header.</div>
-			</div>
-			
-			<br><br><br>
-			
-			<div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
-			    <div class="toast-header text-danger">
-			        <i data-feather="alert-circle" id="toastFeather"></i>
-			        <strong class="me-auto">Danger Text Toast</strong>
-			        <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
-			    </div>
-			    <div class="toast-body">This toast uses the danger text utility on the toast header.</div>
-			</div>
+			<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Launch Demo Modal</button>
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-primary">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.</div>
+			        	</div>
+			    	</div>
+				</div>
+				
+				
+				<br><br>
+				
+				
+				
+			<button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Launch Demo Modal</button>
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-danger">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.</div>
+			        	</div>
+			    	</div>
+				</div>
 			
 			<br><br><br>
 			
 <!-- confirm 모달 -->
-            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
-			    <div class="toast-header text-primary">
-			        <i data-feather="check-circle" id="toastFeather"></i>
-			        <strong class="me-auto">Primary Text Toast</strong>
-				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
-			   </div>
-				<div class="toast-body">This toast uses the primary text utility on the toast header.
-					<br><br><br>
-					<div class="modal-footer">
-						<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-					    <button style="margin-left: 10px;" class="btn btn-primary" type="button">Save changes</button>
-				    </div>
-			    </div>
-			</div>
+            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop2">confirm 모달</button>
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-primary">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.
+		            			<br><br>
+		            			<div class="modal-footer">
+									<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
+								    <button style="margin-left: 10px;" class="btn btn-primary" type="button">Save changes</button>
+							    </div>
+		            		</div>
+			        	</div>
+			    	</div>
+				</div>
+				
+				
+				<br><br>
+				
+				
+				
+			<button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop3">confirm 모달</button>
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-danger">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.
+		            			<br><br>
+		            			<div class="modal-footer">
+									<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+								    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Save changes</button>
+							    </div>
+		            		</div>
+			        	</div>
+			    	</div>
+				</div>
 			
-			<br><br><br>
+			<br><br>
+		
+<!-- 알림 모달창 -->
+			<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop">alert 모달</button>
 			
-            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
-			    <div class="toast-header text-danger">
-			        <i data-feather="alert-circle" id="toastFeather"></i>
-			        <strong class="me-auto">Danger Text Toast</strong>
-				       <button class="ml-2 mb-1 btn-close" type="button" data-bs-dismiss="toast" aria-label="Close">                                                            </button>
-			   </div>
-				<div class="toast-body">This toast uses the danger text utility on the toast header.
-					<br><br><br>
-					<div class="modal-footer">
-						<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
-					    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Delete</button>
-				    </div>
-			    </div>
-			</div>
+			
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-primary">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.</div>
+			        	</div>
+			    	</div>
+				</div>
+				
+				
+				<br><br>
+				
+				
+				
+				<button class="btn btn-danger" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">alert 모달</button>
+			<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+		        		<div class="modal-content">
+		            		<div class="modal-header text-danger">
+		                		<div class="modal-title" id="exampleModalLabel">
+		                			<i data-feather="check-circle" id="toastFeather"></i>
+				        			<strong class="me-auto">Primary Text Toast</strong>
+		                		</div>
+		                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+		            		</div>
+		            		<div class="modal-body">This toast uses the primary text utility on the toast header.</div>
+			        	</div>
+			    	</div>
+				</div>
 			
 			<br><br>
 				
@@ -280,26 +356,7 @@
 				</div>
 			</div>
 			
-<!-- 모달창 -->
-			<button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch Demo Modal</button>
 
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	    		<div class="modal-dialog" role="document">
-	        		<div class="modal-content">
-	            		<div class="modal-header">
-	                		<h5 class="modal-title" id="exampleModalLabel">
-	                			<i style="margin-top: 2px;" class="feather-lg" data-feather="check-circle"></i>
-	                			Default Bootstrap Modal</h5>
-	                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-	            		</div>
-	            		<div class="modal-body">...</div>
-		            	<div class="modal-footer">
-			            	<button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Close</button>
-			            	<button class="btn btn-primary" type="button">Save changes</button>
-		            	</div>
-		        	</div>
-		    	</div>
-			</div>
 		</div>
          <%@ include file="./footer.jsp" %>
       </div>

@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ReserveDaoImpl">
-	<resultMap type="com.green.light.vo.CheckListVo" id="CheckListMapVo">
+	<resultMap type="com.green.light.vo.CheckListVo" id="CheckListVoMap">
 		<result property="lseq" column="LSEQ" />
 		<result property="reserveno" column="RESERVENO" />
 		<result property="conf_id" column="CONF_ID" />
-		<collection property="reservationVo"
-			resultMap="ReservationMapVo" />
-		<collection property="conferenceVo"
-			resultMap="ConferenceMapVo" />
+		<collection property="reservationVo" resultMap="ReservationVoMap" />
+		<collection property="conferenceVo" resultMap="ConferenceVoMap" />
 	</resultMap>
-	<resultMap type="com.green.light.vo.ReservationVo" id="ReservationMapVo">
+	<resultMap type="com.green.light.vo.ReservationVo" id="ReservationVoMap">
 		<result property="reserveno" column="RESERVENO" />
 		<result property="applicant" column="APPLICANT" />
 		<result property="phone" column="PHONE" />
 		<result property="reserve_date" column="RESERVE_DATE" />
 		<result property="meetingtitle" column="MEETINGTITLE" />
 	</resultMap>
-	<resultMap type="com.green.light.vo.ConferenceVo" id="ConferenceMapVo">
+	<resultMap type="com.green.light.vo.ConferenceVo" id="ConferenceVoMap">
 		<result property="conf_id" column="conf_id" />
 		<result property="cname" column="cname" />
 		<result property="capacity" column="capacity" />
@@ -25,7 +23,7 @@
 		<result property="roominfo" column="roominfo" />
 	</resultMap>
 	<!-- 전체 예약 조회 -->
-	<select id="getAllReserve" resultMap="CheckListMapVo">
+	<select id="getAllReserve" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO ,
 		CONF_ID ,
 		CNAME , CAPACITY, AVAILABILITY , HO ,
@@ -38,7 +36,7 @@
 		ORDER BY LSEQ ASC
 	</select>
 	<!-- 선택 회의실 예약 조회 -->
-	<select id="confListReserve" parameterType="java.lang.String" resultMap="CheckListMapVo">
+	<select id="confListReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID ,
 		CNAME , CAPACITY,
 		AVAILABILITY , HO ,
@@ -53,7 +51,7 @@
 	</select>
 
 	<!-- 선택 날짜 예약 조회 -->
-	<select id="dateListReserve" parameterType="java.lang.String" resultMap="CheckListMapVo">
+	<select id="dateListReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID , TO_CHAR(RESERVE_DATE,
 		'HH24') "TIME",
 		CNAME , CAPACITY, AVAILABILITY , HO ,
@@ -69,7 +67,7 @@
 		CNAME ASC
 	</select>
 	<!-- 선택 회의실 및 선택 날짜의예약 가능 시간 조회 -->
-	<select id="timeListReserve" parameterType="java.util.Map" resultMap="CheckListMapVo">
+	<select id="timeListReserve" parameterType="java.util.Map" resultMap="CheckListVoMap">
     <![CDATA[
         WITH TimeSlots AS (
             SELECT LPAD(LEVEL + 8, 2, '00') AS TimeSlot
@@ -103,7 +101,7 @@
 		DESC
 	</sql>
 	<!-- 나의 예약 조회 -->
-	<select id="getMyReserve" parameterType="java.lang.String" resultMap="CheckListMapVo">
+	<select id="getMyReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID ,
 		CNAME , CAPACITY, AVAILABILITY , HO
 		,
@@ -118,7 +116,7 @@
 		<include refid="orderByDesc" />
 	</select>
 	<!-- 예약 정보 상세 조회 -->
-	<select id="getOneReserve" parameterType="java.lang.String" resultMap="CheckListMapVo">
+	<select id="getOneReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID ,
 		CNAME , CAPACITY,
 		AVAILABILITY , HO ,
@@ -150,7 +148,7 @@
 		RESERVENO=#{reserveno}
 	</update>
 	<!-- 예약 취소 -->
-	<delete id="deleteReserve" parameterType="ReservationVo">
+	<delete id="deleteReserve" parameterType="java.lang.String">
     	CALL GD.PRO_DELETE (
 		#{reserveno, mode=IN, jdbcType=VARCHAR},
 		#{v_success, mode=OUT, jdbcType=INTEGER}

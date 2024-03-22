@@ -9,6 +9,8 @@
 		<typeAlias type="com.green.light.vo.SignVo" alias="SignVo"/>
 		<typeAlias type="com.green.light.vo.AttendainceVo" alias="AttendainceVo"/>
 		<typeAlias type="com.green.light.vo.VacationVo" alias="VacationVo"/>
+		<!-- 일정 -->
+		<typeAlias type="com.green.light.vo.ScheduleVo" alias="ScheduleVo"/>
 		<!-- 회의실 -->
 		<typeAlias type="com.green.light.vo.ConferenceVo" alias="ConferenceVo"/>
 		<typeAlias type="com.green.light.vo.ReservationVo" alias="ReservationVo"/>
@@ -27,6 +29,8 @@
 		<mapper resource="sqls/SignatureStatement.xml"/>
 		<mapper resource="sqls/AttendanceStatement.xml"/>
 		<mapper resource="sqls/VacationStatement.xml"/>
+		<!-- 일정 -->
+		<mapper resource="sqls/ScheduleStatement.xml"/>
 		<!-- 회의실 -->
 		<mapper resource="sqls/ConferenceStatement.xml"/>
 		<mapper resource="sqls/ReserveStatement.xml"/>

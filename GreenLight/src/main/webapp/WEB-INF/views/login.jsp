@@ -24,8 +24,7 @@
 
 				<!-- 비밀번호-->
 				<div class="mb-3">
-					<input class="form-control" id="password" name="password"
-						type="password" placeholder="비밀번호 입력">
+					<input class="form-control" id="password" name="password" type="password" placeholder="비밀번호 입력">
 				</div>
 
 				<!-- 비밀번호 저장-->

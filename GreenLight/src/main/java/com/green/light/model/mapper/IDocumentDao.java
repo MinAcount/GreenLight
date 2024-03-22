@@ -25,4 +25,7 @@ public interface IDocumentDao {
 	// 참조문서함 전체조회 getAllReferenceDraft
 	public List<DocumentVo> getAllReferenceDraft(String id);
 	
+	// 참조문서함 기안서상태별 전체조회 getAllRefDraftByDocStatus
+	public List<DocumentVo> getAllRefDraftByDocStatus(Map<String, Object> map);
+	
 }

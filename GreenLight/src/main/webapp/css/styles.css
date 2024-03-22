@@ -177,7 +177,6 @@ hr {
   color: inherit;
   border: 0;
   border-top: 1px solid;
-  opacity: 0.25;
 }
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
@@ -1904,7 +1903,7 @@ progress {
 .table, .datatable-table {
   --bs-table-color: var(--bs-body-color);
   --bs-table-bg: transparent;
-  --bs-table-border-color: #e0e5ec;
+  --bs-table-border-color: rgba(183,191,184,0.5);
   --bs-table-accent-bg: transparent;
   --bs-table-striped-color: var(--bs-body-color);
   --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
@@ -18165,7 +18164,7 @@ body {
 }
 
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav {
-  padding-top: 4.5rem;
+  padding-top: 8vh;
 }
 .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
   overflow-y: overlay;
@@ -19717,14 +19716,16 @@ label {
 }
 
 td{
-   height: 50px;
-   font-size: 15px;
-   text-align: left;
+
+	height: 50px;
+	font-size: 15px;
+	text-align: left;
 }
 th {
-   height: 50px;
-   font-size: 15px;
-   text-align: left;
+	height: 50px;
+	font-size: 15px;
+	text-align: left;
+
 }
 
 .chkbox-td{
@@ -19735,65 +19736,68 @@ th {
 }
 
 .birth-td {
-   width: 100px;
+
+	width: 100px;
 }
 
 .template td {
-   border: 1px solid ;
-   border-collapse: collapse;
+	border: 1px solid ;
+	border-collapse: collapse;
 }
 
 .template th {
-   border: 1px solid ;
-   border-collapse: collapse;
+	border: 1px solid ;
+	border-collapse: collapse;
 }
 
 .template table {
-   border: 1px solid;
-   border-collapse: collapse;
+	border: 1px solid;
+	border-collapse: collapse;
 }
 .template tr {
-   border: 1px solid;
-   border-collapse: collapse;
+	border: 1px solid;
+	border-collapse: collapse;
+
 }
 
 
 .template th{
-   text-align: center;
+
+	text-align: center;
 }
 
 .width30 {
-   width: 30px;
+	width: 30px;
 }
 
 #templateArea {
-   width: 75%; 
-   border: 1px solid; 
-   padding: 15px; 
-   border-color: #B0B5B1;
+	width: 75%; 
+	border: 1px solid; 
+	padding: 15px; 
+	border-color: #B0B5B1;
 }
 
 .fontSize14{
-   font-size: 14px;
-   line-height: 1;
-   text-align: center;
+	font-size: 14px;
+	line-height: 1;
+	text-align: center;
 }
 
 .paddingL10{
-   padding-left: 10px;
+	padding-left: 10px;
 }
 
 .template th{
-   background-color: rgba(123,130,124,0.1);
-   color: #363d47;
-   border-color: #B0B5B1;
+	background-color: rgba(123,130,124,0.1);
+	color: #363d47;
+	border-color: #B0B5B1;
 }
 
 .template td{
-   color: #363d47;
-   border-color: #B0B5B1;
+	color: #363d47;
+	border-color: #B0B5B1;
 }
 
 hr{
-   color: #B0B5B1;
+	color: #B0B5B1;
 }

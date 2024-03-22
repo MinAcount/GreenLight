@@ -17,7 +17,7 @@
 <body>
 <div id="container">
 	<div style="text-align: center;">
-		<canvas id="signpad" width="400" height="200" style="border: 1px solid black;"></canvas><br>
+		<canvas id="signpad" width="200" height="200" style="border: 1px solid black;"></canvas><br>
 		<div>
 			<button id="clear">지우기</button>
 			<button id="save">저장</button>

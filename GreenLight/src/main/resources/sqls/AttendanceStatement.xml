@@ -2,4 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.AttendanceDaoImpl">
 
+<resultMap type="com.green.light.vo.AttendainceVo" id="AttVo">
+	<result property="id" column="ID"/>
+	<result property="in_date" column="IN_DATE"/>
+	<result property="out_date" column="OUT_DATE"/>
+	<result property="att_status" column="ATT_STATUS"/>
+	<collection property="empVo" resultMap="EmployeeVo" />
+</resultMap>
+
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+	<result property="id" column="ID" />
+	<result property="name" column="NAME" />
+	<result property="phone" column="PHONE" />
+	<result property="birthday" column="BIRTHDAY" />
+	<result property="gender" column="GENDER" />
+	<result property="address" column="ADDRESS" />
+	<result property="spot" column="SPOT" />
+	<result property="position" column="POSITION" />
+	<result property="estatus" column="ESTATUS" />
+	<result property="join_day" column="JOIN_DAY" />
+	<result property="exit_day" column="EXIT_DAY" />
+	<result property="etype" column="ETYPE" />
+	<result property="leave" column="LEAVE" />
+	<result property="auth" column="AUTH" />
+	<result property="profile" column="PROFILE" />
+</resultMap>
+
+<!-- 출근 insertAttendanceRecord() -->
+<insert id="insertAttendanceRecord" parameterType="java.lang.String">
+	INSERT INTO ATTENDANCE (ID, IN_DATE)
+	VALUES (#{id}, CURRENT_TIMESTAMP)
+</insert>
+
+<!-- 퇴근 updateAttendanceOutTime() -->
+<update id="updateAttendanceOutTime" parameterType="java.lang.String">
+	UPDATE ATTENDANCE SET OUT_DATE = CURRENT_TIMESTAMP
+	WHERE ID = #{id}
+	AND TO_CHAR(IN_DATE, 'YYYY-MM-DD') = TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD')
+</update>
+
+<!-- 자동퇴근처리 autoCompleteWorkTime() -->
+<update id="autoCompleteWorkTime">
+	UPDATE ATTENDANCE
+	SET OUT_DATE = TO_DATE(TO_CHAR(IN_DATE, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS')
+	WHERE OUT_DATE IS NULL
+</update>
+
+<!-- 출퇴근시간 수정 updateAttendanceTime() -->
+<update id="updateAttendanceTime" parameterType="java.util.Map">
+	UPDATE ATTENDANCE
+	SET IN_DATE = TO_DATE(#{in_date}, 'YYYY-MM-DD HH24:MI'),
+	OUT_DATE = TO_DATE(#{out_date}, 'YYYY-MM-DD HH24:MI')
+	WHERE ID = #{id}
+	AND TO_CHAR(IN_DATE, 'YYYY-MM-DD') = #{day}
+</update><!-- day를 어떻게 집어넣지? -->
+
+<!-- 근무상태등록 updateWorkStatus() -->
+<update id="updateWorkStatus" parameterType="AttendainceVo">
+	UPDATE ATTENDANCE 
+	SET ATT_STATUS = #{att_status}
+	WHERE ID = #{id}
+	AND TO_CHAR(IN_DATE, 'YYYY-MM-DD') = #{in_date}
+</update>
+
+<!-- 근태연차처리 insertLeaveRecord() -->
+<insert id="insertLeaveRecord" parameterType="AttendainceVo">
+	INSERT INTO ATTENDANCE (ID, IN_DATE, OUT_DATE, ATT_STATUS)
+	VALUES (#{id}, TO_DATE(#{in_date}, 'YYYY-MM-DD HH24:MI'), TO_DATE(#{out_date}, 'YYYY-MM-DD HH24:MI'), '연차')
+</insert>
+
+<!-- 전체조회-관리자 getEmployeeAttendance() -->
+<select id="getEmployeeAttendance()" parameterType="EmpVo" resultMap="AttVo">
+	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE, LEAVE, AUTH, PROFILE
+	FROM EMPLOYEE e JOIN DEPARTMENT d 
+	ON e.DEPTNO = d.DEPTNO
+	WHERE NAME LIKE '%이%'
+</select>
+
+<!-- 상세조회 getEmployeeDetails() -->
+<select id="getEmployeeDetails" parameterType="AttendainceVo" resultType="AttendainceVo">
+	SELECT ID, IN_DATE ,OUT_DATE , ATT_STATUS 
+	FROM ATTENDANCE a 
+	WHERE ID = #{id}
+	AND TO_CHAR(IN_DATE, 'YYYY-MM') = #{in_date}
+</select>
+
 </mapper>
