@@ -38,7 +38,7 @@
       </button>
 
 <!-- 로고 -->
-      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="main.jsp">GreenLight</a>
+      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./login.do">GreenLight</a>
       
       
 <!-- 상단나브바 -->
@@ -121,8 +121,20 @@
 <!-- 유저 드롭다운 -->
          <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
             <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);"
-            	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid"
-               	src="assets/img/illustrations/profiles/profile-1.png" /></a>
+            	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            	<c:if test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" />
+							</c:if>
+							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-2.png" alt="프로필사진" />
+							</c:if>
+							<c:if test="${loginVo.profile ne null}">
+								<img class="img-fluid"
+									src="data:image/png;base64,${loginVo.profile}" alt="프로필사진" />
+							</c:if>
+            	</a>
             <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
                <a class="dropdown-item" href="./mypage.do">
                   <div class="dropdown-item-icon">

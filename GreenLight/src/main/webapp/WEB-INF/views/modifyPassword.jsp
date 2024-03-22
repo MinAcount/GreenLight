@@ -5,7 +5,7 @@
 <head>
 </head>
 <body class="nav-fixed">
-
+	<input type="hidden" value="${loginVo.id}" id="sessionId">
 	<%@ include file="./include/mainHeader.jsp"%>
 	<!-- 사이드나브바 & 콘텐트 영역 -->
 	<div id="layoutSidenav">
@@ -39,6 +39,7 @@
                                                 <input class="form-control" id="confirmPassword" type="password" placeholder="새로운 비밀번호를 한 번 더 입력해주세요">
                                                 <i data-feather="eye" class="openEye" style="position: absolute; top:71%; left:90%;" onclick="openPassword('2')"></i>
                                                 <i data-feather="eye-off" class="closeEye" style="position: absolute; top:71%; left:90%; display: none;" onclick="closePassword('2')"></i>
+                                     	       <p style="font-size: 6px; position:absolute; right: 5%;">비밀번호는 최소 6자이상이고, 최소한 하나 이상의 영문자, 숫자, 특수문자(#,?,!,@,$,%,^,&,*,-)를 포함해야 합니다.</p>
                                             </div>
                                             <button class="btn btn-primary" type="button" onclick="modifyPassword()">변경 완료</button>
                                         </form>

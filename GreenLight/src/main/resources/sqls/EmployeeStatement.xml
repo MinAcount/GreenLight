@@ -98,7 +98,15 @@
 <!-- 직원 상세 조회	getOneEmployee -->
 <select id="getOneEmployee" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, PASSWORD, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME , SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
+        ADDRESS, DNAME , (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e.SPOT = c.CODE
+	            AND c."TYPE" = '직위') AS SPOT,
+	        (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e."POSITION" = c.CODE
+	            AND c."TYPE" = '직책') AS "POSITION",
+	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
         FROM EMPLOYEE e JOIN DEPARTMENT d 
         ON e.DEPTNO = d.DEPTNO
@@ -107,7 +115,15 @@
 <!-- 직원 재직상태별 조회	getAllEmployeeByStatus -->
 <select id="getAllEmployeeByStatus" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
+        ADDRESS, DNAME, (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e.SPOT = c.CODE
+	            AND c."TYPE" = '직위') AS SPOT,
+	        (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e."POSITION" = c.CODE
+	            AND c."TYPE" = '직책') AS "POSITION",
+	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
         FROM EMPLOYEE e JOIN DEPARTMENT d 
         ON e.DEPTNO = d.DEPTNO
@@ -116,7 +132,15 @@
 <!-- 직원 검색	getEmployeeBySearch -->
 <select id="getEmployeeBySearch" parameterType="EmpVo" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
+        ADDRESS, DNAME, (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e.SPOT = c.CODE
+	            AND c."TYPE" = '직위') AS SPOT,
+	        (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e."POSITION" = c.CODE
+	            AND c."TYPE" = '직책') AS "POSITION",
+	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
         FROM EMPLOYEE e JOIN DEPARTMENT d 
         ON e.DEPTNO = d.DEPTNO
@@ -128,6 +152,7 @@
         		 WHERE DNAME LIKE '%'||#{keyword}||'%'
         	</when>
         </choose>
+        AND ESTATUS = #{estatus}
 </select>
 <!-- 직원 정보 수정	updateOneEmployee -->
 <update id="updateOneEmployee" parameterType="EmpVo">
