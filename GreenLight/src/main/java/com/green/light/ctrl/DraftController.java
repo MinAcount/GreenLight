@@ -12,6 +12,7 @@ public class DraftController {
 	public String draftForm() {
 		log.info("DraftController GET /draftForm.do 기안서 작성 Form");
 		
+		
 		return "draftForm";
 	}
 }

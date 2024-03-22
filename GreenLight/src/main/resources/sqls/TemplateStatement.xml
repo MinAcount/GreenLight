@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.TemplateDaoImpl">
+<!-- 대표 문서양식 조회 selectMainTemplate -->
+<select id="selectMainTemplate" resultType="TemplateVo">
+SELECT TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG
+	FROM TEMPLATE
+	WHERE TEMPCODE = #{tempcode}
+	AND MAINFLAG = 'Y'
+</select>
+
+<!-- 문서양식 등록 insertTemplate -->
 <insert id="insertTemplate" parameterType="TemplateVo">
 INSERT INTO TEMPLATE (TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG)
 	VALUES(#{tempcode}||TEMPLATE_SEQ.NEXTVAL, #{emp_id}, #{content}, #{tempcode}, CURRENT_DATE , 'N' )

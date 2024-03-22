@@ -19713,43 +19713,87 @@ label {
 }
 
 .thcss {
-	width: 120px;
+   width: 120px;
 }
-td, th {
-	height: 50px;
-	font-size: 15px;
+
+td{
+   height: 50px;
+   font-size: 15px;
+   text-align: left;
 }
-td, th {
-	height: 50px;
-	font-size: 15px;
-	text-align: left;
+th {
+   height: 50px;
+   font-size: 15px;
+   text-align: left;
 }
 
 .chkbox-td{
-	width: 30px;
+   width: 30px;
 }
 .title-td{
-	width: 55%;
+   width: 55%;
 }
 
-.ck.ck-editor {
-   	width: 800px;
-   	margin: auto;
-}
-.ck-editor__editable {
-	min-height: 500px;
-	max-height: 500px;
-}
-	 
-#editor th, td{
-	height: 50px;
-	width: 200px;
-}
-	
-#editor {
-	width:500px; 
-}
 .birth-td {
-	width: 100px;
+   width: 100px;
 }
 
+.template td {
+   border: 1px solid ;
+   border-collapse: collapse;
+}
+
+.template th {
+   border: 1px solid ;
+   border-collapse: collapse;
+}
+
+.template table {
+   border: 1px solid;
+   border-collapse: collapse;
+}
+.template tr {
+   border: 1px solid;
+   border-collapse: collapse;
+}
+
+
+.template th{
+   text-align: center;
+}
+
+.width30 {
+   width: 30px;
+}
+
+#templateArea {
+   width: 75%; 
+   border: 1px solid; 
+   padding: 15px; 
+   border-color: #B0B5B1;
+}
+
+.fontSize14{
+   font-size: 14px;
+   line-height: 1;
+   text-align: center;
+}
+
+.paddingL10{
+   padding-left: 10px;
+}
+
+.template th{
+   background-color: rgba(123,130,124,0.1);
+   color: #363d47;
+   border-color: #B0B5B1;
+}
+
+.template td{
+   color: #363d47;
+   border-color: #B0B5B1;
+}
+
+hr{
+   color: #B0B5B1;
+}

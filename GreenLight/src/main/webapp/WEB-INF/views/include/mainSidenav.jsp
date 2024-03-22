@@ -42,7 +42,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   </c:if>
 <!-- 전자결재 -->
-                  <a class="nav-link" href="charts.html"><div class="nav-link-icon">
+                  <a class="nav-link" href="./draftForm.do"><div class="nav-link-icon">
                   	<i data-feather="file"></i></div>
                     새 기안서 작성
                   </a>
