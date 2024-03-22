@@ -13,6 +13,11 @@ public class TemplateDaoImpl implements ITemplateDao {
 	private final String NS = "com.green.light.model.mapper.TemplateDaoImpl.";
 	
 	@Override
+	public TemplateVo selectMainTemplate(String tempcode) {
+		return sqlSession.selectOne(NS+"selectMainTemplate", tempcode);
+	}
+	
+	@Override
 	public int insertTemplate(TemplateVo vo) {
 		return sqlSession.insert(NS+"insertTemplate",vo);
 	}

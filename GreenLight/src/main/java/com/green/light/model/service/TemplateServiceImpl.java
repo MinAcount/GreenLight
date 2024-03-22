@@ -15,6 +15,12 @@ public class TemplateServiceImpl implements ITemplateService {
 	private ITemplateDao dao;
 	
 	@Override
+	public TemplateVo selectMainTemplate(String tempcode) {
+		log.info("TemplateServiceImpl selectMainTemplate 대표 문서양식 조회 : {}, tempcode");
+		return dao.selectMainTemplate(tempcode);
+	}
+	
+	@Override
 	public int insertTemplate(TemplateVo vo) {
 		log.info("TemplateServiceImpl insertTemplate 문서양식 등록 : {}", vo);
 		return dao.insertTemplate(vo);

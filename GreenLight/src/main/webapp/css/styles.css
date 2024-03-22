@@ -19712,10 +19712,11 @@ label {
 }
 
 .thcss {
-	width: 120px;
+   width: 120px;
 }
 
 td{
+
 	height: 50px;
 	font-size: 15px;
 	text-align: left;
@@ -19724,16 +19725,18 @@ th {
 	height: 50px;
 	font-size: 15px;
 	text-align: left;
+
 }
 
 .chkbox-td{
-	width: 30px;
+   width: 30px;
 }
 .title-td{
-	width: 55%;
+   width: 55%;
 }
 
 .birth-td {
+
 	width: 100px;
 }
 
@@ -19754,10 +19757,12 @@ th {
 .template tr {
 	border: 1px solid;
 	border-collapse: collapse;
+
 }
 
 
 .template th{
+
 	text-align: center;
 }
 
