@@ -68,7 +68,7 @@ public class EmployeeController {
 	
 	@PostMapping("/loginCheck.do")
 	@ResponseBody
-	public ResponseEntity<?> login(@RequestBody Map<String, Object> map, HttpSession session) {
+	public ResponseEntity<?> loginCheck(@RequestBody Map<String, Object> map, HttpSession session) {
 		log.info("EmployeeController POST loginCheck.do 로그인 : {}", map);
 		EmployeeVo failVo = employeeService.getLoginFail((String)(map.get("id")));
 		
@@ -91,6 +91,43 @@ public class EmployeeController {
 				EmployeeVo vo = employeeService.getLogin(map);
 				if(vo != null) {
 					session.setAttribute("loginVo", vo);
+					System.out.println("session에 담기는 vo"+vo);
+					if(vo.getAuth() == "00") {
+						return ResponseEntity.ok("{\"msg\":\"SUCCESSADMIN\"}");
+					}else {
+						return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
+					}
+				}else {
+					return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
+				}
+			}else {
+				return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
+			}
+		}
+	}
+	
+	@PostMapping("/passwordCheck.do")
+	@ResponseBody
+	public ResponseEntity<?> passwordCheck(@RequestBody Map<String, Object> map, HttpSession session) {
+		log.info("EmployeeController POST passwordCheck.do 로그인 : {}", map);
+		EmployeeVo failVo = employeeService.getLoginFail((String)(map.get("id")));
+		
+		if(failVo == null) {
+			return ResponseEntity.ok("{\"msg\":\"NULL\"}");
+		}else{
+			System.out.println(failVo);
+			//암호화 된 비밀번호와 입력된 비밀번호가 같은지 확인
+			boolean matchPassword =  passwordEncoder.matches((String)map.get("password"),failVo.getPassword());
+			System.out.println("match?"+matchPassword);
+			System.out.println("mapPassword??"+map.get("password"));
+			System.out.println("voPassword??"+failVo.getPassword());
+			if(matchPassword) {
+				map.put("password", failVo.getPassword());
+				System.out.println("map"+map);
+				EmployeeVo vo = employeeService.getLogin(map);
+				if(vo != null) {
+					session.setAttribute("loginVo", vo);
+					System.out.println("session에 담기는 vo"+vo);
 					if(vo.getAuth() == "00") {
 						return ResponseEntity.ok("{\"msg\":\"SUCCESSADMIN\"}");
 					}else {
