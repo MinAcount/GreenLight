@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.green.light.model.mapper.ScheduleDaoImpl">
+	<resultMap type="com.green.light.vo.ScheduleVo" id="ScheduleVoMap">
+		<result property="schedule_id" column="SCHEDULE_ID" />
+		<result property="cno" column="CNO" />
+		<result property="creator" column="CREATOR" />
+		<result property="phone" column="PHONE" />
+		<result property="modified" column="MODIFIED" />
+		<result property="usertype" column="USERTYPE" />
+		<result property="category" column="CATEGORY" />
+		<result property="title" column="TITLE" />
+		<result property="memo" column="MEMO" />
+		<result property="start_date" column="START_DATE" />
+		<result property="end_date" column="END_DATE" />
+		<result property="location" column="LOCATION" />
+		<result property="priority" column="PRIORITY" />
+		<result property="recur" column="RECUR" />
+		<result property="visibility" column="VISIBILITY" />
+		<result property="participants" column="PARTICIPANTS" />
+		<result property="permission" column="PERMISSION" />
+		<result property="alarm" column="ALARM" />
+		
+		<result property="commonVo.type" column="TYPE" />
+		<result property="commonVo.code" column="CODE" />
+		<result property="commonVo.code_name" column="CODE_NAME" />
+	</resultMap>
+	
+	<!-- 월별조회 -->
+	<select id="monthSchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">
+	SELECT 'M' AS GUBUN, CNO AS SYSID, CREATOR AS SYSNAME,
+			sc.SCHEDULE_ID, sc.USERTYPE,
+			cc.CODE_NAME AS CATEGORY, sc.TITLE,
+			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
+		FROM SCHEDULE sc
+		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
+		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
+		WHERE CNO = #{user_id}
+	UNION ALL
+	SELECT 'P' AS GUBUN, jt.id AS SYSID, jt.name AS SYSNAME,
+			sc.SCHEDULE_ID, sc.USERTYPE,
+			cc.CODE_NAME AS CATEGORY, sc.TITLE,
+			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
+			FROM SCHEDULE sc
+		JOIN JSON_TABLE(
+				sc.PARTICIPANTS, '$[*]'
+			 	COLUMNS (
+			 		id VARCHAR2(10) PATH '$.id',
+					name VARCHAR2(60) PATH '$.name'
+			 )) jt ON jt.id = #{user_id}
+	JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
+	JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
+	WHERE sc.VISIBILITY = 'Y'
+	</select>
+	<!-- 주별조회 -->
+	<select id="weekSchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">
+	SELECT TO_CHAR(sc.START_DATE, 'DD') AS "DAY",
+			TO_CHAR(sc.START_DATE, 'MM') || '월' AS MON,
+			TO_CHAR(sc.START_DATE, 'DY') AS MONTLY,
+			sc.SCHEDULE_ID, sc.USERTYPE, cc.CODE_NAME AS CATEGORY, sc.PRIORITY,
+			sc.TITLE, sc.MEMO, sc.START_DATE, sc.END_DATE,
+			sc.RECUR, sc.VISIBILITY, sc.PERMISSION, ca.CODE_NAME AS ALARM
+		FROM SCHEDULE sc
+		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
+		JOIN COMMON cp ON sc.PRIORITY = cp.CODE AND cp."TYPE" = '일정우선순위'
+		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
+		WHERE (sc.CNO = #{user_id} OR #{user_id} IN (SELECT jt.id FROM
+															JSON_TABLE(
+																sc.PARTICIPANTS, '$[*]'
+																COLUMNS (
+																	id VARCHAR2(10) PATH '$.id',
+																	name VARCHAR2(60) PATH '$.name'
+															)) jt
+				WHERE sc.VISIBILITY = 'Y'))
+	</select>
+	<!-- 상세조회 -->
+	<select id="daySchedule" parameterType="java.util.Map" resultMap="ScheduleVoMap">
+	SELECT sc.SCHEDULE_ID, sc.CNO, sc.CREATOR, sc.PHONE, sc.MODIFIED,
+			sc.USERTYPE, cc.CODE_NAME AS CATEGORY,
+			sc.TITLE, sc.MEMO, sc.START_DATE, sc.END_DATE, sc.LOCATION,
+			cp.CODE_NAME AS PRIORITY,
+			sc.RECUR, sc.VISIBILITY, sc.PARTICIPANTS, sc.PERMISSION, ca.CODE_NAME AS ALARM
+		FROM SCHEDULE sc
+		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
+		JOIN COMMON cp ON sc.PRIORITY = cp.CODE AND cp."TYPE" = '일정우선순위'
+		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
+		WHERE (sc.CNO = #{user_id} OR #{user_id} IN (SELECT jt.id FROM
+															JSON_TABLE(
+																sc.PARTICIPANTS, '$[*]'
+																COLUMNS (
+																	id VARCHAR2(10) PATH '$.id',
+																	name VARCHAR2(60) PATH '$.name'
+															)) jt
+				WHERE sc.VISIBILITY = 'Y'))
+		AND sc.SCHEDULE_ID = #{schedule_id}
+	</select>
+	<!-- 일정등록 -->
+	<insert id="insertSchedule" parameterType="ScheduleVo">
+	INSERT INTO SCHEDULE (SCHEDULE_ID, CNO, CREATOR, PHONE, MODIFIED, USERTYPE, CATEGORY,
+							TITLE, MEMO, START_DATE, END_DATE, LOCATION, PRIORITY, RECUR, VISIBILITY,
+							PARTICIPANTS, PERMISSION, ALARM)
+	WITH W_USER AS (
+		SELECT CODE, CODE_NAME
+		FROM COMMON
+		WHERE "TYPE" = #{usertype}
+	),
+	W_PRIORITY AS (
+		SELECT CODE, CODE_NAME
+		FROM COMMON
+		WHERE "TYPE" = '일정우선순위'
+	),
+	W_ALARM AS (
+		SELECT CODE, CODE_NAME
+		FROM COMMON
+		WHERE "TYPE" = '일정알람시간'
+	)
+	SELECT 'S' || TO_CHAR(CURRENT_DATE, 'YYMMDD') || LPAD(SCHEDULE_SEQ.NEXTVAL, 3, '0'),
+	#{cno}, #{creator}, #{phone}, CURRENT_DATE, #{usertype}, (SELECT CODE FROM W_USER WHERE CODE = #{category}),
+	#{title}, #{memo},
+	#{start_date}, #{end_date},
+	#{location}, (SELECT CODE FROM W_PRIORITY WHERE CODE = #{priority}), #{recur}, #{visibility},
+	#{participants}, #{permission}, (SELECT CODE FROM W_ALARM WHERE CODE = #{alarm}) FROM DUAL
+	</insert>
+	<!-- 일정수정 -->
+	<update id="updateSchedule" parameterType="ScheduleVo">
+		UPDATE SCHEDULE
+        SET PHONE=#{phone}, MODIFIED=CURRENT_DATE, 
+                USERTYPE=#{usertype} , CATEGORY=#{category}, 
+                TITLE=#{title}, MEMO=#{memo}, 
+                START_DATE=#{start_date}, 
+                END_DATE=#{end_date}, 
+                LOCATION=#{location}, PRIORITY=#{priority}, RECUR=#{recur}, VISIBILITY=#{visibility}, 
+                PARTICIPANTS=#{participants}, 
+                PERMISSION=#{permission}, ALARM=#{alarm}
+        WHERE SCHEDULE_ID=#{schedule_id}
+	</update>
+	<!-- START_DATE=TO_DATE(#{start_date}, 'YYYY-MM-DD HH24:MI'), 
+                END_DATE=TO_DATE(#{end_date}, 'YYYY-MM-DD HH24:MI'),  -->
+	<!-- 일정삭제 -->
+	<delete id="deleteSchedule" parameterType="java.lang.String">
+		DELETE FROM SCHEDULE WHERE SCHEDULE_ID=#{schedule_id}
+	</delete>
+</mapper>
