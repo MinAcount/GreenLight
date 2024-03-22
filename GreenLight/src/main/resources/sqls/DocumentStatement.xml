@@ -187,4 +187,20 @@
 			WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
 			AND NOT d.DOC_STATUS = '04'
 	</select>
+	
+	<!-- 참조문서함 기안서상태별 전체조회 getAllRefDraftByDocStatus -->
+	<select id="getAllRefDraftByDocStatus" resultMap="DocumentVo">
+	SELECT d.DOCNO, e.NAME , d.TITLE, 
+       d.DRAFT_DATE,
+       (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO) AS APPR_DATE,
+       d.URGENCY, 
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c.TYPE = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c.TYPE = '기안서상태') AS DOC_STATUS,
+       (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
+	FROM DOCUMENT d 
+	        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
+	        JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
+	WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
+	AND d.DOC_STATUS = #{doc_status}
+	</select>
 </mapper>

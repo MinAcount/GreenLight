@@ -21,10 +21,10 @@
          		<div>
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li class="nav-link active ms-0" onclick="location.href='#'">전체</li>
-                            <li class="nav-link">진행</li>
-                            <li class="nav-link">승인</li>
-                            <li class="nav-link">반려</li>
+                            <li class="nav-link active ms-0" onclick="allRefList(${loginVo.id}); setActive(this)">전체</li>
+                            <li class="nav-link" onclick="refListByDocStatus('01'); setActive(this)">진행</li>
+                            <li class="nav-link" onclick="refListByDocStatus('02'); setActive(this)">승인</li>
+                            <li class="nav-link" onclick="refListByDocStatus('03'); setActive(this)">반려</li>
                         </ul>
                     </nav>
                     
@@ -44,13 +44,14 @@
 			</div>
          	<hr class="mt-0 mb-5">
 			<div>
+				<input type="hidden" value="${loginVo.id}" id="id">
 				<table class="datatable-table">
 					<thead>
 						<tr style="width: 100%;">
 							<th style="width: 2.5%;">
 								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 							</th>
-							<th style="width: 6.5%;">문서번호</th>
+							<th style="width: 11%;">문서번호</th>
 							<th style="width: 18.5%;">제목</th>
 							<th style="width: 5.5%;">긴급</th>
 							<th style="width: 7%;">작성자</th>
@@ -61,14 +62,14 @@
 							<th style="width: 10.5%;">기안서상태</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tableBody">
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr>
 								<td class="chkbox-td">
-									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
+									<input class="form-check-input" type="checkbox">
 								</td>
 								<td>${vo.docno}</td>
-								<td>${vo.title}</td>
+								<td><a>${vo.title}</a></td>
 								<td>
 									<c:choose>
 						                <c:when test="${vo.urgency eq 'Y'}">
