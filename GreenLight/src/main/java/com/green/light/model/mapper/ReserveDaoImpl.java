@@ -44,8 +44,8 @@ public class ReserveDaoImpl implements IReserveDao{
 	}
 
 	@Override
-	public List<CheckListVo> getOneReserve(String reserveno) {
-		return sqlsession.selectList(NS+"getOneReserve", reserveno);
+	public CheckListVo getOneReserve(String reserveno) {
+		return sqlsession.selectOne(NS+"getOneReserve", reserveno);
 	}
 
 	@Override

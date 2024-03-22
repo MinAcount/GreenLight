@@ -18,7 +18,7 @@ public interface IReserveDao {
 	//나의 예약 조회
 	public List<CheckListVo> getMyReserve(String applicant);
 	//예약 정보 상세 조회
-	public List<CheckListVo> getOneReserve(String reserveno);
+	public CheckListVo getOneReserve(String reserveno);
 	//예약
 	public int insertReserve(Map<String, Object> map);
 	//예약 수정

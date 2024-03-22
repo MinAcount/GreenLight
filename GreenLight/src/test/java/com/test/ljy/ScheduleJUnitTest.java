@@ -40,7 +40,7 @@ public class ScheduleJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-//	@Test
+	@Test
 	public void MonthScheduleTest() {
 		String userId = "2312120601";
 		List<ScheduleVo> lists = service.monthSchedule(userId);

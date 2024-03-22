@@ -604,9 +604,9 @@ SELECT '직책', '04', '대표이사', '' FROM DUAL;
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
 SELECT '권한', '00', '시스템관리자', '' FROM DUAL
 UNION ALL
-SELECT '권한', '01', '인사관리자', '' FROM DUAL
+SELECT '권한', '01', '일반사원', '' FROM DUAL
 UNION ALL
-SELECT '권한', '02', '일반사원', '' FROM DUAL;
+SELECT '권한', '02', '인사관리자', '' FROM DUAL;
 
 -- 문서종류
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)

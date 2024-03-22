@@ -47,7 +47,7 @@ public class ReserveJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-	@Test
+//	@Test
 	public void AllReserveTest() {
 	    List<CheckListVo> lists = service.getAllReserve();
 	    System.out.println(lists);
@@ -89,12 +89,12 @@ public class ReserveJUnitTest {
 	    assertNotNull(lists);
 	}
 	
-//	@Test
+	@Test
 	public void OneReserveTest() {
 		String reserveno = "240301R005";
-	    List<CheckListVo> lists = service.getOneReserve(reserveno);
-	    System.out.println(lists);
-	    assertNotNull(lists);
+	    CheckListVo vo = service.getOneReserve(reserveno);
+	    System.out.println(vo);
+	    assertNotNull(vo);
 	}
 	
 //	@Test
@@ -128,11 +128,10 @@ public class ReserveJUnitTest {
 	
 //	@Test
     public void RroInsertTest() {
-        // 예약에 필요한 매개변수 설정
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("applicant", "2312120601");
 		parameters.put("phone", "010-1234-5678");
-		parameters.put("reserve_date", java.sql.Timestamp.valueOf("2025-10-20 14:00:00"));
+		parameters.put("reserve_date", java.sql.Timestamp.valueOf("2025-02-23 16:00:00"));
 		parameters.put("meetingtitle", "프로젝트 회의");
 		parameters.put("conf_id", "F3_004_310");
 
@@ -151,7 +150,6 @@ public class ReserveJUnitTest {
             System.out.println("문제가 발생했습니다.");
         }
 
-        // 예상 결과와 실제 결과 확인
         assertEquals(1, returnStatus);
     }
     

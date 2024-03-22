@@ -38,14 +38,14 @@ CREATE TABLE EMPLOYEE (
     GENDER CHAR(1), 							-- 성별
     ADDRESS VARCHAR2(300), 						-- 주소
     DEPTNO VARCHAR2(2), 						-- 부서번호
-    SPOT VARCHAR2(20), 							-- 직위
-    "POSITION" VARCHAR2(20), 					-- 직책
+    SPOT VARCHAR2(2), 							-- 직위
+    "POSITION" VARCHAR2(2), 					-- 직책
     ESTATUS CHAR(1) DEFAULT 'Y' NOT NULL, 		-- 재직상태
     JOIN_DAY DATE, 								-- 입사일
     EXIT_DAY DATE, 								-- 퇴사일
     ETYPE CHAR(1), 								-- 근무형태
     LEAVE NUMBER DEFAULT 0 NOT NULL, 			-- 연차
-    AUTH CHAR(3) DEFAULT '01' NOT NULL, 		-- 권한
+    AUTH VARCHAR2(2) DEFAULT '01' NOT NULL, 	-- 권한
     PROFILE CLOB, 								-- 프로필사진
     FAIL NUMBER DEFAULT 0 NOT NULL				-- 실패횟수
 );
@@ -271,7 +271,6 @@ CREATE TABLE COMMON (
     DESCRIPTION VARCHAR2(200)        -- 설명: 해당 행에 대한 설명
 );
 
-
 --------------------------------------------------------8.파일--------------------------------------------------------
 -- 공통파일 테이블
 CREATE TABLE FILESTORAGE (
@@ -333,6 +332,9 @@ DROP TABLE CONFERENCE;
 DROP TABLE RESERVATION; 
 
 DROP TABLE NOTIFICATION;
+
+DROP TABLE COMMON;
+DROP TABLE FILESTORAGE;
 
 -- 시퀀스 삭제
 DROP SEQUENCE VACATION_SEQ;

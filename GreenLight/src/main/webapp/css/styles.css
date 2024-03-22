@@ -19349,7 +19349,9 @@ nav>.nav-link {
 
 .datatable-table th {
   vertical-align: bottom;
-  text-align: left;
+  text-align: center;
+/*   background-color: #f6f6f6; 주영추가 */
+  
 }
 
 .datatable-table th a {
@@ -19725,7 +19727,6 @@ th {
 	height: 50px;
 	font-size: 15px;
 	text-align: left;
-
 }
 
 .chkbox-td{
@@ -19762,7 +19763,6 @@ th {
 
 
 .template th{
-
 	text-align: center;
 }
 
@@ -19800,4 +19800,10 @@ th {
 
 hr{
 	color: #B0B5B1;
+}
+
+/* 주영추가 */
+th, td {
+	border-left: none;
+	border-right: none;
 }
