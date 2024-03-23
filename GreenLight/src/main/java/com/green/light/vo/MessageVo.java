@@ -23,4 +23,5 @@ public class MessageVo {
 	private String file_yn;
 	
 	private GroupMemberVo gmvo;
+	private EmployeeVo empVo;
 }

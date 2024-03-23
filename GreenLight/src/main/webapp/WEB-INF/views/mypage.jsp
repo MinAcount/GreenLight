@@ -5,7 +5,7 @@
 <head>
 </head>
 <body class="nav-fixed">
-
+	
 	<%@ include file="./include/mainHeader.jsp"%>
 	<!-- 사이드나브바 & 콘텐트 영역 -->
 	<div id="layoutSidenav">
@@ -20,8 +20,18 @@
 						<div class="card mb-4 mb-xl-0">
 							<div class="card-header">프로필 사진</div>
 							<div class="card-body text-center">
+							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
 								<img class="img-account-profile rounded-circle mb-2"
-									src="assets/img/illustrations/profiles/profile-1.png" alt="" />
+									src="assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" />
+							</c:if>
+							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
+								<img class="img-account-profile rounded-circle mb-2"
+									src="assets/img/illustrations/profiles/profile-2.png" alt="프로필사진" />
+							</c:if>
+							<c:if test="${loginVo.profile ne null}">
+								<img class="img-account-profile rounded-circle mb-2"
+									src="data:image/png;base64,${loginVo.profile}" alt="프로필사진" />
+							</c:if>
 							</div>
 						</div>
 					</div>

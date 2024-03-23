@@ -89,6 +89,7 @@ public class EmployeeJUnitTest {
 		
 		//입사처리
 		EmployeeVo vo = new EmployeeVo("","주인공", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
+		vo.setPassword("1q2w3e4r!!");
 		System.out.println(vo);
 		boolean isc = service.insertEmployee(vo);
 		assertTrue(isc);

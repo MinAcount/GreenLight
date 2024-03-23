@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.green.light.model.mapper.IAttendanceDao;
-import com.green.light.vo.AttendainceVo;
+import com.green.light.vo.AttendanceVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,25 +43,25 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	}
 
 	@Override
-	public int updateWorkStatus(AttendainceVo attendainceVo) {
+	public int updateWorkStatus(AttendanceVo attendainceVo) {
 		log.info("AttendanceServiceImpl updateWorkStatus 전달받은 값 : {} ", attendainceVo);
 		return dao.updateWorkStatus(attendainceVo);
 	}
 
 	@Override
-	public int insertLeaveRecord(AttendainceVo attendainceVo) {
+	public int insertLeaveRecord(AttendanceVo attendainceVo) {
 		log.info("AttendanceServiceImpl insertLeaveRecord 전달받은 값 : {}", attendainceVo);
 		return dao.insertLeaveRecord(attendainceVo);
 	}
 
 	@Override
-	public List<AttendainceVo> getEmployeeAttendance() {
+	public List<AttendanceVo> getEmployeeAttendance() {
 		log.info("AttendanceServiceImpl getEmployeeAttendance");
 		return dao.getEmployeeAttendance();
 	}
 
 	@Override
-	public AttendainceVo getEmployeeDetails(AttendainceVo attendainceVo) {
+	public AttendanceVo getEmployeeDetails(AttendanceVo attendainceVo) {
 		log.info("AttendanceServiceImpl getEmployeeDetails 전달받은 값 : {}", attendainceVo);
 		return dao.getEmployeeDetails(attendainceVo);
 	}

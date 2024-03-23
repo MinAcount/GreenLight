@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class AttendainceVo {
+public class AttendanceVo {
 
 	private String id;
 	private Date in_date;

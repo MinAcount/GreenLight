@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.AttendanceDaoImpl">
 
-<resultMap type="com.green.light.vo.AttendainceVo" id="AttVo">
+<resultMap type="com.green.light.vo.AttendanceVo" id="AttVo">
 	<result property="id" column="ID"/>
 	<result property="in_date" column="IN_DATE"/>
 	<result property="out_date" column="OUT_DATE"/>
@@ -58,7 +58,7 @@
 </update><!-- day를 어떻게 집어넣지? -->
 
 <!-- 근무상태등록 updateWorkStatus() -->
-<update id="updateWorkStatus" parameterType="AttendainceVo">
+<update id="updateWorkStatus" parameterType="AttendanceVo">
 	UPDATE ATTENDANCE 
 	SET ATT_STATUS = #{att_status}
 	WHERE ID = #{id}
@@ -66,7 +66,7 @@
 </update>
 
 <!-- 근태연차처리 insertLeaveRecord() -->
-<insert id="insertLeaveRecord" parameterType="AttendainceVo">
+<insert id="insertLeaveRecord" parameterType="AttendanceVo">
 	INSERT INTO ATTENDANCE (ID, IN_DATE, OUT_DATE, ATT_STATUS)
 	VALUES (#{id}, TO_DATE(#{in_date}, 'YYYY-MM-DD HH24:MI'), TO_DATE(#{out_date}, 'YYYY-MM-DD HH24:MI'), '연차')
 </insert>
@@ -80,7 +80,7 @@
 </select>
 
 <!-- 상세조회 getEmployeeDetails() -->
-<select id="getEmployeeDetails" parameterType="AttendainceVo" resultType="AttendainceVo">
+<select id="getEmployeeDetails" parameterType="AttendanceVo" resultType="AttendanceVo">
 	SELECT ID, IN_DATE ,OUT_DATE , ATT_STATUS 
 	FROM ATTENDANCE a 
 	WHERE ID = #{id}

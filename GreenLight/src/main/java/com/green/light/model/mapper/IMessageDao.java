@@ -1,9 +1,13 @@
 package com.green.light.model.mapper;
 
+import java.util.List;
+
+import com.green.light.vo.MessageVo;
+
 public interface IMessageDao {
 
 	// 채팅방 목록 조회 getAllChat
-	
+	public List<MessageVo> getAllChat(String id);
 	// 채팅방 목록 검색 getSearchChat
 	
 	// 채팅방 생성 insertChat

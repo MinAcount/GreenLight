@@ -12,12 +12,12 @@
 	<!-- 사이드나브바 & 콘텐트 영역 -->
 	<div id="layoutSidenav">
 		<%@ include file="./include/mainSidenav.jsp"%>
-		
+
 		<c:set var="count" value="0" />
 		<c:forEach items="${list}" var="list">
-		    <c:if test="${list.estatus eq 'Y'}">
-		        <c:set var="count" value="${count + 1}" />
-		    </c:if>
+			<c:if test="${list.estatus eq 'Y'}">
+				<c:set var="count" value="${count + 1}" />
+			</c:if>
 		</c:forEach>
 
 		<!-- 콘텐츠 영역 -->
@@ -30,36 +30,44 @@
 						<nav class="nav nav-borders">
 							<ul
 								style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-								<li class="nav-link active ms-0" onclick="location.href='#'">전체(${fn:length(list)})</li>
-								<li class="nav-link">재직중(${count})</li>
-								<li class="nav-link">퇴사자(${fn:length(list) - count})</li>
+								<li class="nav-link active ms-0"
+									onclick="selectByStatus('A'); setActive(this)">전체(${fn:length(list)})</li>
+								<li class="nav-link"
+									onclick="selectByStatus('Y'); setActive(this)">재직중(${count})</li>
+								<li class="nav-link"
+									onclick="selectByStatus('N'); setActive(this)">퇴사자(${fn:length(list) - count})</li>
 							</ul>
 						</nav>
 
 					</div>
-					<div style="display: flex; flex-direction: row;">
-						<div class="datatable-dropdown">
-							<select class="datatable-selector">
-								<option value="이름" selected="selected">이름</option>
-								<option value="부서">부서</option>
-							</select>
+					<form onsubmit="searchEmployee()">
+						<div style="display: flex; flex-direction: row;">
+								<div class="datatable-dropdown">
+									<select class="datatable-selector">
+										<option value="name" selected="selected" class="opt">이름</option>
+										<option value="dept" class="opt">부서</option>
+									</select>
+								</div>
+								<div class="datatable-search">
+									<input class="datatable-input" placeholder="Search..."
+										type="search" title="Search within table"
+										aria-controls="datatablesSimple" id="keyword">
+								</div>
+							<div class="datatable-dropdown">
+								<select class="datatable-selector">
+									<option value="5" selected="selected">5</option>
+									<option value="10">10</option>
+									<option value="20">20</option>
+									<option value="30">30</option>
+									<option value="50">50</option>
+								</select>
+							</div>
 						</div>
-						<input class="form-control" type="text" placeholder="Search..."
-							aria-label="Search"
-							style="width: 200px; margin-right: 15px; height: 42px;">
-						<div class="datatable-dropdown">
-							<select class="datatable-selector">
-								<option value="10" selected="selected">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="50">50</option>
-							</select>
-						</div>
-					</div>
+					</form>
 				</div>
 				<hr class="mt-0 mb-4">
 				<div>
-					<table class="datatable-table">
+					<table class="datatable-table" id="datatablesSimple">
 						<thead>
 							<tr style="width: 100%;">
 								<th style="width: 5%;"></th>
@@ -71,7 +79,7 @@
 								<th style="width: 15%;">재직상태</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${list}" varStatus="vs">
 								<tr>
 									<td style="text-align: center;">${vs.count}</td>
@@ -121,7 +129,11 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
-
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables/datatables-simple-demo.js"></script>
+	<script src="js/emp_ljw/emp.js"></script>
 
 </body>
 </html>

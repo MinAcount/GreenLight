@@ -16,17 +16,19 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">직원 추가</h1>
-				<form action="./employeeAdd.do" method="post" enctype="multipart/form-data">
+				<form>
 					<div class="container-xl px-4 mt-4">
 						<div class="row">
 							<div class="col-xl-4" style="width: 60%; margin: 0 auto;">
 								<div class="card mb-4 mb-xl-0">
 									<div class="card-header">프로필 사진</div>
 									<div class="card-body text-center">
-										<img class="img-account-profile rounded-circle mb-2"
-											src="assets/img/illustrations/profiles/profile-2.png" alt=""/>
-										<div class="small font-italic text-muted mb-4">5MB 이하의 이미지만 가능합니다</div>
-										<button class="btn btn-primary" type="button">사진 올리기</button>
+										<img class="img-account-profile rounded-circle mb-2" id="preview"
+											src="assets/img/illustrations/profiles/profile-2.png" alt="" width="160px;"/>
+										<div class="small font-italic text-muted mb-4">500KB 이하의 이미지만 가능합니다</div>
+										<label class="btn btn-primary" for="profile">사진올리기</label>
+										<input type="file" id="profile" name="profile" accept="image/*" onchange="profileUpload(this)" style="display:none"/>
+										<button class="btn btn-primary" onclick="cleanProfile()">사진내리기</button>
 									</div>
 								</div>
 							</div>
@@ -42,7 +44,7 @@
 											<div class="col-md-6">
 												<label class="control-label col-sm-2" for="gender">성별*</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector" name="gender">
+													<select class="datatable-selector" name="gender" id="gender">
 														<option value="M" selected="selected">남성</option>
 														<option value="F">여성</option>
 													</select>
@@ -53,7 +55,7 @@
 											<div class="col-md-6">
 												<label class="small mb-1" for="dept">부서*</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector" name="deptno">
+													<select class="datatable-selector" name="deptno" id="deptno">
 														<c:forEach var="dept" items="${deptList}" varStatus="vs">
 															<option value="${dept.deptno}">${dept.dname}</option>
 														</c:forEach>
@@ -76,7 +78,7 @@
 											<div class="col-md-6">
 												<label class="small mb-1" for="spot">직위*</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector" name="spot">
+													<select class="datatable-selector" name="spot" id="spot">
 														<option value="01" selected="selected">사원</option>
 														<option value="02">주임</option>
 														<option value="03">대리</option>
@@ -90,7 +92,7 @@
 											<div class="col-md-6">
 												<label class="control-label col-sm-6" for="etype">근무형태*</label>
 												<div class="datatable-dropdown">
-													<select class="datatable-selector" name="etype">
+													<select class="datatable-selector" name="etype" id="etype">
 														<option value="A" selected="selected">정규직</option>
 														<option value="B">비정규직</option>
 													</select>
@@ -127,7 +129,7 @@
 											</div>
 										</div>
 										<p style="font-size: 7px; position:absolute; right: 20px;">* 필수입력사항입니다.</p>
-										<button class="btn btn-primary" type="button" onclick="checkUploadEmployee()">등록</button>
+										<button class="btn btn-primary" type="button" id="employeeAddBtn" onclick="checkUploadEmployee()">등록</button>
 									</div>
 								</div>
 							</div>

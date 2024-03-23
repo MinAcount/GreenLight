@@ -94,9 +94,9 @@
 					alert("접근이 제한된 아이디입니다. 관리자에게 문의해주세요");
 					return;
 				}else if(result.msg == 'SUCCESS'){
-					location.href="./login.do";
+					location.href="./main.do";
 				}else if (result.msg == 'SUCCESSADMIN'){
-					location.href="./loginAdmin.do";
+					location.href="./admin.do";
 				}else if(result.msg == 'FAIL'){
 					alert("비밀번호를 다시 확인하여주세요");
 					location.reload();

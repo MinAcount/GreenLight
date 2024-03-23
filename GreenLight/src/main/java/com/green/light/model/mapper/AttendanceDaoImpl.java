@@ -7,7 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.green.light.vo.AttendainceVo;
+import com.green.light.vo.AttendanceVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,25 +46,25 @@ public class AttendanceDaoImpl implements IAttendanceDao {
 	}
 
 	@Override
-	public int updateWorkStatus(AttendainceVo attendainceVo) {
+	public int updateWorkStatus(AttendanceVo attendainceVo) {
 		log.info("AttendanceDaoImpl updateWorkStatus 근무상태 등록");
 		return session.update(NS+"updateWorkStatus", attendainceVo);
 	}
 
 	@Override
-	public int insertLeaveRecord(AttendainceVo attendainceVo) {
-		log.info("AttendanceDaoImpl insertLeaveRecord 근무상태 등록");
+	public int insertLeaveRecord(AttendanceVo attendainceVo) {
+		log.info("AttendanceDaoImpl insertLeaveRecord 근태연차처리");
 		return session.insert(NS+"insertLeaveRecord", attendainceVo);
 	}
 
 	@Override
-	public List<AttendainceVo> getEmployeeAttendance() {
+	public List<AttendanceVo> getEmployeeAttendance() {
 		log.info("AttendanceDaoImpl getEmployeeAttendance 전체조회-관리자");
 		return session.selectList(NS+"getEmployeeAttendance");
 	}
 
 	@Override
-	public AttendainceVo getEmployeeDetails(AttendainceVo attendainceVo) {
+	public AttendanceVo getEmployeeDetails(AttendanceVo attendainceVo) {
 		log.info("AttendanceDaoImpl getEmployeeDetails 근무상태 등록");
 		return session.selectOne(NS+"getEmployeeDetails",attendainceVo);
 	}
