@@ -129,7 +129,7 @@
 	</select>
 	<!-- 예약 -->
 	<insert id="insertReserve" parameterType="java.util.Map" statementType="CALLABLE">
-		CALL GD.PRO_RESERVATION (
+		CALL PRO_RESERVATION (
 		#{v_count, mode=OUT, jdbcType=INTEGER},
 		#{v_reserveno, mode=OUT, jdbcType=VARCHAR},
 		#{applicant, mode=IN, jdbcType=VARCHAR},

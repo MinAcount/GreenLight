@@ -52,7 +52,7 @@ public class ReserveServiceImpl implements IReserveService {
 	}
 
 	@Override
-	public List<CheckListVo> getOneReserve(String reserveno) {
+	public CheckListVo getOneReserve(String reserveno) {
 		log.info("ReserveServiceImpl getOneReserve 예약 정보 상세 조회");
 		return dao.getOneReserve(reserveno);
 	}
