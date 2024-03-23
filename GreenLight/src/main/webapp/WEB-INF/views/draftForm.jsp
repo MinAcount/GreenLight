@@ -15,261 +15,36 @@
       <!-- 콘텐츠 영역 -->
       <div id="layoutSidenav_content">
          <div id="main_content">
-            <textarea name="ir1" id="ir1" rows="10" cols="100"><div class="top" style="text-align: center; margin-bottom: 30px;">
-                  <h1>휴가신청서</h1>
-               </div>
-               <div class="header"
-                     style="display: flex; flex-direction: row; justify-content: space-between;">
-
-                     <div>
-                        <table class="template">
-                           <tr>
-                              <th style="width: 80px;">기안자</th>
-                              <td style="width: 180px;" class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>소속</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>기안일</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>문서번호</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                        </table>
-                     </div>
-                     <div style="display: flex; flex-direction: row;">
-                        <table class="template" style="height: 180px;">
-                           <tr>
-                              <th rowspan="3" class="width30" >신청</th>
-                              <td class="fontSize14" style="width: 90px; height: 20px;">사원</td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <div class="fontSize14">배강훈</div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="fontSize14" style="height: 20px;">2024.03.21</td>
-                           </tr>
-                        </table>
-                        <table class="template" style="margin-left: 10px; height: 180px;">
-                           <tr>
-                              <th rowspan="3" class="width30">승인</th>
-                              <td style="width: 90px; height: 20px;" class="fontSize14">대리</td>
-                           </tr>
-                           <tr>
-                              <td class="fontSize14">이혜원</td>
-                           </tr>
-                           <tr>
-                              <td style="height: 20px;" class="fontSize14">2024.03.21</td>
-                           </tr>
-                        </table>
-                     </div>
-                  </div>
-               <div class="content"  style="width: 100%; margin-top: 30px;">
-                  <table class="template"  style="width: 100%;">
-                          <colgroup>
-                                  <col width="20%">
-                                  <col width="80%">
-                          </colgroup>
-                     <tr>
-                             <th>휴가 종류</th>
-                             <td>
-                                     <select>
-                                             <option value="연차">연차</option>
-                                             <option value="공가">공가</option>
-                                     </select>
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>기간 및 일시</th>
-                             <td>
-                                     <div class="input-group input-group-joined" style="width: 16.5rem;">
-                                                                 <span class="input-group-text">
-                                                                         <i data-feather="calendar"></i>
-                                                                 </span>
-                                                        <input class="form-control ps-0" id="litepickerRangePlugin" placeholder="Select date range..." />
-                                                        </div>
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>반차 여부</th>
-                             <td>
-                                     <input type="checkbox" value="시작일" id="startCheckbox">
-                                     <label>시작일</label>
-                                     (
-                                     <input type="radio" name="시작일" value="오전" disabled="disabled">
-                                     <label>오전</label>
-                                     <input type="radio" name="시작일" value="오후" disabled="disabled">
-                                     <label>오후</label>
-                                     )
-                                     <input type="checkbox" value="종료일" id="endCheckbox">
-                                     <label>종료일</label>
-                                     (
-                                     <input type="radio" name="종료일" value="오전" disabled="disabled">
-                                     <label>오전</label>
-                                     <input type="radio" name="종료일" value="오후" disabled="disabled">
-                                     <label>오후</label>
-                                     )
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>연차 일수</th>
-                             <td>
-                                     <span>
-                                             <b>잔여연차 : </b>
-                                             <input type="text">
-                                     </span>
-                                     <span>
-                                             <b>신청연차 : </b>
-                                             <input type="text">
-                                     </span>
-                             </td>
-                     </tr>
-                     <tr>
-                             <td colspan="2">
-                                     공가 : <br>
-                                     경조사 휴가는 행사일을 증명할 수 있는 가족 관계 증명서 또는 등본, 청첩장 등 제출<br>
-                                     예비군/민방위는 사전에 통지서를, 사후에 참석증을 반드시 제출<br>
-                                     질병휴가는 의사의 진단서 또는 진료 증명서를 반드시 제출 ㅁㄴㅇㄹ
-                             </td>
-                     </tr>
-                  </table>
-               </div>
-            </div></textarea>
-            <div>
+            <textarea name="ir1" id="ir1" rows="10" cols="100"></textarea>
             <hr>
-            <div class="top" style="text-align: center; margin-bottom: 30px;">
-                  <h1>휴가신청서</h1>
-               </div>
-               <div class="header"
-                     style="display: flex; flex-direction: row; justify-content: space-between;">
-
-                     <div>
-                        <table class="template">
-                           <tr>
-                              <th style="width: 80px;">기안자</th>
-                              <td style="width: 180px;" class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>소속</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>기안일</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                           <tr>
-                              <th>문서번호</th>
-                              <td class="paddingL10"></td>
-                           </tr>
-                        </table>
-                     </div>
-                     <div style="display: flex; flex-direction: row;">
-                        <table class="template" style="height: 180px;">
-                           <tr>
-                              <th rowspan="3" class="width30" >신청</th>
-                              <td class="fontSize14" style="width: 90px; height: 20px;">사원</td>
-                           </tr>
-                           <tr>
-                              <td>
-                                 <div class="fontSize14">배강훈</div>
-                              </td>
-                           </tr>
-                           <tr>
-                              <td class="fontSize14" style="height: 20px;">2024.03.21</td>
-                           </tr>
-                        </table>
-                        <table class="template" style="margin-left: 10px; height: 180px;">
-                           <tr>
-                              <th rowspan="3" class="width30">승인</th>
-                              <td style="width: 90px; height: 20px;" class="fontSize14">대리</td>
-                           </tr>
-                           <tr>
-                              <td class="fontSize14">이혜원</td>
-                           </tr>
-                           <tr>
-                              <td style="height: 20px;" class="fontSize14">2024.03.21</td>
-                           </tr>
-                        </table>
-                     </div>
-                  </div>
-               <div class="content"  style="width: 100%; margin-top: 30px;">
-                  <table class="template"  style="width: 100%;">
-                          <colgroup>
-                                  <col width="20%">
-                                  <col width="80%">
-                          </colgroup>
-                     <tr>
-                             <th>휴가 종류</th>
-                             <td>
-                                     <select>
-                                             <option value="연차">연차</option>
-                                             <option value="공가">공가</option>
-                                     </select>
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>기간 및 일시</th>
-                             <td>
-                                     <div class="input-group input-group-joined" style="width: 16.5rem;">
-                                                                 <span class="input-group-text">
-                                                                         <i data-feather="calendar"></i>
-                                                                 </span>
-                                                        <input class="form-control ps-0" id="litepickerRangePlugin" placeholder="Select date range..." />
-                                                        </div>
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>반차 여부</th>
-                             <td>
-                                     <input type="checkbox" value="시작일" id="startCheckbox">
-                                     <label>시작일</label>
-                                     (
-                                     <input type="radio" name="시작일" value="오전" disabled="disabled">
-                                     <label>오전</label>
-                                     <input type="radio" name="시작일" value="오후" disabled="disabled">
-                                     <label>오후</label>
-                                     )
-                                     <input type="checkbox" value="종료일" id="endCheckbox">
-                                     <label>종료일</label>
-                                     (
-                                     <input type="radio" name="종료일" value="오전" disabled="disabled">
-                                     <label>오전</label>
-                                     <input type="radio" name="종료일" value="오후" disabled="disabled">
-                                     <label>오후</label>
-                                     )
-                             </td>
-                     </tr>
-                     <tr>
-                             <th>연차 일수</th>
-                             <td>
-                                     <span>
-                                             <b>잔여연차 : </b>
-                                             <input type="text">
-                                     </span>
-                                     <span>
-                                             <b>신청연차 : </b>
-                                             <input type="text">
-                                     </span>
-                             </td>
-                     </tr>
-                     <tr>
-                             <td colspan="2">
-                                     공가 : <br>
-                                     경조사 휴가는 행사일을 증명할 수 있는 가족 관계 증명서 또는 등본, 청첩장 등 제출<br>
-                                     예비군/민방위는 사전에 통지서를, 사후에 참석증을 반드시 제출<br>
-                                     질병휴가는 의사의 진단서 또는 진료 증명서를 반드시 제출
-                             </td>
-                     </tr>
-                  </table>
-               </div>
-            </div>
-            <%@ include file="./include/footer.jsp"%>
+				<!-- 모달 창 -->
+				<div
+					style="display: flex; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 1000;">
+					<div
+						style="width: 800px; height: 600px; background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);">
+						<div
+							style="display: flex; justify-content: space-between; height: calc(100% - 100px); padding: 10px;">
+							<div
+								style="width: 400px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; box-sizing: border-box;">
+								<h3>문서양식선택</h3>
+								<!-- 왼쪽 영역의 내용 -->
+							</div>
+							<div
+								style="width: 400px; border: 1px solid #ccc; border-radius: 5px; padding: 10px; box-sizing: border-box;">
+								<h3>미리보기</h3>
+								<!-- 오른쪽 영역의 내용 -->
+							</div>
+						</div>
+						<div style="text-align: right; padding: 10px 20px 0;">
+							<button
+								style="padding: 10px 20px; margin: 0 5px; border: none; border-radius: 5px; cursor: pointer; background-color: #ccc;">취소</button>
+							<button
+								style="padding: 10px 20px; margin: 0 5px; border: none; border-radius: 5px; cursor: pointer; background-color: #007bff; color: #fff;">확인</button>
+						</div>
+					</div>
+				</div>
+				<hr>
+			<%@ include file="./include/footer.jsp"%>
          </div>
       </div>
    </div>

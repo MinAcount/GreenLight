@@ -6,6 +6,8 @@ import java.util.Map;
 import com.green.light.vo.DocumentVo;
 
 public interface IDocumentDao {
+	// 결재대기문서함 전체조회 getAllPendingApprovalDraft
+	public List<DocumentVo> getAllPendingApprovalDraft(String id);
 
 	// 기안문서 전체조회 getAllDraft
 	public List<DocumentVo> getAllDraft(String id);
