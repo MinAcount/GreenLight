@@ -1,12 +1,94 @@
+//employeeAddForm.jsp
+function profileUpload(input){
+	console.log(input.files[0].size);
+	if(input.files[0].size > 500 * 1024){
+		alert("500KB이하의 사진만 가능합니다");
+		input.innerHTML = '';
+		document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
+		return;
+	}
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			document.getElementById('preview').src = e.target.result;
+		};
+		reader.readAsDataURL(input.files[0]);
+	} else {
+		document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
+	}
+	console.log(input);
+}
+//employeeAddForm.jsp
+function cleanProfile(){
+	document.getElementById("profile").innerHTML = "";
+	document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
+	
+}
 
-
+//employeeAddForm.jsp
 function checkUploadEmployee(){
-	console.log("Employee Add in");
+	var profileInput = document.getElementById("profile");
+	var name = document.getElementById("name").value;
+	var gender = document.getElementById("gender").value;
+	var deptno = document.getElementById("deptno").value;
+	var join_day = document.getElementById("litepickerSingleDate").value;
+	var spot = document.getElementById("spot").value;
+	var etype = document.getElementById("etype").value;
+	var email = document.getElementById("email").value;
+	var address = document.getElementById("address").value;
+	var phone = document.getElementById("phone").value;
+	var birthday = document.getElementById("litepicker").value;
+
+	const phoneREX = /^[0-9]+$/;
+	const emailREX = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+	
+	if(name == "" || join_day == "" || email == "" || phone == ""){
+		alert("필수사항을 모두 입력해주세요");
+	}else if(!phoneREX.test(phone)){
+		alert("전화번호는 숫자만 가능합니다");
+	}else if(!emailREX.test(email)){
+		alert("이메일 형식에 맞게 입력해주세요");
+	}else if(new Date(join_day)>new Date() || new Date(birthday)>new Date()){
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else{
+		var formData = new FormData();
+		if (profileInput.files.length > 0) {
+		    var profile = profileInput.files[0];
+		    formData.append("profile", profile);
+		}else{
+			formData.append("profile", "");
+		}
+		formData.append("name",name);
+		formData.append("gender",gender);
+		formData.append("deptno",deptno);
+		formData.append("join_day",join_day);
+		formData.append("spot",spot);
+		formData.append("etype",etype);
+		formData.append("email",email);
+		formData.append("address",address);
+		formData.append("phone",phone);
+		formData.append("birthday",birthday);
+		
+		fetch("./employeeAdd.do",{
+			method: 'POST',
+			body: formData,
+		})
+		.then(data => data.json())
+		.then(result =>{
+			if(result.msg == "success"){
+				alert("성공적으로 추가되었습니다");
+				location.href="./updateAuth.do"
+			}else{
+				alert("직원 등록에 실패하였습니다");
+				location.href="./employeeList.do";
+			}
+		});
+	}
 }
 
 
+//modifyPassword.jsp
 function openPassword(val){
-	console.log(val);
 	var openEye0 = document.getElementsByClassName('openEye')[0];
 	var openEye1 = document.getElementsByClassName('openEye')[1];
 	var openEye2 = document.getElementsByClassName('openEye')[2];
@@ -30,9 +112,8 @@ function openPassword(val){
 		confirmPassword.type = "text";
 	}
 }
-
+//modifyPassword.jsp
 function closePassword(val){
-	console.log(val);
 	var openEye0 = document.getElementsByClassName('openEye')[0];
 	var openEye1 = document.getElementsByClassName('openEye')[1];
 	var openEye2 = document.getElementsByClassName('openEye')[2];
@@ -56,14 +137,17 @@ function closePassword(val){
 		confirmPassword.type = "password";
 	}
 }
-
+//modifyPassword.jsp
 function modifyPassword(){
-	console.log("비밀번호 수정 전 체크");
 	var currentPassword = document.getElementById('currentPassword').value;
 	var newPassword = document.getElementById('newPassword').value;
 	var confirmPassword = document.getElementById('confirmPassword').value;
+	var passwordCheckId = document.getElementById('sessionId').value;
 	
-	const reg = /[0-9a-zA-Z]/;
+	
+	
+	const reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/;
+	const spaceNo = /\s/g;
 	
 	if(currentPassword == "" || newPassword == "" || confirmPassword == ""){
 		alert("모든 사항을 입력해주세요");
@@ -71,7 +155,70 @@ function modifyPassword(){
 		alert("입력하신 비밀번호와 확인하신 비밀번호가 다릅니다.");
 	}else if(currentPassword == newPassword){
 		alert("새로운 비밀번호는 기존의 비밀번호와 달라야 합니다.");
-	}else if(newPassword.length < 6 || reg.test(newPassword) == false){
+	}else if(newPassword.match(spaceNo)){
+		alert("비밀번호에 공백은 들어갈 수 없습니다.");
+	}else if(!reg.test(newPassword)){
 		alert("비밀번호는 최소 6자이상이고, 최소한 하나 이상의 영문자, 숫자, 특수문자를 포함해야 합니다.");
+	}else{
+		fetch('./passwordCheck.do', {
+			method: 'POST',
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				id: passwordCheckId,
+				password: currentPassword,
+				confirmPassword: confirmPassword
+			}),
+		})
+		.then(data => data.json())
+		.then(result => {
+			console.log(result);
+			if (result.msg == 'SUCCESS') {
+				alert("비밀번호 수정이 완료되었습니다.");
+				location.href="./mypage.do";
+			}else if (result.msg == 'FAIL'){
+				alert("기존 비밀번호가 맞지 않습니다.");
+			}else if (result.msg == 'UPDATEFAIL'){
+				alert("비밀번호 변경에 실패하였습니다");
+			}
+		});
 	}
 } 
+
+//employeeList.jsp
+function selectByStatus(val){
+	fetch("./employeeListByEstatus.do", {
+		method:"POST",
+		body:val,
+	})
+	.then(data => data.json())
+	.then(result => {
+		console.log(result);
+		updateList(result);
+	});
+}
+
+function updateList(result) {
+	var inputTableBody = document.getElementById("inputTableBody");
+    var tableHTML = '';
+    inputTableBody.innerHTML = '';
+    var count = 1;
+    result.forEach(function (item) {
+        tableHTML += "<tr>";
+        tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+        tableHTML += "<td>" + item.id + "</td>";
+        tableHTML += "<td>" + item.deptVo.dname + "</td>";
+        tableHTML += "<td>" + item.name + "</td>";
+        tableHTML += "<td>" + item.spot + "</td>";
+        tableHTML += "<td>" + (item.position ? item.position : '-') + "</td>";
+        tableHTML += "<td>" + (item.estatus == 'Y' ? '재직중' : '퇴사') + "</td>";
+        tableHTML += "</tr>";
+        count++;
+    });
+    inputTableBody.innerHTML = tableHTML;
+}
+
+//employeeList.jsp
+function searchEmployee(){
+	var selectOpt = document.getElementsByClassName("opt");
+	alert(selectOpt.value)
+}

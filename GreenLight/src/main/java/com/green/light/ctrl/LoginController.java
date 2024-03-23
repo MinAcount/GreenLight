@@ -17,15 +17,15 @@ public class LoginController {
 //	@Autowired
 //	private JavaMailSender mailSender;
 	
-	@GetMapping("/login.do")
+	@GetMapping("/main.do")
 	public String login() {
-		log.info("EmployeeController GET login.do 로그인 후 메인으로 이동");
+		log.info("EmployeeController GET main.do 로그인 후 메인으로 이동");
 		return "main";
 	}
 	
-	@GetMapping("/loginAdmin.do")
+	@GetMapping("/admin.do")
 	public String loginAdmin() {
-		log.info("EmployeeController GET loginAdmin.do 로그인 후 관리자 메인으로 이동");
+		log.info("EmployeeController GET admin.do 로그인 후 관리자 메인으로 이동");
 		return "admin";
 	}
 	
