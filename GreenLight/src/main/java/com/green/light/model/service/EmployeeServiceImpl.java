@@ -81,9 +81,10 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public boolean updateExit(Map<String, Object> map, String id) {
+	public boolean updateExit(Map<String, Object> map) {
 		log.info("EmployeeServiceImpl updateExit 인사팀 전용 직원 퇴사 처리 및 부서장 공석 만들기");
 		int m = dao.updateExitEmployee(map);
+		var id = (String)map.get("id");
 		EmployeeVo vo = dao.getOneEmployee(id);
 		int n = 0;
 		if(vo.getPosition() == "01") {

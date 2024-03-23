@@ -28,7 +28,7 @@
 										<div class="small font-italic text-muted mb-4">500KB 이하의 이미지만 가능합니다</div>
 										<label class="btn btn-primary" for="profile">사진올리기</label>
 										<input type="file" id="profile" name="profile" accept="image/*" onchange="profileUpload(this)" style="display:none"/>
-										<button class="btn btn-primary" onclick="cleanProfile()">사진내리기</button>
+										<button class="btn btn-primary" type="button" onclick="cleanProfile()">사진내리기</button>
 									</div>
 								</div>
 							</div>
@@ -42,7 +42,7 @@
 												<input class="form-control" id="name" name="name" placeholder="이름">
 											</div>
 											<div class="col-md-6">
-												<label class="control-label col-sm-2" for="gender">성별*</label>
+												<label class="small mb-1" for="gender">성별*</label>
 												<div class="datatable-dropdown">
 													<select class="datatable-selector" name="gender" id="gender">
 														<option value="M" selected="selected">남성</option>
@@ -63,7 +63,7 @@
 												</div>
 											</div>
 											<div class="col-md-6">
-												<label class="control-label col-sm-2" for="join_day">입사일*</label>
+												<label class="small mb-1" for="join_day">입사일*</label>
 												<div class="input-group input-group-joined"
 													style="width: 14.5rem;">
 													<span class="input-group-text" id="litepickerSpan">
@@ -90,7 +90,7 @@
 												</div>
 											</div>
 											<div class="col-md-6">
-												<label class="control-label col-sm-6" for="etype">근무형태*</label>
+												<label class="small mb-1" for="etype">근무형태*</label>
 												<div class="datatable-dropdown">
 													<select class="datatable-selector" name="etype" id="etype">
 														<option value="A" selected="selected">정규직</option>
@@ -117,7 +117,7 @@
 												<input class="form-control" id="phone" name="phone" placeholder="전화번호 ex)01012345678" maxlength="11">
 											</div>
 											<div class="col-md-6">
-												<label class="control-label col-sm-6" for="birthday">생년월일</label>
+												<label class="small mb-1" for="birthday">생년월일</label>
 												<div class="input-group input-group-joined"
 													style="width: 14.5rem;">
 													<span class="input-group-text" id="litepickerSpan">
