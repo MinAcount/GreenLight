@@ -19,6 +19,9 @@
 		<typeAlias type="com.green.light.vo.DocumentVo" alias="DocumentVo"/>
 		<typeAlias type="com.green.light.vo.ApprovalVo" alias="ApprovalVo"/>
 		<typeAlias type="com.green.light.vo.TemplateVo" alias="TemplateVo"/>
+		<!-- 채팅 -->
+		<typeAlias type="com.green.light.vo.MessageVo" alias="MessageVo"/>
+		<typeAlias type="com.green.light.vo.GroupMemberVo" alias="GroupMemberVo"/>
 	</typeAliases>
 	
 	<mappers>
@@ -38,5 +41,7 @@
 		<mapper resource="sqls/ApprovalStatement.xml"/>
 		<mapper resource="sqls/DocumentStatement.xml"/>
 		<mapper resource="sqls/TemplateStatement.xml"/>
+		<!-- 채팅 -->
+		<mapper resource="sqls/MessageStatement.xml"/>
 	</mappers>
 </configuration>

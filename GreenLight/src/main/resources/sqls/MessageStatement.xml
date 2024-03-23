@@ -21,27 +21,59 @@
 	<result property="last_mesg" column="LAST_MESG"/>
 	<result property="favor" column="FAVOR"/>
 </resultMap>
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+		<result property="id" column="ID"/>
+		<result property="name" column="NAME"/>
+<!-- 		<result property="password" column="PASSWORD"/> -->
+<!-- 		<result property="email" column="EMAIL"/> -->
+<!-- 		<result property="phone" column="PHONE"/> -->
+<!-- 		<result property="birthday" column="BIRTHDAY"/> -->
+<!-- 		<result property="gender" column="GENDER"/> -->
+<!-- 		<result property="address" column="ADDRESS"/> -->
+		<result property="deptno" column="DEPTNO"/>
+		<result property="spot" column="SPOT"/>
+		<result property="position" column="POSITION"/>
+<!-- 		<result property="estatus" column="ESTATUS"/> -->
+<!-- 		<result property="join_day" column="JOIN_DAY"/> -->
+<!-- 		<result property="exit_day" column="EXIT_DAY"/> -->
+<!-- 		<result property="etype" column="ETYPE"/> -->
+		<result property="leave" column="LEAVE"/>
+<!-- 		<result property="auth" column="AUTH"/> -->
+<!-- 		<result property="profile" column="PROFILE"/> -->
+	</resultMap>                    
 
 <!-- 	 채팅방 목록 조회 getAllChat -->
-<!-- <select id="getAllChat" > -->
-<!-- SELECT GROUPNO, CHAT_ID, NAME, -->
-<!--        FAVOR, NOTI, SEND_DATE, -->
-<!--        MESG_ID, CONTENT, GROUP_OUT -->
-<!--        FROM (SELECT MAX(G.GROUPNO) AS GROUPNO, G.CHAT_ID, MAX(G.NAME) AS NAME, -->
-<!--                     MAX(G.FAVOR) AS FAVOR, MAX(G.NOTI) AS NOTI, MAX(M.SEND_DATE) AS SEND_DATE, -->
-<!--                     MAX(M.MESG_ID) AS MESG_ID, MAX(M.CONTENT) AS CONTENT, MAX(G.GROUP_OUT) AS GROUP_OUT -->
-<!--              FROM GROUPMEMBER G -->
-<!--              JOIN MESSAGE M ON G.CHAT_ID = M.CHAT_ID -->
-<!--              GROUP BY G.CHAT_ID) S -->
-<!--        WHERE GROUP_OUT = 'N' -->
-<!--        ORDER BY SEND_DATE DESC -->
-<!-- </select> -->
+<select id="getAllChat" resultMap="MessageVo">
+SELECT GROUPNO, CHAT_ID, NAME,
+       FAVOR, NOTI, SEND_DATE,
+       MESG_ID, CONTENT, GROUP_OUT
+       FROM (SELECT MAX(G.GROUPNO) AS GROUPNO, G.CHAT_ID, MAX(G.NAME) AS NAME,
+                    MAX(G.FAVOR) AS FAVOR, MAX(G.NOTI) AS NOTI, MAX(M.SEND_DATE) AS SEND_DATE,
+                    MAX(M.MESG_ID) AS MESG_ID, MAX(M.CONTENT) AS CONTENT, MAX(G.GROUP_OUT) AS GROUP_OUT
+             FROM GROUPMEMBER G, MESSAGE M
+             WHERE G.ID = #{id}
+             AND G.CHAT_ID = M.CHAT_ID
+             GROUP BY G.CHAT_ID) S
+       WHERE GROUP_OUT = 'N'
+       ORDER BY SEND_DATE DESC
+</select>
 <!-- 	 채팅방 목록 검색 getSearchChat -->
 
 <!-- 	 채팅방 생성 insertChat -->
 
 <!--      채팅방 세부 조회 getViewInsideChat -->
-
+<select id="getViewInsideChat" parameterType="java.util.Map" resultMap="MessageVo">
+SELECT G.GROUPNO, G.CHAT_ID, G.NAME,
+       G.FAVOR, G.NOTI, M.WRITTER,
+       G.ID, E.NAME, M.CONTENT,
+       M.SEND_DATE, M.FILE_YN
+       FROM GROUPMEMBER G
+       JOIN MESSAGE M ON g.CHAT_ID = M.CHAT_ID
+       JOIN EMPLOYEE e ON E.ID = G.ID 
+       WHERE G.CHAT_ID = #{chat_id} AND M.WRITTER = G.ID
+       AND GROUP_OUT = 'N'
+       ORDER BY SEND_DATE ASC
+</select>
 <!-- 	 채팅방 이름 수정 updateChatName -->
 
 <!-- 	 채팅방 나가기 getOutChat -->
