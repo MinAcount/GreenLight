@@ -1,11 +1,15 @@
+//load 시 실행
 window.onload=function(){
 	doGetAllChat();
 	console.log("실행됨");
 }
 
+var copyResult = {}; // 채팅방 목록 result 복사본
+
+//채팅방 목록 API 호출
 function doGetAllChat(){
 			var id = document.getElementById('id').value;
-			console.log("id",id)
+			console.log("id",id);
 			
 			fetch('./chatList.do', {
 				method:'POST',
@@ -19,7 +23,6 @@ function doGetAllChat(){
 			})
 			.then(response => response.json())
 			.then(result => {
-				console.log("111111111");
 				console.log("result:",result);
 				if(result != null){
 					getAllChat(result)
@@ -27,36 +30,49 @@ function doGetAllChat(){
 					alert('실패..')
 				}
 			});
-
+			
+//채팅방 목록 HTML 조립
 function getAllChat(result){
 	var chatList = document.getElementById('chatList');
 	var html = '';
 	
-result.forEach(function(item){	
+	copyResult = result;
+	for(var i=0;i<result.length;i++){
+		var img = "";	
+		
+		html += '<li>';
+		html += '<div class="tavle-container-div">';
 		html += '<table class="table-container">   ';
 		html += '<thead>                           ';
 		html += '<tr>                              ';
-		html += '<td>'+item.gmvo.favor+'</td>    ';
+		if(result[i].gmvo.favor=="Y"){
+			img="★";
+			//html += '<td>'+result[i].gmvo.favor+'</td>    ';
+			html += '<td>'+img+'</td>';
+		} else {
+			img="☆";
+			html += '<td>'+img+'</td>';
+		}
 		html += '</tr>                             ';
-		html += '<tr onclick="getViewInsideChat()">';
-		html += '<td>'+item.gmvo.name+'</td>     ';
-		html += '<td>'+item.send_date+'</td>          ';
+		html += '<tr onclick="getViewInsideChat('+i+')">';
+		html += '<td>'+result[i].gmvo.name+'</td>     ';
+		html += '<td>'+result[i].send_date+'</td>          ';
 		html += '</tr>                             ';
-		html += '<tr onclick="getViewInsideChat()">';
-		html += '<td>'+item.content+'</td>            ';
-		html += '<td>'+item.gmvo.noti+'</td>     ';
+		html += '<tr onclick="getViewInsideChat('+i+')">';
+		html += '<td>'+result[i].content+'</td>            ';
+		html += '<td>'+result[i].gmvo.noti+'</td>     ';
 		html += '</tr>                             ';
 		html += '</thead>                          ';
 		html += '</table>                          ';
-	});
-	chatList.innerHTML = html;
+		html += '</div>';
+		html += '</li>';
+		html += '<br/>';
+	};
+		chatList.innerHTML = html;
 	}
 }	
 
-
-
-
-
-function getViewInsideChat(){
-	//채팅방 목록에서 채팅방 클릭 시 
+//채팅방 목록 클릭 시 chat_id 전달하여 해당 채팅방 오픈
+function getViewInsideChat(idx){
+	console.log(copyResult[idx].chat_id);
 }

@@ -10,10 +10,14 @@
 			height: 95%;
 		}
 		
-		#chatList {
+		#allChatDiv {
 			justify-content: space-between;
 			width: 40%;
 			border: 1px solid gray;
+		}
+		
+		#chatList{
+			list-style:none;
 		}
 		
 		#chatRoom {
@@ -43,8 +47,9 @@
 		.table-container-div {
 			display: flex;
 			justify-content: center;
-			width: 100%;
-			padding-top: 10px;
+			width: 120vw;
+			height:20vh;
+			padding-top: 20px;
 		}
 		
 		
@@ -73,12 +78,15 @@
 	<div id="layoutSidenav_content">
 		<div id="main_content">
 			<div class="container">
-				<div>
+				<div id="allChatDiv">
 					<form id="searchChat">
 						<input type="text" id="searchChatRoom" name="searchChatRoom" placeholder="대화방 이름 검색">
 					</form>
-						<div class="table-container-div" id="chatList">
-						</div>
+					<br/>
+					
+					<ul id="chatList">											
+						
+					</ul>
 					<div class="create-btn">
 						<button class="btn btn-primary btn-sm" type="button">생성</button>
 					</div>
