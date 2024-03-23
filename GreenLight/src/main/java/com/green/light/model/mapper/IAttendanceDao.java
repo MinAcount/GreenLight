@@ -3,7 +3,7 @@ package com.green.light.model.mapper;
 import java.util.List;
 import java.util.Map;
 
-import com.green.light.vo.AttendainceVo;
+import com.green.light.vo.AttendanceVo;
 
 public interface IAttendanceDao {
 	
@@ -21,16 +21,16 @@ public interface IAttendanceDao {
 	public int updateAttendanceTime(Map<String, Object> map);
 	
 //	근무상태등록	updateWorkStatus()
-	public int updateWorkStatus(AttendainceVo attendainceVo);
+	public int updateWorkStatus(AttendanceVo attendainceVo);
 	
 //	근태연차처리	insertLeaveRecord() 연차 들어갈떄 사용하기
-	public int insertLeaveRecord(AttendainceVo attendainceVo);
+	public int insertLeaveRecord(AttendanceVo attendainceVo);
 	
 //	전체조회-관리자	getEmployeeAttendance()
-	public List<AttendainceVo> getEmployeeAttendance();
+	public List<AttendanceVo> getEmployeeAttendance();
 	
 //	상세조회	getEmployeeDetails()
-	public AttendainceVo getEmployeeDetails(AttendainceVo attendainceVo);
+	public AttendanceVo getEmployeeDetails(AttendanceVo attendainceVo);
 	
 
 }

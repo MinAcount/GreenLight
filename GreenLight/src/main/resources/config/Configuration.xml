@@ -7,7 +7,7 @@
 		<typeAlias type="com.green.light.vo.DepartmentVo" alias="DeptVo"/>
 		<typeAlias type="com.green.light.vo.HeadquartersVo" alias="HeadVo"/>
 		<typeAlias type="com.green.light.vo.SignVo" alias="SignVo"/>
-		<typeAlias type="com.green.light.vo.AttendainceVo" alias="AttendainceVo"/>
+		<typeAlias type="com.green.light.vo.AttendanceVo" alias="AttendanceVo"/>
 		<typeAlias type="com.green.light.vo.VacationVo" alias="VacationVo"/>
 		<!-- 일정 -->
 		<typeAlias type="com.green.light.vo.ScheduleVo" alias="ScheduleVo"/>
