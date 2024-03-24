@@ -11,7 +11,8 @@ SELECT TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG
 
 <!-- 문서양식 등록 insertTemplate -->
 <insert id="insertTemplate" parameterType="TemplateVo">
-INSERT INTO TEMPLATE (TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG)
-	VALUES(#{tempcode}||TEMPLATE_SEQ.NEXTVAL, #{emp_id}, #{content}, #{tempcode}, CURRENT_DATE , 'N' )
+INSERT INTO TEMPLATE
+(TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG, CATEGORY)
+VALUES (LPAD(TO_CHAR(TEMPLATE_SEQ.NEXTVAL),3,'0') , #{emp_id}, #{content}, #{tempcode}, CURRENT_DATE , 'N' , #{category})
 </insert>
 </mapper>
