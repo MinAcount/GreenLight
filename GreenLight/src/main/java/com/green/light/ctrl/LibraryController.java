@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.green.light.model.mapper.IDocumentDao;
+import com.green.light.model.service.IDocumentService;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 
@@ -26,7 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LibraryController {
 
 	@Autowired
-	private IDocumentDao dao;
+	private IDocumentService service;
+	
 	
 	
 	 @GetMapping(value = "/draftList.do")
@@ -34,7 +35,7 @@ public class LibraryController {
 		 log.info("LibraryController GET draftList.do 기안문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllDraft(id);
+		 List<DocumentVo> lists = service.getAllDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
 		 return "draftList";
@@ -44,7 +45,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> allDraftList(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST allDraftList 기안문서함 전체조회 {}", map);
-		 List<DocumentVo> lists = dao.getAllDraft(String.valueOf(map.get("id")));
+		 List<DocumentVo> lists = service.getAllDraft(String.valueOf(map.get("id")));
 		 return ResponseEntity.ok(lists);
 	 }
 	 
@@ -52,7 +53,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> draftListByDocStatus(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST draftListByDocStatus.do 기안문서함 기안서상태별 전체조회{}",map);
-		 List<DocumentVo> lists = dao.getAllDraftByDocStatus(map);
+		 List<DocumentVo> lists = service.getAllDraftByDocStatus(map);
 		 return ResponseEntity.ok(lists);
 	 }	 
 	 
@@ -62,7 +63,7 @@ public class LibraryController {
 		 log.info("LibraryController GET tempDraftList.do 임시보관함 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllTempDraft(id);
+		 List<DocumentVo> lists = service.getAllTempDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
 		 return "tempDraftList";
@@ -73,7 +74,7 @@ public class LibraryController {
 		 log.info("LibraryController GET approvalList.do 결재문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllApprovalDraft(id);
+		 List<DocumentVo> lists = service.getAllApprovalDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
 		 return "approvalList";
@@ -83,7 +84,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> allApprList(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST allApprList.do 결재문서함 전체조회 {}", map);
-		 List<DocumentVo> lists = dao.getAllApprovalDraft(String.valueOf(map.get("id")));
+		 List<DocumentVo> lists = service.getAllApprovalDraft(String.valueOf(map.get("id")));
 		 return ResponseEntity.ok(lists);
 	 }
 	 
@@ -92,7 +93,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> apprListByDocStatus(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST apprListByDocStatus.do 결재문서함 기안서상태별 전체조회{}",map);
-		 List<DocumentVo> lists = dao.getAllApprDraftByDocStatus(map);
+		 List<DocumentVo> lists = service.getAllApprDraftByDocStatus(map);
 		 return ResponseEntity.ok(lists);
 	 }	
 	 
@@ -101,7 +102,7 @@ public class LibraryController {
 		 log.info("LibraryController GET referenceList.do 참조문서함 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
-		 List<DocumentVo> lists = dao.getAllReferenceDraft(id);
+		 List<DocumentVo> lists = service.getAllReferenceDraft(id);
 		 model.addAttribute("lists", lists);
 		 log.info("listsize:{}",lists.size());
 		 System.out.println(lists);
@@ -113,7 +114,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> allReferenceList(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST allReferenceList 참조문서함 전체조회 {}", map);
-		 List<DocumentVo> lists = dao.getAllReferenceDraft(String.valueOf(map.get("id")));
+		 List<DocumentVo> lists = service.getAllReferenceDraft(String.valueOf(map.get("id")));
 		 return ResponseEntity.ok(lists);
 	 }
 	 
@@ -121,7 +122,7 @@ public class LibraryController {
 	 @ResponseBody
 	 public ResponseEntity<?> refListByDocStatus(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST refListByDocStatus.do 참조문서함 기안서상태별 전체조회{}",map);
-		 List<DocumentVo> lists = dao.getAllRefDraftByDocStatus(map);
+		 List<DocumentVo> lists = service.getAllRefDraftByDocStatus(map);
 		 System.out.println("lists"+lists);
 		 return ResponseEntity.ok(lists);
 	 }

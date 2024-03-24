@@ -2,205 +2,229 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.DocumentDaoImpl">
 
-	<resultMap type="com.green.light.vo.DocumentVo" id="DocumentVo">
-		<result property="docno" column="DOCNO"/>
-		<result property="writer_id" column="WRITER_ID"/>
-		<result property="title" column="TITLE"/>
-		<result property="content" column="CONTENT"/>
-		<result property="draft_date" column="DRAFT_DATE"/>
-		<result property="urgency" column="URGENCY"/>
-		<result property="tempno" column="TEMPNO"/>
-		<result property="doc_status" column="DOC_STATUS"/>
-		<result property="file_count" column="FILE_COUNT"/>
-		<result property="appr_date" column="APPR_DATE"/>
-		<collection property="commVo" resultMap="CommonVo"/>
-		<collection property="deptVo" resultMap="DepartmentVo"/>
-		<collection property="headVo" resultMap="HeadquartersVo"/>
-		<collection property="empVo" resultMap="EmployeeVo"/>
-		<collection property="apprVo" resultMap="ApprovalVo"/>
-		<collection property="fileVo" resultMap="FileStorageVo"/>
-	</resultMap>
-	<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
-		<result property="type" column="TYPE"/>
-		<result property="code_name" column="CODE_NAME"/>
-		<result property="code" column="CODE"/>
-	</resultMap>
-	<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
-		<result property="deptno" column="DEPTNO"/>
-		<result property="dname" column="DNAME"/>
-		<result property="dept_mgr" column="DEPT_MGR"/>
-		<result property="headno" column="HEADNO"/>
-<!-- 		<result property="delflag" column="DELFLAG"/> -->
-	</resultMap>
-	<resultMap type="com.green.light.vo.HeadquartersVo" id="HeadquartersVo">
-		<result property="headno" column="HEADNO"/>
-		<result property="hname" column="HNAME"/>
-		<result property="head_mgr" column="HEAD_MGR"/>
-<!-- 		<result property="delflag" column="DELFLAG"/> -->
-	</resultMap>
-	<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
-		<result property="id" column="ID"/>
-		<result property="name" column="NAME"/>
-<!-- 		<result property="password" column="PASSWORD"/> -->
-<!-- 		<result property="email" column="EMAIL"/> -->
-<!-- 		<result property="phone" column="PHONE"/> -->
-<!-- 		<result property="birthday" column="BIRTHDAY"/> -->
-<!-- 		<result property="gender" column="GENDER"/> -->
-<!-- 		<result property="address" column="ADDRESS"/> -->
-		<result property="deptno" column="DEPTNO"/>
-		<result property="spot" column="SPOT"/>
-		<result property="position" column="POSITION"/>
-<!-- 		<result property="estatus" column="ESTATUS"/> -->
-<!-- 		<result property="join_day" column="JOIN_DAY"/> -->
-<!-- 		<result property="exit_day" column="EXIT_DAY"/> -->
-<!-- 		<result property="etype" column="ETYPE"/> -->
-		<result property="leave" column="LEAVE"/>
-<!-- 		<result property="auth" column="AUTH"/> -->
-<!-- 		<result property="profile" column="PROFILE"/> -->
-	</resultMap>                    
-	<resultMap type="com.green.light.vo.ApprovalVo" id="ApprovalVo">
-		<result property="apprno" column="APPRNO"/>
-		<result property="docno" column="DOCNO"/>
-		<result property="writer_id" column="WRITER_ID"/>
-		<result property="atype" column="ATYPE"/>
-		<result property="emp_id" column="EMP_ID"/>
-		<result property="appr_status" column="APPR_STATUS"/>
-		<result property="orderno" column="ORDERNO"/>
-		<result property="appr_date" column="APPR_DATE"/>
-		<result property="signature" column="SIGNATURE"/>
-		<result property="comment" column="COMMENT"/>
-	</resultMap>
-	<resultMap type="com.green.light.vo.FileStorageVo" id="FileStorageVo">
-		<result property="ref_id" column="REF_ID"/>
-		<result property="ftype" column="FTYPE"/>
-		<result property="origin_name" column="ORIGIN_NAME"/>
-<!-- 		<result property="stored_name" column="STORED_NAME"/> -->
-<!-- 		<result property="payload" column="PAYLOAD"/> -->
-		<result property="fsize" column="FSIZE"/>
-<!-- 		<result property="upload_date" column="UPLOAD_DATE"/> -->
-<!-- 		<result property="delflag" column="DELFLAG"/> -->
-	</resultMap>
-	
-	
-	
-	<!-- 기안문서함 전체조회 getAllDraft -->
-	<select id="getAllDraft" resultMap="DocumentVo">
-		SELECT e.ID, d.DOCNO, e.NAME , d.TITLE, 
+   <resultMap type="com.green.light.vo.DocumentVo" id="DocumentVo">
+      <result property="docno" column="DOCNO"/>
+      <result property="writer_id" column="WRITER_ID"/>
+      <result property="title" column="TITLE"/>
+      <result property="content" column="CONTENT"/>
+      <result property="draft_date" column="DRAFT_DATE"/>
+      <result property="urgency" column="URGENCY"/>
+      <result property="tempno" column="TEMPNO"/>
+      <result property="doc_status" column="DOC_STATUS"/>
+      <result property="file_count" column="FILE_COUNT"/>
+      <result property="appr_date" column="APPR_DATE"/>
+      <collection property="commVo" resultMap="CommonVo"/>
+      <collection property="deptVo" resultMap="DepartmentVo"/>
+      <collection property="headVo" resultMap="HeadquartersVo"/>
+      <collection property="empVo" resultMap="EmployeeVo"/>
+      <collection property="apprVo" resultMap="ApprovalVo"/>
+      <collection property="fileVo" resultMap="FileStorageVo"/>
+   </resultMap>
+   <resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+      <result property="type" column="TYPE"/>
+      <result property="code_name" column="CODE_NAME"/>
+      <result property="code" column="CODE"/>
+   </resultMap>
+   <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
+      <result property="deptno" column="DEPTNO"/>
+      <result property="dname" column="DNAME"/>
+      <result property="dept_mgr" column="DEPT_MGR"/>
+      <result property="headno" column="HEADNO"/>
+<!--       <result property="delflag" column="DELFLAG"/> -->
+   </resultMap>
+   <resultMap type="com.green.light.vo.HeadquartersVo" id="HeadquartersVo">
+      <result property="headno" column="HEADNO"/>
+      <result property="hname" column="HNAME"/>
+      <result property="head_mgr" column="HEAD_MGR"/>
+<!--       <result property="delflag" column="DELFLAG"/> -->
+   </resultMap>
+   <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+      <result property="id" column="ID"/>
+      <result property="name" column="NAME"/>
+<!--       <result property="password" column="PASSWORD"/> -->
+<!--       <result property="email" column="EMAIL"/> -->
+<!--       <result property="phone" column="PHONE"/> -->
+<!--       <result property="birthday" column="BIRTHDAY"/> -->
+<!--       <result property="gender" column="GENDER"/> -->
+<!--       <result property="address" column="ADDRESS"/> -->
+      <result property="deptno" column="DEPTNO"/>
+      <result property="spot" column="SPOT"/>
+      <result property="position" column="POSITION"/>
+<!--       <result property="estatus" column="ESTATUS"/> -->
+<!--       <result property="join_day" column="JOIN_DAY"/> -->
+<!--       <result property="exit_day" column="EXIT_DAY"/> -->
+<!--       <result property="etype" column="ETYPE"/> -->
+      <result property="leave" column="LEAVE"/>
+<!--       <result property="auth" column="AUTH"/> -->
+<!--       <result property="profile" column="PROFILE"/> -->
+   </resultMap>                    
+   <resultMap type="com.green.light.vo.ApprovalVo" id="ApprovalVo">
+      <result property="apprno" column="APPRNO"/>
+      <result property="docno" column="DOCNO"/>
+      <result property="writer_id" column="WRITER_ID"/>
+      <result property="atype" column="ATYPE"/>
+      <result property="emp_id" column="EMP_ID"/>
+      <result property="appr_status" column="APPR_STATUS"/>
+      <result property="orderno" column="ORDERNO"/>
+      <result property="appr_date" column="APPR_DATE"/>
+      <result property="signature" column="SIGNATURE"/>
+      <result property="comment" column="COMMENT"/>
+   </resultMap>
+   <resultMap type="com.green.light.vo.FileStorageVo" id="FileStorageVo">
+      <result property="ref_id" column="REF_ID"/>
+      <result property="ftype" column="FTYPE"/>
+      <result property="origin_name" column="ORIGIN_NAME"/>
+<!--       <result property="stored_name" column="STORED_NAME"/> -->
+<!--       <result property="payload" column="PAYLOAD"/> -->
+      <result property="fsize" column="FSIZE"/>
+<!--       <result property="upload_date" column="UPLOAD_DATE"/> -->
+<!--       <result property="delflag" column="DELFLAG"/> -->
+   </resultMap>
+   
+   <!-- 결재대기문서함 전체조회 getAllPendingApprovalDraft -->
+   <select id="getAllPendingApprovalDraft" resultMap="DocumentVo">
+      <![CDATA[
+         SELECT DISTINCT D.DOCNO ,D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
+           FROM DOCUMENT D
+           JOIN APPROVAL A ON D.DOCNO = A.DOCNO
+           JOIN EMPLOYEE E ON A.EMP_ID = E.ID
+           JOIN COMMON C ON D.TEMPNO = C.CODE AND C."TYPE" = '문서양식코드'
+           WHERE A.EMP_ID = #{id}
+           AND A.APPR_STATUS = '01'
+           AND A.ATYPE = '01'
+           AND ( A.ORDERNO = 1
+                   OR (
+               A.ORDERNO <> 1
+                           AND EXISTS (
+                           SELECT 1
+                           FROM APPROVAL A2
+                           WHERE A.DOCNO = A2.DOCNO
+                                   AND A2.ORDERNO = A.ORDERNO - 1
+                                   AND A2.APPR_STATUS = '02'
+               )
+           )
+       )
+      ]]>
+   </select>
+   
+   <!-- 기안문서함 전체조회 getAllDraft -->
+   <select id="getAllDraft" resultMap="DocumentVo">
+      SELECT e.ID, d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE, d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
-		FROM DOCUMENT d 
-		JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
-		WHERE d.WRITER_ID = #{id}
-		AND NOT d.DOC_STATUS = '04'
-		ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
-	</select>
-	
-	<!-- 기안문서함 기안서상태별 전체조회 getAllDraftByDocStatus -->
-	<select id="getAllDraftByDocStatus" parameterType="java.util.Map" resultMap="DocumentVo">
-		SELECT d.DOCNO, e.NAME, d.TITLE, 
+      FROM DOCUMENT d 
+      JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
+      WHERE d.WRITER_ID = #{id}
+      AND NOT d.DOC_STATUS = '04'
+      ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
+   </select>
+   
+   <!-- 기안문서함 기안서상태별 전체조회 getAllDraftByDocStatus -->
+   <select id="getAllDraftByDocStatus" parameterType="java.util.Map" resultMap="DocumentVo">
+      SELECT d.DOCNO, e.NAME, d.TITLE, 
        d.DRAFT_DATE, d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS 파일저장갯수
-			FROM DOCUMENT d 
-			JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
-			WHERE d.WRITER_ID = #{id} 
-			AND NOT d.DOC_STATUS = '04' 
-			AND d.DOC_STATUS = #{doc_status}
-			ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC 
-	</select>
-	
-	
-	<!-- 임시저장함 전체조회 getAllTempDraft -->
-	<select id="getAllTempDraft" resultMap="DocumentVo">
-		SELECT d.DOCNO , d.TITLE , d.DRAFT_DATE ,
-			(SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
-			(SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
+         FROM DOCUMENT d 
+         JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
+         WHERE d.WRITER_ID = #{id} 
+         AND NOT d.DOC_STATUS = '04' 
+         AND d.DOC_STATUS = #{doc_status}
+         ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC 
+   </select>
+   
+   
+   <!-- 임시저장함 전체조회 getAllTempDraft -->
+   <select id="getAllTempDraft" resultMap="DocumentVo">
+      SELECT d.DOCNO , d.TITLE , d.DRAFT_DATE ,
+         (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+         (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
             (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
         FROM DOCUMENT d 
         WHERE d.DOC_STATUS = '04' AND d.WRITER_ID = #{id}
-	</select>
-	
-	<!-- 결재문서함 전체조회 getAllApprovalDraft -->
-	<select id="getAllApprovalDraft" resultMap="DocumentVo">
-		SELECT d.DOCNO, e.NAME , d.TITLE, 
+   </select>
+   
+   <!-- 결재문서함 전체조회 getAllApprovalDraft -->
+   <select id="getAllApprovalDraft" resultMap="DocumentVo">
+      SELECT d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
-			FROM DOCUMENT d 
-			        JOIN APPROVAL_STEP_CHECK_VIEW a ON d.DOCNO = a.DOCNO
-			        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID  
-			WHERE (a.APPR_CURRENT = '01' AND a.APPR_PREV ='02'
-			       AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			       AND NOT d.DOC_STATUS = '04')
-			OR (a.ORDERNO = 1
-			AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			AND NOT d.DOC_STATUS = '04')
-			OR (a.APPR_CURRENT ='02'
-			        AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			    AND NOT d.DOC_STATUS = '04')
-	</select>
-	
-	<!-- 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus -->
-	<select id="getAllApprDraftByDocStatus" resultMap="DocumentVo" parameterType="java.util.Map">
-		SELECT d.DOCNO, e.NAME, d.WRITER_ID, d.TITLE, 
+         FROM DOCUMENT d 
+                 JOIN APPROVAL_STEP_CHECK_VIEW a ON d.DOCNO = a.DOCNO
+                 JOIN EMPLOYEE e ON d.WRITER_ID = e.ID  
+         WHERE (a.APPR_CURRENT = '01' AND a.APPR_PREV ='02'
+                AND a.EMP_ID=#{id} AND a.ATYPE='01'
+                AND NOT d.DOC_STATUS = '04')
+         OR (a.ORDERNO = 1
+         AND a.EMP_ID=#{id} AND a.ATYPE='01'
+         AND NOT d.DOC_STATUS = '04')
+         OR (a.APPR_CURRENT ='02'
+                 AND a.EMP_ID=#{id} AND a.ATYPE='01'
+             AND NOT d.DOC_STATUS = '04')
+   </select>
+   
+   <!-- 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus -->
+   <select id="getAllApprDraftByDocStatus" resultMap="DocumentVo" parameterType="java.util.Map">
+      SELECT d.DOCNO, e.NAME, d.WRITER_ID, d.TITLE, 
        d.DRAFT_DATE, 
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
-			FROM DOCUMENT d 
-			        JOIN APPROVAL_STEP_CHECK_VIEW a ON d.DOCNO = a.DOCNO
-			        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
-			WHERE (a.APPR_CURRENT = '01' AND a.APPR_PREV ='02'
-			       AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			       AND d.DOC_STATUS = #{doc_status})
-			OR (a.ORDERNO = 1
-			        AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			        AND d.DOC_STATUS = #{doc_status})
-			OR (a.APPR_CURRENT ='02'
-			        AND a.EMP_ID=#{id} AND a.ATYPE='01'
-			    AND d.DOC_STATUS = #{doc_status}
-			    )
-	</select>
-	
-	
-	
-	<!-- 참조문서함 전체조회 getAllReferenceDraft -->
-	<select id="getAllReferenceDraft" resultMap="DocumentVo">
-		SELECT d.DOCNO, e.NAME , d.TITLE, 
+         FROM DOCUMENT d 
+                 JOIN APPROVAL_STEP_CHECK_VIEW a ON d.DOCNO = a.DOCNO
+                 JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
+         WHERE (a.APPR_CURRENT = '01' AND a.APPR_PREV ='02'
+                AND a.EMP_ID=#{id} AND a.ATYPE='01'
+                AND d.DOC_STATUS = #{doc_status})
+         OR (a.ORDERNO = 1
+                 AND a.EMP_ID=#{id} AND a.ATYPE='01'
+                 AND d.DOC_STATUS = #{doc_status})
+         OR (a.APPR_CURRENT ='02'
+                 AND a.EMP_ID=#{id} AND a.ATYPE='01'
+             AND d.DOC_STATUS = #{doc_status}
+             )
+   </select>
+   
+   
+   
+   <!-- 참조문서함 전체조회 getAllReferenceDraft -->
+   <select id="getAllReferenceDraft" resultMap="DocumentVo">
+      SELECT d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
-			FROM DOCUMENT d 
-			        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
-			        JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
-			WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
-			AND NOT d.DOC_STATUS = '04'
-	</select>
-	
-	<!-- 참조문서함 기안서상태별 전체조회 getAllRefDraftByDocStatus -->
-	<select id="getAllRefDraftByDocStatus" resultMap="DocumentVo">
-	SELECT d.DOCNO, e.NAME , d.TITLE, 
+         FROM DOCUMENT d 
+                 JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
+                 JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
+         WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
+         AND NOT d.DOC_STATUS = '04'
+   </select>
+   
+   <!-- 참조문서함 기안서상태별 전체조회 getAllRefDraftByDocStatus -->
+   <select id="getAllRefDraftByDocStatus" resultMap="DocumentVo">
+   SELECT d.DOCNO, e.NAME , d.TITLE, 
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO) AS APPR_DATE,
        d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c.TYPE = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c.TYPE = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
-	FROM DOCUMENT d 
-	        JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
-	        JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
-	WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
-	AND d.DOC_STATUS = #{doc_status}
-	</select>
+   FROM DOCUMENT d 
+           JOIN EMPLOYEE e ON d.WRITER_ID = e.ID
+           JOIN APPROVAL a ON d.DOCNO = a.DOCNO 
+   WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
+   AND d.DOC_STATUS = #{doc_status}
+   </select>
 </mapper>
