@@ -5,6 +5,7 @@
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
 	<result property="id" column="ID"/>
 	<result property="name" column="NAME"/>
+	<result property="email" column="EMAIL"/>
 	<result property="phone" column="PHONE"/>
 	<result property="birthday" column="BIRTHDAY"/>
 	<result property="gender" column="GENDER"/>
@@ -128,6 +129,7 @@
         FROM EMPLOYEE e JOIN DEPARTMENT d 
         ON e.DEPTNO = d.DEPTNO
         WHERE ESTATUS = #{estatus}
+        ORDER BY NAME
 </select>
 <!-- 직원 검색	getEmployeeBySearch -->
 <select id="getEmployeeBySearch" parameterType="EmpVo" resultMap="EmployeeVo">
@@ -153,13 +155,14 @@
         	</when>
         </choose>
         AND ESTATUS = #{estatus}
+        ORDER BY NAME
 </select>
 <!-- 직원 정보 수정	updateOneEmployee -->
 <update id="updateOneEmployee" parameterType="EmpVo">
 	UPDATE EMPLOYEE
-        SET NAME = #{name} , DEPTNO = #{deptno},
+        SET NAME = #{name} , DEPTNO = #{deptno}, ETYPE = #{etype},
         SPOT = #{spot} , EMAIL = #{email}, ADDRESS = #{address},
-        PHONE = #{phone}, PROFILE= #{profile}
+        PHONE = #{phone}, PROFILE= #{profile}, JOIN_DAY = #{join_day}
         WHERE ID = #{id} AND ESTATUS = 'Y'
 </update>
 <!-- 권한 변경	updateEmployeeAuth -->
@@ -216,6 +219,7 @@
         AND DEPTNO = #{deptno}
         AND SPOT >= '04'
         AND ESTATUS = 'Y'
+        ORDER BY NAME
 </select>
 <!-- 본부장 후보 조회	getHeadMgrHubo -->
 <select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo">
@@ -227,5 +231,6 @@
         AND d.HEADNO = #{headno}
         AND SPOT >= '06'
         AND ESTATUS = 'Y'
+        ORDER BY NAME
 </select>
 </mapper>

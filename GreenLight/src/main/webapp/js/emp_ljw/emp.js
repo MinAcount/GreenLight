@@ -1,23 +1,28 @@
 //employeeAddForm.jsp
-function profileUpload(input){
-	console.log(input.files[0].size);
-	if(input.files[0].size > 500 * 1024){
-		alert("500KB이하의 사진만 가능합니다");
-		input.innerHTML = '';
-		document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
-		return;
-	}
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			document.getElementById('preview').src = e.target.result;
-		};
-		reader.readAsDataURL(input.files[0]);
-	} else {
-		document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
-	}
-	console.log(input);
+function profileUpload(input) {
+    if (!input.files || !input.files[0]) {
+        input.value = '';
+        document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
+        return;
+    }
+
+    console.log(input.files[0].size);
+    if (input.files[0].size > 500 * 1024) {
+        alert("500KB 이하의 사진만 가능합니다");
+        input.value = '';
+        document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        document.getElementById('preview').src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+
+    console.log(input);
 }
+
 //employeeAddForm.jsp
 function cleanProfile(){
 	document.getElementById("profile").innerHTML = "";
@@ -77,11 +82,10 @@ function checkUploadEmployee(){
 		.then(result =>{
 			if(result.msg == "success"){
 				alert("성공적으로 추가되었습니다");
-				location.href="./updateAuth.do"
 			}else{
 				alert("직원 등록에 실패하였습니다");
-				location.href="./employeeList.do";
 			}
+			location.href="./employeeList.do";
 		});
 	}
 }
@@ -203,7 +207,7 @@ function updateList(result) {
     inputTableBody.innerHTML = '';
     var count = 1;
     result.forEach(function (item) {
-        tableHTML += "<tr>";
+        tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
         tableHTML += "<td style='text-align: center;'>" + count + "</td>";
         tableHTML += "<td>" + item.id + "</td>";
         tableHTML += "<td>" + item.deptVo.dname + "</td>";
@@ -221,4 +225,149 @@ function updateList(result) {
 function searchEmployee(){
 	var selectOpt = document.getElementsByClassName("opt");
 	alert(selectOpt.value)
+}
+
+//employeeOneModify.jsp
+function checkExitEmployee(val){
+	document.getElementById("hidden_exit_day").style = "display:none;";
+	document.getElementById("exit_day").style = "display:block;";
+	if(val == 'N'){
+		document.getElementById("litepickerDate").value = document.getElementById("hidden_exit_day").value;
+		document.getElementById("updateExitDayBtn").style = "display:block;";
+		document.getElementById("checkExitDayBtn").style = "display:none;";
+	}else if(val == 'Y'){
+		document.getElementById("updateExitBtn").style = "display:block;";
+		document.getElementById("employeeExitBtn").style = "display:none;";
+		document.getElementById("employeeModifyBtn").style = "display:none;";
+	}
+}
+
+//employeeOneModify.jsp
+function updateExitDay(id){
+	var exit_day = document.getElementById("litepickerDate").value
+	if(new Date(exit_day)>new Date()){
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else{
+		location.href="./updateExit.do?id="+id+"&exit_day="+exit_day;
+		alert("퇴사일 수정이 완료되었습니다");
+	}
+}
+
+//employeeOneModify.jsp
+function updateExit(id){
+	var exit_day = document.getElementById("litepickerDate").value;
+	if(exit_day == ""){
+		alert("퇴사일을 입력해주세요")
+	}else if(new Date(exit_day)>new Date()){
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else{
+		var name = document.getElementById("name").value;
+		var confirmResult = confirm("정말 "+name+"님을 퇴사시키시겠습니까?");
+		
+		if(confirmResult){
+			//결재대기중인 문서가 있다면 퇴사 불가 => fetch를 통해 확인하기
+			
+//			location.href="./employeeExit.do?id="+id+"&exit_day="+document.getElementById("litepickerDate").value;
+			alert(name+"님이 퇴사 처리되었습니다")
+		}
+	}
+}
+
+//employeeOneModify.jsp
+function checkModifyEmployee(){
+	document.getElementById("name").removeAttribute("disabled");
+	document.getElementById("hidden_deptno").style = "display:none";
+	document.getElementById("deptno").style = "display:block";
+	document.getElementById("hidden_spot").style = "display:none";
+	document.getElementById("spot").style = "display:block";
+	document.getElementById("hidden_etype").style = "display:none";
+	document.getElementById("etype").style = "display:block";
+	document.getElementById("email").removeAttribute("disabled");
+	document.getElementById("address").removeAttribute("disabled");
+	document.getElementById("phone").removeAttribute("disabled");
+	document.getElementById("hidden_join_day").style = "display:none";
+	document.getElementById("litepickerSingleDate").value = document.getElementById("hidden_join_day").value;
+	document.getElementById("litepickerSingleDate").placeholder = document.getElementById("hidden_join_day").value;
+	document.getElementById("join_day").style = "display:block";
+	document.getElementById("modifyProfile").style = "display:block";
+	document.getElementById("employeeModifyBtn").style = "display:none";
+	document.getElementById("employeeExitBtn").style = "display:none";
+	document.getElementById("updateEmployeeBtn").style = "display:block";
+
+	var deptno = document.getElementById("deptno");
+	var spot = document.getElementById("spot");
+	var etype = document.getElementById("etype");
+	for (var i = 0; i < deptno.options.length; i++) {
+	    if (deptno.options[i].innerText == document.getElementById("hidden_deptno").value) {
+	        deptno.options[i].selected = "selected";
+	        break;
+	    }
+	}
+	for (var i = 0; i < spot.options.length; i++) {
+	    if (spot.options[i].innerText == document.getElementById("hidden_spot").value) {
+	        spot.options[i].selected = "selected";
+	        break;
+	    }
+	}
+	for (var i = 0; i < etype.options.length; i++) {
+	    if (etype.options[i].innerText == document.getElementById("hidden_etype").value) {
+	        etype.options[i].selected = "selected";
+	        break;
+	    }
+	}
+}
+
+//employeeOneModify.jsp
+function updateEmployee(id){
+	var name = document.getElementById("name").value;
+	var deptno = document.getElementById("deptno").value;
+	var spot = document.getElementById("spot").value;
+	var etype = document.getElementById("etype").value;
+	var email = document.getElementById("email").value;
+	var address = document.getElementById("address").value;
+	var phone = document.getElementById("phone").value;
+	var join_day = document.getElementById("litepickerSingleDate").value;
+	var profileInput = document.getElementById("profile");
+	
+	const phoneREX = /^[0-9]+$/;
+	const emailREX = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+	
+	if(name == "" || join_day == "" || email == "" || phone == ""){
+		alert("필수사항을 모두 입력해주세요");
+	}else if(!phoneREX.test(phone)){
+		alert("전화번호는 숫자만 가능합니다");
+	}else if(!emailREX.test(email)){
+		alert("이메일 형식에 맞게 입력해주세요");
+	}else if(new Date(join_day)>new Date()){
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else{
+		var formData = new FormData();
+		if (profileInput.files.length > 0) {
+            var profile = profileInput.files[0];
+            formData.append("profile", profile);
+        }
+		formData.append("id",id);
+		formData.append("name",name);
+		formData.append("deptno",deptno);
+		formData.append("spot",spot);
+		formData.append("etype",etype);
+		formData.append("email",email);
+		formData.append("address",address);
+		formData.append("phone",phone);
+		formData.append("join_day",join_day);
+		
+		fetch("./employeeUpdate.do",{
+			method: 'POST',
+			body: formData,
+		})
+		.then(data => data.json())
+		.then(result =>{
+			if(result.msg == "success"){
+				alert("성공적으로 수정되었습니다");
+			}else{
+				alert("직원 수정에 실패하였습니다");
+			}
+				location.href="./employeeList.do";
+		});
+	}
 }

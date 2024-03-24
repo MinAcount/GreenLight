@@ -1,8 +1,6 @@
 package com.green.light.ctrl;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +46,59 @@ public class EmployeeController {
 		List<EmployeeVo> list = employeeService.getAllEmployee();
 		model.addAttribute("list",list);
 		return "employeeList";
+	}
+	
+	@GetMapping("/employeeOne.do")
+	public String employeeOne(String id, Model model) {
+		log.info("EmployeeController GET employeeOne 직원 상세 정보 : {}",id);
+		EmployeeVo vo = employeeService.getOneEmployee(id);
+		System.out.println("입력된 vo"+vo);
+		List<DepartmentVo> deptList = departmentService.getAllDept();
+		model.addAttribute("deptList",deptList);
+		model.addAttribute("vo",vo);
+		return "employeeOneModify";
+	}
+	
+	@PostMapping("/employeeUpdate.do")
+	@ResponseBody
+	public ResponseEntity<String> employeeUpdate(MultipartFile profile, @RequestParam Map<String, String> map) throws IOException {
+	    log.info("EmployeeController POST employeeUpdate 직원 수정 : {}/{}", profile, map);
+	    String strProfile = "";
+	    if(profile != null) {
+	    	byte[] byteArr = profile.getBytes();
+	    	strProfile = Base64.getEncoder().encodeToString(byteArr);
+	    }else {
+	    	if(employeeService.getOneEmployee((String)map.get("id")).getProfile() == null) {
+	    		strProfile = "";
+	    	}else {
+	    		strProfile = employeeService.getOneEmployee((String)map.get("id")).getProfile();
+	    	}
+	    }
+		EmployeeVo vo = new EmployeeVo(map.get("id"), map.get("name"), map.get("email"), map.get("phone"), map.get("address"), map.get("deptno"), map.get("spot"), map.get("join_day"), map.get("etype"), strProfile);
+		boolean isc = employeeService.updateEmployee(vo);
+		System.out.println("입력되는 vo"+vo);
+	    if (isc) {
+	    	return ResponseEntity.ok("{\"msg\":\"success\"}");
+	    } else {
+	    	return ResponseEntity.ok("{\"msg\":\"fail\"}");
+	    }
+	}
+	
+	@GetMapping("/updateExit.do")
+	public String updateExit(String id, String exit_day) {
+		log.info("EmployeeController GET updateExit 직원 퇴사일 수정 {}/{}",id,exit_day);
+		EmployeeVo vo = employeeService.getOneEmployee(id);
+		Map<String, Object> map = new HashMap<String, Object>(){{
+			put("id",id);
+			put("exit_day",exit_day);
+		}};
+		if(vo.getEstatus() == "Y") {
+			//결재대기중인 문서가 있으면 퇴사시키면 안됨
+			employeeService.updateExit(map);
+		}else if(vo.getEstatus() == "N") {
+			employeeService.updateEmployeeExitDay(map);
+		}
+		return "redirect:/employeeOne.do?id="+id;
 	}
 	
 	@GetMapping("/employeeAddForm.do")
