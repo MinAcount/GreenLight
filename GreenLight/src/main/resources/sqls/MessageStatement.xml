@@ -55,7 +55,7 @@ SELECT GROUPNO, CHAT_ID, NAME,
              AND G.CHAT_ID = M.CHAT_ID
              GROUP BY G.CHAT_ID) S
        WHERE GROUP_OUT = 'N'
-       ORDER BY SEND_DATE DESC
+       ORDER BY FAVOR DESC, SEND_DATE DESC
 </select>
 <!-- 	 채팅방 목록 검색 getSearchChat -->
 

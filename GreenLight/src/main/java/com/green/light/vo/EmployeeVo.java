@@ -46,7 +46,7 @@ public class EmployeeVo {
 		this.name = name;
 	}
 	
-	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String profile) {
+	public EmployeeVo(String id, String name, String email, String phone, String address, String deptno, String spot, String join_day, String etype, String profile) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -54,6 +54,8 @@ public class EmployeeVo {
 		this.address = address;
 		this.deptno = deptno;
 		this.spot = spot;
+		this.join_day = join_day;
+		this.etype = etype;
 		this.profile = profile;
 	}
 

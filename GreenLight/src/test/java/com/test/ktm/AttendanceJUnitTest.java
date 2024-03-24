@@ -37,8 +37,8 @@ public class AttendanceJUnitTest {
         String outDateString = "2024-03-21 18:00";
 //        String dayString = "2024-03-21";
         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        SimpleDateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm");
+        SimpleDateFormat dayFormat = new SimpleDateFormat("YYYY-MM-DD");
 		
         Date inDate = dateFormat.parse(inDateString);
         Date outDate = dateFormat.parse(outDateString);

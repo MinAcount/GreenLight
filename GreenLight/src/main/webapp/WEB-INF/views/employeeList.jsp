@@ -23,7 +23,7 @@
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
-				<h1 style="margin-bottom: 70px; text-align: center;">직원 정보</h1>
+				<h1 style="margin-bottom: 70px; text-align: center;">직원 전체 정보</h1>
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 					<div>
@@ -81,7 +81,7 @@
 						</thead>
 						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${list}" varStatus="vs">
-								<tr>
+								<tr onclick="location.href='./employeeOne.do?id=${vo.id}'">
 									<td style="text-align: center;">${vs.count}</td>
 									<td>${vo.id}</td>
 									<td>${vo.deptVo.dname}</td>
