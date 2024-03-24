@@ -13,6 +13,7 @@ import com.green.light.vo.DocumentVo;
 @Repository
 public class DocumentDaoImpl implements IDocumentDao{
 
+
    @Autowired
    private SqlSessionTemplate sqlsession;
    

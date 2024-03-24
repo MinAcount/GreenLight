@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.DocumentDaoImpl">
 
+
    <resultMap type="com.green.light.vo.DocumentVo" id="DocumentVo">
       <result property="docno" column="DOCNO"/>
       <result property="writer_id" column="WRITER_ID"/>
@@ -110,6 +111,7 @@
    <!-- 기안문서함 전체조회 getAllDraft -->
    <select id="getAllDraft" resultMap="DocumentVo">
       SELECT e.ID, d.DOCNO, e.NAME , d.TITLE, 
+
        d.DRAFT_DATE, d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
