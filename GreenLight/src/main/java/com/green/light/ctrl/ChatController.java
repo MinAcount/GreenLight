@@ -31,13 +31,8 @@ public class ChatController {
 	private IMessageDao dao;
 	
 	@GetMapping(value = "/chatGroup.do")
-	public String chatGroup(Model model, HttpSession session) {
+	public String chatGroup() {
 		log.info("ChatController chatGroup 그룹채팅 화면 이동");
-//		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
-//		String id = loginVo.getId();
-//		List<MessageVo> lists = dao.getAllChat(id);
-//		model.addAttribute("lists", lists);
-//		log.info("@@@@@@@@@@@@@@@@@@@@@@@@ {}", lists);
 		return "chatGroup";
 	}
 	
@@ -48,6 +43,8 @@ public class ChatController {
 		 List<MessageVo> lists = dao.getAllChat(String.valueOf(map.get("id")));
 		 return ResponseEntity.ok(lists);
 	 }
+	
+	
 }
 
 
