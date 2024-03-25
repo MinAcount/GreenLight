@@ -21,4 +21,9 @@ public class MessageDaoImpl implements IMessageDao {
 		return sqlsession.selectList(NS + "getAllChat", id);
 	}
 
+	@Override
+	public List<MessageVo> getViewInsideChat(String id) {
+		return null;
+	}
+
 }
