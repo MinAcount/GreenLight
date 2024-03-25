@@ -61,7 +61,7 @@ public class AttendanceJUnitTest {
 //		vo.setAtt_status("지각");
 //		vo.setIn_date("2024-03-15 09:00");
 //		vo.setOut_date("2024-03-15 18:00");
-//		service.insertLeaveRecord(vo);//근태연차처리
+//		service.insertLeaveRecord(vo);//근태연차처리ㅁㄴㅁㄴ
         
 		AttendanceVo parameterVo = new AttendanceVo();
 		parameterVo.setId("2403110901");
