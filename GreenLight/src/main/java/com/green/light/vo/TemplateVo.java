@@ -20,12 +20,14 @@ public class TemplateVo {
 	private String tempcode;
 	private String createat;
 	private String mainflag;
+	private String category;
 	
-	public TemplateVo(String emp_id, String content, String tempcode) {
+	public TemplateVo(String emp_id, String content, String tempcode, String category) {
 		super();
 		this.emp_id = emp_id;
 		this.content = content;
 		this.tempcode = tempcode;
+		this.category = category;
 	}
 	
 }
