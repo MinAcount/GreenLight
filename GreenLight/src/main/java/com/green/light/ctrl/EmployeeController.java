@@ -44,7 +44,10 @@ public class EmployeeController {
 	public String employeeList(Model model) {
 		log.info("EmployeeController GET employeeList 직원 정보 리스트");
 		List<EmployeeVo> list = employeeService.getAllEmployee();
+		List<DepartmentVo> deptList = departmentService.getAllDept();
 		model.addAttribute("list",list);
+		model.addAttribute("deptList",deptList);
+		System.out.println(deptList);
 		return "employeeList";
 	}
 	
@@ -67,12 +70,12 @@ public class EmployeeController {
 	    if(profile != null) {
 	    	byte[] byteArr = profile.getBytes();
 	    	strProfile = Base64.getEncoder().encodeToString(byteArr);
-	    }else {
-	    	if(employeeService.getOneEmployee((String)map.get("id")).getProfile() == null) {
-	    		strProfile = "";
-	    	}else {
-	    		strProfile = employeeService.getOneEmployee((String)map.get("id")).getProfile();
-	    	}
+		} else {
+			if (employeeService.getOneEmployee((String) map.get("id")).getProfile() == null) {
+				strProfile = "";
+			} else {
+				strProfile = employeeService.getOneEmployee((String) map.get("id")).getProfile();
+			}
 	    }
 		EmployeeVo vo = new EmployeeVo(map.get("id"), map.get("name"), map.get("email"), map.get("phone"), map.get("address"), map.get("deptno"), map.get("spot"), map.get("join_day"), map.get("etype"), strProfile);
 		boolean isc = employeeService.updateEmployee(vo);
@@ -138,7 +141,7 @@ public class EmployeeController {
 	public ResponseEntity<?> loginCheck(@RequestBody Map<String, Object> map, HttpSession session) {
 		log.info("EmployeeController POST loginCheck.do 로그인 : {}", map);
 		EmployeeVo failVo = employeeService.getLoginFail((String)(map.get("id")));
-		
+		System.out.println(failVo);
 		if(failVo == null) {
 			return ResponseEntity.ok("{\"msg\":\"NULL\"}");
 		}else{
@@ -150,6 +153,7 @@ public class EmployeeController {
 			boolean matchPassword =  passwordEncoder.matches((String)map.get("password"),failVo.getPassword());
 			if(matchPassword) {
 				map.put("password", failVo.getPassword());
+				map.put("fail", 0);
 				EmployeeVo vo = employeeService.getLogin(map);
 				if(vo != null) {
 					session.setAttribute("loginVo", vo);
@@ -160,10 +164,12 @@ public class EmployeeController {
 						return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
 					}
 				}else {
-					return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
+					return ResponseEntity.ok("{\"msg\":\"FAILVO\"}");
 				}
 			}else {
-				return ResponseEntity.ok("{\"msg\":\"FAIL\"}");
+				map.put("fail", failVo.getFail()+1);
+				employeeService.getLogin(map);
+				return ResponseEntity.ok("{\"msg\":\"FAILPASS\"}");
 			}
 		}
 	}
@@ -207,6 +213,11 @@ public class EmployeeController {
 			System.out.println("상태별조회");
 			list = employeeService.getAllEmployeeByStatus(estaus);
 		}
-		return ResponseEntity.ok(list);
+		List<DepartmentVo> deptList = departmentService.getAllDept();
+		Map<String, Object> responseData = new HashMap<>();
+		responseData.put("list", list);
+		responseData.put("deptList", deptList);
+
+		return ResponseEntity.ok(responseData);
 	}
 }

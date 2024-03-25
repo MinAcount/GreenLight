@@ -84,7 +84,11 @@
 								<tr onclick="location.href='./employeeOne.do?id=${vo.id}'">
 									<td style="text-align: center;">${vs.count}</td>
 									<td>${vo.id}</td>
-									<td>${vo.deptVo.dname}</td>
+									<c:forEach var="deptVo" items="${deptList}">
+										<c:if test="${deptVo.deptno eq vo.deptno}">
+											<td>${deptVo.dname}</td>
+										</c:if>
+									</c:forEach>
 									<td>${vo.name}</td>
 									<td>${vo.spot}</td>
 									<c:if test="${vo.position != null}">
@@ -134,6 +138,5 @@
 		crossorigin="anonymous"></script>
 	<script src="js/datatables/datatables-simple-demo.js"></script>
 	<script src="js/emp_ljw/emp.js"></script>
-
 </body>
 </html>

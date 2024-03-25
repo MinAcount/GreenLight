@@ -34,7 +34,7 @@
                         <a class="nav-link" href="wizard.html">인사서류 관리</a>
                      </nav>
                   </div>
-                  <a class="nav-link" href="charts.html"><div class="nav-link-icon">
+                  <a class="nav-link" href="./headAndDept.do"><div class="nav-link-icon">
                   	<i data-feather="users"></i></div>
                     부서관리
                   </a>

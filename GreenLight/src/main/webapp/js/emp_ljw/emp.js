@@ -6,7 +6,7 @@ function profileUpload(input) {
         return;
     }
 
-    console.log(input.files[0].size);
+    console.log(input.files[0]);
     if (input.files[0].size > 500 * 1024) {
         alert("500KB 이하의 사진만 가능합니다");
         input.value = '';
@@ -25,9 +25,9 @@ function profileUpload(input) {
 
 //employeeAddForm.jsp
 function cleanProfile(){
-	document.getElementById("profile").innerHTML = "";
+	document.getElementById("profile").value = "";
 	document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
-	
+	console.log(document.getElementById("profile").files[0]);
 }
 
 //employeeAddForm.jsp
@@ -196,7 +196,6 @@ function selectByStatus(val){
 	})
 	.then(data => data.json())
 	.then(result => {
-		console.log(result);
 		updateList(result);
 	});
 }
@@ -206,11 +205,15 @@ function updateList(result) {
     var tableHTML = '';
     inputTableBody.innerHTML = '';
     var count = 1;
-    result.forEach(function (item) {
+    result.list.forEach(function (item) {
         tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
         tableHTML += "<td style='text-align: center;'>" + count + "</td>";
         tableHTML += "<td>" + item.id + "</td>";
-        tableHTML += "<td>" + item.deptVo.dname + "</td>";
+		result.deptList.forEach(function(deptVo) {
+		    if (deptVo.deptno == item.deptno) {
+		        tableHTML += "<td>" + deptVo.dname + "</td>";
+		    }
+		});
         tableHTML += "<td>" + item.name + "</td>";
         tableHTML += "<td>" + item.spot + "</td>";
         tableHTML += "<td>" + (item.position ? item.position : '-') + "</td>";
@@ -332,6 +335,7 @@ function updateEmployee(id){
 	const phoneREX = /^[0-9]+$/;
 	const emailREX = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
 	
+	
 	if(name == "" || join_day == "" || email == "" || phone == ""){
 		alert("필수사항을 모두 입력해주세요");
 	}else if(!phoneREX.test(phone)){
@@ -345,7 +349,10 @@ function updateEmployee(id){
 		if (profileInput.files.length > 0) {
             var profile = profileInput.files[0];
             formData.append("profile", profile);
-        }
+        }else{
+			formData.append("clean", "y");
+		}
+		        
 		formData.append("id",id);
 		formData.append("name",name);
 		formData.append("deptno",deptno);
@@ -367,7 +374,7 @@ function updateEmployee(id){
 			}else{
 				alert("직원 수정에 실패하였습니다");
 			}
-				location.href="./employeeList.do";
+			location.href="./employeeList.do";
 		});
 	}
 }
