@@ -47,6 +47,109 @@ function oneReserveView(reserveno) {
 		});
 }
 
+// 나의 예약 전체조회
+function allReserveList(val){
+	var id = val
+	console.log("전체조회 : "+val)
+	
+	fetch('./myReserve.do', {
+		method:'POST',
+		headers:{"Content-Type":"application/json"},
+		body: JSON.stringify({
+			id:id
+		}),
+	})
+	.then(response => response.json())
+	.then(result => {
+		console.log("result:",result);
+		if(result != null){
+			lists(result)
+		}else{
+			alert('예약된 목록이 없습니다')
+		}
+	});
+	
+	function lists(result){
+		var tableBody = document.getElementById('tableBody');
+		var tableHTML = '';
+		
+		tableBody.innerHTML = '';
+		
+		result.forEach(function(item){
+    	tableHTML += '<tr>';
+    	tableHTML += '<td style="text-align: center;">' + item.reserveno + '</td>';
+    	tableHTML += '<td style="text-align: center;">' + item.conferenceVo.cname + '</td>';
+    	tableHTML += '<td style="text-align: center;">' + formatDate(item.reservationVo.reserve_date) + '</td>';
+    	tableHTML += '<td style="text-align: center;">' + item.reservationVo.meetingtitle + '</td>';
+    
+    	var reservationTime = new Date(item.reservationVo.reserve_date).getTime();
+    	var currentTime = new Date().getTime();
+    	var classToApply = reservationTime > currentTime ? 'green-text' : '';
+    	var statusText = reservationTime > currentTime ? '예정' : '완료';
+    
+    tableHTML += '<td style="text-align: center;" class="' + classToApply + '">' + statusText + '</td>';
+    
+    tableHTML += '</tr>';
+});
+		tableBody.innerHTML = tableHTML;
+	}
+}
+
+// 나의 예약 선택조회
+function reserveListStatus(val) {
+    console.log("선택조회 : " + val);
+
+    fetch('./myReserve.do', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            id: val
+        }),
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("result:", result);
+        if (result != null) {
+            lists(result, val); // lists 함수를 호출할 때 id도 함께 전달
+        } else {
+            alert('예약된 목록이 없습니다');
+        }
+    });
+
+ 	var element = document.getElementById("완료");
+ 	console.log(element);
+    function lists(result, element) {
+        var tableBody = document.getElementById('tableBody');
+        var tableHTML = '';
+        var currentTime = new Date().getTime();
+
+        tableBody.innerHTML = '';
+
+        result.forEach(function(item) {
+            var reservationTime = new Date(item.reservationVo.reserve_date).getTime();
+            var classToApply = reservationTime > currentTime ? 'green-text' : '';
+            var statusText = reservationTime > currentTime ? '예정' : '완료';
+
+            // val 값에 따라 상태를 필터링
+            if ((element === '완료' && statusText === '완료') || (element === '예정' && statusText === '예정')) {
+                tableHTML += '<tr>';
+                tableHTML += '<td style="text-align: center;">' + item.reserveno + '</td>';
+                tableHTML += '<td style="text-align: center;">' + item.conferenceVo.cname + '</td>';
+                tableHTML += '<td style="text-align: center;">' + formatDate(item.reservationVo.reserve_date) + '</td>';
+                tableHTML += '<td style="text-align: center;">' + item.reservationVo.meetingtitle + '</td>';
+                tableHTML += '<td style="text-align: center;" class="' + classToApply + '">' + statusText + '</td>';
+                tableHTML += '</tr>';
+            }
+        });
+
+        tableBody.innerHTML = tableHTML;
+    }
+}
+
+
+
+
+// formatDate 함수도 유지됩니다.
 
 //function oneReserveView(reserveno) {
 //    // 모달 창을 만들기 위해 모달 내용을 구성
