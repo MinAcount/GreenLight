@@ -30,6 +30,6 @@ public interface IAttendanceService {
 	public List<AttendanceVo> getEmployeeAttendance();
 	
 //	상세조회	getEmployeeDetails()
-	public AttendanceVo getEmployeeDetails(AttendanceVo attendainceVo);
+	public List<AttendanceVo> getEmployeeDetails(AttendanceVo attendainceVo);
 
 }

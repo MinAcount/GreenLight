@@ -1,10 +1,15 @@
 package com.test.ktm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,51 +31,50 @@ public class AttendanceJUnitTest {
 	@Test
 	public void AttTest() throws ParseException {
 		
-		String id = "2403110901";
-//		service.insertAttendanceRecord(id);
+//		String id = "2403110901";
+//		service.insertAttendanceRecord(id);// 출근버튼
 		
-//		service.updateAttendanceOutTime(id);
+//		String id = "2403110901";
+//		service.updateAttendanceOutTime(id);//퇴근버튼
 		
-//		service.autoCompleteWorkTime();
+//		service.autoCompleteWorkTime();//퇴근 안찍은 직원 자동퇴근처리
 		
-        String inDateString = "2024-03-21 09:00";
-        String outDateString = "2024-03-21 18:00";
-//        String dayString = "2024-03-21";
-        
-        SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm");
-        SimpleDateFormat dayFormat = new SimpleDateFormat("YYYY-MM-DD");
+
+//        Map<String, Object> parameterMap = new HashMap<>();
+//        parameterMap.put("id", "2403110901");
+//        parameterMap.put("in_date", "2024-03-13 10:00");
+//        parameterMap.put("out_date", "2024-03-13 19:00");
+//        parameterMap.put("day", "2024-03-13");
 		
-        Date inDate = dateFormat.parse(inDateString);
-        Date outDate = dateFormat.parse(outDateString);
-//        Date day = dayFormat.parse(dayString);
-        
-        
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("in_date", inDate);
-//		map.put("out_date", outDate);
-//		map.put("day",day);
-//		map.put("id", id);
-//		service.updateAttendanceTime(map);
-		
+//        int rowsAffected = service.updateAttendanceTime(parameterMap);
+//        assertEquals(1,rowsAffected);//출퇴근시간 수정
 		
 //		AttendanceVo vo = new AttendanceVo();
-//		vo.setIn_date(inDate);
+//		vo.setId("2403110901");
 //		vo.setAtt_status("지각");
-//		vo.setId(id);
-//		int updateWorkStatus = service.updateWorkStatus(vo);
-//		assertEquals(0, updateWorkStatus);
+//		vo.setIn_date("2024-03-13");
 
-		AttendanceVo vo = new AttendanceVo();
-		vo.setIn_date(inDate);
+//		service.updateWorkStatus(vo);//근무상태등록
+		
+//		AttendanceVo vo = new AttendanceVo();
+//		vo.setId("2403110901");
 //		vo.setAtt_status("지각");
-		vo.setOut_date(outDate);
-		vo.setId(id);
-		int updateWorkStatus = service.insertLeaveRecord(vo);
-		assertEquals(1, updateWorkStatus);
-
+//		vo.setIn_date("2024-03-15 09:00");
+//		vo.setOut_date("2024-03-15 18:00");
+//		service.insertLeaveRecord(vo);//근태연차처리
+        
+		AttendanceVo parameterVo = new AttendanceVo();
+		parameterVo.setId("2403110901");
+		parameterVo.setIn_date("2024-03");
+		List<AttendanceVo> resultVo = service.getEmployeeDetails(parameterVo);
+		for (AttendanceVo attendance : resultVo) {
+			    System.out.println("ID: " + attendance.getId() + ", In_date: " + attendance.getIn_date());
+			}
+		assertNotNull(resultVo);
 		
 		
 		
+        
 	}
 
 }

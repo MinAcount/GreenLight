@@ -1,7 +1,5 @@
 package com.green.light.vo;
 
-import java.util.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,8 +16,8 @@ import lombok.ToString;
 public class AttendanceVo {
 
 	private String id;
-	private Date in_date;
-	private Date out_date;
+	private String in_date;
+	private String out_date;
 	private String att_status;
 	
 	private EmployeeVo empVo;

@@ -61,7 +61,7 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	}
 
 	@Override
-	public AttendanceVo getEmployeeDetails(AttendanceVo attendainceVo) {
+	public List<AttendanceVo> getEmployeeDetails(AttendanceVo attendainceVo) {
 		log.info("AttendanceServiceImpl getEmployeeDetails 전달받은 값 : {}", attendainceVo);
 		return dao.getEmployeeDetails(attendainceVo);
 	}

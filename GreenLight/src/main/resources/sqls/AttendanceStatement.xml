@@ -55,7 +55,7 @@
 	OUT_DATE = TO_DATE(#{out_date}, 'YYYY-MM-DD HH24:MI')
 	WHERE ID = #{id}
 	AND TO_CHAR(IN_DATE, 'YYYY-MM-DD') = #{day}
-</update><!-- day를 어떻게 집어넣지? -->
+</update>
 
 <!-- 근무상태등록 updateWorkStatus() -->
 <update id="updateWorkStatus" parameterType="AttendanceVo">
@@ -76,7 +76,8 @@
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE, LEAVE, AUTH, PROFILE
 	FROM EMPLOYEE e JOIN DEPARTMENT d 
 	ON e.DEPTNO = d.DEPTNO
-	WHERE NAME LIKE '%이%'
+	WHERE NAME LIKE '%'||#{keyword}||'%'
+	ORDER BY NAME
 </select>
 
 <!-- 상세조회 getEmployeeDetails() -->
