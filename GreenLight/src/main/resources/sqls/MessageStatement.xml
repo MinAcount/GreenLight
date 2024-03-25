@@ -62,7 +62,7 @@ SELECT GROUPNO, CHAT_ID, NAME,
 <!-- 	 채팅방 생성 insertChat -->
 
 <!--      채팅방 세부 조회 getViewInsideChat -->
-<select id="getViewInsideChat" parameterType="java.util.Map" resultMap="MessageVo">
+<select id="getViewInsideChat" resultMap="MessageVo">
 SELECT G.GROUPNO, G.CHAT_ID, G.NAME,
        G.FAVOR, G.NOTI, M.WRITTER,
        G.ID, E.NAME, M.CONTENT,

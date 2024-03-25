@@ -13,7 +13,7 @@ public interface IMessageDao {
 	// 채팅방 생성 insertChat
 	
 	// 채팅방 세부 조회 getViewInsideChat
-	
+	public List<MessageVo> getViewInsideChat(String id);
 	// 채팅방 이름 수정 updateChatName
 	
 	// 채팅방 나가기 getOutChat
