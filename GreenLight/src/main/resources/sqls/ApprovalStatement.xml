@@ -21,6 +21,15 @@
 	<result property="type" column="TYPE"/>
 </resultMap>
 
+<resultMap type="com.green.light.vo.ApprJstreeVo" id="ApprJstreeVo">
+	<result property="id" column="ID"/>
+	<result property="parent" column="PARENT"/>
+	<result property="icon" column="ICON"/>
+	<result property="text" column="TEXT"/>
+	<result property="spot" column="SPOT"/>
+</resultMap>
+
+
 <!-- 자동결재선 기안자의 부서장 조회 selectDrafterDeptMgr -->
 <select id="selectDrafterDeptMgr" resultMap="EmployeeVoMap">
 SELECT E2.ID, E2.NAME, C.CODE_NAME
@@ -47,5 +56,11 @@ SELECT E.ID, E.NAME, C.CODE_NAME
 	JOIN COMMON C ON C.CODE = E."POSITION"  AND C."TYPE" = '직책'
 	WHERE E."POSITION" = '04'
 	AND E.DEPTNO = '00'
+</select>
+
+<!-- 결재선 설정을 위한 jstree view 검색 selectApprJstreeView -->
+<select id="getAllApprJstreeView" resultMap="ApprJstreeVo">
+SELECT ID, TEXT, PARENT, SPOT, ICON
+	FROM APPR_JSTREE_VIEW ajv
 </select>
 </mapper>
