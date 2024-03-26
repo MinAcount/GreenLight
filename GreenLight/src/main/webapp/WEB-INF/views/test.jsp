@@ -22,9 +22,7 @@
                   <div class="top" style="text-align: center; margin-bottom: 70px; padding-top: 30px;">
                      <h2>지출결의서</h2>
                   </div>
-                  <div class="header"
-                     style="display: flex; flex-direction: row; justify-content: space-between;">
-
+                  <div class="header" style="display: flex; flex-direction: row; justify-content: space-between;">
                      <div>
                         <table class="template">
                            <tr>

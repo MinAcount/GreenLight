@@ -20,15 +20,15 @@ public class TemplateJUnitTest {
 	@Test
 	public void test() {
 		// selectMainTemplate
-//		TemplateVo selectedTmeplateVo = service.selectMainTemplate("01");
-//		System.out.println(selectedTmeplateVo);
-//		assertNotNull(selectedTmeplateVo);
+		TemplateVo selectedTmeplateVo = service.selectMainTemplate("002");
+		System.out.println(selectedTmeplateVo);
+		assertNotNull(selectedTmeplateVo);
 		
 		// insertTemplate
-		TemplateVo insertTemplateVo = new TemplateVo("admin", "<h1>대출사유서2</h1>", "33", "06");
-		System.out.println("======================================================== " + insertTemplateVo);
-		int insertTemplateRow = service.insertTemplate(insertTemplateVo);
-		assertEquals(insertTemplateRow, 1);
+//		TemplateVo insertTemplateVo = new TemplateVo("admin", "<h1>대출사유서2</h1>", "33", "06");
+//		System.out.println("======================================================== " + insertTemplateVo);
+//		int insertTemplateRow = service.insertTemplate(insertTemplateVo);
+//		assertEquals(insertTemplateRow, 1);
 	}
 
 }

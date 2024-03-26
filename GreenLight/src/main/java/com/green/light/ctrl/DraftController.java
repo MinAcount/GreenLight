@@ -2,6 +2,7 @@ package com.green.light.ctrl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +13,7 @@ public class DraftController {
 	public String draftForm() {
 		log.info("DraftController GET /draftForm.do 기안서 작성 Form");
 		
-		
 		return "draftForm";
 	}
+	
 }

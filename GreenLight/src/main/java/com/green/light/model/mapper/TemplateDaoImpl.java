@@ -13,8 +13,8 @@ public class TemplateDaoImpl implements ITemplateDao {
 	private final String NS = "com.green.light.model.mapper.TemplateDaoImpl.";
 	
 	@Override
-	public TemplateVo selectMainTemplate(String tempcode) {
-		return sqlSession.selectOne(NS+"selectMainTemplate", tempcode);
+	public TemplateVo selectMainTemplate(String tempno) {
+		return sqlSession.selectOne(NS+"selectMainTemplate", tempno);
 	}
 	
 	@Override

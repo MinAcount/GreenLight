@@ -3,9 +3,9 @@
 <mapper namespace="com.green.light.model.mapper.TemplateDaoImpl">
 <!-- 대표 문서양식 조회 selectMainTemplate -->
 <select id="selectMainTemplate" resultType="TemplateVo">
-SELECT TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG
+SELECT TEMPNO, EMP_ID, CONTENT, TEMPCODE, CREATEAT, MAINFLAG, CATEGORY
 	FROM TEMPLATE
-	WHERE TEMPCODE = #{tempcode}
+	WHERE TEMPNO = #{tempno}
 	AND MAINFLAG = 'Y'
 </select>
 
