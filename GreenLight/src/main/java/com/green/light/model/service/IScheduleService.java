@@ -12,7 +12,7 @@ public interface IScheduleService {
 		//주별조회
 		public List<ScheduleVo> weekSchedule(String userId);
 		//상세조회
-		public List<ScheduleVo> daySchedule(Map<String, Object> map);
+		public ScheduleVo daySchedule(String schedule_id);
 		//일정등록
 		public int insertSchedule(ScheduleVo vo);
 		//일정수정

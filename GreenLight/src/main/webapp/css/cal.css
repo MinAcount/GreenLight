@@ -1,0 +1,10 @@
+#currentMonth {
+    min-width: 100px; /* 최소 너비 설정 */
+    display: inline-block; /* 인라인 블록 요소로 설정하여 텍스트의 길이가 바뀌지 않도록 함 */
+    text-align: center;
+}
+
+
+#next, #prev {
+    cursor: pointer;
+}
