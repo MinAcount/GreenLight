@@ -1,4 +1,3 @@
-User
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -26,7 +25,7 @@ User
 		</c:forEach>
 		<div id="layoutSidenav_content">
 			<div id="main_content">
-				<h1 style="margin-bottom: 70px; text-align: center;">나의 근태현황</h1>
+				<h1 style="margin-bottom: 70px; text-align: center;">${EVo.name} 근무현황</h1>
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>
@@ -44,7 +43,7 @@ User
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="lists" items="${attList}" varStatus="vr">
+						<c:forEach var="lists" items="${lists}" varStatus="vr">
 							<tr>
 							 <td>${vr.count}</td>
 							 <td>${lists.in_date.substring(0,11)}</td>

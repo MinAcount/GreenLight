@@ -55,9 +55,9 @@ public class AttendanceServiceImpl implements IAttendanceService {
 	}
 
 	@Override
-	public List<AttendanceVo> getEmployeeAttendance() {
+	public List<AttendanceVo> getEmployeeAttendance(String in_date) {
 		log.info("AttendanceServiceImpl getEmployeeAttendance");
-		return dao.getEmployeeAttendance();
+		return dao.getEmployeeAttendance(in_date);
 	}
 
 	@Override

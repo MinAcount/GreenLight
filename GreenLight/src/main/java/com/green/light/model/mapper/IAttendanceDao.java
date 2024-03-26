@@ -27,7 +27,7 @@ public interface IAttendanceDao {
 	public int insertLeaveRecord(AttendanceVo attendainceVo);
 	
 //	전체조회-관리자	getEmployeeAttendance()
-	public List<AttendanceVo> getEmployeeAttendance();
+	public List<AttendanceVo> getEmployeeAttendance(String in_date);
 	
 //	상세조회	getEmployeeDetails()
 	public List<AttendanceVo> getEmployeeDetails(AttendanceVo attendainceVo);
