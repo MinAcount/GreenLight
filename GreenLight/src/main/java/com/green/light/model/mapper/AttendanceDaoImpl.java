@@ -69,7 +69,11 @@ public class AttendanceDaoImpl implements IAttendanceDao {
 		return session.selectList(NS+"getEmployeeDetails",attendainceVo);
 	}
 
-	
+	@Override
+	public AttendanceVo getAttendance(AttendanceVo attendainceVo) {
+		log.info("AttendanceDaoImpl getAttendance 출근시간 및 퇴근시간");
+		return session.selectOne(NS+"getAttendance",attendainceVo);
+	}
 	
 	
 }

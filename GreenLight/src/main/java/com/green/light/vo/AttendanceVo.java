@@ -21,5 +21,6 @@ public class AttendanceVo {
 	private String att_status;
 	
 	private EmployeeVo empVo;
-
+	
+	private String name;
 }

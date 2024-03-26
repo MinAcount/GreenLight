@@ -90,3 +90,15 @@ window.onload = function() {
 	getClock(); // 맨 처음에 한 번 실행
 	setInterval(getClock, 1000); // 1초 주기로 새로 실행
 };
+
+// 퇴근 버튼 클릭 시 호출될 함수
+function handleLeaveClick() {
+    var inDate = "${attVo.in_date != null ? attVo.in_date.substring(11,16) : null}";
+
+    if (inDate === null) {
+        alert("출근 등록을 먼저 진행해 주세요.");
+    } else {
+        alert("퇴근하기 버튼을 눌렀습니다.");
+        // 여기에 필요한 동작을 추가하세요 (예: location.href='out.do')
+    }
+}

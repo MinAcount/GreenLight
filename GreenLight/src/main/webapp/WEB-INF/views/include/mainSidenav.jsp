@@ -123,8 +123,8 @@
                   </a>
                   <div class="collapse" id="collapseAttd" data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">내 근태관리</a> 
-                        <a class="nav-link" href="multi-tenant-select.html">내 휴가관리</a> 
+                        <a class="nav-link" href="myAttendance.do">내 근태관리</a> 
+                        <a class="nav-link" href="myVacation.do">내 휴가관리</a> 
                      </nav>
                   </div>
                   
