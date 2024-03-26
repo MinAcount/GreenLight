@@ -23,6 +23,8 @@
 		<!-- 채팅 -->
 		<typeAlias type="com.green.light.vo.MessageVo" alias="MessageVo"/>
 		<typeAlias type="com.green.light.vo.GroupMemberVo" alias="GroupMemberVo"/>
+		<!-- 외부 라이브러리 -->
+		<typeAlias type="com.green.light.vo.JsTreeVo" alias="JsTreeVo"/>
 	</typeAliases>
 	
 	<mappers>
@@ -44,5 +46,7 @@
 		<mapper resource="sqls/TemplateStatement.xml"/>
 		<!-- 채팅 -->
 		<mapper resource="sqls/MessageStatement.xml"/>
+		<!-- 외부 라이브러리 -->
+		<mapper resource="sqls/JsTreeStatement.xml"/>
 	</mappers>
 </configuration>

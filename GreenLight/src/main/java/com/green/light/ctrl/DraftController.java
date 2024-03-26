@@ -15,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.vo.ApprJstreeVo;
 
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -30,10 +31,10 @@ public class DraftController {
 	public String draftForm() {
 		log.info("DraftController GET /draftForm.do 기안서 작성 Form");
 		
-		
 		return "draftForm";
 	}
 	
+
 	
 	@GetMapping(value = "/apprJstreeView.do")
     @ResponseBody
@@ -49,5 +50,5 @@ public class DraftController {
 	
 
 	
-	
+
 }
