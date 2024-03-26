@@ -38,7 +38,6 @@ public class EmployeeVo {
 	private String opt;
 	private String keyword;
 	
-	private DepartmentVo deptVo;
 	private CommonVo comVo;
 	
 	public EmployeeVo(String id, String name) {

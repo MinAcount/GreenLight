@@ -1,5 +1,7 @@
 package com.green.light.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -20,5 +22,6 @@ public class HeadquartersVo {
 	private String head_mgr;
 	private String delflag;
 	
-	private DepartmentVo deptVo;
+	private List<DepartmentVo> deptVo;
+	private EmployeeVo empVo;
 }

@@ -22,7 +22,7 @@
 							<div class="card-body text-center">
 							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
 								<img class="img-account-profile rounded-circle mb-2"
-									src="assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" />
+									src="assets/img/illustrations/profiles/profile-4.png" alt="프로필사진" />
 							</c:if>
 							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
 								<img class="img-account-profile rounded-circle mb-2"

@@ -1,5 +1,7 @@
 package com.green.light.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -22,5 +24,5 @@ public class DepartmentVo {
 	private String delflag;
 	
 	private CommonVo comVo;
-	private EmployeeVo empVo;
+	private List<EmployeeVo> empVo;
 }

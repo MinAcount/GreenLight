@@ -31,7 +31,7 @@
 </select>
 <!-- 부서 상세 조회	getOneDept -->
 <select id="getOneDept" parameterType="java.lang.String" resultMap="DepartmentVo">
-	SELECT ID, NAME, d.DEPTNO, DNAME, c2.CODE_NAME AS SPOT ,
+	SELECT ID, NAME, d.DEPTNO, DNAME, c2.CODE_NAME AS SPOT, d.DEPT_MGR,
            CASE WHEN "POSITION" IS NULL THEN '부서원' 
             	ELSE (SELECT CODE_NAME 
                       	FROM COMMON c 
@@ -40,12 +40,12 @@
         ON e.DEPTNO = d.DEPTNO JOIN COMMON c2
         ON e.SPOT = c2.CODE AND c2."TYPE" ='직위' 
         AND e.DEPTNO = #{deptno}
+        ORDER BY c2.CODE DESC
 </select>
 <!-- 본부별 부서 조회	getDeptByHead -->
 <select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">
-	SELECT d.DEPTNO , DNAME, DEPT_MGR, NAME
-        FROM DEPARTMENT d JOIN EMPLOYEE e
-        ON e.DEPTNO = d.DEPTNO
+	SELECT d.DEPTNO , DNAME, HEADNO
+        FROM DEPARTMENT d
         WHERE HEADNO = #{headno}
         AND d.DELFLAG = 'N'
 </select>
