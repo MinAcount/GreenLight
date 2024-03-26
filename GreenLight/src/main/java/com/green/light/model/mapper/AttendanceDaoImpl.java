@@ -58,9 +58,9 @@ public class AttendanceDaoImpl implements IAttendanceDao {
 	}
 
 	@Override
-	public List<AttendanceVo> getEmployeeAttendance() {
+	public List<AttendanceVo> getEmployeeAttendance(String in_date) {
 		log.info("AttendanceDaoImpl getEmployeeAttendance 전체조회-관리자");
-		return session.selectList(NS+"getEmployeeAttendance");
+		return session.selectList(NS+"getEmployeeAttendance",in_date);
 	}
 
 	@Override

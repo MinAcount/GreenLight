@@ -1,18 +1,30 @@
 package com.green.light.ctrl;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Scanner;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.green.light.model.service.IAttendanceService;
+import com.green.light.model.service.IDepartmentService;
+import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.AttendanceVo;
+import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,33 +36,28 @@ public class AttendanceController {
 	@Autowired
 	private IAttendanceService service;
 	
-    @GetMapping("/in.do")
-	public String in(HttpSession session) {
-		log.info("AttendanceController in 출근등록");
-		EmployeeVo EVo = (EmployeeVo)session.getAttribute("loginVo");
-		System.out.println(EVo.getId());
-		service.insertAttendanceRecord(EVo.getId());
-		return "redirect:/main.do";
+	@Autowired
+	private IDepartmentService dService;
+
+	@Autowired
+	private IEmployeeService eService;
+	
+	@GetMapping("/in.do")
+	public String in(HttpSession session, HttpServletResponse response) {
+	    log.info("AttendanceController in 출근등록");
+//	    String ip = "14.36.141.71";
+//	    String ipAddress = "";
+//	    try (Scanner s = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8")) {
+//	        ipAddress = s.useDelimiter("\\A").next();
+//	    } catch (IOException e) {
+//	        e.printStackTrace();
+//	    }
+	    EmployeeVo EVo = (EmployeeVo)session.getAttribute("loginVo");
+	    System.out.println("Employee ID: " + EVo.getId());
+	    service.insertAttendanceRecord(EVo.getId());
+	    return "redirect:/main.do";
 	}
 	
-
-//    @GetMapping("/out.do")
-//	public String out(HttpSession session) {
-//		log.info("AttendanceController out 퇴근등록");
-//		EmployeeVo EVo = (EmployeeVo)session.getAttribute("loginVo");
-//		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-//		service.updateAttendanceOutTime(EVo.getId());
-//		
-//		AttendanceVo AVo = new AttendanceVo();
-//		AVo.setId(EVo.getId());
-//		AVo.setIn_date(currentDate);
-//		AttendanceVo resultAVo = service.getAttendance(AVo);
-//		
-//
-//		
-//		resultAVo.setAtt_status("");
-//		return "redirect:/main.do";
-//	}
     
     @GetMapping("/out.do")
     public String out(HttpSession session) {
@@ -65,10 +72,11 @@ public class AttendanceController {
         
         
         AttendanceVo resultAVo = service.getAttendance(AVo);
-        	
+        System.out.println("getAttendance 직후 resultAVo :"+resultAVo);
+        resultAVo.setIn_date(currentDate.substring(0,10));
         if (resultAVo != null && resultAVo.getIn_date() != null) {
         	System.out.println("-------------if문 탄다-----");
-            String inTime = resultAVo.getIn_date().substring(11, 16); // 출근 시간의 시간 부분을 추출
+            String inTime = resultAVo.getIn_date(); // 출근 시간
             String outTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm")); // 현재 시간을 HH:mm 형식으로 가져옴
             
             // 출퇴근 시간 비교하여 상태 설정
@@ -84,7 +92,7 @@ public class AttendanceController {
             }
 
             resultAVo.setAtt_status(status);
-            System.out.println(resultAVo);
+            System.out.println("updateWorkStatus resultAVo :"+resultAVo);
             service.updateWorkStatus(resultAVo);
         }
 
@@ -97,9 +105,63 @@ public class AttendanceController {
     }
     
     @GetMapping(value = "/myAttendance.do")
-    public String myAttendance() {
+    public String myAttendance(HttpSession session, Model model) {
     	log.info("AttendanceController myAttendance 나의 근태현황");
+        EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
+        AttendanceVo AVo = new AttendanceVo();
+        AVo.setId(EVo.getId());
+        AVo.setIn_date("2024-03");
+        List<AttendanceVo> attList = service.getEmployeeDetails(AVo);
+		model.addAttribute("attList",attList);
+		
     	return "myAttendance";
+    }
+    
+    @GetMapping(value = "/excel.do")
+    public String excel(HttpSession session, Model model, HttpServletResponse response) throws UnsupportedEncodingException{
+    	log.info("AttendanceController excel");
+    	
+        EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
+        AttendanceVo AVo = new AttendanceVo();
+        AVo.setId(EVo.getId());
+        AVo.setIn_date("2024-03");
+        
+    	// 저장되는 파일명
+    	String fn = "근무리스트";
+    	//한글 깨짐 방지
+    	String fileName = new String(fn.getBytes("UTF-8"),"8859_1");
+    	List<AttendanceVo> lists = service.getEmployeeDetails(AVo);
+    	
+    	response.setHeader("Content-Disposition", "attachment; filename="+fileName +".xlsx");
+		model.addAttribute("lists",lists);
+    	return "excelView";
+    }
+    
+    @GetMapping(value = "/employeeAttendance.do")
+    public String employeeAttendance(Model model) {
+    	log.info("AttendanceController employeeAttendance 직원관리 근태조회");
+    	String in_date = "2024-03";
+    	List<AttendanceVo> lists = service.getEmployeeAttendance(in_date);
+    	List<DepartmentVo> dlists = dService.getAllDept();
+    	List<EmployeeVo> elists = eService.getAllEmployee();
+    	model.addAttribute("lists",lists);
+    	model.addAttribute("dlists",dlists);
+    	model.addAttribute("elists",elists);
+    	return "employeeAttendance";
+    }
+    
+    @GetMapping(value = "/employeeAttDetails.do")
+    public String employeeAttDetails(String id,Model model) {
+    	log.info("AttendanceController employeeAttDetails 직원상세");
+      	String in_date = "2024-03";
+      	AttendanceVo AVo = new AttendanceVo();
+      	AVo.setId(id);
+      	AVo.setIn_date(in_date);
+      	List<AttendanceVo> lists = service.getEmployeeDetails(AVo);
+      	EmployeeVo EVo = eService.getOneEmployee(id);
+    	model.addAttribute("lists",lists);
+    	model.addAttribute("EVo",EVo);
+    	return "employeeAttDetails";
     }
 
     

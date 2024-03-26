@@ -29,9 +29,9 @@
                      <nav class="sidenav-menu-nested nav">
                         <a class="nav-link" href="./employeeAddForm.do">직원 추가</a> 
                         <a class="nav-link" href="./employeeList.do">직원 정보</a> 
-                        <a class="nav-link" href="wizard.html">휴가 관리</a>
-                        <a class="nav-link" href="wizard.html">근태 관리</a>
-                        <a class="nav-link" href="wizard.html">인사서류 관리</a>
+                        <a class="nav-link" href="./employeeVacation.do">휴가 관리</a>
+                        <a class="nav-link" href="./employeeAttendance.do">근태 관리</a>
+                        <a class="nav-link" href="./employeeDocument.do">인사서류 관리</a>
                      </nav>
                   </div>
                   <a class="nav-link" href="./headAndDept.do"><div class="nav-link-icon">
