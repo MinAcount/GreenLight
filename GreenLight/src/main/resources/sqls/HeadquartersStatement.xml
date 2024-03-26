@@ -8,9 +8,15 @@
 	<result property="head_mgr" column="HEAD_MGR"/>
 	<result property="delflag" column="DELFLAG"/>
 	<collection property="deptVo" resultMap="DepartmentVo"/>
+	<collection property="empVo" resultMap="EmployeeVo"/>
 </resultMap>
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
 	<result property="dname" column="DNAME"/>
+	<result property="deptno" column="DEPTNO"/>
+	<result property="dept_mgr" column="DEPT_MGR"/>
+</resultMap>
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+	<result property="name" column="NAME"/>
 </resultMap>
 	
 <!-- 	본부 전체 조회	getAllHead -->
@@ -21,7 +27,8 @@
 </select>
 <!-- 	본부 상세 조회	getOneHead -->
 <select id="getOneHead" parameterType="java.lang.String" resultMap="HeadquartersVo">
-	SELECT h.HEADNO , h.HNAME, h.HEAD_MGR, d.DNAME
+	SELECT h.HEADNO , h.HNAME, h.HEAD_MGR,
+			d.DNAME, d.DEPTNO, d.DEPT_MGR
         FROM HEADQUARTERS h LEFT JOIN DEPARTMENT d
         ON h.HEADNO = d.HEADNO
         WHERE h.HEADNO = #{headno}

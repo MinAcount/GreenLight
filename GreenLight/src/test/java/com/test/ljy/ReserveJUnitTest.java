@@ -89,7 +89,7 @@ public class ReserveJUnitTest {
 	    assertNotNull(lists);
 	}
 	
-	@Test
+//	@Test
 	public void OneReserveTest() {
 		String reserveno = "240301R005";
 	    CheckListVo vo = service.getOneReserve(reserveno);

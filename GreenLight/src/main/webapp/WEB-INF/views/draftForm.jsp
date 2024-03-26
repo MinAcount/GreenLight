@@ -17,6 +17,7 @@
          <div id="main_content">
             <h1 style="margin-bottom: 70px; text-align: center;">기안서 작성</h1>
 
+
             <hr class="mt-0 mb-5">
             <div style="display: flex; flex-direction: row; justify-content: space-between;">
                 <!-- Modal -->
@@ -33,6 +34,7 @@
 									<div style="width: 395px; min-height: 450px; border-right: 1px solid black;">
 										<div id="search_box">
 											<input id="search_input" type="text">
+
 										</div>
 										<div id="JTSelectTemplate" style="max-height:450px; overflow-y: scroll;"></div>
 										<style>
@@ -1153,6 +1155,45 @@
 							</div>
 						</div>
 					</div>
+
+					<div>
+						<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#templateModal">문서양식 선택</button>
+						<button class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#approvalModal">결재선 설정</button>
+						
+						<div class="modal fade" id="approvalModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
+						<div class="modal-dialog">
+							<div class="modal-content" style="width: 800px; height: 600px;">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">결재선 설정</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+									<div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around;">
+										<!-- 결재자들(js tree) -->
+										<div style="width: 395px; min-height: 450px; border-right: 1px solid black">
+										</div>
+										<!-- 선택된 결재자들 -->
+										<div style="width: 395px; min-height: 450px;">
+											
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">취소</button>
+										<button class="btn btn-primary btn-sm" type="button" style="margin-left: 10px;">완료</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+						<button class="btn btn-secondary btn-sm" type="button">참조자 추가</button>
+					</div>
+					<div>
+						<button class="btn btn-secondary btn-sm" type="button">임시저장</button>
+						<button class="btn btn-primary btn-sm" type="button" style="width: 73.6px;">상신</button>
+					</div>
+          
 				</div>
 				<div>
                   <button id="selectTemplateModal" class="btn btn-secondary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#templateModal">문서양식 선택</button>

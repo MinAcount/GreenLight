@@ -32,5 +32,7 @@ public interface IAttendanceDao {
 //	상세조회	getEmployeeDetails()
 	public List<AttendanceVo> getEmployeeDetails(AttendanceVo attendainceVo);
 	
+//	메인화면 출근시간 퇴근시간
+	public AttendanceVo getAttendance(AttendanceVo attendainceVo);
 
 }

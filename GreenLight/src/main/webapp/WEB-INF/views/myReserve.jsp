@@ -7,6 +7,9 @@
     td.green-text {
         color: green;
     }
+    td.red-text {
+        color: red;
+    }
 </style>
 </head>
 <body class="nav-fixed">
@@ -26,8 +29,8 @@
 						<nav class="nav nav-borders">
 							<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
 								<li class="nav-link active ms-0" onclick="allReserveList(${loginVo.id}); setActive(this)">전체</li>
-								<li class="nav-link" id="inUse" onclick="reserveListInUse('사용'); setActive(this)">사용</li>
-								<li class="nav-link" id="forUse" onclick="draftListForUse('예정'); setActive(this)">예정</li>
+								<li class="nav-link" id="완료" onclick="reserveListStatus(${loginVo.id}); setActive(this)">완료</li>
+								<li class="nav-link" id="예정" onclick="reserveListStatus(${loginVo.id}); setActive(this)">예정</li>
 							</ul>
 						</nav>
 					</div>
@@ -50,13 +53,14 @@
 						<thead>
 							<tr style="background-color: #f6f6f6; width: 100%;">
 								<th style="width: 15%; text-align: center;">예약번호</th>
-								<th style="width: 15%; text-align: center;">장소</th>
-								<th style="width: 30%; text-align: center;">이용일시</th>
-								<th style="width: 20%; text-align: center;">사용목적</th>
+								<th style="width: 20%; text-align: center;">장소</th>
+								<th style="width: 15%; text-align: center;">이용일</th>
+								<th style="width: 30%; text-align: center;">이용시간</th>
 								<th style="width: 10%; text-align: center;">상태</th>
+								<th style="width: 10%; text-align: center;">취소</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody id="tableBody">
 							<c:if test="${empty lists}">
 								<tr style="height: 400px;">
 									<td colspan="5" style="text-align: center"
@@ -69,16 +73,28 @@
 										onmouseover="this.style.cursor='pointer'">
 										<td style="text-align: center;">${vo.reservationVo.reserveno}</td>
 										<td style="text-align: center;">${vo.conferenceVo.cname}</td>
+										<td style="text-align: center;">
+											<fmt:formatDate value="${vo.reservationVo.reserve_date}" 
+											pattern="yyyy.MM.dd" var="formattedDate" /> 
+											<c:out value="${formattedDate}" />
+										</td>
 										<td style="text-align: center;"><fmt:formatDate
-												value="${vo.reservationVo.reserve_date}"
-												pattern="yyyy-MM-dd HH:mm" var="formattedDate" /> <c:out
-												value="${formattedDate}" /></td>
-										<td style="text-align: center;">${vo.reservationVo.meetingtitle}</td>
+												value="${vo.reservationVo.reserve_date}" pattern="HH:mm"
+												var="formattedStartDate" /> <c:out
+												value="${formattedStartDate}" /> ~ <fmt:formatDate
+												value="${endDate}" pattern="HH:mm" />&nbsp;(2시간)</td>
 										<td style="text-align: center;" class="${vo.reservationVo.reserve_date.time > currentdate.time ? 'green-text' : ''}">
 											<c:choose>
 												<c:when test="${vo.reservationVo.reserve_date.time > currentdate.time}">예정</c:when>
 												<c:otherwise>완료</c:otherwise>
 											</c:choose>
+										</td>
+										<td style="text-align: center;" class="${vo.reservationVo.reserve_date.time > currentdate.time ? 'red-text' : ''}">
+											<a href = "">
+											<c:choose>
+												<c:when test="${vo.reservationVo.reserve_date.time > currentdate.time}">취소</c:when>
+											</c:choose>
+											</a>
 										</td>
 									</tr>
 								</c:forEach>

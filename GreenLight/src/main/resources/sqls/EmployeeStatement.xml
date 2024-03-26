@@ -11,6 +11,7 @@
 	<result property="gender" column="GENDER"/>
 	<result property="address" column="ADDRESS"/>
 	<result property="spot" column="SPOT"/>
+	<result property="deptno" column="DEPTNO"/>
 	<result property="position" column="POSITION"/>
 	<result property="estatus" column="ESTATUS"/>
 	<result property="join_day" column="JOIN_DAY"/>
@@ -19,12 +20,7 @@
 	<result property="leave" column="LEAVE"/>
 	<result property="auth" column="AUTH"/>
 	<result property="profile" column="PROFILE"/>
-	<collection property="deptVo" resultMap="DepartmentVo"/>
 	<collection property="comVo" resultMap="CommonVo"/>
-</resultMap>
-<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
-	<result property="dname" column="DNAME"/>
-	<result property="headno" column="HEADNO"/>
 </resultMap>
 <resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
 	<result property="type" column="TYPE"/>
@@ -57,7 +53,7 @@
 <!-- 로그인 시도 횟수 증가 및 초기화	updateFail -->
 <update id="updateFail" parameterType="java.util.Map">
 	UPDATE EMPLOYEE
-		SET FAIL = CASE WHEN PASSWORD = #{password} THEN 0 ELSE FAIL + 1 END
+		SET FAIL = #{fail}
 		WHERE ID = #{id}
 </update>
 
@@ -81,7 +77,7 @@
 <!-- 직원 전체 조회	getAllEmployee -->
 <select id="getAllEmployee" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-	        ADDRESS, DNAME, 
+	        ADDRESS, DEPTNO, 
 	        (SELECT c.CODE_NAME
 	            FROM COMMON c
 	            WHERE e.SPOT = c.CODE
@@ -93,13 +89,13 @@
 	        ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
 	        LEAVE, AUTH, PROFILE
 	FROM EMPLOYEE e 
-	JOIN DEPARTMENT d ON e.DEPTNO = d.DEPTNO 
+	WHERE ID != 'admin'
 	ORDER BY NAME
 </select>
 <!-- 직원 상세 조회	getOneEmployee -->
 <select id="getOneEmployee" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, PASSWORD, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME , (SELECT c.CODE_NAME
+        ADDRESS, DEPTNO, (SELECT c.CODE_NAME
 	            FROM COMMON c
 	            WHERE e.SPOT = c.CODE
 	            AND c."TYPE" = '직위') AS SPOT,
@@ -109,14 +105,13 @@
 	            AND c."TYPE" = '직책') AS "POSITION",
 	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
-        FROM EMPLOYEE e JOIN DEPARTMENT d 
-        ON e.DEPTNO = d.DEPTNO
+        FROM EMPLOYEE e
         WHERE ID=#{id}
 </select>
 <!-- 직원 재직상태별 조회	getAllEmployeeByStatus -->
 <select id="getAllEmployeeByStatus" parameterType="java.lang.String" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME, (SELECT c.CODE_NAME
+        ADDRESS, DEPTNO, (SELECT c.CODE_NAME
 	            FROM COMMON c
 	            WHERE e.SPOT = c.CODE
 	            AND c."TYPE" = '직위') AS SPOT,
@@ -126,15 +121,15 @@
 	            AND c."TYPE" = '직책') AS "POSITION",
 	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
-        FROM EMPLOYEE e JOIN DEPARTMENT d 
-        ON e.DEPTNO = d.DEPTNO
+        FROM EMPLOYEE e 
         WHERE ESTATUS = #{estatus}
+        AND ID != 'admin'
         ORDER BY NAME
 </select>
 <!-- 직원 검색	getEmployeeBySearch -->
 <select id="getEmployeeBySearch" parameterType="EmpVo" resultMap="EmployeeVo">
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER,
-        ADDRESS, DNAME, (SELECT c.CODE_NAME
+        ADDRESS, DEPTNO, (SELECT c.CODE_NAME
 	            FROM COMMON c
 	            WHERE e.SPOT = c.CODE
 	            AND c."TYPE" = '직위') AS SPOT,
@@ -144,8 +139,7 @@
 	            AND c."TYPE" = '직책') AS "POSITION",
 	    ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE,
         LEAVE, AUTH, PROFILE
-        FROM EMPLOYEE e JOIN DEPARTMENT d 
-        ON e.DEPTNO = d.DEPTNO
+        FROM EMPLOYEE e 
         <choose>
         	<when test="opt.equals('name')">
         		 WHERE NAME LIKE '%'||#{keyword}||'%'
@@ -155,6 +149,7 @@
         	</when>
         </choose>
         AND ESTATUS = #{estatus}
+        AND ID != 'admin'
         ORDER BY NAME
 </select>
 <!-- 직원 정보 수정	updateOneEmployee -->

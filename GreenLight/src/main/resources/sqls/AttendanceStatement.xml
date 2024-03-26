@@ -76,7 +76,7 @@
 	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE, LEAVE, AUTH, PROFILE
 	FROM EMPLOYEE e JOIN DEPARTMENT d 
 	ON e.DEPTNO = d.DEPTNO
-	WHERE NAME LIKE '%'||#{keyword}||'%'
+	WHERE NAME LIKE '%'||#{name}||'%'
 	ORDER BY NAME
 </select>
 
@@ -86,6 +86,13 @@
 	FROM ATTENDANCE a 
 	WHERE ID = #{id}
 	AND TO_CHAR(IN_DATE, 'YYYY-MM') = #{in_date}
+</select>
+
+<select id="getAttendance" parameterType="AttendanceVo" resultType="AttendanceVo">
+	SELECT ID, IN_DATE ,OUT_DATE , ATT_STATUS 
+	FROM ATTENDANCE a 
+	WHERE ID = #{id}
+	AND TO_CHAR(IN_DATE, 'YYYY-MM-DD') = #{in_date}
 </select>
 
 </mapper>

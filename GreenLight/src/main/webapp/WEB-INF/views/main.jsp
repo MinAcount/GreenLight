@@ -1,4 +1,5 @@
 <%@page import="java.text.SimpleDateFormat"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -45,13 +46,28 @@
 						<h2><%=formattedDate%></h2>
 						<h2 id="time"></h2>
 					</div>
+						<div class="item">
+						    <h4>출근시간 : ${attVo.in_date != null ? attVo.in_date.substring(11,16) : '미등록'}</h4>
+						    <h4>퇴근시간 : ${attVo.out_date != null ? attVo.out_date.substring(11,16) : '미등록'}</h4>
+						    <h4>상태 : ${attVo.att_status}</h4>
+						</div>
 					<div class="item">
-						<h4>출근시간 : 09:40</h4>
-						<h4>퇴근시간 : 미등록</h4>
-					</div>				
-					<div class="item">
-						<input type="button" value="출근하기">
-						<input type="button" value="퇴근하기">
+						<c:choose>
+							<c:when test="${attVo.in_date == null}">
+							    <input id="attendanceButton" type="button" value="출근하기" onclick="location.href='in.do'">
+							</c:when>
+							<c:otherwise>
+							    <input id="attendanceButton" type="button" value="출근하기" onclick="alert('이미 출근되었습니다.')">
+							</c:otherwise>
+						</c:choose>
+						<c:choose>
+							<c:when test="${attVo.out_date == null}">
+							    <input id="leaveButton" type="button" value="퇴근하기" onclick="location.href='out.do'">
+							</c:when>
+							<c:otherwise>
+							    <input id="leaveButton" type="button" value="퇴근하기" onclick="alert('이미 퇴근되었습니다.')">
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</div>
 				<%@ include file="./include/footer.jsp"%>

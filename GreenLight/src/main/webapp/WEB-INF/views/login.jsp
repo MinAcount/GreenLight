@@ -40,8 +40,8 @@
 				<div
 					class="d-flex align-items-center justify-content-between mt-4 mb-0">
 					<a class="small" href="./findPassword.do">비밀번호 찾기</a>
-					<button class="btn btn-primary" type="button"
-						onclick="loginSubmit()">로그인</button>
+					<button class="btn btn-primary" type="button" onclick="loginSubmit()" >로그인</button>
+
 				</div>
 			</form>
 		</div>
@@ -63,6 +63,20 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
 	<script type="text/javascript">
+		var password = document.getElementById("password");
+		var id = document.getElementById("id");
+		id.addEventListener("keyup", function (event) {
+		      if (event.keyCode === 13) {
+		        event.preventDefault();
+		        loginSubmit();
+		      }
+		    });
+		password.addEventListener("keyup", function (event) {
+	      if (event.keyCode === 13) {
+	        event.preventDefault();
+	        loginSubmit();
+	      }
+	    });
 		function loginSubmit() {
 			var id = document.getElementById("id").value;
 			var password = document.getElementById("password").value;
@@ -97,9 +111,11 @@
 					location.href="./main.do";
 				}else if (result.msg == 'SUCCESSADMIN'){
 					location.href="./admin.do";
-				}else if(result.msg == 'FAIL'){
+				}else if(result.msg == 'FAILPASS'){
 					alert("비밀번호를 다시 확인하여주세요");
 					location.reload();
+				}else{
+					alert("로그인에 실패하였습니다. 관리자에게 문의해주세요");
 				}
 			});
 		}

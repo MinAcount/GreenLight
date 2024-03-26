@@ -61,17 +61,22 @@ public class AttendanceJUnitTest {
 //		vo.setAtt_status("지각");
 //		vo.setIn_date("2024-03-15 09:00");
 //		vo.setOut_date("2024-03-15 18:00");
-//		service.insertLeaveRecord(vo);//근태연차처리ㅁㄴㅁㄴ
+//		service.insertLeaveRecord(vo);//
         
+//		AttendanceVo parameterVo = new AttendanceVo();
+//		parameterVo.setId("2303100101");
+//		parameterVo.setIn_date("2024-03");
+//		List<AttendanceVo> resultVo = service.getEmployeeDetails(parameterVo);
+//		for (AttendanceVo attendance : resultVo) {
+//			    System.out.println("ID: " + attendance.getId() + ", In_date: " + attendance.getIn_date());
+//			}
+//		assertNotNull(resultVo);
 		AttendanceVo parameterVo = new AttendanceVo();
-		parameterVo.setId("2403110901");
-		parameterVo.setIn_date("2024-03");
-		List<AttendanceVo> resultVo = service.getEmployeeDetails(parameterVo);
-		for (AttendanceVo attendance : resultVo) {
-			    System.out.println("ID: " + attendance.getId() + ", In_date: " + attendance.getIn_date());
-			}
-		assertNotNull(resultVo);
-		
+		parameterVo.setId("2303100101");
+		parameterVo.setIn_date("2024-03-25");
+		AttendanceVo attendanceVo =  service.getAttendance(parameterVo);
+		System.out.println(attendanceVo);
+		assertNotNull(parameterVo);
 		
 		
         
