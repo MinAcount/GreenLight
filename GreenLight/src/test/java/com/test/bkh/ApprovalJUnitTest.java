@@ -2,6 +2,8 @@ package com.test.bkh;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.green.light.model.service.IApprovalService;
+import com.green.light.vo.ApprJstreeVo;
 import com.green.light.vo.EmployeeVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,6 +36,11 @@ public class ApprovalJUnitTest {
 		EmployeeVo vo3 = service.selectCEO();
 		System.out.println(vo3);
 		assertNotNull(vo3);
+		
+		// ApprJstreeView 조회
+		List<ApprJstreeVo> list = service.getAllApprJstreeView();
+		System.out.println("-------------------------------------------------------"+list);
+		assertNotEquals(0, list.size());
 	}
 
 }
