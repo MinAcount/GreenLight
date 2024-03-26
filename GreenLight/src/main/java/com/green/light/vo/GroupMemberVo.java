@@ -18,7 +18,7 @@ public class GroupMemberVo {
 	private String groupno;
 	private String chat_id;
 	private String id;
-	private String name;
+	private String roomname;
 	private String noti;
 	private String group_out;
 	private String last_mesg;
