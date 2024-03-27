@@ -1,9 +1,5 @@
 $(function () {
-	
-	$( "#apr_chk" ).sortable({
-	});
-	
-	$('#apprJstree').jstree({
+	$('#refJstree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
 		plugins: ['types', 'search', 'contextmenu'],
 		// core : 핵심 기능을 구성하는 옵션(data, themes, animation, check_callback 등)
@@ -33,7 +29,9 @@ $(function () {
 								node.spot="이사";
 							} 
 							node.text = node.text + ' ' + node.spot;
+
 						}
+
 					});
 
 					//               data.forEach(function(node) {
@@ -47,44 +45,28 @@ $(function () {
 					alert('데이터 전송 실패');
 				}
 			}
-		}
+		},
 	});
 	
-	
-	
-	
-	
-	
-	
-	$("#addEmp").on('click',function () {
+	$("#addRef").on('click',function () {
 		// 선택된 노드의 id 가져옴
-		var sel = $("#apprJstree").jstree('get_selected');
-		
-		var apr_row = document.querySelectorAll(".apr_row");
-		if(apr_row.length >3 ){
-			console.log("결재자는 최대 4명까지만 설정가능합니다")
-			return;
-		}
-		
+		var sel = $("#refJstree").jstree('get_selected');
 		
 		//선택된 노드 숨김
-		$("#apprJstree").jstree('hide_node', sel);
+		$("#refJstree").jstree('hide_node', sel);
 
 		//선택된 노드의 텍스트 내용을 가져옴
-		var selText = $("#apprJstree").jstree().get_text(sel);
-		console.log("selText",selText);
+		var selText = $("#refJstree").jstree().get_text(sel);
+		console.log(selText);
 		
 		if(!selText){
 			return;
 		}
 		
+		var htmlCode = $("#ref_chk").html();
 		
-		
-		
-		var htmlCode = $("#apr_chk").html();
-		
-		//  #apr_chk div에 선택한 노드 추가
-		htmlCode += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + selText + 
+		//  #ref_chk div에 선택한 노드 추가
+		htmlCode += "<div class='ref_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + selText + 
     				"<div name='delIcon' onclick='del(event)' style='margin-left:15px;'>" +
         			"<svg style='pointer-events:none;' xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-trash-2' id='toastFeather'>" +
             		"<polyline points='3 6 5 6 21 6'></polyline>" +
@@ -97,41 +79,38 @@ $(function () {
     				"</div>" +
 					"</div>";
 
-		$("#apr_chk").html(htmlCode);
+		$("#ref_chk").html(htmlCode);
+		
+	
 
 
 		//선택된 노드 선택 해제하기
-		$("#apprJstree").jstree('deselect_node', sel);
+		$("#refJstree").jstree('deselect_node', sel);
 
 		
-		
-		
-		
-		
+
 	});
 		
 	
 
-	
 
 
 	// 트리를 처음부터 열린 상태로 보여줌
-	$('#apprJstree').on('ready.jstree', function() {
+	$('#refJstree').on('ready.jstree', function() {
 		$(this).jstree('open_all');
-		
 	});
 
 
-	var searchTimer;
+	var searchTimer3;
 
-	$('#search_input').keyup(function() {
+	$('#search_input2').keyup(function() {
 		// 이전에 설정된 타이머가 있다면 클리어
-		clearTimeout(searchTimer);
+		clearTimeout(searchTimer3);
 
 		// 300 밀리초 후에 검색 수행
 		searchTimer = setTimeout(function() {
-			var v = $('#search_input').val().trim();
-			$('#apprJstree').jstree(true).search(v);
+			var v = $('#search_input2').val().trim();
+			$('#refJstree').jstree(true).search(v);
 		}, 300);
 	});
 
@@ -163,12 +142,12 @@ $(function () {
 });
 
 
-function del(event) {
+function delRef(event) {
 	// 클릭된 span의 parent div
 	var parentDiv = event.target.parentElement;
 	console.log("parentDiv"+parentDiv)
 
-	//#apr_chk div 탐색
+	//#ref_chk div 탐색
 	var chkDiv = parentDiv.parentNode;
 	console.log(chkDiv)
 
@@ -177,34 +156,34 @@ function del(event) {
 
 
 	//sel_apr이라는 클래스를 가진 div 탐색
-	var childDiv = parentDiv.querySelector('.sel_apr')
+	var childDiv = parentDiv.querySelector('.sel_ref')
 	
 	//childDiv의 내용 저장
 	var childText = childDiv.textContent
 	
 	//findTreeNodeByText function을 통해 childText와 같은 내용의 node 저장
-	var treeNode = findTreeNodeByText(childText);
+	var treeNode = findTreeNodeByText2(childText);
 	if (treeNode) {
-		var jstree = $("#apprJstree").jstree();
+		var jstree = $("#refJstree").jstree();
 		var allNodes = jstree.get_json(null, { flat: true });
 		
 		//treeNode의 아이디로 hide 됐던 노드 다시 show 해주기
-		$("#apprJstree").jstree('show_node', treeNode.id);
+		$("#refJstree").jstree('show_node', treeNode.id);
 		
 		//#apr_chk div에 있던 것들이 삭제되면 다시 #apprJstree에서 직급에 따라 disable된것이 enable 처리
 		for (var i = 0; i < allNodes.length; i++) {
          var iNode = jstree.get_node(allNodes[i]);
          var iPosition_flag = parseInt(iNode.original.position_flag);
          if (iPosition_flag >= chkDiv_last_p) {
-            $("#apprJstree").jstree('enable_node', iNode);
+            $("#refJstree").jstree('enable_node', iNode);
          }
       }
 	}
 }
 
-function findTreeNodeByText(text) {
+function findTreeNodeByText2(text) {
 
-	var jstree = $("#apprJstree").jstree();
+	var jstree = $("#refJstree").jstree();
 
 	//null : 첫 번째 매개변수는 가져올 노드의 ID, null을 사용하면 모든 노드를 가지고 오게 됨
 	//flat : 모든 노드가 트리 구조를 유지하면서 하나의 배열에 포함 됨
@@ -219,135 +198,74 @@ function findTreeNodeByText(text) {
 }
 
 // 초기화 버튼 기능
-function clean() {
-	var jstree = $("#apprJstree").jstree();
+function cleanRef() {
+	var jstree = $("#refJstree").jstree();
 	var allNodes = jstree.get_json(null, { flat: true });
-	$("#apr_chk").html("");
+	$("#ref_chk").html("");
 	//모든 노드 표시
-	$("#apprJstree").jstree('show_all');
+	$("#refJstree").jstree('show_all');
 	for (var i = 0; i < allNodes.length; i++) {
-		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
+		var iNode = $("#refJstree").jstree().get_node(allNodes[i]);
 		//모든 노드 enable
-		$("#apprJstree").jstree('enable_node', iNode);
+		$("#refJstree").jstree('enable_node', iNode);
 	}
 }
 
-
+var chkRef;
 var chkAppr;
 
-function apprDone(){
+function refDone(){
    
    
-   var apprLineOriginal = document.getElementById("apr_chk")
-   var apprLine = document.getElementById("apr_chk")
-   var apprLine = apprLineOriginal.cloneNode(true)
-   console.log(apprLine)
-   var delIcon = apprLine.querySelectorAll('[name="delIcon"]');
+   var refLineOriginal = document.getElementById("ref_chk")
+   var refLine = refLineOriginal.cloneNode(true)
+   console.log(refLine)
+   var delIcon = refLine.querySelectorAll('[name="delIcon"]');
    console.log(delIcon)
 	delIcon.forEach(function(icon) {
     icon.remove();
 });
 	
-	// 결재순서 담은 input태그 추가
-	var apr_rows = apprLine.querySelectorAll(".apr_row");
 	
-	apr_rows.forEach(function(row, i){
-		var apprOrder = document.createElement("input");
-	    apprOrder.setAttribute("type", "hidden");
-	    apprOrder.setAttribute("name", "apr_no");
-	    apprOrder.setAttribute("value", i + 1);
-	    row.appendChild(apprOrder);
 	    
-	})
-      	console.log("last_apprLine",apprLine)
-
-	chkAppr = document.getElementById("chkAppr");
-	var chkApprClone1 = apprLine.cloneNode(true)
+   console.log("last_refLine",refLine)
 	
-	var apprCloneList = Array.from(chkApprClone1.querySelectorAll(".apr_row"));
 	
-	while (chkAppr.firstChild) {
-        chkAppr.firstChild.remove();
+   
+	var chkRefClone1 = refLine.cloneNode(true)
+	
+	var refCloneList = Array.from(chkRefClone1.querySelectorAll(".ref_row"));
+	
+	chkRef = document.getElementById("chkRef");
+	
+	while (chkRef.firstChild) {
+        chkRef.firstChild.remove();
     } 
 	
-	apprCloneList.forEach(function(item){
-		chkAppr.appendChild(item)
+	refCloneList.forEach(function(item){
+		chkRef.appendChild(item)
 	})
-
-	chkAppr.style.display = "block";
-	var chkRef = document.getElementById("chkRef");
-	chkRef.style.display = "none";
+	
+	console.log("chkRef",chkRef)
+	
+	chkRef.style.display = "block";
+	chkAppr = document.getElementById("chkAppr");
+	chkAppr.style.display = "none";
+	
 	
 	var referenceLi = document.getElementById("getReference");
-	referenceLi.classList.remove("active");
+	referenceLi.classList.add("active");
 
 	var approvalLi = document.getElementById("getApproval");
-	approvalLi.classList.add("active");
-
-	var apr_row_text = [];
-	
-	apr_rows.forEach(function(row){
-		apr_row_text.push(row.textContent);
-	})
-	console.log("apr_row_text",apr_row_text)
-	
-	
-	
-	
-
-	var firstTr = document.getElementById("firstTr");
-	var secondTr = document.getElementById("secondTr");
-	var thirdTr = document.getElementById("thirdTr");
-	var apprTh = document.getElementById("apprTh");
-
-
-	var tds = firstTr.querySelectorAll("td");
-	tds.forEach(function(td) {
-		firstTr.removeChild(td);
-	});
-
-	while (secondTr.firstChild) {
-		secondTr.removeChild(secondTr.firstChild);
-	}
-
-	while (thirdTr.firstChild) {
-		thirdTr.removeChild(thirdTr.firstChild);
-	}
-
-
-	for (var i = 0; i < apr_rows.length; i++) {
-		var str = apr_row_text[i];
-		var index = str.indexOf(' ');
-		var name = str.substring(0, index);
-		var spot = str.substring(index + 1);
-		console.log(name)
-		console.log(spot)
-		
-		var newTd1 = document.createElement('td');
-		var newTd2 = document.createElement('td');
-		var newTd3 = document.createElement('td');
-	
-		firstTr.appendChild(newTd1);
-		newTd1.setAttribute('style', 'width: 90px; height: 20px;');
-    	newTd1.setAttribute('class', 'fontSize14');
-    	newTd1.textContent = spot;
-    	
-		secondTr.appendChild(newTd2);
-		newTd2.setAttribute('class', 'fontSize14');
-		newTd2.textContent = name;
-		
-		thirdTr.appendChild(newTd3);
-		newTd3.setAttribute('style', 'height: 20px;');
-    	newTd3.setAttribute('class', 'fontSize14');
-	}
-	
-	apprTh.style.display = "";
+	approvalLi.classList.remove("active");
 }
 
 
-function getApprLine(){
-	chkAppr.style.display = "block";
-	var chkRef = document.getElementById("chkRef");
-	chkRef.style.display = "none";
+function getRefLine(){
+	chkRef = document.getElementById("chkRef");
+	chkRef.style.display = "block";
+	var chkAppr = document.getElementById("chkAppr");
+	chkAppr.style.display = "none";
 }
+
 

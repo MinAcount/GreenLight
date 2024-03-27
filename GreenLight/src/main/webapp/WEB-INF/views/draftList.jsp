@@ -89,7 +89,7 @@
 								        document.write(dDate);
 								    </script>
 								</td>
-								<td class="tempno">${vo.tempno}</td>
+								<td class="tempcode">${vo.tempcode}</td>
 								<td class="file_count">${vo.file_count}</td>
 								<td class="doc_status">${vo.doc_status}</td>
 							</tr>

@@ -27,11 +27,11 @@ public class DraftController {
 	
 	
 	
-	@GetMapping(value = "/draftForm.do")
-	public String draftForm() {
-		log.info("DraftController GET /draftForm.do 기안서 작성 Form");
+	@GetMapping(value = "/draftWriteForm.do")
+	public String draftWriteForm() {
+		log.info("DraftController GET /draftWriteForm.do 기안서 작성 Form");
 		
-		return "draftForm";
+		return "draftWriteForm";
 	}
 	
 

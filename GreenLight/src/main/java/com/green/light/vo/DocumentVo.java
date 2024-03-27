@@ -21,7 +21,7 @@ public class DocumentVo {
 	private String content;
 	private String draft_date;
 	private String urgency;
-	private String tempno;
+	private String tempcode;
 	private String doc_status;
 	private int file_count;
 	private String appr_date;

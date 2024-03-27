@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+$(function() {
     var selectTemplateModal = document.querySelector("#selectTemplateModal");
 
     selectTemplateModal.addEventListener("click", function() {
@@ -31,13 +31,15 @@ document.addEventListener("DOMContentLoaded", function() {
 		});
     });
     
-    	$('#search_input').keyup(function() {
+    var searchTimer2;
+    
+    	$('#search').on('keyup', function() {
 		// 이전에 설정된 타이머가 있다면 클리어
-		clearTimeout(searchTimer);
+		clearTimeout(searchTimer2);
 
 		// 300 밀리초 후에 검색 수행
-		searchTimer = setTimeout(function() {
-			var v = $('#search_input').val().trim();
+		searchTimer2 = setTimeout(function() {
+			var v = $('#search').val().trim();
 			$('#JTSelectTemplate').jstree(true).search(v);
 		}, 300);
 	});
@@ -53,8 +55,9 @@ function selectComplete(){
 		fetch("./selectMainTemplate.do?tempno="+tempno)
 		.then(response=>response.json())
 		.then(data=>{
-			console.log(data);
-			
+			console.log(data.content);
+			var templateArea = document.querySelector("#templateArea");
+			templateArea.innerHTML = data.content;
 		})
 		.catch(error=>{
 			console.log("Error..",error)

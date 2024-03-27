@@ -10,7 +10,7 @@
       <result property="content" column="CONTENT"/>
       <result property="draft_date" column="DRAFT_DATE"/>
       <result property="urgency" column="URGENCY"/>
-      <result property="tempno" column="TEMPNO"/>
+      <result property="tempcode" column="TEMPCODE"/>
       <result property="doc_status" column="DOC_STATUS"/>
       <result property="file_count" column="FILE_COUNT"/>
       <result property="appr_date" column="APPR_DATE"/>
@@ -89,7 +89,7 @@
            FROM DOCUMENT D
            JOIN APPROVAL A ON D.DOCNO = A.DOCNO
            JOIN EMPLOYEE E ON A.EMP_ID = E.ID
-           JOIN COMMON C ON D.TEMPNO = C.CODE AND C."TYPE" = '문서양식코드'
+           JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
            WHERE A.EMP_ID = #{id}
            AND A.APPR_STATUS = '01'
            AND A.ATYPE = '01'
@@ -113,7 +113,7 @@
       SELECT e.ID, d.DOCNO, e.NAME , d.TITLE, 
 
        d.DRAFT_DATE, d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
       FROM DOCUMENT d 
@@ -127,7 +127,7 @@
    <select id="getAllDraftByDocStatus" parameterType="java.util.Map" resultMap="DocumentVo">
       SELECT d.DOCNO, e.NAME, d.TITLE, 
        d.DRAFT_DATE, d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS 파일저장갯수
          FROM DOCUMENT d 
@@ -142,7 +142,7 @@
    <!-- 임시저장함 전체조회 getAllTempDraft -->
    <select id="getAllTempDraft" resultMap="DocumentVo">
       SELECT d.DOCNO , d.TITLE , d.DRAFT_DATE ,
-         (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+         (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
          (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
             (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
         FROM DOCUMENT d 
@@ -155,7 +155,7 @@
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
          FROM DOCUMENT d 
@@ -178,7 +178,7 @@
        d.DRAFT_DATE, 
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
          FROM DOCUMENT d 
@@ -204,7 +204,7 @@
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO AND NOT d.DOC_STATUS='04' AND NOT d.DOC_STATUS='01') AS APPR_DATE,
        d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
          FROM DOCUMENT d 
@@ -220,7 +220,7 @@
        d.DRAFT_DATE,
        (SELECT MAX(APPR_DATE) FROM APPROVAL a2 WHERE d.DOCNO = a2.DOCNO) AS APPR_DATE,
        d.URGENCY, 
-       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPNO = c.CODE AND c.TYPE = '문서양식코드') AS TEMPNO,
+       (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c.TYPE = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS  = c.CODE AND c.TYPE = '기안서상태') AS DOC_STATUS,
        (SELECT COUNT(*) FROM FILESTORAGE f2 WHERE REF_ID = d.DOCNO AND FTYPE='01') AS FILE_COUNT
    FROM DOCUMENT d 

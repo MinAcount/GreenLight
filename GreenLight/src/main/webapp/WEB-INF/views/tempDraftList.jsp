@@ -57,7 +57,7 @@
 									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
 									<fmt:formatDate value="${dDate}"/>
 								</td>
-								<td>${vo.tempno}</td>
+								<td>${vo.tempcode}</td>
 								<td>${vo.file_count}</td>
 								<td>${vo.doc_status}</td>
 							</tr>
