@@ -12,12 +12,15 @@ import com.green.light.vo.DocumentVo;
 
 @Repository
 public class DocumentDaoImpl implements IDocumentDao{
-
-
    @Autowired
    private SqlSessionTemplate sqlsession;
    
    private final String NS = "com.green.light.model.mapper.DocumentDaoImpl.";
+   
+	@Override
+	public int insertDocument(DocumentVo docVo) {
+		return sqlsession.insert(NS+"insertDocument", docVo);
+	}
    
    @Override
    public List<DocumentVo> getAllPendingApprovalDraft(String id) {
@@ -58,6 +61,5 @@ public class DocumentDaoImpl implements IDocumentDao{
    public List<DocumentVo> getAllRefDraftByDocStatus(Map<String, Object> map) {
       return sqlsession.selectList(NS+"getAllRefDraftByDocStatus", map);
    }
-
 
 }

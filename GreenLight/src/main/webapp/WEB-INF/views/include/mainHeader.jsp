@@ -17,8 +17,6 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="./js/reference.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/bootstrap-icons.svg" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
@@ -33,6 +31,8 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript" src="./js/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="./js/reference.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 </head>
 <body>
 <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
