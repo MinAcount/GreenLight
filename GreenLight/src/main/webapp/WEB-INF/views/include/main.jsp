@@ -9,8 +9,6 @@
    
   <%@ include file="./mainHeader.jsp" %>
    
-   
-   
 <!-- 사이드나브바 & 콘텐트 영역 -->
    <div id="layoutSidenav">
       <%@ include file="./mainSidenav.jsp" %>

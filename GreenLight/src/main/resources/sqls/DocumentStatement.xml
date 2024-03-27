@@ -82,6 +82,15 @@
 <!--       <result property="delflag" column="DELFLAG"/> -->
    </resultMap>
    
+   <!-- 기안서 상신/임시저장 insertDocument -->
+   <insert id="insertDocument">
+   		INSERT INTO DOCUMENT
+			(DOCNO, WRITER_ID, TITLE, CONTENT, DRAFT_DATE, URGENCY, TEMPCODE, DOC_STATUS)
+			VALUES(TO_CHAR(SYSDATE,'YYYY')||TRIM(TO_CHAR(DOCUMENT_SEQ.NEXTVAL,'00000')), 
+			#{writer_id}, #{title}, #{content}, 
+			SYSDATE, 'N', #{tempcode}, #{doc_status})
+   </insert>
+   
    <!-- 결재대기문서함 전체조회 getAllPendingApprovalDraft -->
    <select id="getAllPendingApprovalDraft" resultMap="DocumentVo">
       <![CDATA[
