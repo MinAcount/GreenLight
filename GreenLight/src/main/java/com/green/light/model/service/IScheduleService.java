@@ -8,7 +8,7 @@ import com.green.light.vo.ScheduleVo;
 public interface IScheduleService {
 
 	//월별조회
-		public List<ScheduleVo> monthSchedule(String userId);
+		public List<ScheduleVo> monthSchedule(Map<String, Object> map);
 		//주별조회
 		public List<ScheduleVo> weekSchedule(String userId);
 		//상세조회
