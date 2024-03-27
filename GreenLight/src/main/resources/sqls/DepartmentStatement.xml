@@ -13,7 +13,7 @@
 </resultMap>
 <resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
 	<result property="type" column="TYPE"/>
-	<result property="code" column="DNAME"/>
+	<result property="code" column="CODE"/>
 	<result property="code_name" column="CODE_NAME"/>
 </resultMap>
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
@@ -42,6 +42,12 @@
         ON e.SPOT = c2.CODE AND c2."TYPE" ='직위' 
         AND e.DEPTNO = #{deptno}
         ORDER BY c2.CODE DESC
+</select>
+<!-- 부서 상세 정보 조회	getOneDeptInfo -->
+<select id="getOneDeptInfo" parameterType="java.lang.String" resultType="DeptVo">
+	SELECT DEPTNO, DNAME, DEPT_MGR, HEADNO, DELFLAG
+		FROM DEPARTMENT d
+		WHERE DEPTNO = #{deptno}
 </select>
 <!-- 본부별 부서 조회	getDeptByHead -->
 <select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">

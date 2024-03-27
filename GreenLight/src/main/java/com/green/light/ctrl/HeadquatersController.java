@@ -88,9 +88,86 @@ public class HeadquatersController {
 		log.info("HeadquatersController GET headAndDeptManage.do 본부 및 부서 관리 페이지로 이동");
 		List<HeadquartersVo> headList = headService.getAllHead();
 		List<DepartmentVo> deptList = deptService.getAllDept();
+		List<EmployeeVo> empList = empService.getAllEmployee();
 		model.addAttribute("headList", headList);
 		model.addAttribute("deptList", deptList);
+		model.addAttribute("empList", empList);
 		return "headAndDeptManage";
 	}
 	
+	@PostMapping("/updateHeadName.do")
+	@ResponseBody
+	public ResponseEntity<?> updateHeadName(@RequestBody Map<String, Object> map) {
+		log.info("HeadquatersController POST updateHeadName.do 본부명 수정 : {}", map);
+		HeadquartersVo headVo = headService.getOneHead((String)map.get("headno"));
+		
+		if(headVo.getHname().equals(map.get("hname"))) {
+			return ResponseEntity.ok("{\"isc\":\"same\"}");
+		}else {
+			int n = headService.updateHeadName(map);
+			if(n>0) {
+				return ResponseEntity.ok("{\"isc\":\"success\"}");
+			}else {
+				return ResponseEntity.ok("{\"isc\":\"fail\"}");
+			}
+		}
+	}
+	
+	@PostMapping("/insertHead.do")
+	@ResponseBody
+	public ResponseEntity<?> insertHead(@RequestBody String hname) {
+		log.info("HeadquatersController POST insertHead.do 본부 추가 : {}", hname);
+		List<HeadquartersVo> list = headService.getAllHead();
+		List<HeadquartersVo> allList = new ArrayList<HeadquartersVo>();
+		for(HeadquartersVo vo : list) {
+			if(vo.getHname().equals(hname)) {
+				return ResponseEntity.ok(allList);
+			}
+		}
+		headService.insertHead(hname);
+		allList = headService.getAllHead();
+		List<EmployeeVo> empList = empService.getAllEmployee();
+		for(EmployeeVo emp : empList) {
+			for(HeadquartersVo head : allList) {
+				if(emp.getId().equals(head.getHead_mgr())) {
+					head.setEmpVo(emp);
+				}
+			}
+		}
+		return ResponseEntity.ok(allList);
+	}
+	
+	@PostMapping("/headDel.do")
+	@ResponseBody
+	public ResponseEntity<?> headDel(@RequestBody Map<String, Object> map) {
+		log.info("HeadquatersController POST headDel.do 본부 삭제 : {}", map);
+		String headno = (String)map.get("headno");
+		List<DepartmentVo> deptList = deptService.getDeptByHead(headno);
+		if(deptList.size() != 0) {
+			return ResponseEntity.ok("{\"isc\":\"dept\"}");
+		}else if(map.get("val").equals("1")) {
+			System.out.println("delflag 변경될 삭제");
+			int n = headService.updateHeadDelete(headno);
+			if(n>0) {
+				return ResponseEntity.ok("{\"isc\":\"delSuccess\"}");
+			}else {
+				return ResponseEntity.ok("{\"isc\":\"fail\"}");
+			}
+		}else {
+			System.out.println("완전 삭제");
+			int n = headService.deleteHead(headno);
+			if(n>0) {
+				return ResponseEntity.ok("{\"isc\":\"deleteSuccess\"}");
+			}else {
+				return ResponseEntity.ok("{\"isc\":\"fail\"}");
+			}
+		}
+	}
+	
+	@GetMapping("/headRecycle.do")
+	public String headRecycle(String headno) {
+		log.info("HeadquatersController GET headRecycle.do 본부 복구 : {}", headno);
+		headService.restoreHead(headno);
+		return "redirect:/headAndDeptManage.do";
+	}
 }

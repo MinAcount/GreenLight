@@ -82,4 +82,11 @@ public class DepartmentServiceImpl implements IDepartmentService {
 		return (n+m)>0 ? true :false;
 	}
 
+	@Override
+	public DepartmentVo getOneDeptInfo(String deptno) {
+		log.info("DepartmentServiceImpl getOneDeptInfo 부서 상세 정보 조회");
+		DepartmentVo vo = dao.getOneDeptInfo(deptno);
+		return vo;
+	}
+
 }

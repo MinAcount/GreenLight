@@ -26,79 +26,74 @@
 				<div class="datatable-dropdown" style="margin-bottom: 20px;">
 					<select class="datatable-selector" id="gubun"
 						onchange="selectHeadAndDept()">
-						<option value="No">선택</option>
 						<option value="head">본부</option>
 						<option value="dept">부서</option>
 					</select>
-					<button class='btn btn-primary' type='button' style='float: right; display: none;' id="headPlusBtn">본부추가</button>
+					<div style='float: right;' id="headPlusZone">
+						<input id="inputHeadPlus" placeholder="추가할 본부 이름" style="display: none;">
+						<input id="inputDeptPlus" placeholder="추가할 부서 이름" style="display: none;">
+						<button class='btn btn-primary' type='button' id="headPlusBtn" onclick="okHeadPlus()" style="display: none;">추가완료</button>
+						<button class='btn btn-primary' type='button' id="deptPlusBtn" style="display: none;">추가완료</button>
+						<button class='btn btn-secondary' type='button' id="cancelBtn" onclick="cancelPlus()" style="display: none;">취소</button>
+						<button class='btn btn-primary' type='button' id="headBtn" onclick="headPlus()">본부추가</button>
+					</div>
 				</div>
 				<hr/>
-				<div style="display: none;" id="headAndDeptInfoZone">
-					<table class="datatable-table" style="width: 100%;">
-						<thead id="inputListTableHead"></thead>
-						<tbody>
+				<div id="headAndDeptInfoZone">
+					<table class="datatable-table" style="width: 100%;" id="headAndDeptInfoTable">
+						<thead id="inputListTableHead">
+							<tr><th></th><th>본부명</th><th>본부장명</th><th>부서추가</th><th>복구/삭제</th><th>완전삭제</th></tr>
+						</thead>
+						<tbody id="inputListTableBody">
 							<c:forEach items="${headList}" var="head">
 								<tr class="HeadListTableBody">
-									<td class="editIcon" onclick="editHeadName(this,'${head.headno}')"><i data-feather="edit-3"></i></td>
+									<td class="editIcon" onclick="editHeadName(this)"><i data-feather="edit-3"></i></td>
+									<td class="okIcon" onclick="okHeadName(this,'${head.headno}')" style="display: none;"><i data-feather="check-circle"></i></td>
 									<td><input class="hname" value="${head.hname}" style="border: 0; background-color: rgba(66,138,70,0);" disabled="disabled"></td>
-									<td>${head.head_mgr}</td>
+									<c:if test="${head.head_mgr eq null}"><td></td></c:if>
+									<c:forEach items="${empList}" var="emp">
+										<c:if test="${head.head_mgr eq emp.id}">
+											<td>${emp.name}</td>
+										</c:if>
+									</c:forEach>
 									<c:if test="${head.delflag eq 'Y'}">
 										<td></td>
+										<td onclick="headRecycle('${head.headno}')">복구 <i data-feather="refresh-cw"></i></td>
 									</c:if>
 									<c:if test="${head.delflag eq 'N'}">
-										<td><i data-feather="plus-square"></i>부서추가</td>
+										<td onclick="deptPlus('${head.headno}')">부서추가 <i data-feather="plus-square"></i></td>
+										<td onclick="headDel('${head.headno}','1')">삭제 <i data-feather="trash"></i></td>
 									</c:if>
-									<c:if test="${head.delflag eq 'Y'}">
-										<td><i data-feather="refresh-cw"></i>복구</td>
-									</c:if>
-									<c:if test="${head.delflag eq 'N'}">
-										<td><i data-feather="trash"></i>삭제</td>
-									</c:if>
-									<td><i data-feather="trash-2"></i>완전삭제</td>
+									<td onclick="headDel('${head.headno}','2')">완전삭제 <i data-feather="trash-2"></i></td>
 								</tr>
 							</c:forEach>
 							<c:forEach items="${deptList}" var="dept">
-								<tr class="DeptListTableBody">
-									<td><i data-feather="edit-3" onclick="editDeptName('${deptno}')"></i></td>
-									<td>${dept.headno}</td>
-									<td>${dept.dname}</td>
-									<td>${dept.dept_mgr}</td>
+								<tr class="DeptListTableBody" style="display: none;">
+									<td class="editIcon" onclick="editDeptName(this)"><i data-feather="edit-3"></i></td>
+									<td class="okIcon" onclick="okDeptName(this,'${dept.deptno}')" style="display: none;"><i data-feather="check-circle"></i></td>
+									<td><input class="dname" value="${dept.dname}" style="border: 0; background-color: rgba(66,138,70,0);" disabled="disabled"></td>
+									<c:forEach items="${headList}" var="head">
+										<c:if test="${dept.headno eq head.headno}">
+											<td>${head.hname}</td>
+										</c:if>
+									</c:forEach>
+									<c:if test="${dept.dept_mgr eq null}"><td></td></c:if>
+									<c:forEach items="${empList}" var="emp">
+										<c:if test="${dept.dept_mgr eq emp.id}">
+											<td>${emp.name}</td>
+										</c:if>
+									</c:forEach>
 									<c:if test="${dept.delflag eq 'Y'}">
-										<td><i data-feather="refresh-cw"></i>복구</td>
+										<td class="recycleIcon" onclick="deptRecycle(this,'${dept.deptno}')">복구 <i data-feather="refresh-cw"></i></td>
 									</c:if>
 									<c:if test="${dept.delflag eq 'N'}">
-										<td><i data-feather="trash"></i>삭제</td>
+										<td class="delIcon" onclick="deptDel(this,'${dept.deptno}','1')">삭제 <i data-feather="trash"></i></td>
 									</c:if>
-									<td><i data-feather="trash-2"></i>완전삭제</td>
+									<td class="allDelIcon" onclick="deptDel(this,'${dept.deptno}','2')">완전삭제 <i data-feather="trash-2"></i></td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
-				</div>
-			</div>
-			<div class="modal fade" id="headManagerModal" tabindex="-1"
-				aria-labelledby="exampleModalLabel" aria-hidden="true"
-				data-bs-backdrop="static">
-				<div class="modal-dialog">
-					<div class="modal-content" style="width: 300px;">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">본부장 후보</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body"
-							style="display: flex; flex-direction: column; justify-content: space-between;">
-							<div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around;">
-								<table id="managerHubo"></table>
-							</div>
-							<div class="modal-footer">
-								<button class="btn btn-secondary btn-sm" type="button"
-									data-bs-dismiss="modal">취소</button>
-								<button class="btn btn-primary btn-sm" type="button" id="modalSubmitBtn"
-									style="margin-left: 10px;">변경</button>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<%@ include file="./include/footer.jsp"%>

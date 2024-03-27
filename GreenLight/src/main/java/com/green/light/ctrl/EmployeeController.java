@@ -64,7 +64,7 @@ public class EmployeeController {
 	
 	@PostMapping("/employeeUpdate.do")
 	@ResponseBody
-	public ResponseEntity<String> employeeUpdate(MultipartFile profile, @RequestParam Map<String, String> map) throws IOException {
+	public ResponseEntity<String> employeeUpdate(MultipartFile profile, @RequestParam Map<String, String> map, HttpSession session) throws IOException {
 	    log.info("EmployeeController POST employeeUpdate 직원 수정 : {}/{}", profile, map);
 	    String strProfile = "";
 	    if(profile != null) {
@@ -79,6 +79,11 @@ public class EmployeeController {
 	    }
 		EmployeeVo vo = new EmployeeVo(map.get("id"), map.get("name"), map.get("email"), map.get("phone"), map.get("address"), map.get("deptno"), map.get("spot"), map.get("join_day"), map.get("etype"), strProfile);
 		boolean isc = employeeService.updateEmployee(vo);
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		if(loginVo.getId().equals(vo.getId())) {
+			EmployeeVo empVo = employeeService.getOneEmployee(vo.getId());
+			session.setAttribute("loginVo", empVo);
+		}
 		System.out.println("입력되는 vo"+vo);
 	    if (isc) {
 	    	return ResponseEntity.ok("{\"msg\":\"success\"}");

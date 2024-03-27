@@ -67,4 +67,9 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 		return sqlSession.update(NS+"updateDeptMgr", map);
 	}
 
+	@Override
+	public DepartmentVo getOneDeptInfo(String deptno) {
+		return sqlSession.selectOne(NS+"getOneDeptInfo", deptno);
+	}
+
 }
