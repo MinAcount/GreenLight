@@ -33,16 +33,23 @@ public class DraftController {
 	@Autowired
 	private IDepartmentService DeptService;
 	
-	@GetMapping(value = "/draftForm.do")
+	@GetMapping(value = "/draftWriteForm.do")
+	public String draftWriteForm() {
+		log.info("DraftController GET /draftWriteForm.do 기안서 작성 Form");
+
+    return "draftWriteForm";
+	}
+  
+  @GetMapping(value = "/draftForm.do")
 	public String draftForm(HttpSession session, Model model) {
 		log.info("DraftController GET /draftForm.do 기안서 작성 Form");
 		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
 		String deptno = empVo.getDeptno();
 		DepartmentVo deptVo = DeptService.getOneDept(deptno);
 		model.addAttribute("deptVo", deptVo);
-		
-		return "draftForm";
-	}
+    
+    return "draftForm";
+  }
 	
 	@GetMapping(value = "/apprJstreeView.do")
     @ResponseBody

@@ -101,7 +101,7 @@
 									</c:choose>
 									
 								</td>
-								<td>${vo.tempno}</td>
+								<td>${vo.tempcode}</td>
 								<td>${vo.file_count}</td>
 								<td>${vo.doc_status}</td>
 							</tr>
