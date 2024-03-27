@@ -28,7 +28,7 @@ public class LoginController {
 	@GetMapping("/main.do")
 	public String login(Model model, HttpSession session) {
 		log.info("LoginController GET main.do 로그인 후 메인으로 이동");
-		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo"); 
 		String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		AttendanceVo parameterVo = new AttendanceVo();
 		parameterVo.setId(loginVo.getId());
