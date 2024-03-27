@@ -218,7 +218,10 @@
 </select>
 <!-- 본부장 후보 조회	getHeadMgrHubo -->
 <select id="getHeadMgrHubo" parameterType="java.lang.String" resultMap="EmployeeVo">
-	SELECT "POSITION" , ID, NAME, e.DEPTNO, SPOT, HEADNO
+	SELECT "POSITION" , ID, NAME, e.DEPTNO, (SELECT c.CODE_NAME
+	            FROM COMMON c
+	            WHERE e.SPOT = c.CODE
+	            AND c."TYPE" = '직위') AS SPOT, HEADNO
         FROM EMPLOYEE e JOIN DEPARTMENT d
         ON e.DEPTNO = d.DEPTNO
         WHERE "POSITION" IS NULL 

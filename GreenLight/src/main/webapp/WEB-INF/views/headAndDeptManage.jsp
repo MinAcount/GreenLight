@@ -24,35 +24,56 @@
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">본부 및 부서관리</h1>
 				<div class="datatable-dropdown" style="margin-bottom: 20px;">
-					<select class="datatable-selector" name="headno" id="headno"
-						onchange="selectHeadList()">
+					<select class="datatable-selector" id="gubun"
+						onchange="selectHeadAndDept()">
 						<option value="No">선택</option>
-						<c:forEach var="head" items="${headList}" varStatus="vs">
-							<option value="${head.headno}">${head.hname}</option>
-						</c:forEach>
+						<option value="head">본부</option>
+						<option value="dept">부서</option>
 					</select>
-					<button class='btn btn-primary' type='button' style='float: right;' onclick="location.href='./headAndDeptManage.do'">본부/부서 관리</button>
+					<button class='btn btn-primary' type='button' style='float: right; display: none;' id="headPlusBtn">본부추가</button>
 				</div>
 				<hr/>
-				<div style="display: none;" id="headAndDeptInfo">
-					<table class="datatable-table" style="width: 30%; float: left;">
-						<tbody id="inputTableBody">
-							<tr style="width: 50%;">
-								<th id="hname"></th>
-							</tr>
+				<div style="display: none;" id="headAndDeptInfoZone">
+					<table class="datatable-table" style="width: 100%;">
+						<thead id="inputListTableHead"></thead>
+						<tbody>
+							<c:forEach items="${headList}" var="head">
+								<tr class="HeadListTableBody">
+									<td class="editIcon" onclick="editHeadName(this,'${head.headno}')"><i data-feather="edit-3"></i></td>
+									<td><input class="hname" value="${head.hname}" style="border: 0; background-color: rgba(66,138,70,0);" disabled="disabled"></td>
+									<td>${head.head_mgr}</td>
+									<c:if test="${head.delflag eq 'Y'}">
+										<td></td>
+									</c:if>
+									<c:if test="${head.delflag eq 'N'}">
+										<td><i data-feather="plus-square"></i>부서추가</td>
+									</c:if>
+									<c:if test="${head.delflag eq 'Y'}">
+										<td><i data-feather="refresh-cw"></i>복구</td>
+									</c:if>
+									<c:if test="${head.delflag eq 'N'}">
+										<td><i data-feather="trash"></i>삭제</td>
+									</c:if>
+									<td><i data-feather="trash-2"></i>완전삭제</td>
+								</tr>
+							</c:forEach>
+							<c:forEach items="${deptList}" var="dept">
+								<tr class="DeptListTableBody">
+									<td><i data-feather="edit-3" onclick="editDeptName('${deptno}')"></i></td>
+									<td>${dept.headno}</td>
+									<td>${dept.dname}</td>
+									<td>${dept.dept_mgr}</td>
+									<c:if test="${dept.delflag eq 'Y'}">
+										<td><i data-feather="refresh-cw"></i>복구</td>
+									</c:if>
+									<c:if test="${dept.delflag eq 'N'}">
+										<td><i data-feather="trash"></i>삭제</td>
+									</c:if>
+									<td><i data-feather="trash-2"></i>완전삭제</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
-					<div id="infoZone" style="width: 67%; float: right; display: none;">
-						<div id="nameZone" style="padding: 13.5px; font-size: 15px;"></div>
-						<div id="managerZone" style="padding: 13.5px; font-size: 15px;"></div>
-						<div style="height: 30vh; overflow: auto;">
-							<table class="datatable-table">
-								<thead id="inputListTableHead"></thead>
-								<tbody id="inputListTableBody"></tbody>
-							</table>
-						</div>
-						<div id="buttonZone" style="margin: 20px;"></div>
-					</div>
 				</div>
 			</div>
 			<div class="modal fade" id="headManagerModal" tabindex="-1"
@@ -87,6 +108,6 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
-	<script src="js/headAndDept_ljw/headAndDept.js"></script>
+	<script src="js/headAndDept_ljw/headAndDeptManage.js"></script>
 </body>
 </html>
