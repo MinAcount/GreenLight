@@ -33,9 +33,9 @@ public class ScheduleServiceImpl implements IScheduleService{
 	}
 
 	@Override
-	public List<ScheduleVo> daySchedule(Map<String, Object> map) {
+	public ScheduleVo daySchedule(String schedule_id) {
 		log.info("ScheduleServiceImpl daySchedule 일별 일정 조회");
-		return dao.daySchedule(map);
+		return dao.daySchedule(schedule_id);
 	}
 
 	@Override

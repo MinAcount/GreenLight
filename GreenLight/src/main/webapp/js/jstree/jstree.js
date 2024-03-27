@@ -5,30 +5,30 @@ $(function() {
         console.log("selectTemplateModal()");
         
         $("#JTSelectTemplate").jstree({
-			plugins:['types','search'],
-			core:{
-				check_callback:true,
-				data:{
-					url:'./JTSelectTemplate.do',
-					method:'get',
-					dataType:'json',
-					success:function(data){
-						console.log(data);
-						data.forEach(function(node){
-							node.text
-						});
-					},
-					error:function(){
-						alert("Error..")
-					}
-				}
-			},
-			
-		});
-		
-		$("#JTSelectTemplate").on("ready.jstree",function(){
-			$(this).jstree('open_all');
-		});
+         plugins:['types','search'],
+         core:{
+            check_callback:true,
+            data:{
+               url:'./JTSelectTemplate.do',
+               method:'get',
+               dataType:'json',
+               success:function(data){
+                  console.log(data);
+                  data.forEach(function(node){
+                     node.text
+                  });
+               },
+               error:function(){
+                  alert("Error..")
+               }
+            }
+         },
+         
+      });
+      
+      $("#JTSelectTemplate").on("ready.jstree",function(){
+         $(this).jstree('open_all');
+      });
     });
     
     var searchTimer2;
@@ -63,4 +63,5 @@ function selectComplete(){
 			console.log("Error..",error)
 		})
 	}
+
 }

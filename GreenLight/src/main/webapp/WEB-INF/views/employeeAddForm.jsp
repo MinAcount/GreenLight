@@ -16,10 +16,11 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">직원 추가</h1>
+				<hr/>
 				<form>
 					<div class="container-xl px-4 mt-4">
 						<div class="row">
-							<div class="col-xl-4" style="width: 60%; margin: 0 auto;">
+							<div class="col-xl-4" style="width: 60%; margin: 30px auto;">
 								<div class="card mb-4 mb-xl-0">
 									<div class="card-header">프로필 사진</div>
 									<div class="card-body text-center">
@@ -128,8 +129,8 @@
 												</div>
 											</div>
 										</div>
-										<p style="font-size: 7px; position:absolute; right: 20px;">* 필수입력사항입니다.</p>
-										<button class="btn btn-primary" type="button" id="employeeAddBtn" onclick="checkUploadEmployee()">등록</button>
+										<p style="font-size: 7px;">* 필수입력사항입니다.</p>
+										<button class="btn btn-primary" type="button" id="employeeAddBtn" onclick="checkUploadEmployee()" style="float: right;">등록</button>
 									</div>
 								</div>
 							</div>

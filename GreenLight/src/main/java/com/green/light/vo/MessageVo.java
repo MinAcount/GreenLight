@@ -17,7 +17,7 @@ public class MessageVo {
 
 	private String mesg_id;
 	private String chat_id;
-	private int writter;
+	private String writter;
 	private String content;
 	private String send_date;
 	private String file_yn;

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.green.light.vo.MessageVo;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Repository
+@Slf4j
 public class MessageDaoImpl implements IMessageDao {
 
 	@Autowired
@@ -18,12 +21,14 @@ public class MessageDaoImpl implements IMessageDao {
 	
 	@Override
 	public List<MessageVo> getAllChat(String id) {
+		log.info("getAllChat {}", id);
 		return sqlsession.selectList(NS + "getAllChat", id);
 	}
 
 	@Override
-	public List<MessageVo> getViewInsideChat(String id) {
-		return null;
+	public List<MessageVo> getViewInsideChat(String chat_id) {
+		log.info("getViewInsideChat {}", chat_id);
+		return sqlsession.selectList(NS + "getViewInsideChat", chat_id);
 	}
 
 }

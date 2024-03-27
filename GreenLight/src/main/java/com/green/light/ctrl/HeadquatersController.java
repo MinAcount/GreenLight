@@ -1,7 +1,9 @@
 package com.green.light.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,7 +51,11 @@ public class HeadquatersController {
 	public ResponseEntity<?> selectDeptList(@RequestBody String headno, HttpSession session) {
 		log.info("HeadquatersController POST selectdeptList.do 본부별 부서조회 : {}", headno);
 		List<DepartmentVo> list = deptService.getDeptByHead(headno);
-		return ResponseEntity.ok(list);
+		List<EmployeeVo> headMgrHubo = empService.getHeadMgrHubo(headno);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("headMgrHubo", headMgrHubo);
+		return ResponseEntity.ok(map);
 	}
 	
 	@PostMapping("/selectHead.do")
@@ -76,4 +82,15 @@ public class HeadquatersController {
 		headVo.setDeptVo(deptList);
 		return ResponseEntity.ok(headVo);
 	}
+	
+	@GetMapping("/headAndDeptManage.do")
+	public String headAndDeptManage(Model model) {
+		log.info("HeadquatersController GET headAndDeptManage.do 본부 및 부서 관리 페이지로 이동");
+		List<HeadquartersVo> headList = headService.getAllHead();
+		List<DepartmentVo> deptList = deptService.getAllDept();
+		model.addAttribute("headList", headList);
+		model.addAttribute("deptList", deptList);
+		return "headAndDeptManage";
+	}
+	
 }

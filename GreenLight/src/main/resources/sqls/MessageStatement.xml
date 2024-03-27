@@ -10,12 +10,14 @@
 	<result property="send_date" column="SEND_DATE"/>
 	<result property="file_yn" column="FILE_YN"/>
 	<collection property="gmvo" resultMap="GroupMemberVo"/>
+	<collection property="empVo" resultMap="EmployeeVo"/>
 </resultMap>
 <resultMap type="com.green.light.vo.GroupMemberVo" id="GroupMemberVo">
 	<result property="groupno" column="GROUPNO"/>
 	<result property="chat_id" column="CHAT_ID"/>
 	<result property="id" column="ID"/>
-	<result property="name" column="NAME"/>
+	<result property="roomname" column="ROOMNAME"/>
+<!-- 	<result property="name" column="NAME"/> -->
 	<result property="noti" column="NOTI"/>
 	<result property="group_out" column="GROUP_OUT"/>
 	<result property="last_mesg" column="LAST_MESG"/>
@@ -44,10 +46,10 @@
 
 <!-- 	 채팅방 목록 조회 getAllChat -->
 <select id="getAllChat" resultMap="MessageVo">
-SELECT GROUPNO, CHAT_ID, NAME,
+SELECT GROUPNO, CHAT_ID, ROOMNAME,
        FAVOR, NOTI, SEND_DATE,
        MESG_ID, CONTENT, GROUP_OUT
-       FROM (SELECT MAX(G.GROUPNO) AS GROUPNO, G.CHAT_ID, MAX(G.NAME) AS NAME,
+       FROM (SELECT MAX(G.GROUPNO) AS GROUPNO, G.CHAT_ID, MAX(G.ROOMNAME) AS ROOMNAME,
                     MAX(G.FAVOR) AS FAVOR, MAX(G.NOTI) AS NOTI, MAX(M.SEND_DATE) AS SEND_DATE,
                     MAX(M.MESG_ID) AS MESG_ID, MAX(M.CONTENT) AS CONTENT, MAX(G.GROUP_OUT) AS GROUP_OUT
              FROM GROUPMEMBER G, MESSAGE M
@@ -63,7 +65,7 @@ SELECT GROUPNO, CHAT_ID, NAME,
 
 <!--      채팅방 세부 조회 getViewInsideChat -->
 <select id="getViewInsideChat" resultMap="MessageVo">
-SELECT G.GROUPNO, G.CHAT_ID, G.NAME,
+SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
        G.FAVOR, G.NOTI, M.WRITTER,
        G.ID, E.NAME, M.CONTENT,
        M.SEND_DATE, M.FILE_YN

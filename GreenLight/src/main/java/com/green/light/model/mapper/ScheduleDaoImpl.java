@@ -28,8 +28,8 @@ public class ScheduleDaoImpl implements IScheduleDao{
 	}
 
 	@Override
-	public List<ScheduleVo> daySchedule(Map<String, Object> map) {
-		return sqlsession.selectList(NS+"daySchedule", map);
+	public ScheduleVo daySchedule(String schedule_id) {
+		return sqlsession.selectOne(NS+"daySchedule", schedule_id);
 	}
 
 	@Override

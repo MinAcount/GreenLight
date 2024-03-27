@@ -58,12 +58,10 @@ public class ScheduleJUnitTest {
 	
 //	@Test
 	public void dayScheduleTest() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user_id", "2312120601");
-		map.put("schedule_id", "S240328004");
-		List<ScheduleVo> lists = service.daySchedule(map);
-		System.out.println(lists);
-		assertNotNull(lists);
+		String schedule_id = "S240328004";
+		ScheduleVo vo = service.daySchedule(schedule_id);
+		System.out.println(vo);
+		assertNotNull(vo);
 	}
 	
 //	@Test

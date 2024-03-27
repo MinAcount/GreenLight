@@ -27,18 +27,43 @@ function selectHeadList(){
 
 //headAndDept.jsp
 function addDeptList(result){
+	console.log(result);
 	var headNo = document.getElementById("headno").value;
 	var headName =document.getElementById("hname").innerHTML;
 	var inputTableBody = document.getElementById("inputTableBody");
     var tableHTML = '';
     inputTableBody.innerHTML = '';
-    tableHTML += "<tr style='width: 25%;'  onclick='selectHead("+headNo+")'><th style='border-right: 1px solid #ccc;' rowspan='"+(result.length+1)+"' id='hname'>"+headName+"</th></tr>";
-    result.forEach(function (item) {
+    tableHTML += "<tr style='width: 24%;'  onclick='selectHead("+headNo+")'><th style='border-right: 1px solid #ccc;' rowspan='"+(result.list.length+1)+"' id='hname'>"+headName+"</th></tr>";
+    result.list.forEach(function (item) {
 		tableHTML += "<tr style='width: 25%' onclick='selectDept("+item.deptno+")'>";
 		tableHTML += "<th class='dname'>"+item.dname+"</th>";
 		tableHTML += "</tr>";
     });
     inputTableBody.innerHTML = tableHTML;
+    
+    var managerHubo = document.getElementById("managerHubo");
+    managerHubo.innerHTML ='';
+    var huboHTML = '';
+    if(result.headMgrHubo.length == 0){
+		huboHTML += "<tr><td>본부장 후보가 없습니다</td></tr>"
+		document.getElementById("modalSubmitBtn").style ="display:none;";
+	}else{
+	    result.headMgrHubo.forEach(function (item) {
+			huboHTML += "<tr>";
+			huboHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
+			huboHTML += "<td> ";
+			result.list.forEach(function(dept){
+				if(dept.deptno == item.deptno){
+					huboHTML += "("+dept.dname+") " ;
+				}
+			});
+			huboHTML += item.name+" "+item.spot+"</td>";
+			
+			huboHTML += "</tr>";
+		});
+		document.getElementById("modalSubmitBtn").style ="display:block; margin-left: 10px;";
+	}
+	managerHubo.innerHTML = huboHTML;
 }
 
 //headAndDept.jsp
@@ -72,7 +97,7 @@ function getDept(result){
     result.empVo.forEach(function (item) {
 		if(result.dept_mgr != null){
 			if(result.dept_mgr == item.id){
-				document.getElementById("managerZone").innerHTML = "부서장 : " + item.name
+				document.getElementById("managerZone").innerHTML = "부서장 : " + "("+ result.dname +") " +item.name +" "+ item.spot;
 			}
 		}else{
 			document.getElementById("managerZone").innerHTML = "부서장 : -";
@@ -96,10 +121,9 @@ function getDept(result){
     buttonZone.innerHTML = "";
     var buttonHTML = "";
     if(result.dept_mgr != null){
-		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;'>부서장 수정</button>";
-		buttonHTML += "<button class='btn btn-danger' type='button' style='margin-right:10px;'>부서장 삭제</button>";
+		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.dept_mgr+",\"deptMgr\","+result.deptno+")'>부서장 수정</button>"
 	}else{
-	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;'>부서장 조회</button>";
+	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.dept_mgr+",\"deptMgr\","+result.deptno+")'>부서장 등록</button>"
 	}
 	buttonZone.innerHTML = buttonHTML;
 }
@@ -124,7 +148,18 @@ function getDeptList(result){
 	var headName = document.getElementById("hname").innerHTML;
 	var dLength = document.getElementsByClassName("dname").length;
 	document.getElementById("nameZone").innerHTML = headName+"("+dLength+")";
-	document.getElementById("managerZone").innerHTML = "본부장 : "+ (result.head_mgr != null ? result.empVo.name : "-");
+	var inHTML = "";
+	if(result.head_mgr != null){
+		result.deptVo.forEach(function (dept){
+			if(dept.deptno == result.empVo.deptno){
+				inHTML += "("+dept.dname+") ";
+			}
+		})
+		inHTML += result.empVo.name+" "+result.empVo.spot;
+	}else{
+		inHTML += "-";
+		}
+	document.getElementById("managerZone").innerHTML = "본부장 : "+ inHTML;
 	var inputTableHead = document.getElementById("inputListTableHead");
 	var inputTableBody = document.getElementById("inputListTableBody");
     var tableHTML = '';
@@ -153,10 +188,28 @@ function getDeptList(result){
     buttonZone.innerHTML = "";
     var buttonHTML = "";
     if(result.head_mgr != null){
-		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;'>본부장 수정</button>"
-		buttonHTML += "<button class='btn btn-danger' type='button' style='margin-right:10px;'>본부장 삭제</button>"
+		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.head_mgr+",\"headMgr\","+result.headno+")'>본부장 수정</button>"
 	}else{
-	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;'>본부장 조회</button>"
+	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.head_mgr+",\"headMgr\","+result.headno+")'>본부장 등록</button>"
 	}
 	buttonZone.innerHTML = buttonHTML;
+}
+
+function modifyManager(id,gubun,val){
+	let no = val.toString().padStart(2, '0');
+	console.log("변경할 manager의 id : ",id);
+	console.log("변경할 manager의 구분 : ",gubun);
+	console.log("변경할 manager가 속한 곳 : ",no);
+//	fetch("./delManager.do", {
+//		method:"POST",
+//		body:{
+//			id:id,
+//			gubun:gubun,
+//			no:no
+//		}
+//	})
+//	.then(data => data.json())
+//	.then(result => {
+//		console.log(result);
+//	});
 }

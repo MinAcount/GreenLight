@@ -7,7 +7,9 @@
 	<result property="in_date" column="IN_DATE"/>
 	<result property="out_date" column="OUT_DATE"/>
 	<result property="att_status" column="ATT_STATUS"/>
+	<result property="total_working_hours" column="TOTAL_WORKING_HOURS"/>
 	<collection property="empVo" resultMap="EmployeeVo" />
+	
 </resultMap>
 
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
@@ -17,6 +19,7 @@
 	<result property="birthday" column="BIRTHDAY" />
 	<result property="gender" column="GENDER" />
 	<result property="address" column="ADDRESS" />
+	<result property="deptno" column="DEPTNO" />
 	<result property="spot" column="SPOT" />
 	<result property="position" column="POSITION" />
 	<result property="estatus" column="ESTATUS" />
@@ -72,12 +75,12 @@
 </insert>
 
 <!-- 전체조회-관리자 getEmployeeAttendance() -->
-<select id="getEmployeeAttendance()" parameterType="EmpVo" resultMap="AttVo">
-	SELECT ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, ADDRESS, DNAME, SPOT, "POSITION", ESTATUS, JOIN_DAY, EXIT_DAY, ETYPE, LEAVE, AUTH, PROFILE
-	FROM EMPLOYEE e JOIN DEPARTMENT d 
-	ON e.DEPTNO = d.DEPTNO
-	WHERE NAME LIKE '%'||#{name}||'%'
-	ORDER BY NAME
+<select id="getEmployeeAttendance" parameterType="java.lang.String" resultMap="AttVo">
+SELECT e.ID, e.DEPTNO, e.SPOT, e."POSITION", e.NAME, ROUND(SUM((a.OUT_DATE - a.IN_DATE) * 24)) AS TOTAL_WORKING_HOURS
+	FROM EMPLOYEE e
+	LEFT JOIN ATTENDANCE a ON e.ID = a.ID
+	WHERE TO_CHAR(a.IN_DATE, 'YYYY-MM') = #{in_date}
+	GROUP BY e.ID, e.NAME, e.DEPTNO, e.SPOT, e."POSITION"
 </select>
 
 <!-- 상세조회 getEmployeeDetails() -->
@@ -86,8 +89,9 @@
 	FROM ATTENDANCE a 
 	WHERE ID = #{id}
 	AND TO_CHAR(IN_DATE, 'YYYY-MM') = #{in_date}
+	ORDER BY IN_DATE DESC
 </select>
-
+<!-- 메인화면 today 근태현황 -->
 <select id="getAttendance" parameterType="AttendanceVo" resultType="AttendanceVo">
 	SELECT ID, IN_DATE ,OUT_DATE , ATT_STATUS 
 	FROM ATTENDANCE a 

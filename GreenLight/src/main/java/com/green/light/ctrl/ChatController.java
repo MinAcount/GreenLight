@@ -44,12 +44,14 @@ public class ChatController {
 		 return ResponseEntity.ok(lists);
 	 }
 	
-//	@PostMapping(value = "/insideChat.do")
-//	@ResponseBody
-//	public ResponseEntity<?> insideChat(@RequestBody Map<String, Object> map){
-//		log.info("ChatController insideChat 채팅방 내부 화면 {}", map);
-//		List<MessageVo> lists = dao.(String.valueOf(map.get("chat_id")));
-//	}
+	@PostMapping(value = "/insideChat.do")
+	@ResponseBody
+	public ResponseEntity<?> insideChat(@RequestBody Map<String, Object> map){
+		log.info("ChatController insideChat 채팅방 내부 화면 {}", map);
+		List<MessageVo> lists = dao.getViewInsideChat(String.valueOf(map.get("id")));
+		System.out.println("lists" + lists);
+		return ResponseEntity.ok(lists);
+	}
 }
 
 
