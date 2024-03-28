@@ -60,9 +60,24 @@ SELECT GROUPNO, CHAT_ID, ROOMNAME,
        ORDER BY FAVOR DESC, SEND_DATE DESC
 </select>
 <!-- 	 채팅방 목록 검색 getSearchChat -->
-
+<select id="getSearchChat" parameterType="java.util.Map" resultMap="MessageVo">
+SELECT G.GROUPNO , G.CHAT_ID , ROOMNAME ,
+       G.NOTI , G.FAVOR, M.CONTENT , M.SEND_DATE
+       FROM GROUPMEMBER g 
+       JOIN EMPLOYEE e ON E.ID = G.ID 
+       JOIN MESSAGE m ON m.CHAT_ID = g.CHAT_ID
+       WHERE LAST_MESG = M.MESG_ID  
+       AND (E.NAME LIKE '%' || #{keyword} || '%'
+         OR G.NAME LIKE '%' || #{keyword} || '%')
+       AND GROUP_OUT = 'N'
+       AND E.ID = #{id}
+</select>
 <!-- 	 채팅방 생성 insertChat -->
-
+<insert id="insertChat" parameterType="java.util.Map" >
+INSERT INTO GROUPMEMBER (GROUPNO, CHAT_ID, ROOMNAME, ID)
+       VALUES (GROUPMEMBER_SEQ.NEXTVAL, (SELECT (SELECT MAX(CHAT_ID)
+       FROM GROUPMEMBER g)+1 AS MAX FROM DUAL), #{roomname}, #{id})
+</insert>
 <!--      채팅방 세부 조회 getViewInsideChat -->
 <select id="getViewInsideChat" resultMap="MessageVo">
 SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
@@ -77,17 +92,34 @@ SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
        ORDER BY SEND_DATE ASC
 </select>
 <!-- 	 채팅방 이름 수정 updateChatName -->
-
+<update id="updateChatName" parameterType="java.util.Map">
+UPDATE GROUPMEMBER 
+       SET ROOMNAME = #{roomname}
+       WHERE CHAT_ID = #{chat_id}
+</update>
 <!-- 	 채팅방 나가기 getOutChat -->
-
+<update id="getOutChat" parameterType="java.util.Map">
+UPDATE GROUPMEMBER
+       SET GROUP_OUT = 'Y'
+       WHERE CHAT_ID = #{chat_id} AND ID = #{id}
+</update>
 <!-- 	 채팅방 초대하기 insertInviteChat -->
-
-<!-- 	 채팅방 참여자 조회 getChatParticipants -->
-
+<insert id="insertInviteChat" parameterType="java.util.Map">
+INSERT INTO GROUPMEMBER(GROUPNO, CHAT_ID, ID, ROOMNAME) 
+       VALUES (GROUPMEMBER_SEQ.NEXTVAL, #{chat_id}, #{id}, #{roomname})
+</insert>
 <!-- 	 즐겨찾기 updateFavor -->
-
+<update id="updateFavor" parameterType="java.util.Map">
+UPDATE GROUPMEMBER
+       SET FAVOR = 'Y'
+       WHERE CHAT_ID = #{chat_id} AND ID = #{id}
+</update>
 <!-- 	 알림여부 updateNoti -->
-
+<update id="updateNoti" parameterType="java.util.Map">
+UPDATE GROUPMEMBER
+       SET NOTI = 'N'
+       WHERE CHAT_ID = #{chat_id} AND ID = #{id}
+</update>
 <!-- 	 채팅 더보기 getMoreMessage -->
 
 <!-- 	 메시지 전송 insertSendMessage -->

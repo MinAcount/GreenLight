@@ -38,7 +38,7 @@ public class ChatController {
 	
 	@PostMapping(value = "/chatList.do")
 	@ResponseBody
-	public ResponseEntity<?> chatList(@RequestBody Map<String, Object> map) {
+	public ResponseEntity<?> chatList(@RequestBody Map<String, Object> map, Model model) {
 		 log.info("ChatController chatList 그룹채팅 화면 이동 후 채팅방 목록 조회 {}", map);
 		 List<MessageVo> lists = dao.getAllChat(String.valueOf(map.get("id")));
 		 return ResponseEntity.ok(lists);

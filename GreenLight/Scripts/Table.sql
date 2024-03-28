@@ -140,7 +140,7 @@ CREATE TABLE GROUPMEMBER (
     GROUPNO VARCHAR2(10) NOT NULL, -- 그룹ID
     CHAT_ID VARCHAR2(10) NOT NULL, -- 채팅방ID
     ID VARCHAR2(10) NOT NULL,       -- 사원번호
-    NAME VARCHAR2(60) NOT NULL,    -- 채팅방이름
+    ROOMNAME VARCHAR2(60) NOT NULL,    -- 채팅방이름
     NOTI CHAR(1) DEFAULT 'Y' NOT NULL,      -- 알림여부
     GROUP_OUT CHAR(1) DEFAULT 'N' NOT NULL, -- 나감여부
     LAST_MESG VARCHAR2(10),         		-- 마지막 메세지 정보
