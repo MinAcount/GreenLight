@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.green.light.vo.DepartmentVo;
+import com.green.light.vo.EmployeeVo;
 
 public interface IDepartmentService {
 //	부서 전체 조회	getAllDept
@@ -24,4 +25,10 @@ public interface IDepartmentService {
 	public int restoreDept(String deptno);
 //	부서장 등록 및 변경	updateDeptMgr
 	public boolean updateDeptMgr(Map<String, Object> map);
+	
+// 인사부서장 조회
+	public DepartmentVo selectDeptMgrByDept(String deptno);
+	
+// 기안자부서장 조회
+	public DepartmentVo selectDrafterDeptMgr(String id);
 }

@@ -13,7 +13,7 @@
 </resultMap>
 <resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
 	<result property="type" column="TYPE"/>
-	<result property="code" column="DNAME"/>
+	<result property="code" column="CODE"/>
 	<result property="code_name" column="CODE_NAME"/>
 </resultMap>
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
@@ -21,6 +21,8 @@
 	<result property="name" column="NAME"/>
 	<result property="spot" column="SPOT"/>
 	<result property="position" column="POSITION"/>
+	<result property="deptno" column="DEPTNO"/>
+	
 </resultMap>
 
 <!-- 부서 전체 조회	getAllDept -->
@@ -100,4 +102,28 @@
 	UPDATE DEPARTMENT SET DEPT_MGR = #{id}
         WHERE DEPTNO = #{deptno}
 </update>
+
+<!-- 자동결재선 부서별 부서장 조회 selectDeptMgrByDept -->
+<select id="selectDeptMgrByDept" resultMap="DepartmentVo">
+SELECT E.ID, E.NAME, C.CODE_NAME
+	FROM EMPLOYEE E
+	JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO AND E."POSITION" = '01'
+	JOIN COMMON C ON C.CODE = E.SPOT AND C."TYPE" = '직위'
+	WHERE D.DEPTNO = #{deptno}
+</select>
+
+
+
+<!-- 자동결재선 기안자의 부서장 조회 selectDrafterDeptMgr -->
+<select id="selectDrafterDeptMgr" resultMap="DepartmentVo">
+SELECT E2.ID, E2.NAME, C.CODE_NAME
+	FROM EMPLOYEE E
+	JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO 
+	JOIN EMPLOYEE E2 ON D.DEPT_MGR = E2.ID 
+	JOIN COMMON C ON C.CODE = E2.SPOT AND C."TYPE" = '직위'
+	WHERE E.ID = #{id}
+</select>
+
+
+
 </mapper>

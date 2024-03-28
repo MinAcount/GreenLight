@@ -1,6 +1,7 @@
 package com.green.light.ctrl;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,5 +21,10 @@ public class DocumentController {
 		log.info("DocumentController insertDocument POST /insertDocument.do : {}", DocVo);
 		
 		return null;
+	}
+	
+	@GetMapping(value = "/draftDetail.do")
+	public String draftDetail() {
+		return "draftDetail";
 	}
 }
