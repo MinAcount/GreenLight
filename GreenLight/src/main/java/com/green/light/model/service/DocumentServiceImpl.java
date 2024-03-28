@@ -18,6 +18,12 @@ public class DocumentServiceImpl implements IDocumentService{
 	@Autowired
 	private IDocumentDao dao;
 	
+	@Override
+	public int insertDocument(DocumentVo docVo) {
+		log.info("DocumentServiceImpl insertDocument 기안서 상신/임시저장 : {}", docVo);
+		
+		return dao.insertDocument(docVo);
+	}
 
 	@Override
 	public List<DocumentVo> getAllPendingApprovalDraft(String id) {
@@ -73,7 +79,5 @@ public class DocumentServiceImpl implements IDocumentService{
 		log.info("DocumentServiceImpl getAllRefDraftByDocStatus 참조문서함 기안서상태별 전체조회 : {}", map);
 		return dao.getAllRefDraftByDocStatus(map);
 	}
-	
-	
 	
 }

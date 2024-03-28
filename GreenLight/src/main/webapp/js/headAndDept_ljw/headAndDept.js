@@ -87,34 +87,38 @@ function selectDept(val){
 //headAndDept.jsp
 function getDept(result){
 	console.log(result)
-	document.getElementById("nameZone").innerHTML = result.dname+"("+result.empVo.length+")";
+	document.getElementById("nameZone").innerHTML = result.dname+"("+(result.empVo != null ? result.empVo.length : 0)+")";
 	var inputTableHead = document.getElementById("inputListTableHead");
 	var inputTableBody = document.getElementById("inputListTableBody");
     var tableHTML = '';
     inputTableHead.innerHTML = '';
     inputTableHead.innerHTML = "<tr><th></th><th>사원번호</th><th>이름</th><th>소속부서</th><th>직위</th><th>부서장</th></tr>";
     inputTableBody.innerHTML = '';
-    result.empVo.forEach(function (item) {
-		if(result.dept_mgr != null){
-			if(result.dept_mgr == item.id){
-				document.getElementById("managerZone").innerHTML = "부서장 : " + "("+ result.dname +") " +item.name +" "+ item.spot;
+    if(result.empVo != null){
+	    result.empVo.forEach(function (item) {
+			if(result.dept_mgr != null){
+				if(result.dept_mgr == item.id){
+					document.getElementById("managerZone").innerHTML = "부서장 : " + "("+ result.dname +") " +item.name +" "+ item.spot;
+				}
+			}else{
+				document.getElementById("managerZone").innerHTML = "부서장 : -";
 			}
-		}else{
-			document.getElementById("managerZone").innerHTML = "부서장 : -";
-		}
-		tableHTML += "<tr>";
-		if(item.position == "부서원"){
-			tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
-		}else{
-			tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' disabled='disabled'></td>";
-		}
-		tableHTML += "<td>"+item.id+"</td>";
-		tableHTML += "<td>"+item.name+"</td>";
-		tableHTML += "<td>"+result.dname+"</td>";
-		tableHTML += "<td>"+item.spot+"</td>";
-		tableHTML += "<td>"+item.position+"</td>";
-		tableHTML += "</tr>";
-    });
+			tableHTML += "<tr>";
+			if(item.position == "부서원"){
+				tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
+			}else{
+				tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' disabled='disabled'></td>";
+			}
+			tableHTML += "<td>"+item.id+"</td>";
+			tableHTML += "<td>"+item.name+"</td>";
+			tableHTML += "<td>"+result.dname+"</td>";
+			tableHTML += "<td>"+item.spot+"</td>";
+			tableHTML += "<td>"+item.position+"</td>";
+			tableHTML += "</tr>";
+	    });
+	}else{
+		document.getElementById("managerZone").innerHTML = "부서장 : -";
+	}
     inputTableBody.innerHTML = tableHTML;
     
     var buttonZone = document.getElementById("buttonZone");

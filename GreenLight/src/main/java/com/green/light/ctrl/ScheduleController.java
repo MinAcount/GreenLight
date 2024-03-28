@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,13 +39,21 @@ public class ScheduleController {
 	
 	@GetMapping(value = "/ajaxView.do")
 	@ResponseBody
-	public List<ScheduleVo> AjaxView(Model model, HttpSession session) {
+	public List<ScheduleVo> AjaxView(@RequestParam("viewmonth") String viewmonth, Model model, HttpSession session) {
 	    log.info("ScheduleController GET AjaxView.do 일정 전체조회");
 	    EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
-	    String userId = loginVo.getId();
-	    List<ScheduleVo> lists = service.monthSchedule(userId);
+	    String user_id = loginVo.getId();
+	    
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("user_id", user_id);
+	    map.put("viewmonth", viewmonth);
+	    
+	    System.out.println(map);
+	    log.info("ScheduleController GET AjaxView.do 일정 조회년월 : {}", viewmonth);
+	    List<ScheduleVo> lists = service.monthSchedule(map);
 	    return lists;
 	}
+
 	
 	@PostMapping(value = "/detailView.do")
 	@ResponseBody
@@ -58,10 +68,13 @@ public class ScheduleController {
 	
 	@PostMapping(value = "/insertSchedule.do")
 	@ResponseBody
-	public int InsertSchedule(@RequestParam ScheduleVo vo) {
+	public int InsertSchedule(@RequestBody ScheduleVo vo,  HttpSession session) {
 		log.info("ScheduleController POST insertSchedule.do 일정등록 : {}", vo);
+		EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
+	    vo.setCno(loginVo.getId());
+	    vo.setCreator(loginVo.getName());
 		int isc = service.insertSchedule(vo);
-		log.info(isc == 1?"insert : 성공":"insert : 실패");
+		log.info((isc>0)?"insert : 성공":"insert : 실패");
 		return isc;
 	}
 }

@@ -45,6 +45,12 @@
         AND e.DEPTNO = #{deptno}
         ORDER BY c2.CODE DESC
 </select>
+<!-- 부서 상세 정보 조회	getOneDeptInfo -->
+<select id="getOneDeptInfo" parameterType="java.lang.String" resultType="DeptVo">
+	SELECT DEPTNO, DNAME, DEPT_MGR, HEADNO, DELFLAG
+		FROM DEPARTMENT d
+		WHERE DEPTNO = #{deptno}
+</select>
 <!-- 본부별 부서 조회	getDeptByHead -->
 <select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">
 	SELECT d.DEPTNO , DNAME, HEADNO

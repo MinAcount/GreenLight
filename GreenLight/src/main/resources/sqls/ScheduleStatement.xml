@@ -35,7 +35,7 @@
 		FROM SCHEDULE sc
 		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
 		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
-		WHERE CNO = #{user_id}
+		WHERE CNO = #{user_id} AND TO_CHAR(sc.START_DATE, 'YYYY-MM') = #{viewmonth}
 	UNION ALL
 	SELECT 'P' AS GUBUN, jt.id AS SYSID, jt.name AS SYSNAME,
 			sc.SCHEDULE_ID, sc.USERTYPE,
@@ -50,7 +50,7 @@
 			 )) jt ON jt.id = #{user_id}
 	JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
 	JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
-	WHERE sc.VISIBILITY = 'Y'
+	WHERE sc.VISIBILITY = 'Y' AND TO_CHAR(sc.START_DATE, 'YYYY-MM') = #{viewmonth}
 	</select>
 	<!-- 주별조회 -->
 	<select id="weekSchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">

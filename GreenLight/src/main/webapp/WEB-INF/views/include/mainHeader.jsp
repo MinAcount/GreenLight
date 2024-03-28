@@ -1373,6 +1373,10 @@
 	}
 }
 </style>
+
+<script type="text/javascript" src="./js/reference.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 </head>
 <body>
 <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
@@ -1383,7 +1387,7 @@
       </button>
 
 <!-- 로고 -->
-      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./login.do">GreenLight</a>
+      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
       
       
 <!-- 상단나브바 -->

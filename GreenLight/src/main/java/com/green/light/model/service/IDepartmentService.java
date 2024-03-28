@@ -31,4 +31,7 @@ public interface IDepartmentService {
 	
 // 기안자부서장 조회
 	public DepartmentVo selectDrafterDeptMgr(String id);
+  
+//	부서 상세 정보 조회	getOneDeptInfo
+	public DepartmentVo getOneDeptInfo(String deptno);
 }
