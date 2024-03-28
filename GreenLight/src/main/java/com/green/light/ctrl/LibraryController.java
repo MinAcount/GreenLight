@@ -1,6 +1,5 @@
 package com.green.light.ctrl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.green.light.model.mapper.IDepartmentDao;
+import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IDocumentService;
+import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 
@@ -27,6 +29,9 @@ public class LibraryController {
 
 	@Autowired
 	private IDocumentService service;
+	
+	@Autowired
+	private IDepartmentService deptservice;
 	
 	
 	
@@ -128,9 +133,19 @@ public class LibraryController {
 	 }
 	 
 	 
-	 
 	 @GetMapping(value = "/test.do")
-	 public String test() {
-		 return "test";
-	 }
+		public String draftForm(HttpSession session, Model model) {
+			log.info("DraftController GET /draftForm.do 기안서 작성 Form");
+			EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
+			String deptno = empVo.getDeptno();
+			DepartmentVo deptVo = deptservice.getOneDept(deptno);
+			model.addAttribute("deptVo", deptVo);
+	    
+	    return "test";
+	  }
+	 
+	 
+		/*
+		 * @GetMapping(value = "/test.do") public String test() { return "test"; }
+		 */
 }
