@@ -12,12 +12,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.EmployeeVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@ WebAppConfiguration
 public class EmployeeJUnitTest {
 	
 	@Autowired
@@ -88,7 +90,7 @@ public class EmployeeJUnitTest {
 //		assertEquals(1, n);
 		
 		//입사처리
-		EmployeeVo vo = new EmployeeVo("","주인공", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
+		EmployeeVo vo = new EmployeeVo("","김은수", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
 		vo.setPassword("1q2w3e4r!!");
 		System.out.println(vo);
 		boolean isc = service.insertEmployee(vo);

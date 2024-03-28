@@ -212,7 +212,6 @@
         WHERE "POSITION" IS NULL 
         AND DEPTNO IS NOT NULL
         AND DEPTNO = #{deptno}
-        AND SPOT >= '04'
         AND ESTATUS = 'Y'
         ORDER BY NAME
 </select>

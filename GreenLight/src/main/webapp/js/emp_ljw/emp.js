@@ -2,7 +2,6 @@
 function profileUpload(input) {
     if (!input.files || !input.files[0]) {
         input.value = '';
-        document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
         return;
     }
 
@@ -10,7 +9,6 @@ function profileUpload(input) {
     if (input.files[0].size > 500 * 1024) {
         alert("500KB 이하의 사진만 가능합니다");
         input.value = '';
-        document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
         return;
     }
 
@@ -21,13 +19,6 @@ function profileUpload(input) {
     reader.readAsDataURL(input.files[0]);
 
     console.log(input);
-}
-
-//employeeAddForm.jsp
-function cleanProfile(){
-	document.getElementById("profile").value = "";
-	document.getElementById('preview').src = "assets/img/illustrations/profiles/profile-2.png";
-	console.log(document.getElementById("profile").files[0]);
 }
 
 //employeeAddForm.jsp
@@ -349,8 +340,6 @@ function updateEmployee(id){
 		if (profileInput.files.length > 0) {
             var profile = profileInput.files[0];
             formData.append("profile", profile);
-        }else{
-			formData.append("clean", "y");
 		}
 		        
 		formData.append("id",id);
