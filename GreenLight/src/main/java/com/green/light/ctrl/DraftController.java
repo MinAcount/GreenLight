@@ -37,8 +37,12 @@ public class DraftController {
 	private IDepartmentService DeptService;
 	
 	@GetMapping(value = "/draftWriteForm.do")
-	public String draftWriteForm() {
+	public String draftWriteForm(HttpSession session, Model model) {
 		log.info("DraftController GET /draftWriteForm.do 기안서 작성 Form");
+		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
+		String deptno = empVo.getDeptno();
+		DepartmentVo deptVo = DeptService.getOneDept(deptno);
+		model.addAttribute("deptVo", deptVo);
 
     return "draftWriteForm";
 	}

@@ -687,7 +687,7 @@ async function selectComplete() {
     var sessionId = document.getElementById("loginVo_id").value;
 //    console.log("sessionId",sessionId, typeof sessionId);
     try {
-        const response2 = await fetch("./autoAppr.do?deptno=" + deptno + "&sessionId=" + sessionId);
+        const response2 = await fetch("./selectDeptMgrByDept.do?deptno=" + deptno);
         const data2 = await response2.json();
         console.log(data2);
         var code_name = data2.comVo.code_name;
