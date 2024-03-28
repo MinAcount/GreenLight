@@ -38,13 +38,9 @@
 				<!-- 출퇴근관리 -->
 				<div class="mainAttBox" style="border: 1px solid;">
 					<div class="item">
-                        <% 
-                            Date now = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일 (E)");
-                            String formattedDate = sdf.format(now);
-                        %>
-						<h2><%=formattedDate%></h2>
-						<h2 id="time"></h2>
+					    <c:set var="now" value="<%= new java.util.Date() %>" />
+					    <h2><fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일 (E)" /></h2>
+					    <h2 id="time"></h2>
 					</div>
 						<div class="item">
 						    <h4>출근시간 : ${attVo.in_date != null ? attVo.in_date.substring(11,16) : '미등록'}</h4>
@@ -53,21 +49,23 @@
 						</div>
 					<div class="item">
 						<c:choose>
-							<c:when test="${attVo.in_date == null}">
-							    <input id="attendanceButton" type="button" value="출근하기" onclick="location.href='in.do'">
+							<c:when test="${attVo.in_date == null && attVo.out_date == null}">
+								<input id="attendanceButton" type="button" value="출근하기" onclick="location.href='in.do'">
 							</c:when>
 							<c:otherwise>
-							    <input id="attendanceButton" type="button" value="출근하기" onclick="alert('이미 출근되었습니다.')">
+								<c:choose>
+									<c:when test="${attVo.out_date == null}">
+										<input id="leaveButton" type="button" value="퇴근하기" onclick="location.href='out.do'">
+									</c:when>
+									<c:otherwise>
+										<input id="leaveButton" type="button" value="퇴근하기" onclick="alert('이미 퇴근되었습니다.')">
+									</c:otherwise>
+								</c:choose>
 							</c:otherwise>
 						</c:choose>
-						<c:choose>
-							<c:when test="${attVo.out_date == null}">
-							    <input id="leaveButton" type="button" value="퇴근하기" onclick="location.href='out.do'">
-							</c:when>
-							<c:otherwise>
-							    <input id="leaveButton" type="button" value="퇴근하기" onclick="alert('이미 퇴근되었습니다.')">
-							</c:otherwise>
-						</c:choose>
+					
+
+
 					</div>
 				</div>
 				<%@ include file="./include/footer.jsp"%>

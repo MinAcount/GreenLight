@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.green.light.vo.AttendanceVo;
@@ -33,6 +35,7 @@ public class AttendanceDaoImpl implements IAttendanceDao {
 		return session.update(NS+"updateAttendanceOutTime", id);
 	}
 
+	
 	@Override
 	public int autoCompleteWorkTime() {
 		log.info("AttendanceDaoImpl autoCompleteWorkTime 자동퇴근처리");

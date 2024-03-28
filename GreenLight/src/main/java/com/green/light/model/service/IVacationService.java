@@ -1,5 +1,5 @@
 package com.green.light.model.service;
 
-public interface IVacationServiceImpl {
+public interface IVacationService {
 
 }

@@ -1,24 +1,24 @@
 package com.green.light.ctrl;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.IAttendanceService;
 import com.green.light.model.service.IDepartmentService;
@@ -63,22 +63,21 @@ public class AttendanceController {
     public String out(HttpSession session) {
         log.info("AttendanceController out 퇴근등록");
         EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
-        String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        service.updateAttendanceOutTime(EVo.getId());
+        service.updateAttendanceOutTime(EVo.getId());// 아이디를 받아와서 퇴근시간을 찍어줌
+        String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));//현재날짜를 String으로 저장
         	
-        AttendanceVo AVo = new AttendanceVo();
+        AttendanceVo AVo = new AttendanceVo(); //새로운 객체 생성
         AVo.setId(EVo.getId());
-        AVo.setIn_date(currentDate.substring(0,10));
+		AVo.setIn_date(currentDate/* .substring(0,10) */);
         
-        
-        AttendanceVo resultAVo = service.getAttendance(AVo);
+        AttendanceVo resultAVo = service.getAttendance(AVo);//id와 날짜가 일치하는 vo를 가져와서 resultAVo에 넣어줌
         System.out.println("getAttendance 직후 resultAVo :"+resultAVo);
-        resultAVo.setIn_date(currentDate.substring(0,10));
+        
         if (resultAVo != null && resultAVo.getIn_date() != null) {
         	System.out.println("-------------if문 탄다-----");
-            String inTime = resultAVo.getIn_date(); // 출근 시간
+            String inTime = resultAVo.getIn_date().substring(11,16); // 출근 시간을 HH:mm 을 넣어야하는데 yyyy-MM-dd형식이라 처
             String outTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm")); // 현재 시간을 HH:mm 형식으로 가져옴
-            
+            System.out.println("inTime" + inTime +"outTime"+outTime);
             // 출퇴근 시간 비교하여 상태 설정
             String status;
             if (compareTime(inTime, "09:10") > 0 && compareTime(outTime, "17:50") < 0) {
@@ -92,6 +91,7 @@ public class AttendanceController {
             }
 
             resultAVo.setAtt_status(status);
+            resultAVo.setIn_date(resultAVo.getIn_date().substring(0,10));
             System.out.println("updateWorkStatus resultAVo :"+resultAVo);
             service.updateWorkStatus(resultAVo);
         }
@@ -164,5 +164,53 @@ public class AttendanceController {
     	return "employeeAttDetails";
     }
 
+    @PostMapping("/attUpdate.do")
+    @ResponseBody
+    public ResponseEntity<?> attUpdate(@RequestBody Map<String, Object> map) {
+        log.info("AttendanceController attUpdate 전달받은 값 : {}", map);
+        
+        String in_time = (String)map.get("in_time");
+        String out_time = (String)map.get("out_time");
+        String day = (String)map.get("in_date");
+        String in_date = day+" "+in_time;
+        String out_date = day+" "+out_time;
+        System.out.println(map.get("id"));
+        Map<String, Object> parameterMap = new HashMap<String, Object>();
+        parameterMap.put("id", map.get("id"));
+        parameterMap.put("in_date", in_date);
+        parameterMap.put("out_date", out_date);
+        parameterMap.put("day", day);
+        System.out.println("메소드 실행전 syso"+parameterMap);
+        int n = service.updateAttendanceTime(parameterMap);
+        System.out.println(n);
+        AttendanceVo updateVo = new AttendanceVo();
+        updateVo.setId((String)map.get("id"));
+        updateVo.setIn_date(day);
+        String status;
+        if (compareTime(in_time, "09:10") > 0 && compareTime(out_time, "17:50") < 0) {
+            status = "지각/조퇴";
+        } else if (compareTime(in_time, "09:10") > 0) {
+            status = "지각";
+        } else if (compareTime(out_time, "17:50") < 0) {
+            status = "조퇴";
+        } else {
+            status = "정상";
+        }
+        updateVo.setAtt_status(status);
+        service.updateWorkStatus(updateVo);
+        if(n>0) {
+			return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
+		}else {
+			return ResponseEntity.ok("{\"msg\":\"UPDATEFAIL\"}");
+		}
+        
+		} 
+    
+    
+    
+    
     
 }
+
+    
+

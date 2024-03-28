@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.green.light.model.mapper.CronDaoImpl">
+
+<!-- 자동퇴근처리 autoCompleteWorkTime() -->
+<update id="autoCompleteWorkTime">
+UPDATE ATTENDANCE
+SET 
+    OUT_DATE = TO_DATE(TO_CHAR(IN_DATE, 'YYYY-MM-DD') || ' 18:00:00', 'YYYY-MM-DD HH24:MI:SS'),
+    ATT_STATUS = CASE WHEN TO_CHAR(IN_DATE, 'HH24:MI') > '09:10' THEN '지각'
+            ELSE '정상' END WHERE OUT_DATE IS NULL AND ATT_STATUS IS NULL
+</update>
+
+
+
+</mapper>
