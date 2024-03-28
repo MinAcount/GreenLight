@@ -24,4 +24,6 @@ public interface IDepartmentService {
 	public int restoreDept(String deptno);
 //	부서장 등록 및 변경	updateDeptMgr
 	public boolean updateDeptMgr(Map<String, Object> map);
+//	부서 상세 정보 조회	getOneDeptInfo
+	public DepartmentVo getOneDeptInfo(String deptno);
 }

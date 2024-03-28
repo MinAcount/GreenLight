@@ -43,7 +43,7 @@
       </button>
 
 <!-- 로고 -->
-      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./login.do">GreenLight</a>
+      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
       
       
 <!-- 상단나브바 -->

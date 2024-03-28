@@ -26,4 +26,6 @@ public interface IDepartmentDao {
 	public int updateDeptPosition(Map<String, Object> map);
 //	부서장 등록 및 변경	updateDeptMgr
 	public int updateDeptMgr(Map<String, Object> map);
+//	부서 상세 정보 조회	getOneDeptInfo
+	public DepartmentVo getOneDeptInfo(String deptno);
 }
