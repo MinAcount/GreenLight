@@ -18,8 +18,8 @@ public class ScheduleDaoImpl implements IScheduleDao{
 	private final String NS = "com.green.light.model.mapper.ScheduleDaoImpl.";
 
 	@Override
-	public List<ScheduleVo> monthSchedule(String userId) {
-		return sqlsession.selectList(NS+"monthSchedule", userId);
+	public List<ScheduleVo> monthSchedule(Map<String, Object> map) {
+		return sqlsession.selectList(NS+"monthSchedule", map);
 	}
 
 	@Override

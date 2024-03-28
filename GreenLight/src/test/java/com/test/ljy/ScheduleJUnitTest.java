@@ -3,7 +3,6 @@ package com.test.ljy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.google.gson.Gson;
 import com.green.light.model.service.IScheduleService;
@@ -27,6 +27,7 @@ import com.green.light.vo.ScheduleVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@WebAppConfiguration
 public class ScheduleJUnitTest {
 
 	@Autowired
@@ -42,8 +43,10 @@ public class ScheduleJUnitTest {
 	
 	@Test
 	public void MonthScheduleTest() {
-		String userId = "2312120601";
-		List<ScheduleVo> lists = service.monthSchedule(userId);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("user_id", "2312120601");
+		map.put("viewmonth","2024-03");
+		List<ScheduleVo> lists = service.monthSchedule(map);
 		System.out.println(lists);
 		assertNotNull(lists);
 	}

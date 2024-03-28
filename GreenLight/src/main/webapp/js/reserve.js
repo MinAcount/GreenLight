@@ -43,7 +43,6 @@ function oneReserveView(reserveno) {
 		})
 		.catch(error => {
 			console.error('오류:', error);
-			// 오류 메시지를 처리하는 로직 추가
 		});
 }
 

@@ -21,9 +21,9 @@ public class ScheduleServiceImpl implements IScheduleService{
 	
 	@Transactional(readOnly = true)
 	@Override
-	public List<ScheduleVo> monthSchedule(String userId) {
+	public List<ScheduleVo> monthSchedule(Map<String, Object> map) {
 		log.info("ScheduleServiceImpl monthSchedule 월별 일정 조회");
-		return dao.monthSchedule(userId);
+		return dao.monthSchedule(map);
 	}
 
 	@Override
