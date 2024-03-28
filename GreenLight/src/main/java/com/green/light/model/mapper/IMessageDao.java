@@ -20,8 +20,6 @@ public interface IMessageDao {
 	
 	// 채팅방 초대하기 insertInviteChat
 	
-	// 채팅방 참여자 조회 getChatParticipants
-	
 	// 즐겨찾기 updateFavor
 	
 	// 알림여부 updateNoti

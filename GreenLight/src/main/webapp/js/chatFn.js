@@ -219,5 +219,28 @@ window.onclick = function(event){
 	}
 }
 
+var ws = null;
+var url = null;
+var nick = null;
+var pageClose = true;
+
+$(document).ready(function(){
+	console.log("그룹 채팅 로딩중...");
+	
+//	var url = location.href;
+//	var checkUrl = "ws:" + (url.substring(url.indexOf("//"), url.lastIndexOf("/") + 1)) + "chatGroup.do";
+//	console.log(checkUrl);
+	
+//	ws = new WebSocket(checkUrl);
+	ws = new WebSocket("ws://localhost:8080/GreenLight/chatGroup.do");
+	console.log("생성된 웹소켓 객체", ws);
+	
+	ws.onopen = function(){
+		console.log("웹소켓 오픈");
+	}
+})
+
+
+
 
 
