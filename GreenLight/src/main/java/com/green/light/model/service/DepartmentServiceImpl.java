@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.green.light.model.mapper.IDepartmentDao;
 import com.green.light.vo.DepartmentVo;
+import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,6 +84,16 @@ public class DepartmentServiceImpl implements IDepartmentService {
 	}
 
 	@Override
+	public DepartmentVo selectDeptMgrByDept(String deptno) {
+		log.info("DepartmentServiceImpl selectDeptMgrByDept 자동결재선 부서별 부서장 조회 : {}", deptno);
+		return dao.selectDeptMgrByDept(deptno);
+	}
+
+	@Override
+	public DepartmentVo selectDrafterDeptMgr(String id) {
+		log.info("DepartmentServiceImpl selectDrafterDeptMgr 자동결재선 기안자의 부서장 조회 : {}", id);
+		return dao.selectDrafterDeptMgr(id);
+  
 	public DepartmentVo getOneDeptInfo(String deptno) {
 		log.info("DepartmentServiceImpl getOneDeptInfo 부서 상세 정보 조회");
 		DepartmentVo vo = dao.getOneDeptInfo(deptno);

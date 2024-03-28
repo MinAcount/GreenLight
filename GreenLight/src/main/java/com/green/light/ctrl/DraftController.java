@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDepartmentService;
+import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.ApprJstreeVo;
 import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
@@ -26,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class DraftController {
+	
 	
 	@Autowired
 	private IApprovalService ApprService;
@@ -63,7 +66,22 @@ public class DraftController {
        return result;
     }
 	
-
+	@GetMapping(value = "/selectDeptMgrByDept.do")
+	@ResponseBody
+	public DepartmentVo selectDeptMgrByDept(@RequestParam String deptno) {
+		log.info("DraftController GET selectDeptMgrByDept.do 인사부서장 조회 : {}", deptno);
+		DepartmentVo vo = DeptService.selectDeptMgrByDept(deptno);
+		System.out.println("-----------------------------------------------------"+vo);
+		return vo;
+	}
 	
+	@GetMapping(value = "/selectDrafterDeptMgr.do")
+	@ResponseBody
+	public DepartmentVo selectDrafterDeptMgr(@RequestParam String id) {
+		log.info("DraftController GET selectDrafterDeptMgr.do 기안자 부서장 조회 : {}", id);
+		DepartmentVo vo = DeptService.selectDrafterDeptMgr(id);
+		System.out.println("-----------------------------------------------------"+vo);
+		return vo;
+	}
 
 }

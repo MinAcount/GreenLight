@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.green.light.vo.DepartmentVo;
+import com.green.light.vo.EmployeeVo;
 
 @Repository
 public class DepartmentDaoImpl implements IDepartmentDao {
@@ -68,7 +69,15 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	}
 
 	@Override
-	public DepartmentVo getOneDeptInfo(String deptno) {
+	public DepartmentVo selectDeptMgrByDept(String deptno) {
+		return sqlSession.selectOne(NS+"selectDeptMgrByDept",deptno);
+	}
+
+	@Override
+	public DepartmentVo selectDrafterDeptMgr(String id) {
+		return sqlSession.selectOne(NS+"selectDrafterDeptMgr", id);
+
+  public DepartmentVo getOneDeptInfo(String deptno) {
 		return sqlSession.selectOne(NS+"getOneDeptInfo", deptno);
 	}
 
