@@ -208,58 +208,6 @@
 	</div>
 
 
-	<!--  <script type="text/javascript">
-   var oEditors = [];
-   nhn.husky.EZCreator.createInIFrame({
-       oAppRef: oEditors,
-       elPlaceHolder: "ir1",
-       sSkinURI: "./se2/SmartEditor2Skin.html",
-       fCreator: "createSEditor2"
-   });
-   
-   function submitContents(elClickedObj) {
-       // 에디터의 내용이 textarea에 적용된다.
-       oEditors.getById["ir1"].exec("UPDATE_CONTENTS_FIELD", []);
-
-       // 에디터의 내용에 대한 값 검증은 이곳에서
-       // document.getElementById("ir1").value를 이용해서 처리한다.
-
-       try {
-           elClickedObj.form.submit();
-       } catch(e) {
-          
-       }
-    }
-   
-   document.getElementById("startCheckbox").addEventListener("change", function(){
-      var radios = document.getElementsByName("시작일");
-      for(let i = 0; i < radios.length; i++){
-         radios[i].disabled = !this.checked;
-      }
-   });
-   
-   document.getElementById("endCheckbox").addEventListener("change", function(){
-      var radios = document.getElementsByName("종료일");
-      for(let i = 0; i < radios.length; i++){
-         radios[i].disabled = !this.checked;
-      }
-   });
-   
-   window.addEventListener('DOMContentLoaded', event => {
-      const litepickerDateRange2Months = document.getElementById('litepickerRangePlugin');
-         if (litepickerRangePlugin) {
-            new Litepicker({
-               element: litepickerRangePlugin,
-               singleMode: false,
-               numberOfMonths: 2,
-               numberOfColumns: 2,
-               format: 'MMM DD, YYYY',
-               lang: "ko-KR"
-            });
-         }
-   });
-
-   </script>    -->
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
    <script src="js/scripts.js"></script>
