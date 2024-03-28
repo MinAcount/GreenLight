@@ -3,7 +3,7 @@
 <mapper namespace="com.green.light.model.mapper.VacationDaoImpl">
 <!-- "휴가사용내역 월별조회"	selectVacationHistory -->
 
-<select id="selectVacationHistory">
+<select id="selectVacationHistory" resultType="VacationVo" parameterType="VacationVo">
 SELECT VACNO, ID, START_DAY, END_DAY, HALF, GETSU, BIGO 
 FROM VACATION v 
 WHERE ID = '2403110901'
