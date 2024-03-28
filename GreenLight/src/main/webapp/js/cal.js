@@ -94,35 +94,33 @@ function renderCalendar(viewmonth) {
 	calendar.render();
 }
 
-
 // 페이지 로드 시 현재 월의 달력 표시
 document.addEventListener("DOMContentLoaded", function() {
 	showCurrentMonthCalendar();
 });
 
 function insertSchedule() {
-	$("#calendarModal").modal("show"); // modal 나타내기
+	$("#scheduelModal").modal("show"); // modal 나타내기
+	var errorText = "관리자에게 문의하세요";
 
-	$("#addCalendar").on("click", function() {  // modal의 추가 버튼 클릭 시
-		var groupid = $("#groupid").val();
+	$("#insertScheduel").on("click", function() {  // modal의 추가 버튼 클릭 시
+		var label = $("#groupid").val();
 		var title = $("#title").val();
-		var content = $("#content").val();
-		var start = $("#start").val();
-		var end = $("#end").val();
-
+		var memo = $("#memo").val();
+		var start_date = $("#start_date").val();
+		var end_date = $("#end_date").val();
+		
 		//내용 입력 여부 확인
-		if (groupid == null || groupid == "") {
-			alert("구분을 입력하세요.");
+		if (title == null || title == "") {
+			errorText = "제목을 입력하세요.";
 		} else if (title == null || title == "") {
-			alert("제목을 입력하세요.");
-		} else if (content == null || content == "") {
-			alert("내용을 입력하세요.");
-		} else if (start == "" || end == "") {
-			alert("날짜를 입력하세요.");
-		} else if (new Date(end) - new Date(start) < 0) { // date 타입으로 변경 후 확인
-			alert("종료일이 시작일보다 먼저입니다.");
+			errorText = alert("제목을 입력하세요.");
+		} else if (start_date == "" || start_time == "") {
+			errorText = "날짜를 입력하세요.";
+		} else if (new Date(end_date) - new Date(start_date) < 0) { // date 타입으로 변경 후 확인
+			errorText = "종료일이 시작일보다 먼저입니다.";
 		} else { // 정상적인 입력 시
-			var data = $("#form").serialize()
+			var data = $("#scheduelForm").serialize()
 
 			fetch("./insertSchedule.do", {
 				method: "POST",
@@ -133,19 +131,19 @@ function insertSchedule() {
 			})
 				.then(response => {
 					if (!response.ok) {
-						throw new Error("Network response was not ok");
+						throw new Error("일정을 등록할 수 없습니다");
 					}
 					return response.json();
 				})
 				.then(msg => {
 					console.log(msg);
 					if (msg !== true) {
-						alert("insert 실패!!");
+						alert("일정을 등록할 수 없습니다");
 						return false;
 					} else {
-						document.getElementById("form").reset(); // 폼 초기화
-						document.getElementById("calendarModal").classList.remove("show");
-						document.getElementById("calendarModal").style.display = "none";
+						document.getElementById("scheduelForm").reset(); // 폼 초기화
+						document.getElementById("scheduelModal").classList.remove("show");
+						document.getElementById("scheduelModal").style.display = "none";
 						listAjax();
 					}
 				})
@@ -210,3 +208,48 @@ $(document).ready(function() {
 		scrollbar: true // 스크롤바 활성화
 	});
 });
+
+// 현재 시간을 가져오는 함수
+function getCurrentTime() {
+    var today = new Date();
+    var hours = String(today.getHours()).padStart(2, '0');
+    var minutes = String(today.getMinutes()).padStart(2, '0');
+    return hours + ':' + minutes;
+}
+
+// 시간 선택 활성화/비활성화 함수
+function toggleTimeSelection(checkbox) {
+    var start_time_input = document.getElementById('start_time');
+    var end_time_input = document.getElementById('end_time');
+
+    if (checkbox.checked) {
+        start_time_input.disabled = true;
+        end_time_input.disabled = true;
+        start_time_input.value = "00:00";
+        end_time_input.value = "00:00";
+    } else {
+        start_time_input.disabled = false;
+        end_time_input.disabled = false;
+    }
+}
+
+// 페이지 로드 시에 현재 시간으로 설정
+window.onload = function() {
+    var start_date_input = document.getElementById('start_date');
+    var end_date_input = document.getElementById('end_date');
+    var start_time_input = document.getElementById('start_time');
+    var end_time_input = document.getElementById('end_time');
+
+    start_date_input.value = getCurrentDate();
+    end_date_input.value = getCurrentDate();
+    start_time_input.value = getCurrentTime();
+    end_time_input.value = getCurrentTime();
+}
+
+
+ function selectColor(color) {
+        // 선택된 색상을 사용하여 입력 요소의 배경색을 설정합니다
+        var colorInput = document.getElementById('color');
+        colorInput.style.backgroundColor = color;
+        colorInput.value = color; // 선택된 색상의 값을 입력 요소에 설정합니다
+    }
