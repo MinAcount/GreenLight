@@ -170,24 +170,6 @@
 	UPDATE EMPLOYEE SET ESTATUS = 'N' , EXIT_DAY = #{exit_day}
         WHERE ID = #{id}
 </update>
-<!-- 퇴사한 직원의 직책 지우기    deleteDeptMgr -->
-<update id="deleteDeptMgr" parameterType="java.lang.String">
-	UPDATE DEPARTMENT SET DEPT_MGR = ''
-        WHERE DEPT_MGR = #{id}
-        AND (SELECT "POSITION" 
-                        FROM EMPLOYEE e
-                        WHERE "POSITION" = '01'
-                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
-</update>
-<!-- 퇴사한 직원의 직책 지우기    deleteHeadMgr -->
-<update id="deleteHeadMgr" parameterType="java.lang.String">
-	UPDATE HEADQUARTERS SET HEAD_MGR = ''
-        WHERE HEAD_MGR = #{id}
-        AND (SELECT "POSITION"
-                        FROM EMPLOYEE e
-                        WHERE "POSITION" = '02'
-                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
-</update>
 <!-- 퇴사일 수정	updateEmployeeExitDay -->
 <update id="updateEmployeeExitDay" parameterType="java.util.Map">
 	UPDATE EMPLOYEE 

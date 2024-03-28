@@ -227,22 +227,59 @@ function checkExitEmployee(val){
 	document.getElementById("exit_day").style = "display:block;";
 	if(val == 'N'){
 		document.getElementById("litepickerDate").value = document.getElementById("hidden_exit_day").value;
-		document.getElementById("updateExitDayBtn").style = "display:block;";
+		document.getElementById("updateExitDayBtn").style = "display:inline-block;";
 		document.getElementById("checkExitDayBtn").style = "display:none;";
+		document.getElementById("cancelBtn").style.display = "inline-block";
 	}else if(val == 'Y'){
-		document.getElementById("updateExitBtn").style = "display:block;";
+		document.getElementById("updateExitBtn").style = "display:inline-block;";
 		document.getElementById("employeeExitBtn").style = "display:none;";
 		document.getElementById("employeeModifyBtn").style = "display:none;";
+		document.getElementById("cancelBtn").style.display = "inline-block";
+	}
+}
+
+//employeeOneModify.jsp
+function btnClean(){
+	if(document.getElementById("hidden_exit_day").value != ""){
+		document.getElementById("checkExitDayBtn").style = "display:block;";
+		document.getElementById("updateExitDayBtn").style = "display:none;";
+		document.getElementById("cancelBtn").style = "display:none";
+		document.getElementById("exit_day").style = "display:none";
+		document.getElementById("hidden_exit_day").style = "display:block";
+	}else{
+		document.getElementById("name").setAttribute("disabled","disabled");
+		document.getElementById("hidden_deptno").style = "display:block";
+		document.getElementById("deptno").style = "display:none";
+		document.getElementById("hidden_spot").style = "display:block";
+		document.getElementById("spot").style = "display:none";
+		document.getElementById("hidden_etype").style = "display:block";
+		document.getElementById("etype").style = "display:none";
+		document.getElementById("email").setAttribute("disabled","disabled");
+		document.getElementById("address").setAttribute("disabled","disabled");
+		document.getElementById("phone").setAttribute("disabled","disabled");
+		document.getElementById("hidden_join_day").style = "display:block";
+		document.getElementById("hidden_exit_day").style = "display:block";
+		document.getElementById("join_day").style = "display:none";
+		document.getElementById("exit_day").style = "display:none";
+		document.getElementById("modifyProfile").style = "display:none";
+		document.getElementById("employeeModifyBtn").style = "display:inline-block";
+		document.getElementById("employeeExitBtn").style = "display:inline-block";
+		document.getElementById("updateEmployeeBtn").style = "display:none";
+		document.getElementById("updateExitBtn").style = "display:none";
+		document.getElementById("cancelBtn").style = "display:none";
 	}
 }
 
 //employeeOneModify.jsp
 function updateExitDay(id){
-	var exit_day = document.getElementById("litepickerDate").value
+	var exit_day = document.getElementById("litepickerDate").value;
+	var join_day = document.getElementById("hidden_join_day").value;
 	if(new Date(exit_day)>new Date()){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else if(new Date(exit_day)<new Date(join_day)){
+		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
 	}else{
-		location.href="./updateExit.do?id="+id+"&exit_day="+exit_day;
+		location.href="./updateExitDay.do?id="+id+"&exit_day="+exit_day;
 		alert("퇴사일 수정이 완료되었습니다");
 	}
 }
@@ -250,19 +287,39 @@ function updateExitDay(id){
 //employeeOneModify.jsp
 function updateExit(id){
 	var exit_day = document.getElementById("litepickerDate").value;
+	var join_day = document.getElementById("hidden_join_day").value;
 	if(exit_day == ""){
 		alert("퇴사일을 입력해주세요")
 	}else if(new Date(exit_day)>new Date()){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+	}else if(new Date(exit_day)<new Date(join_day)){
+		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
 	}else{
 		var name = document.getElementById("name").value;
 		var confirmResult = confirm("정말 "+name+"님을 퇴사시키시겠습니까?");
 		
 		if(confirmResult){
 			//결재대기중인 문서가 있다면 퇴사 불가 => fetch를 통해 확인하기
-			
-//			location.href="./employeeExit.do?id="+id+"&exit_day="+document.getElementById("litepickerDate").value;
-			alert(name+"님이 퇴사 처리되었습니다")
+			fetch("./updateExit.do",{
+				method:"POST",
+				headers:{"Content-type": "application/json"},
+				body:JSON.stringify({
+					id:id,
+					exit_day:exit_day
+				})
+			})
+			.then(data => data.text())
+			.then(result => {
+				console.log(result);
+				if(result == "success"){
+					alert(name+"님이 퇴사 처리되었습니다")
+				}else if(result == "appr"){
+					alert(name+"의 결재대기중인 문서가 있습니다 \n결재완료 후 퇴사처리를 진행해주세요");
+				}else{
+					alert("퇴사 처리에 실패하였습니다");
+				}
+				location.href='./employeeOne.do?id='+id;
+			})
 		}
 	}
 }
@@ -286,7 +343,8 @@ function checkModifyEmployee(){
 	document.getElementById("modifyProfile").style = "display:block";
 	document.getElementById("employeeModifyBtn").style = "display:none";
 	document.getElementById("employeeExitBtn").style = "display:none";
-	document.getElementById("updateEmployeeBtn").style = "display:block";
+	document.getElementById("updateEmployeeBtn").style = "display:inline-block";
+	document.getElementById("cancelBtn").style = "display:inline-block";
 
 	var deptno = document.getElementById("deptno");
 	var spot = document.getElementById("spot");
@@ -363,7 +421,7 @@ function updateEmployee(id){
 			}else{
 				alert("직원 수정에 실패하였습니다");
 			}
-			location.href="./employeeList.do";
+			location.href="./employeeOne.do?id="+id;
 		});
 	}
 }

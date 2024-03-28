@@ -14,6 +14,8 @@ public interface IHeadquartersDao {
 	public int updateHeadName(Map<String, Object> map);
 //	본부 등록	insertHead
 	public int insertHead(String hname);
+//	퇴사한 직원의 직책 지우기 deleteHeadMgr
+	public int deleteHeadMgr(String id);
 //	직원 직책 수거 및 부여	updateHeadPosition
 	public int updateHeadPosition(Map<String, Object> map);
 //	본부장 등록 및 변경	updateHeadMgr

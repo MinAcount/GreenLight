@@ -43,6 +43,7 @@
         ON e.DEPTNO = d.DEPTNO JOIN COMMON c2
         ON e.SPOT = c2.CODE AND c2."TYPE" ='직위' 
         AND e.DEPTNO = #{deptno}
+        AND ESTATUS = 'Y'
         ORDER BY c2.CODE DESC
 </select>
 <!-- 부서 상세 정보 조회	getOneDeptInfo -->
@@ -90,6 +91,15 @@
 <update id="restoreDept" parameterType="java.lang.String">
 	UPDATE DEPARTMENT SET DELFLAG ='N'
         WHERE DEPTNO = #{deptno}
+</update>
+<!-- 퇴사한 직원의 직책 지우기    deleteDeptMgr -->
+<update id="deleteDeptMgr" parameterType="java.lang.String">
+	UPDATE DEPARTMENT SET DEPT_MGR = ''
+        WHERE DEPT_MGR = #{id}
+        AND (SELECT "POSITION" 
+                        FROM EMPLOYEE e
+                        WHERE "POSITION" = '01'
+                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
 </update>
 <!-- 직원 직책 수거 및 부여	updateDeptPosition -->
 <update id="updateDeptPosition" parameterType="java.util.Map">
