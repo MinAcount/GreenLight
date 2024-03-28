@@ -76,7 +76,7 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	@Override
 	public DepartmentVo selectDrafterDeptMgr(String id) {
 		return sqlSession.selectOne(NS+"selectDrafterDeptMgr", id);
-
+	}
   public DepartmentVo getOneDeptInfo(String deptno) {
 		return sqlSession.selectOne(NS+"getOneDeptInfo", deptno);
 	}

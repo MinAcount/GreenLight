@@ -93,6 +93,7 @@ public class DepartmentServiceImpl implements IDepartmentService {
 	public DepartmentVo selectDrafterDeptMgr(String id) {
 		log.info("DepartmentServiceImpl selectDrafterDeptMgr 자동결재선 기안자의 부서장 조회 : {}", id);
 		return dao.selectDrafterDeptMgr(id);
+	}
   
 	public DepartmentVo getOneDeptInfo(String deptno) {
 		log.info("DepartmentServiceImpl getOneDeptInfo 부서 상세 정보 조회");
