@@ -67,8 +67,8 @@ $(function() {
 								node.spot = "이사";
 							}
 							node.text = node.text + ' ' + node.spot;
-						} else if(node.parent === "#"){
-							node.state = {disabled : true};
+						} else if (node.parent === "#") {
+							node.state = { disabled: true };
 						}
 					});
 
@@ -118,7 +118,7 @@ $(function() {
 							}
 							node.text = node.text + ' ' + node.spot;
 						} else {
-							node.state = {disabled : true};
+							node.state = { disabled: true };
 						}
 					});
 				},
@@ -133,6 +133,7 @@ $(function() {
 	$("#addRef").on('click', function() {
 		// Selected node id
 		var sel = $("#refJstree").jstree('get_selected');
+		console.log("sel----------", sel)
 		var selectedNode = $("#refJstree").jstree().get_node(sel);
 		//		console.log(selectedNode)
 		var children = $("#refJstree").jstree().get_children_dom(selectedNode);
@@ -160,12 +161,10 @@ $(function() {
 					"<line x1='14' y1='11' x2='14' y2='17'></line>" +
 					"</svg>" +
 					"</div>" +
-					"<input type='hidden' name='id' value='" + sel + "'>" +
 					"</div>" +
 					"</div>";
 				$("#ref_chk").html(htmlCode);
 				$("#refJstree").jstree('deselect_node', sel);
-
 			})
 		} else {
 			// Hide selected node
@@ -185,7 +184,6 @@ $(function() {
 				"<line x1='14' y1='11' x2='14' y2='17'></line>" +
 				"</svg>" +
 				"</div>" +
-				"<input type='hidden' name='id' value='" + sel + "'>" +
 				"</div>" +
 				"</div>";
 			$("#ref_chk").html(htmlCode);
@@ -205,8 +203,8 @@ $(function() {
 		var apr_row = document.querySelectorAll(".apr_row");
 		var autoAppr = document.querySelectorAll(".autoAppr");
 		var autoAppr_length = autoAppr.length;
-		console.log("autoAppr_length",typeof autoAppr_length)
-		if (apr_row.length > (3+autoAppr_length)) {
+		console.log("autoAppr_length", typeof autoAppr_length)
+		if (apr_row.length > (3 + autoAppr_length)) {
 			console.log("결재자는 최대 4명까지만 설정가능합니다");
 			return;
 		}
@@ -230,10 +228,10 @@ $(function() {
 			"</div>";
 		$("#apr_chk").html(htmlCode);
 		$("#apprJstree").jstree('deselect_node', sel);
-		
-		
-		
-		
+
+
+
+
 	});
 
 
@@ -302,19 +300,19 @@ $(function() {
 function delRef(event) {
 	// 클릭된 span의 parent div
 	var parentDiv = event.target.parentElement;
-	console.log("parentDiv" , parentDiv)
+	console.log("parentDiv", parentDiv)
 
 	var text = parentDiv.textContent;
-	console.log("text",text)
-	
+	console.log("text", text)
+
 	// 삭제
 	parentDiv.remove();
-	
+
 	var deletedNode = findTreeNodeByText2(text);
 	console.log(deletedNode)
 	$("#refJstree").jstree('show_node', deletedNode.id);
-	
-	
+
+
 }
 
 
@@ -322,14 +320,14 @@ function delRef(event) {
 function del(event) {
 	// 클릭된 span의 parent div
 	var parentDiv = event.target.parentElement;
-	console.log("parentDiv" , parentDiv)
+	console.log("parentDiv", parentDiv)
 
 	var text = parentDiv.textContent;
-	console.log("text",text)
-	
+	console.log("text", text)
+
 	// 삭제
 	parentDiv.remove();
-	
+
 	var deletedNode = findTreeNodeByText2(text);
 	console.log(deletedNode)
 	$("#apprJstree").jstree('show_node', deletedNode.id);
@@ -395,17 +393,17 @@ var children_apr_row;
 var parent_apr_row;
 // 초기화 버튼 기능
 function clean() {
-//	var jstree = $("#apprJstree").jstree();
-//	var allNodes = jstree.get_json(null, { flat: true });
-//	$("#apr_chk").html("");
-//	//모든 노드 표시
-//	$("#apprJstree").jstree('show_all');
-//	for (var i = 0; i < allNodes.length; i++) {
-//		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
-//		//모든 노드 enable
-//		$("#apprJstree").jstree('enable_node', iNode);
-//	}
-	
+	//	var jstree = $("#apprJstree").jstree();
+	//	var allNodes = jstree.get_json(null, { flat: true });
+	//	$("#apr_chk").html("");
+	//	//모든 노드 표시
+	//	$("#apprJstree").jstree('show_all');
+	//	for (var i = 0; i < allNodes.length; i++) {
+	//		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
+	//		//모든 노드 enable
+	//		$("#apprJstree").jstree('enable_node', iNode);
+	//	}
+
 
 	parent_apr_row = document.getElementsByClassName("apr_row");
 	//	console.log(parent_apr_row,parent_apr_row.length)
@@ -415,11 +413,11 @@ function clean() {
 		children_apr_row = parent_apr_row_clone[i].querySelector("[name='delIcon']");
 		if (children_apr_row) {
 			parent_apr_row_clone[i].remove();
-//			console.log("parent_apr_row_clone",parent_apr_row_clone[i])
+			//			console.log("parent_apr_row_clone",parent_apr_row_clone[i])
 			var enable_id = parent_apr_row_clone[i].querySelector("[name='id']").value;
-			console.log("enable_id",enable_id)
+			console.log("enable_id", enable_id)
 			$("#apprJstree").jstree().show_node(enable_id);
-		} 
+		}
 	}
 }
 
@@ -430,20 +428,20 @@ function clean() {
 var chkAppr;
 // 결재자 설정 완료 버튼
 function apprDone() {
-	 chkAppr = document.getElementById("chkAppr");
-    chkAppr.innerHTML = "";
+	chkAppr = document.getElementById("chkAppr");
+	chkAppr.innerHTML = "";
 
 	var apprLineOriginal = document.getElementById("apr_chk")
 	var apprLine = apprLineOriginal.cloneNode(true)
-	console.log("apprLine",apprLine)
+	console.log("apprLine", apprLine)
 	var delIcon = apprLine.querySelectorAll('[name="delIcon"]');
 	console.log(delIcon)
 	delIcon.forEach(function(icon) {
 		icon.remove();
 	});
-	
 
-		// 결재순서 담은 input태그 추가
+
+	// 결재순서 담은 input태그 추가
 	var apr_rows = apprLine.querySelectorAll(".apr_row");
 
 	apr_rows.forEach(function(row, i) {
@@ -454,8 +452,8 @@ function apprDone() {
 		row.appendChild(apprOrder);
 
 	})
-	
-	
+
+
 	console.log("last_apprLine", apprLine)
 
 	chkAppr = document.getElementById("chkAppr");
@@ -588,6 +586,38 @@ function refDone() {
 
 	var approvalLi = document.getElementById("getApproval");
 	approvalLi.classList.remove("active");
+
+	var chkRef = document.getElementById("chkRef");
+	var ref_rows = chkRef.querySelectorAll(".ref_row");
+	var ref_id = [];
+	ref_rows.forEach(function(ref_row) {
+		var ref_find_node = findTreeNodeByText2(ref_row.textContent);
+		//		console.log("ref_find_node-------------", ref_find_node.id);
+		ref_id.push(ref_find_node.id);
+	})
+	console.log(ref_id)
+
+
+
+	ref_rows.forEach(function(row, i) {
+		var refId = document.createElement("input");
+		refId.setAttribute("type", "hidden");
+		refId.setAttribute("name", "id");
+		refId.setAttribute("value", ref_id[i]);
+		row.appendChild(refId);
+	})
+
+	// 결재순서 담은 input태그 추가
+	var apr_rows = apprLine.querySelectorAll(".apr_row");
+
+	apr_rows.forEach(function(row, i) {
+		var apprOrder = document.createElement("input");
+		apprOrder.setAttribute("type", "hidden");
+		apprOrder.setAttribute("name", "apr_no");
+		apprOrder.setAttribute("value", i + 1);
+		row.appendChild(apprOrder);
+
+	})
 }
 
 
@@ -616,42 +646,42 @@ function getApprLine() {
 
 async function selectComplete() {
 
-    console.log("selectComplete()");
-    var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
-    if (selectedNodes.length > 0) {
-        var tempno = selectedNodes[0].original.tempno;
-        console.log(tempno);
+	console.log("selectComplete()");
+	var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
+	if (selectedNodes.length > 0) {
+		var tempno = selectedNodes[0].original.tempno;
+		console.log(tempno);
 
-        try {
-            const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno);
-            const data1 = await response1.json();
-            //			console.log(data.content);
+		try {
+			const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno);
+			const data1 = await response1.json();
+			//			console.log(data.content);
 			var templateArea = document.getElementById("templateArea");
-			templateArea.innerHTML=data1.content;
+			templateArea.innerHTML = data1.content;
 			document.getElementById("apr_chk").innerHTML = "";
-//			console.log("tempcode:",data1.tempcode)
+			//			console.log("tempcode:",data1.tempcode)
 			document.getElementById("tempCode").value = data1.tempcode;
-			
+
 			// input hidden 태그에 뿌려줄 값 조회
 			var loginVo_name = document.getElementById("loginVo_name").value;
 			var deptVo_dname = document.getElementById("deptVo_dname").value;
 			var loginVo_id = document.getElementById("loginVo_id").value;
-			console.log("loginVo_name:",loginVo_name);
-			console.log("deptVo_dname:",deptVo_dname);
-			console.log("loginVo_id:",loginVo_id);
-			
+			console.log("loginVo_name:", loginVo_name);
+			console.log("deptVo_dname:", deptVo_dname);
+			console.log("loginVo_id:", loginVo_id);
+
 			// 값이 뿌려질 input hidden 태그 탐색
 			var name = document.getElementById("name");
 			var dname = document.getElementById("dname");
 			var writer_id = document.getElementById("writer_id");
-			console.log("name:",name);
-			console.log("dname:",dname);
-			console.log("writer_id:",writer_id);
-			
+			console.log("name:", name);
+			console.log("dname:", dname);
+			console.log("writer_id:", writer_id);
+
 			name.value = loginVo_name;
 			dname.value = deptVo_dname;
 			writer_id.value = loginVo_id;
-			
+
 			// 기안 뿌리기
 			var today = new Date();
 
@@ -661,19 +691,19 @@ async function selectComplete() {
 			var day = ('0' + today.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + day;
 			console.log(dateString)
-	
+
 			// input 요소의 value에 할당
 			document.querySelector("#draft_date").value = dateString;
-			
+
 			// 공가 선택시 신청연차 초기화
-			document.querySelector("#getsuFlag").addEventListener("change",function(){
+			document.querySelector("#getsuFlag").addEventListener("change", function() {
 				console.log("getsuFlag()");
-				console.log("this.value:",this.value);
-				if(this.value == 'Y'){//공가
+				console.log("this.value:", this.value);
+				if (this.value == 'Y') {//공가
 					document.getElementById("getsu").value = "";
 				}
 			});
-			
+
 			// dadtarangepicker를 위한 api를 적용
 			$('#daterangepicker').daterangepicker({
 				"locale": {
@@ -694,129 +724,180 @@ async function selectComplete() {
 			}, function(start, end, label) {
 				$('#start_day').val(start.format('YYYY-MM-DD'));
 				$('#end_day').val(end.format('YYYY-MM-DD'));
-				console.log("============================================================== typeof start:",typeof start);
+				console.log("============================================================== typeof start:", typeof start);
 				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-				
+
 				var start_date = new Date(start);
 				var end_date = new Date(end);
-				
+
 				var getsu_date = end_date.getTime() - start_date.getTime();
-				var getsu = Math.floor(getsu_date/(1000*60*60*24));
-				console.log("getsu:",getsu);
+				var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
+				console.log("getsu:", getsu);
 				document.getElementById("getsu").value = getsu;
 			});
-			
-			
-        } catch (error) {
-            console.log("Error..", error);
-        }
-    }
-	
-	
-    // 로그인 세션 아이디
-    var sessionId = document.getElementById("loginVo_id").value;
-//    console.log("sessionId",sessionId, typeof sessionId);
-    try {
-	
+
+
+		} catch (error) {
+			console.log("Error..", error);
+		}
+	}
+
+
+	// 로그인 세션 아이디
+	var sessionId = document.getElementById("loginVo_id").value;
+	//    console.log("sessionId",sessionId, typeof sessionId);
+	try {
+
 		const response2 = await fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + document.getElementById("tempCode").value);
 		const data2 = await response2.json();
-		console.log(data2);
-		console.log("tempCode",document.getElementById("tempCode").value)
-					
-		for (let i = 0; i < data2.length; i++) {
-					var code_name = data2[i].comVo.code_name;
-					var id = data2[i].empVo[0].id;
-					var name = data2[i].empVo[0].name;
-					
-	
-			for (let j = i + 1; j < data2.length; j++) {
-				if (id === data2[j].empVo[0].id) {
-					console.log(code_name, id, name);
-
-					var autoApprHtml = $("#apr_chk").html();
-					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + name + " " + code_name +
-						"<input type='hidden' class='autoAppr' name='id' value='" + id + "'>" +
-						"</div>";
-					$("#apr_chk").html(autoApprHtml);
-
-					var apprLine = document.getElementById("apr_chk");
-					var apr_rows = apprLine.querySelectorAll(".apr_row");
-
-//					apr_rows.forEach(function(row, i) {
-//						var apprOrder = document.createElement("input");
-//						apprOrder.setAttribute("type", "hidden");
-//						apprOrder.setAttribute("name", "apr_no");
-//						apprOrder.setAttribute("value", i + 1);
-//						row.appendChild(apprOrder);
-//					});
-
-					var chkAppr = document.getElementById("chkAppr");
-					var chkApprClone1 = apprLine.cloneNode(true);
-					var apprCloneList = Array.from(chkApprClone1.querySelectorAll(".apr_row"));
-
-					while (chkAppr.firstChild) {
-						chkAppr.firstChild.remove();
-					}
-
-					apprCloneList.forEach(function(item) {
-						chkAppr.appendChild(item);
-					});
-
-					chkAppr.style.display = "block";
-					var chkRef = document.getElementById("chkRef");
-					chkRef.style.display = "none";
-
-					var referenceLi = document.getElementById("getReference");
-					referenceLi.classList.remove("active");
-
-					var approvalLi = document.getElementById("getApproval");
-					approvalLi.classList.add("active");
-
-					var apr_row_text = [];
-
-					apr_rows.forEach(function(row) {
-						apr_row_text.push(row.textContent);
-					});
-
-					console.log("apr_row_text", apr_row_text);
-
-					var firstTr = document.getElementById("firstTr");
-					var secondTr = document.getElementById("secondTr");
-					var thirdTr = document.getElementById("thirdTr");
-					var apprTh = document.getElementById("apprTh");
-
-					for (let i = 0; i < apr_rows.length; i++) {
-						var str = apr_row_text[i];
-						var index = str.indexOf(' ');
-						var name = str.substring(0, index);
-						var spot = str.substring(index + 1);
-						console.log(name);
-						console.log(spot);
-
-						var newTd1 = document.createElement('td');
-						var newTd2 = document.createElement('td');
-						var newTd3 = document.createElement('td');
-
-						firstTr.appendChild(newTd1);
-						newTd1.setAttribute('style', 'width: 90px; height: 20px;');
-						newTd1.setAttribute('class', 'fontSize14');
-						newTd1.textContent = spot;
-
-						secondTr.appendChild(newTd2);
-						newTd2.setAttribute('class', 'fontSize14');
-						newTd2.textContent = name;
-
-						thirdTr.appendChild(newTd3);
-						newTd3.setAttribute('style', 'height: 20px;');
-						newTd3.setAttribute('class', 'fontSize14');
-					}
-					apprTh.style.display = "";
+		console.log("data2", data2);
+		console.log("tempCode", document.getElementById("tempCode").value)
+		
+		var autoApprHtml = $("#apr_chk").html();
+		console.log("--------------------------")
+		var ids = new Array();
+		ids.push(data2[0].empVo[0].id)
+		autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
+				"<input type='hidden' class='autoAppr' name='id' value='" + data2[0].empVo[0].id + "'>" +
+				"</div>";
+		data2.forEach(function(list){
+			console.log("data2 foreach")
+			ids.forEach(function(id){
+				console.log("ids",ids)
+				if(list.empVo[0].id != id || id == null){
+					console.log("list.empVo.id",list.empVo[0].id)
+					ids.push(list.empVo[0].id);
+					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + list.empVo[0].name + " " + list.comVo.code_name +
+				"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
+				"</div>";
 				}
-			}
+			})
+		})
+		$("#apr_chk").html(autoApprHtml);
+//		for (let i = 0; i < data2.length; i++) {
+//			var code_name = data2[i].comVo.code_name;
+//			var id = data2[i].empVo[0].id;
+//			var name = data2[i].empVo[0].name;
+//
+//
+//			var list = { code_name: code_name, id: id, name: name };
+//			set.add(list);
+//		}
+//		console.log("set", set);
+//
+//
+//		set.forEach(function(obj) {
+//			var code_name = obj.code_name;
+//			var id = obj.id;
+//			var name = obj.name;
+//			
+//		})
+
+
+		//			for (let j = i + 1; j < data2.length; j++) {
+		//				console.log(id)
+		//				console.log(data2[i].empVo[0].id)
+		//				console.log(data2[j].empVo[0].id)
+		//				if (id[i] === data2[j].empVo[0].id) {
+		//					console.log("똑같은 id"[i], data2[j].empVo[0].id);
+		//
+		//					var apr_chk_div = document.getElementById("apr_chk");
+		//					var autoApprInputs = apr_chk_div.querySelectorAll(".autoAppr");
+		//					console.log("autoApprInputs", autoApprInputs);
+		//
+		////					autoApprInputs.forEach(function(autoApprInput) {
+		////						console.log(autoApprInput.value);
+		////						if (autoApprInput.value === id) {
+		////							remove(autoApprInput);
+		////						}
+		////					})
+		//				}
+		//
+		//			}
+
+
+
+
+		var apprLine = document.getElementById("apr_chk");
+		var apr_rows = apprLine.querySelectorAll(".apr_row");
+
+		//					apr_rows.forEach(function(row, i) {
+		//						var apprOrder = document.createElement("input");
+		//						apprOrder.setAttribute("type", "hidden");
+		//						apprOrder.setAttribute("name", "apr_no");
+		//						apprOrder.setAttribute("value", i + 1);
+		//						row.appendChild(apprOrder);
+		//					});
+
+		var chkAppr = document.getElementById("chkAppr");
+		var chkApprClone1 = apprLine.cloneNode(true);
+		var apprCloneList = Array.from(chkApprClone1.querySelectorAll(".apr_row"));
+
+		while (chkAppr.firstChild) {
+			chkAppr.firstChild.remove();
 		}
-    } catch (error) {
-        console.log("Error..", error);
-    }
-    
-    
+
+		apprCloneList.forEach(function(item) {
+			chkAppr.appendChild(item);
+		});
+
+		chkAppr.style.display = "block";
+		var chkRef = document.getElementById("chkRef");
+		chkRef.style.display = "none";
+
+		var referenceLi = document.getElementById("getReference");
+		referenceLi.classList.remove("active");
+
+		var approvalLi = document.getElementById("getApproval");
+		approvalLi.classList.add("active");
+
+		var apr_row_text = [];
+
+		apr_rows.forEach(function(row) {
+			apr_row_text.push(row.textContent);
+		});
+
+		console.log("apr_row_text", apr_row_text);
+
+		var firstTr = document.getElementById("firstTr");
+		var secondTr = document.getElementById("secondTr");
+		var thirdTr = document.getElementById("thirdTr");
+		var apprTh = document.getElementById("apprTh");
+
+		for (let i = 0; i < apr_rows.length; i++) {
+			var str = apr_row_text[i];
+			var index = str.indexOf(' ');
+			var name = str.substring(0, index);
+			var spot = str.substring(index + 1);
+			console.log(name);
+			console.log(spot);
+
+			var newTd1 = document.createElement('td');
+			var newTd2 = document.createElement('td');
+			var newTd3 = document.createElement('td');
+
+			firstTr.appendChild(newTd1);
+			newTd1.setAttribute('style', 'width: 90px; height: 20px;');
+			newTd1.setAttribute('class', 'fontSize14');
+			newTd1.textContent = spot;
+
+			secondTr.appendChild(newTd2);
+			newTd2.setAttribute('class', 'fontSize14');
+			newTd2.textContent = name;
+
+			thirdTr.appendChild(newTd3);
+			newTd3.setAttribute('style', 'height: 20px;');
+			newTd3.setAttribute('class', 'fontSize14');
+		}
+		apprTh.style.display = "";
+
+
+		// 출력
+
+
+	} catch (error) {
+		console.log("Error..", error);
+	}
+
+
 }

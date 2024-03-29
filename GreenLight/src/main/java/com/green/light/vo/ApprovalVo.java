@@ -26,11 +26,16 @@ public class ApprovalVo {
 	private String signature;
 	private String comment;
 	
-	public ApprovalVo(String writer_id, String emp_id, int orderno) {
+	
+	public ApprovalVo(String docno, String writer_id, String atype, String emp_id, int orderno) {
 		super();
+		this.docno = docno;
 		this.writer_id = writer_id;
+		this.atype = atype;
 		this.emp_id = emp_id;
 		this.orderno = orderno;
 	}
+	
+	
 	
 }

@@ -33,8 +33,13 @@ public class ApprovalDaoImpl implements IApprovalDao{
 	}
 
 	@Override
-	public int insertApproval(ApprovalVo vo) {
-		return sqlSession.selectOne(NS+"insertApproval");
+	public int insertApproval(List<ApprovalVo>  ApprovalVos) {
+		return sqlSession.insert(NS+"insertApproval", ApprovalVos);
+	}
+
+	@Override
+	public int insertReference(List<ApprovalVo> ReferenceVos) {
+		return sqlSession.insert(NS+"insertReference", ReferenceVos);
 	}
 
 	
