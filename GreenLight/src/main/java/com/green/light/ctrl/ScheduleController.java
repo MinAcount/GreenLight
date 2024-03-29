@@ -6,8 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.green.light.model.mapper.IDepartmentDao;
+import com.green.light.model.service.DepartmentServiceImpl;
+import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IScheduleService;
+import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.ScheduleVo;
 
@@ -30,10 +32,16 @@ public class ScheduleController {
 
 	@Autowired
 	private IScheduleService service;
+	
+	@Autowired
+	private IDepartmentService deptservice;
 
 	@GetMapping(value = "/month.do")
-	public String MonthSchedule(Model model, HttpSession session) {
+	public String MonthSchedule(HttpSession session, Model model) {
 		log.info("ScheduleController GET month.do 일정화면");
+		EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
+	    String dname = deptservice.getOneDept(loginVo.getDeptno()).getDname();
+	    model.addAttribute("dname", dname);
 		return "month";
 	}
 	
