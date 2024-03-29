@@ -52,6 +52,16 @@ public class ChatController {
 		System.out.println("lists" + lists);
 		return ResponseEntity.ok(lists);
 	}
+	
+	@GetMapping(value = "/socketOpenGr.do")
+	public String socketOpenGr(String chat_id, String id, HttpSession session) {
+		log.info("ChatController socketOpenGr 채팅방 아이디 {}, 사원번호 {}", chat_id, id);
+		
+		session.setAttribute("chat_id", chat_id);
+		session.setAttribute("id", id);
+		
+		return "chatGroup";
+	}
 }
 
 

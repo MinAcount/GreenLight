@@ -6,12 +6,11 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<websocket:handlers>
-		<websocket:mapping handler="WebSocketHandler" path="/chatGroup.do" />
+		<websocket:mapping handler="chat.do" path="/chat.do" />
 		<websocket:handshake-interceptors>
 			<bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
 	
-	<bean id="WebSocketHandler" class="com.green.light.socket.WebSocketHandler"/>
 	
 </beans>

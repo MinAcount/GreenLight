@@ -226,19 +226,55 @@ var pageClose = true;
 
 $(document).ready(function(){
 	console.log("그룹 채팅 로딩중...");
+	var id = document.getElementById('id').value;
+	console.log(id);
 	
-//	var url = location.href;
-//	var checkUrl = "ws:" + (url.substring(url.indexOf("//"), url.lastIndexOf("/") + 1)) + "chatGroup.do";
-//	console.log(checkUrl);
+	var url = location.href;
+	var checkUrl = "ws:" + (url.substring(url.indexOf("//"), url.lastIndexOf("/") + 1)) + "chat.do";
+	console.log(checkUrl);
 	
-//	ws = new WebSocket(checkUrl);
-	ws = new WebSocket("ws://localhost:8080/GreenLight/chatGroup.do");
+	var ws = new WebSocket(checkUrl);
+//	ws = new WebSocket("ws://192.168.8.30:8080/GreenLight/chat.do");
 	console.log("생성된 웹소켓 객체", ws);
 	
 	ws.onopen = function(){
 		console.log("웹소켓 오픈");
+		ws.send("#$nick:" + id);
+		console.log(id);
 	}
-})
+	
+	ws.onclose = function(){
+		alert("서버와 연결이 종료되었습니다");
+	}
+	
+	$("#buttonChat").click(function(){
+		var message = $("#chatInput").val();
+		if(message.trim() != ""){
+			ws.send(message);
+			$("#chatInput").val("");
+		}
+	});
+	
+	ws.onmessage = function(event) {
+        var msg = event.data;
+        console.log("서버로부터 전달된 메시지 : ", msg);
+        if(msg.startWith("[나]")){
+        	msg.substring(3);
+        	$("#middleChat").append($("<div class='sendTxt'>").append($("<span class='send_img'>").text(msg))).append("<br><br>");
+        } else {
+        	$("#middleChat").append($("<div class='receiveTxt'>").append($("<span class='receive_img'>").text(msg))).append("<br><br>");
+        }
+    }
+    
+    $("#middleChat").scrollTop($("#middleChat")[0].scrollHeight);
+});
+
+
+
+
+
+
+
 
 
 
