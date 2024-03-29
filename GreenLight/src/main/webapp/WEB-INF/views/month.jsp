@@ -29,28 +29,27 @@
 						<h2>캘린더</h2>
 						<div class="sidenav-menu">
 							<div class="mb-2" style="width: 100%; padding-bottom: 30px;">
-								<button class="btn btn-primary w-100" onclick="insertSchedule()"
-									id="addScheduleModal">일정등록</button>
+								<button class="btn btn-primary w-100" id="insertSchedule">일정등록</button>
 							</div>
 							<div>
 								<p>📆내 캘린더</p>
 								<div class="mb-2" style="padding-left: 15px;">
 									<input class="form-check-input" type="checkbox"
-										id="exampleCheck1"> <label class="form-check-label"
-										for="exampleCheck1">내 일정(기본)</label>
+										id="exampleCheck1"> <span class="form-check-label"
+										for="exampleCheck1">내 일정(기본)</span>
 								</div>
 							</div>
 							<div style="padding-top: 30px;">
 								<p>📆관심 캘린더</p>
 								<div class="mb-2" style="padding-left: 15px;">
 									<input class="form-check-input" type="checkbox"
-										id="exampleCheck4"> <label class="form-check-label"
-										for="exampleCheck4">내 일정(이지원)</label>
+										id="exampleCheck4"> <span class="form-check-label"
+										for="exampleCheck4">내 일정(이지원)</span>
 								</div>
 								<div class="mb-2" style="padding-left: 15px;">
 									<input class="form-check-input" type="checkbox"
-										id="exampleCheck5"> <label class="form-check-label"
-										for="exampleCheck5">내 일정(김태민)</label>
+										id="exampleCheck5"> <span class="form-check-label"
+										for="exampleCheck5">내 일정(김태민)</span>
 								</div>
 								<p style="color: grey">+ 관심 캘린더 추가</p>
 							</div>
@@ -58,13 +57,13 @@
 							<div>
 								<div class="mb-2" style="padding-left: 15px;">
 									<input class="form-check-input" type="checkbox"
-										id="exampleCheck6"> <label class="form-check-label"
-										for="exampleCheck6">전사일정</label>
+										id="exampleCheck6"> <span class="form-check-label"
+										for="exampleCheck6">전사일정</span>
 								</div>
 								<div class="mb-2" style="padding-left: 15px;">
 									<input class="form-check-input" type="checkbox"
-										id="exampleCheck7"> <label class="form-check-label"
-										for="exampleCheck7">${dname} 일정</label>
+										id="exampleCheck7"> <span class="form-check-label"
+										for="exampleCheck7">${dname} 일정</span>
 								</div>
 							</div>
 						</div>
@@ -102,94 +101,111 @@
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">캘린더</span> <select id="label"
-										name="label" class="form-control" style="flex: 3;">
-										<option value="기본일정">내 일정(기본)</option>
-										<option value="부서일정">${dname} 일정</option>
+									<span style="flex: 1;">캘린더</span> 
+									<select id="label_name" name="label_name" class="form-control" style="flex: 3;"  value="">
+										<option value="My">내 일정(기본)</option>
+										<option value="${dname}">${dname} 일정</option>
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">제목</span> <input type="text" id="title"
-										name="title" class="form-control" placeholder="제목"
-										style="flex: 3;">
+									<span style="flex: 1;">제목</span> 
+									<input type="text" id="title" name="title" class="form-control" placeholder="제목" style="flex: 3;" value="">
+								</div>
+<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
+<!-- 									<span style="flex: 1;">시작일</span>  -->
+<!-- 									<input type="date" id="start_date" name="start_date" required style="flex: 1.14; margin-bottom: 0px;">  -->
+<!-- 									<input type="time" id="start_time" name="start_time" style="flex: 1.14; margin-bottom: 0px;" required> -->
+<!-- 									<div class="form-check"> -->
+<!-- 										<input type="checkbox" id="allDay" name="allDay" value="종일" class="form-check-input" onchange="toggleTimeSelection(this)" style="margin-bottom: 0px;">  -->
+<!-- 										<label for="allDay" class="form-check-label" style="margin-bottom: 0px;">종일</label> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
+<!-- 									<span style="flex: 1;">종료일</span>  -->
+<!-- 									<input type="date" id="end_date" name="end_date" required style="flex: 1.14; margin-bottom: 0px;"  value="">  -->
+<!-- 									<input type="time" id="end_time" name="end_time" style="flex: 1.14; margin-bottom: 0px;" required  value=""> -->
+<!-- 									<div class="form-check"> -->
+<!-- 										<input type="checkbox" id="recur" name="recur" value="Y" class="form-check-input" style="margin-bottom: 0px;"> -->
+<!-- 										<span for="recur" class="form-check-label" style="margin-bottom: 0px;">반복</span> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">기간</span> 
+									<input type="text" id="daterangepicker" name="daterangepicker" class="form-control" style="flex: 3;">
+									<input type="hidden" id="start_date" name="start_date" class="form-control" style="flex: 3;">
+									<input type="hidden" id="end_date" name="end_date" class="form-control" style="flex: 3;">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">시작일</span> <input type="date"
-										id="start_date" name="start_date" required
-										style="flex: 1.14; margin-bottom: 0px;"> <input
-										type="time" id="start_time" name="start_time"
-										style="flex: 1.14; margin-bottom: 0px;" required>
 									<div class="form-check">
-										<input type="checkbox" id="allDay" name="allDay" value="종일"
-											class="form-check-input" onchange="toggleTimeSelection(this)"
-											style="margin-bottom: 0px;"> <label for="allDay"
-											class="form-check-label" style="margin-bottom: 0px;">종일</label>
+ 										<input type="checkbox" id="allDay" name="allDay" value="종일" class="form-check-input" onchange="toggleTimeSelection(this)" style="margin-bottom: 0px;">
+										<span for="allDay" class="form-check-label" style="margin-bottom: 0px;">종일</span>
+									</div>
+									<div class="form-check">
+										<input type="checkbox" id="recur" name="recur" value="Y" class="form-check-input" style="margin-bottom: 0px;">
+										<span for="recur" class="form-check-label" style="margin-bottom: 0px;">반복</span>
 									</div>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">종료일</span> <input type="date"
-										id="end_date" name="end_date" required
-										style="flex: 1.14; margin-bottom: 0px;"> <input
-										type="time" id="end_time" name="end_time"
-										style="flex: 1.14; margin-bottom: 0px;" required>
-									<div class="form-check">
-										<input type="checkbox" id="repeat" name="repeat" value="반복"
-											class="form-check-input" style="margin-bottom: 0px;">
-										<span for="repeat" class="form-check-label"
-											style="margin-bottom: 0px;">반복</span>
-									</div>
+									<span style="flex: 1;">참여자</span> 
+									<input type="text" id="participants" name="participants" class="form-control" placeholder="참여자 선택" style="flex: 3;">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">참여자</span> <input type="text"
-										id="participant" name="participant" class="form-control"
-										placeholder="참여자 선택" style="flex: 3;">
-								</div>
-								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">위치</span> <input type="text"
-										id="location" name="location" class="form-control"
-										placeholder="위치" style="flex: 1.5;"> <input
-										type="button" id="reserveRoom" name="reserveRoom"
-										class="form-control" value="회의실 예약" style="flex: 1;">
+									<span style="flex: 1;">위치</span> 
+									<input type="text" id="location" name="location" class="form-control" placeholder="위치" style="flex: 1.5;" value=""> 
+									<input type="button" id="reserveRoom" name="reserveRoom" class="form-control" value="회의실 예약" style="flex: 1;">
 								</div>
 							</div>
 							<div class="form-group" style="padding-top: 20px;">
-								<label for="memo">메모</label>
-								<textarea class="form-control" rows="5" id="memo" name="memo"
-									placeholder="메모를 입력하세요"></textarea>
+								<span for="memo">메모</span>
+								<textarea class="form-control" rows="5" id="memo" name="memo" placeholder="메모를 입력하세요"></textarea>
 							</div>
 							<div>
 								<a href="#" id="basicCalendarToggle">기본캘린더</a>
 							</div>
-							<div style="display: flex; flex-direction: column; gap: 10px;">
-								<div id="basicCalendarDetails" style="display: none;">
+							<div id="basicCalendarDetails">
+								<div style="display: flex; flex-direction: column; gap: 10px;">
 									<div style="display: flex; gap: 10px; align-items: center;">
-										<span style="flex: 1;">우선순위</span> <select id="priority"
-											name="priority" class="form-control" style="flex: 3;">
-											<option value="긴급">긴급</option>
-											<option value="보통">보통</option>
+										<span style="flex: 1;">카테고리</span> <select id="category"
+											name="category" class="form-control" style="flex: 3;">
+											<c:forEach var="common" items="${commList}" varStatus="vs">
+												<c:if test="${common.type == '카테고리'}">
+													<option value="${common.code}">${common.code_name}</option>
+												</c:if>
+											</c:forEach>
 										</select>
 									</div>
 									<div style="display: flex; gap: 10px; align-items: center;">
-										<span style="flex: 1;">공개여부</span> <select id="priority"
+										<span style="flex: 1;">우선순위</span> <select id="priority"
 											name="priority" class="form-control" style="flex: 3;">
-											<option value="전체공개">전체공개</option>
-											<option value="비공개">비공개</option>
+											<c:forEach var="common" items="${commList}" varStatus="vs">
+												<c:if test="${common.type == '일정우선순위'}">
+													<option value="${common.code}">${common.code_name}</option>
+												</c:if>
+											</c:forEach>
+										</select>
+									</div>
+									<div style="display: flex; gap: 10px; align-items: center;">
+										<span style="flex: 1;">공개여부</span> <select id="visibility"
+											name="visibility" class="form-control" style="flex: 3;">
+											<option value="Y">전체공개</option>
+											<option value="N">비공개</option>
 										</select>
 									</div>
 									<div style="display: flex; gap: 10px; align-items: center;">
 										<span style="flex: 1;">수정권한</span> <select id="permission"
 											name="permission" class="form-control" style="flex: 3;">
-											<option value="전체공개">수정가능</option>
-											<option value="비공개">읽기</option>
+											<option value="Y">수정가능</option>
+											<option value="R">읽기</option>
 										</select>
 									</div>
 									<div style="display: flex; gap: 10px; align-items: center;">
 										<span style="flex: 1;">알람</span> <select id="alarm"
 											name="alarm" class="form-control" style="flex: 3;">
-											<option value="10">10분전</option>
-											<option value="30">30분전</option>
-											<option value="60">1시간전</option>
-											<option value="30">알림없음</option>
+											<c:forEach var="common" items="${commList}" varStatus="vs">
+												<c:if test="${common.type == '일정알람시간'}">
+													<option value="${common.code}">${common.code_name}</option>
+												</c:if>
+											</c:forEach>
 										</select>
 									</div>
 								</div>
@@ -200,7 +216,7 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-primary" id="insertScheduel">추가</button>
+						<button type="button" class="btn btn-primary" onclick="addScheduleHandler()">추가</button>
 					</div>
 				</div>
 			</div>
