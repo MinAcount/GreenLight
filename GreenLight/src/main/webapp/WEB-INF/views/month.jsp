@@ -188,6 +188,7 @@
 											name="alarm" class="form-control" style="flex: 3;">
 											<option value="10">10분전</option>
 											<option value="30">30분전</option>
+											<option value="60">1시간전</option>
 											<option value="30">알림없음</option>
 										</select>
 									</div>
