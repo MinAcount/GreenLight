@@ -25,9 +25,11 @@ public class ApprovalJUnitTest {
 	@Autowired
 	private IApprovalService service;
 	
+
 	@Autowired
 	private IDepartmentService deptService;
 	
+
 
 	@Test
 	public void test() {
@@ -36,11 +38,13 @@ public class ApprovalJUnitTest {
 //		System.out.println(vo1);
 //		assertNotNull(vo1);
 		
+
 		// 부서별 부서장 조회 02
 //		DepartmentVo vo2 = deptService.selectDeptMgrByDept("09");
 //		System.out.println("======================================================= "+vo2);
 //		assertNotNull(vo2);
 //	
+
 //		EmployeeVo vo2 = service.selectDeptMgrByDept("09");
 //		System.out.println("======================================================= "+vo2);
 //		assertNotNull(vo2);

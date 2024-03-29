@@ -6,6 +6,9 @@ import java.util.Map;
 import com.green.light.vo.DocumentVo;
 
 public interface IDocumentDao {
+	// 시퀀스 조회 getNextSequenceValue
+	public int getNextSequenceValue();
+	
 	// 기안서 상신/임시저장 insertDocument
 	public int insertDocument(DocumentVo docVo);
 
