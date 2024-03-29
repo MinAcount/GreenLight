@@ -25,7 +25,7 @@
 									<div class="card-body text-center">
 										<c:if test="${vo.profile eq null && vo.gender eq 'F'}">
 											<img class="img-account-profile rounded-circle mb-2" id="preview"
-												src="assets/img/illustrations/profiles/profile-4.png" alt="프로필사진" width="160px;"/>
+												src="assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" width="160px;"/>
 										</c:if>
 										<c:if test="${vo.profile eq null && vo.gender eq 'M'}">
 											<img class="img-account-profile rounded-circle mb-2" id="preview"
@@ -39,7 +39,6 @@
 											<div class="small font-italic text-muted mb-4">500KB 이하의 이미지만 가능합니다</div>
 											<label class="btn btn-primary" for="profile">사진올리기</label>
 											<input type="file" id="profile" name="profile" accept="image/*" onchange="profileUpload(this)" style="display:none"/>
-											<button class="btn btn-primary" type="button" onclick="cleanProfile()" id="cleanProfileBtn">사진내리기</button>
 										</div>
 									</div>
 								</div>
@@ -166,12 +165,14 @@
 										<c:if test="${vo.estatus eq 'N'}">
 											<button class="btn btn-danger" type="button" id="checkExitDayBtn" onclick="checkExitEmployee('N')">퇴사일 수정</button>
 											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitDayBtn" onclick="updateExitDay('${vo.id}')">수정 완료</button>
+											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
 										</c:if>
 										<c:if test="${vo.estatus eq 'Y'}">
 											<button class="btn btn-primary" type="button" id="employeeModifyBtn" onclick="checkModifyEmployee()">수정</button>
 											<button class="btn btn-danger" type="button" id="employeeExitBtn" onclick="checkExitEmployee('Y')">퇴사</button>
 											<button class="btn btn-primary" style="display: none;" type="button" id="updateEmployeeBtn" onclick="updateEmployee('${vo.id}')">수정 완료</button>
 											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitBtn" onclick="updateExit('${vo.id}')">퇴사 결정</button>
+											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
 										</c:if>
 									</div>
 								</div>

@@ -32,10 +32,6 @@ public interface IEmployeeDao {
 	public int updateEmployeeAuth(String id);
 //	직원 퇴사 처리	updateExitEmployee
 	public int updateExitEmployee(Map<String, Object> map);
-//	퇴사한 직원의 직책 지우기	 deleteDeptMgr
-	public int deleteDeptMgr(String id);
-//	퇴사한 직원의 직책 지우기 deleteHeadMgr
-	public int deleteHeadMgr(String id);
 //	퇴사일 수정	updateEmployeeExitDay
 	public int updateEmployeeExitDay(Map<String, Object> map);
 //	직원 입사 처리	insertEmployee

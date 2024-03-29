@@ -71,16 +71,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	public int updateExitEmployee(Map<String, Object> map) {
 		return sqlsession.update(NS+"updateExitEmployee", map);
 	}
-	
-	@Override
-	public int deleteDeptMgr(String id) {
-		return sqlsession.update(NS+"deleteDeptMgr", id);
-	}
-
-	@Override
-	public int deleteHeadMgr(String id) {
-		return sqlsession.update(NS+"deleteHeadMgr", id);
-	}
 
 	@Override
 	public int updateEmployeeExitDay(Map<String, Object> map) {

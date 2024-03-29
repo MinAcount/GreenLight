@@ -1,30 +1,143 @@
 #currentMonth {
-    min-width: 100px; /* 최소 너비 설정 */
-    display: inline-block; /* 인라인 블록 요소로 설정하여 텍스트의 길이가 바뀌지 않도록 함 */
-    text-align: center;
+	min-width: 400px; /* 최소 너비 설정 */
+	display: inline-block; /* 인라인 블록 요소로 설정하여 텍스트의 길이가 바뀌지 않도록 함 */
+	text-align: center;
 }
 
-
 #next, #prev {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .basic-calendar-details {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease-in-out;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.5s ease-in-out;
 }
 
+.fc-day-number.fc-sat.fc-past { color:#0000FF; }     
+.fc-day-number.fc-sun.fc-past { color:#FF0000; }    /* 일요일 */
+
 .basic-calendar-details.show {
-    max-height: 500px; /* 콘텐츠의 높이에 맞게 조정하세요 */
+	max-height: 500px; /* 콘텐츠의 높이에 맞게 조정하세요 */
 }
 
 .modal-body {
-    max-height: 70vh; /* 모달 높이의 최대값 설정 */
-    overflow-y: auto; /* 필요한 경우에만 스크롤 표시 */
+	max-height: 70vh; /* 모달 높이의 최대값 설정 */
+	overflow-y: auto; /* 필요한 경우에만 스크롤 표시 */
 }
 
-
 .expanded {
-    max-height: 1000px; /* 내용이 추가될 때 모달의 최대 높이 */
+	max-height: 1000px; /* 내용이 추가될 때 모달의 최대 높이 */
+}
+
+/* 모달 너비 조정 */
+.modal-dialog {
+	max-width: 800px; /* 너비를 원하시는 만큼 조정하세요 */
+}
+
+/* 모달 콘텐츠 스타일링 */
+.modal-content {
+	border-radius: 10px; /* 콘텐츠 테두리 둥글게 */
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+}
+
+/* 모달 헤더 스타일링 */
+.modal-header {
+	border-bottom: none; /* 헤더의 아래 테두리 제거 */
+}
+
+/* 모달 타이틀 스타일링 */
+.modal-title {
+	font-weight: bold; /* 타이틀 글꼴을 두껍게 */
+}
+
+/* 폼 그룹 스타일링 */
+.form-group {
+	margin-bottom: 20px; /* 폼 그룹 간격 조정 */
+}
+
+/* 체크박스 레이블 스타일링 */
+.form-check-label {
+	font-weight: normal; /* 체크박스 레이블 글꼴을 일반으로 */
+}
+
+/* 추가 링크 스타일링 */
+.modal-body a {
+	color: #428A46; /* 링크 색상 변경 */
+	text-decoration: none; /* 밑줄 제거 */
+	margin-right: 10px; /* 링크 간격 조정 */
+}
+
+/* 추가 링크 호버 스타일링 */
+.modal-body a:hover {
+	text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+
+/* 텍스트 에리어 스타일링 */
+textarea.form-control {
+	resize: none; /* 텍스트 에리어 크기 조절 비활성화 */
+}
+
+/* 버튼 스타일링 */
+.modal-footer .btn {
+	border-radius: 5px; /* 버튼 테두리 둥글게 */
+	padding: 10px 20px; /* 버튼 내부 간격 조정 */
+}
+
+/* 추가 버튼 스타일링 */
+.modal-footer .btn-primary {
+	background-color: #428A46; /* 버튼 배경색 변경 */
+	border-color: #428A46; /* 버튼 테두리 색상 변경 */
+	color: #fff; /* 버튼 글자색 변경 */
+}
+
+/* 모달 창에 스크롤바 숨기기 */
+.modal-content {
+	overflow-y: hidden; /* 세로 스크롤바 숨기기 */
+}
+
+body {
+	font-family: Arial, sans-serif;
+	padding: 20px;
+}
+
+.container {
+	max-width: 400px;
+	margin: 0 auto;
+	background-color: #fff;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+	margin-top: 0;
+	color: #333;
+}
+
+label {
+	display: block;
+	margin-bottom: 8px;
+	color: #555;
+}
+
+input[type="date"], input[type="time"] {
+	width: calc(50% - 5px);
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-bottom: 10px;
+}
+
+input[type="submit"] {
+	background-color: #007bff;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+input[type="submit"]:hover {
+	background-color: #0056b3;
 }

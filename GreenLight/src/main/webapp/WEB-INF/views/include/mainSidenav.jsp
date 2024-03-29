@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-
 <body>
 	<div id="layoutSidenav_nav">
          <nav class="sidenav shadow-right sidenav-light">
@@ -27,14 +26,14 @@
                   <div class="collapse" id="collapseEmpl"
                      data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="./employeeAddForm.do">직원 추가</a> 
-                        <a class="nav-link" href="./employeeList.do">직원 정보</a> 
-                        <a class="nav-link" href="./employeeVacation.do">휴가 관리</a>
-                        <a class="nav-link" href="./employeeAttendance.do">근태 관리</a>
-                        <a class="nav-link" href="./employeeDocument.do">인사서류 관리</a>
+                        <a class="nav-link" href="employeeAddForm.do">직원 추가</a> 
+                        <a class="nav-link" href="employeeList.do">직원 정보</a> 
+                        <a class="nav-link" href="employeeVacation.do">휴가 관리</a>
+                        <a class="nav-link" href="employeeAttendance.do">근태 관리</a>
+                        <a class="nav-link" href="employeeDocument.do">인사서류 관리</a>
                      </nav>
                   </div>
-                  <a class="nav-link" href="./headAndDept.do"><div class="nav-link-icon">
+                  <a class="nav-link collapsed" href="headAndDept.do"><div class="nav-link-icon">
                   	<i data-feather="users"></i></div>
                     부서관리
                   </a>
@@ -42,7 +41,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   </c:if>
 <!-- 전자결재 -->
-                  <a class="nav-link" href="./draftWriteForm.do"><div class="nav-link-icon">
+                  <a class="nav-link collapsed" href="draftWriteForm.do"><div class="nav-link-icon">
                   	<i data-feather="file"></i></div>
                     새 기안서 작성
                   </a>
@@ -62,10 +61,10 @@
                   <div class="collapse" id="collapseBoxes" data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
                         <a class="nav-link" href="wizard.html">결재대기 문서함</a>
-                        <a class="nav-link" href="./draftList.do">기안문서함</a>
-                        <a class="nav-link" href="./approvalList.do">결재문서함</a>
-                        <a class="nav-link" href="./referenceList.do">참조문서함</a>
-                        <a class="nav-link" href="./tempDraftList.do">임시저장함</a> 
+                        <a class="nav-link" href="draftList.do">기안문서함</a>
+                        <a class="nav-link" href="approvalList.do">결재문서함</a>
+                        <a class="nav-link" href="referenceList.do">참조문서함</a>
+                        <a class="nav-link" href="tempDraftList.do">임시저장함</a> 
                      </nav>
                   </div>
                   
@@ -73,7 +72,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 채팅 -->
-                  <a class="nav-link" href="./chatGroup.do">
+                  <a class="nav-link collapsed" href="chatGroup.do">
                   	<div class="nav-link-icon">
                   		<i data-feather="message-circle"></i>
                   	</div>
@@ -83,7 +82,7 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
 <!-- 일정 -->
-                  <a class="nav-link" href="./month.do">
+                  <a class="nav-link collapsed" href="month.do">
                      <div class="nav-link-icon">
                         <i data-feather="calendar"></i>
                      </div> 일정
@@ -105,7 +104,7 @@
                      <nav class="sidenav-menu-nested nav">
                         <a class="nav-link" href="multi-tenant-select.html">회의실 예약</a> 
                         <a class="nav-link" href="multi-tenant-select.html">예약가능 회의실</a> 
-                        <a class="nav-link" href="./myReserve.do">나의 예약 현황</a> 
+                        <a class="nav-link" href="myReserve.do">나의 예약 현황</a> 
                      </nav>
                   </div>
                   
@@ -151,5 +150,4 @@
          </nav>
       </div>
 </body>
-
 </html>

@@ -57,7 +57,12 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	public int restoreDept(String deptno) {
 		return sqlSession.update(NS+"restoreDept", deptno);
 	}
-
+	
+	@Override
+	public int deleteDeptMgr(String id) {
+		return sqlSession.update(NS+"deleteDeptMgr", id);
+	}
+	
 	@Override
 	public int updateDeptPosition(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateDeptPosition", map);

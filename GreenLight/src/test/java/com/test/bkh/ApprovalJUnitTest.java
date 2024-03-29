@@ -41,6 +41,10 @@ public class ApprovalJUnitTest {
 //		System.out.println("======================================================= "+vo2);
 //		assertNotNull(vo2);
 //	
+//		EmployeeVo vo2 = service.selectDeptMgrByDept("09");
+//		System.out.println("======================================================= "+vo2);
+//		assertNotNull(vo2);
+	
 //	// 대표이사 조회
 //		EmployeeVo vo3 = service.selectCEO();
 //		System.out.println(vo3);
