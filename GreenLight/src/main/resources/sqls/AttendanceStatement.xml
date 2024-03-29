@@ -9,7 +9,6 @@
 	<result property="att_status" column="ATT_STATUS"/>
 	<result property="total_working_hours" column="TOTAL_WORKING_HOURS"/>
 	<collection property="empVo" resultMap="EmployeeVo" />
-	
 </resultMap>
 
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">

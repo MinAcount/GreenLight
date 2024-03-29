@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -73,9 +74,32 @@
 		</div>
 	</div>
 
+<script type="text/javascript">
+window.onload = function() {
+    initClock();
+};
+
+function initClock() {
+    var timeElement = document.getElementById("time");
+
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+        const seconds = String(now.getSeconds()).padStart(2, "0");
+        timeElement.textContent = hours + ":" + minutes + ":" + seconds;
+    }
+
+    updateClock(); // 페이지 로드 시 한 번 실행
+    setInterval(updateClock, 1000); // 1초마다 업데이트
+}
+
+</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
+
+
 </body>
 </html>
