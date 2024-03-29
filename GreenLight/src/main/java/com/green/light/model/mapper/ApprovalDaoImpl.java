@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.green.light.vo.ApprJstreeVo;
+import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
@@ -29,6 +30,11 @@ public class ApprovalDaoImpl implements IApprovalDao{
 	@Override
 	public List<ApprJstreeVo> getAllApprJstreeView() {
 		return sqlSession.selectList(NS+"getAllApprJstreeView");
+	}
+
+	@Override
+	public int insertApproval(ApprovalVo vo) {
+		return sqlSession.selectOne(NS+"insertApproval");
 	}
 
 	
