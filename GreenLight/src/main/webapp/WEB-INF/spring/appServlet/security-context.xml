@@ -9,17 +9,17 @@
 	
 	<context:component-scan base-package="com.green.light" />
 
-	<bean id="accessDenied" class="com.green.light.security.EmployeeAccessDeniedHandler"/>
+<!-- 	<bean id="accessDenied" class="com.green.light.security.EmployeeAccessDeniedHandler"/> -->
 	<bean id="loginSuccess" class="com.green.light.security.LoginSuccessHandler" />
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	<bean id="loginService" class="com.green.light.security.LoginService" />
 	
 	<security:http auto-config="true" use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" />
-		<security:intercept-url pattern="/" access="hasRole('01','02')" />
-		<security:intercept-url pattern="/" access="hasAnyRole('00')" />
+<!-- 		<security:intercept-url pattern="/" access="hasRole('01','02')" /> -->
+<!-- 		<security:intercept-url pattern="/" access="hasAnyRole('00')" /> -->
 		<security:form-login login-page="/loginForm.do" authentication-success-handler-ref="loginSuccess" />
-		<security:access-denied-handler ref="accessDenied" />
+<!-- 		<security:access-denied-handler ref="accessDenied" /> -->
 		<security:logout logout-url="/logout.do" logout-success-url="/login.jsp" invalidate-session="true" />
 		<security:csrf disabled="false" />
 		<security:remember-me key="GRN" token-validity-seconds="864000" remember-me-parameter="remember-me"/>

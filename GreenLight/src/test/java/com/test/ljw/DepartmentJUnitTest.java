@@ -38,9 +38,9 @@ public class DepartmentJUnitTest {
 //		assertNotNull(vo);
 		
 		//부서 상세 정보 조회
-		DepartmentVo vo = service.getOneDept("04");
-		System.out.println(vo);
-		assertNotNull(vo);
+//		DepartmentVo vo = service.getOneDept("04");
+//		System.out.println(vo);
+//		assertNotNull(vo);
 		
 		//본부별 부서 조회
 //		List<DepartmentVo> list = service.getDeptByHead("01");
@@ -77,6 +77,14 @@ public class DepartmentJUnitTest {
 //		map.put("deptno", "06");
 //		boolean isc = service.updateDeptMgr(map);
 //		assertTrue(isc);
+		
+		//직원이름 및 부서로 검색
+		map.put("opt", "name");
+		map.put("keyword", "김");
+		map.put("estatus", "Y");
+		List<DepartmentVo> list = service.getEmployeeBySearch(map);
+		System.out.println(list);
+		assertNotEquals(list.size(), 0);
 	}
 
 }

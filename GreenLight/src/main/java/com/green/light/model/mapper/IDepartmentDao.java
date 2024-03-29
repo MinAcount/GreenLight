@@ -29,7 +29,8 @@ public interface IDepartmentDao {
 	public int updateDeptPosition(Map<String, Object> map);
 //	부서장 등록 및 변경	updateDeptMgr
 	public int updateDeptMgr(Map<String, Object> map);
-	
+//	직원 검색	getEmployeeBySearch
+	public List<DepartmentVo> getEmployeeBySearch(Map<String, Object> map);
 // 인사부서장 조회
 	public DepartmentVo selectDeptMgrByDept(String deptno);
 	

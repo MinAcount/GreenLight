@@ -12,7 +12,7 @@
                   
                   <c:if test="${loginVo.auth =='02'}">
 <!-- 인사팀 전용 메뉴 -->
-                  <a class="nav-link collapsed" href="javascript:void(0);"
+                  <a class="nav-link collapsed emp-main" href="javascript:void(0);"
                      data-bs-toggle="collapse" data-bs-target="#collapseEmpl"
                      aria-expanded="false" aria-controls="collapseEmpl">
                      <div class="nav-link-icon">

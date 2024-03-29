@@ -243,4 +243,12 @@ public class EmployeeController {
 
 		return ResponseEntity.ok(responseData);
 	}
+	
+	@PostMapping("/searchEmployee.do")
+	@ResponseBody
+	public ResponseEntity<?> searchEmployee(@RequestBody Map<String, Object> map){
+		log.info("EmployeeController POST searchEmployee.do 직원 검색 : {}", map);
+		List<DepartmentVo> list = departmentService.getEmployeeBySearch(map);
+		return ResponseEntity.ok(list);
+	}
 }

@@ -79,6 +79,29 @@
 
 document.addEventListener("DOMContentLoaded", function() {
 	var currentURL = location.pathname.substring(12);
+	if(currentURL.includes("employeeOne.do")){
+		currentURL = "employeeList.do";
+		var targetElement = document.querySelectorAll('#layoutSidenav_nav .emp-main')[0];
+		targetElement.click();
+	}else if(currentURL.includes("headAndDeptManage.do")){
+		currentURL = "headAndDept.do";
+	}else if(currentURL.includes("draft.do")){
+		currentURL = "draftList.do";
+	}else if(currentURL.includes("appr.do")){
+		currentURL = "approvalList.do";
+	}else if(currentURL.includes("ref.do")){
+		currentURL = "referenceList.do";
+	}else if(currentURL.includes("temp.do")){
+		currentURL = "tempDraftList.do";
+	}else if(currentURL.includes("res.do")){
+		currentURL = "회의실예약.do";
+	}else if(currentURL.includes("possible.do")){
+		currentURL = "예약가능.do";
+	}else if(currentURL.includes("myres.do")){
+		currentURL = "myReserve.do";
+	}
+	
+	
 	var layoutSidenav_nav = document.querySelectorAll("#layoutSidenav_nav a");
 	for(let navLink of layoutSidenav_nav){
 		var linkURL = navLink.getAttribute("href");
