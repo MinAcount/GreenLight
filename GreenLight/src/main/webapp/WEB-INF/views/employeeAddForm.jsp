@@ -29,7 +29,6 @@
 										<div class="small font-italic text-muted mb-4">500KB 이하의 이미지만 가능합니다</div>
 										<label class="btn btn-primary" for="profile">사진올리기</label>
 										<input type="file" id="profile" name="profile" accept="image/*" onchange="profileUpload(this)" style="display:none"/>
-										<button class="btn btn-primary" type="button" onclick="cleanProfile()">사진내리기</button>
 									</div>
 								</div>
 							</div>

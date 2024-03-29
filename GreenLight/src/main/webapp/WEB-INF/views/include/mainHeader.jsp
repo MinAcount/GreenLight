@@ -1372,8 +1372,8 @@
 }
 </style>
 
-<script type="text/javascript" src="./js/reference.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 
 </head>
 <body>
@@ -1471,7 +1471,7 @@
             	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             	<c:if test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
 								<img class="img-fluid"
-									src="./assets/img/illustrations/profiles/profile-4.png" alt="프로필사진" />
+									src="./assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" />
 							</c:if>
 							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
 								<img class="img-fluid"

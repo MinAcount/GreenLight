@@ -12,12 +12,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.EmployeeVo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@ WebAppConfiguration
 public class EmployeeJUnitTest {
 	
 	@Autowired
@@ -80,6 +82,10 @@ public class EmployeeJUnitTest {
 //		assertTrue(isc);
 		
 		//직원 퇴사
+		map.put("id", "2401111101");
+		map.put("exit_day", "2024-03-28");
+		int n = service.updateExit(map);
+		assertEquals(2, n);
 		
 		//퇴사일 수정
 //		map.put("id", "2403120901");
@@ -88,11 +94,11 @@ public class EmployeeJUnitTest {
 //		assertEquals(1, n);
 		
 		//입사처리
-		EmployeeVo vo = new EmployeeVo("","주인공", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
-		vo.setPassword("1q2w3e4r!!");
-		System.out.println(vo);
-		boolean isc = service.insertEmployee(vo);
-		assertTrue(isc);
+//		EmployeeVo vo = new EmployeeVo("","김은수", "deveasy@naver.com", "01074107410", "1995-10-07", "F", "where", "05", "02", "2004-02-11", "A", "");
+//		vo.setPassword("1q2w3e4r!!");
+//		System.out.println(vo);
+//		boolean isc = service.insertEmployee(vo);
+//		assertTrue(isc);
 		
 		//부서장 후보 조회
 //		List<EmployeeVo> list = service.getDeptMgrHubo("09");

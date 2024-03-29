@@ -36,6 +36,12 @@ public class HeadquartersDaoImpl implements IHeadquartersDao{
 	public int insertHead(String hname) {
 		return sqlSession.insert(NS+"insertHead", hname);
 	}
+	
+	@Override
+	public int deleteHeadMgr(String id) {
+		return sqlSession.update(NS+"deleteHeadMgr", id);
+	}
+
 
 	@Override
 	public int updateHeadPosition(Map<String, Object> map) {

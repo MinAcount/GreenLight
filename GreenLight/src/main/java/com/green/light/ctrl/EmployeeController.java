@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.green.light.model.service.IDepartmentService;
+import com.green.light.model.service.IDocumentService;
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.DepartmentVo;
+import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +41,9 @@ public class EmployeeController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private IDocumentService docService;
 	
 	@GetMapping("/employeeList.do")
 	public String employeeList(Model model) {
@@ -92,20 +97,14 @@ public class EmployeeController {
 	    }
 	}
 	
-	@GetMapping("/updateExit.do")
+	@GetMapping("/updateExitDay.do")
 	public String updateExit(String id, String exit_day) {
 		log.info("EmployeeController GET updateExit 직원 퇴사일 수정 {}/{}",id,exit_day);
-		EmployeeVo vo = employeeService.getOneEmployee(id);
 		Map<String, Object> map = new HashMap<String, Object>(){{
 			put("id",id);
 			put("exit_day",exit_day);
 		}};
-		if(vo.getEstatus() == "Y") {
-			//결재대기중인 문서가 있으면 퇴사시키면 안됨
-			employeeService.updateExit(map);
-		}else if(vo.getEstatus() == "N") {
-			employeeService.updateEmployeeExitDay(map);
-		}
+		employeeService.updateEmployeeExitDay(map);
 		return "redirect:/employeeOne.do?id="+id;
 	}
 	
@@ -115,6 +114,25 @@ public class EmployeeController {
 		List<DepartmentVo> deptList = departmentService.getAllDept();
 		model.addAttribute("deptList",deptList);
 		return "employeeAddForm";
+	}
+	
+	@PostMapping("/updateExit.do")
+	@ResponseBody
+	public ResponseEntity<?> updateExit(@RequestBody Map<String, Object> map){
+	    log.info("EmployeeController POST updateExit 직원 퇴사 : {}", map);
+	    String id = (String)map.get("id");
+	    List<DocumentVo> docList = docService.getAllPendingApprovalDraft(id);
+	    System.out.println("결재대기중인문서:"+docList);
+	    if(docList.size() == 0) {
+	    	int n = employeeService.updateExit(map);
+	    	if(n>0) {
+	    		return ResponseEntity.ok("success");
+	    	}else {
+	    		return ResponseEntity.ok("fail");
+	    	}
+	    }else {
+	    	return ResponseEntity.ok("appr");
+	    }
 	}
 	
 	@PostMapping("/employeeAdd.do")
