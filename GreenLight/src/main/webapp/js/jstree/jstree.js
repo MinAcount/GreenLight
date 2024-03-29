@@ -203,7 +203,10 @@ $(function() {
 	$("#addEmp").on('click', function() {
 		var sel = $("#apprJstree").jstree('get_selected');
 		var apr_row = document.querySelectorAll(".apr_row");
-		if (apr_row.length > 3) {
+		var autoAppr = document.querySelectorAll(".autoAppr");
+		var autoAppr_length = autoAppr.length;
+		console.log("autoAppr_length",typeof autoAppr_length)
+		if (apr_row.length > (3+autoAppr_length)) {
 			console.log("결재자는 최대 4명까지만 설정가능합니다");
 			return;
 		}
@@ -227,6 +230,10 @@ $(function() {
 			"</div>";
 		$("#apr_chk").html(htmlCode);
 		$("#apprJstree").jstree('deselect_node', sel);
+		
+		
+		
+		
 	});
 
 
@@ -384,18 +391,35 @@ function cleanRef() {
 	}
 }
 
-
+var children_apr_row;
+var parent_apr_row;
 // 초기화 버튼 기능
 function clean() {
-	var jstree = $("#apprJstree").jstree();
-	var allNodes = jstree.get_json(null, { flat: true });
-	$("#apr_chk").html("");
-	//모든 노드 표시
-	$("#apprJstree").jstree('show_all');
-	for (var i = 0; i < allNodes.length; i++) {
-		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
-		//모든 노드 enable
-		$("#apprJstree").jstree('enable_node', iNode);
+//	var jstree = $("#apprJstree").jstree();
+//	var allNodes = jstree.get_json(null, { flat: true });
+//	$("#apr_chk").html("");
+//	//모든 노드 표시
+//	$("#apprJstree").jstree('show_all');
+//	for (var i = 0; i < allNodes.length; i++) {
+//		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
+//		//모든 노드 enable
+//		$("#apprJstree").jstree('enable_node', iNode);
+//	}
+	
+
+	parent_apr_row = document.getElementsByClassName("apr_row");
+	//	console.log(parent_apr_row,parent_apr_row.length)
+	var parent_apr_row_clone = Array.from(parent_apr_row);
+
+	for (let i = 0; i < parent_apr_row.length; i++) {
+		children_apr_row = parent_apr_row_clone[i].querySelector("[name='delIcon']");
+		if (children_apr_row) {
+			parent_apr_row_clone[i].remove();
+//			console.log("parent_apr_row_clone",parent_apr_row_clone[i])
+			var enable_id = parent_apr_row_clone[i].querySelector("[name='id']").value;
+			console.log("enable_id",enable_id)
+			$("#apprJstree").jstree().show_node(enable_id);
+		} 
 	}
 }
 
@@ -406,18 +430,20 @@ function clean() {
 var chkAppr;
 // 결재자 설정 완료 버튼
 function apprDone() {
-
+	 chkAppr = document.getElementById("chkAppr");
+    chkAppr.innerHTML = "";
 
 	var apprLineOriginal = document.getElementById("apr_chk")
 	var apprLine = apprLineOriginal.cloneNode(true)
-	console.log(apprLine)
+	console.log("apprLine",apprLine)
 	var delIcon = apprLine.querySelectorAll('[name="delIcon"]');
 	console.log(delIcon)
 	delIcon.forEach(function(icon) {
 		icon.remove();
 	});
+	
 
-	// 결재순서 담은 input태그 추가
+		// 결재순서 담은 input태그 추가
 	var apr_rows = apprLine.querySelectorAll(".apr_row");
 
 	apr_rows.forEach(function(row, i) {
@@ -428,6 +454,8 @@ function apprDone() {
 		row.appendChild(apprOrder);
 
 	})
+	
+	
 	console.log("last_apprLine", apprLine)
 
 	chkAppr = document.getElementById("chkAppr");
@@ -587,6 +615,7 @@ function getApprLine() {
 
 
 async function selectComplete() {
+
     console.log("selectComplete()");
     var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
     if (selectedNodes.length > 0) {
@@ -599,6 +628,9 @@ async function selectComplete() {
             //			console.log(data.content);
 			var templateArea = document.getElementById("templateArea");
 			templateArea.innerHTML=data1.content;
+			document.getElementById("apr_chk").innerHTML = "";
+//			console.log("tempcode:",data1.tempcode)
+			document.getElementById("tempCode").value = data1.tempcode;
 			
 			// input hidden 태그에 뿌려줄 값 조회
 			var loginVo_name = document.getElementById("loginVo_name").value;
@@ -674,109 +706,114 @@ async function selectComplete() {
 				document.getElementById("getsu").value = getsu;
 			});
 			
-			var tempcode = document.getElementById("tempcode");
-			tempcode.value=data1.tempcode;
+			
         } catch (error) {
             console.log("Error..", error);
         }
     }
-
-    // 인사팀 부서장 조회
-    var deptno = "09";
+	
+	
     // 로그인 세션 아이디
     var sessionId = document.getElementById("loginVo_id").value;
 //    console.log("sessionId",sessionId, typeof sessionId);
     try {
-        const response2 = await fetch("./selectDeptMgrByDept.do?deptno=" + deptno);
-        const data2 = await response2.json();
-        console.log(data2);
-        var code_name = data2.comVo.code_name;
-        var id = data2.empVo[0].id;
-        var name = data2.empVo[0].name;
-        console.log(code_name, id, name);
+	
+		const response2 = await fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + document.getElementById("tempCode").value);
+		const data2 = await response2.json();
+		console.log(data2);
+		console.log("tempCode",document.getElementById("tempCode").value)
+					
+		for (let i = 0; i < data2.length; i++) {
+					var code_name = data2[i].comVo.code_name;
+					var id = data2[i].empVo[0].id;
+					var name = data2[i].empVo[0].name;
+					
+	
+			for (let j = i + 1; j < data2.length; j++) {
+				if (id === data2[j].empVo[0].id) {
+					console.log(code_name, id, name);
 
-        var autoApprHtml = $("#apr_chk").html();
-        autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + name + " " + code_name +
-            "<div name='delIcon' onclick='del(event)' style='margin-left:15px;'>" +
-            "</div>" +
-            "<input type='hidden' name='id' value='" + id + "'>" +
-            "</div>" +
-            "</div>";
-        $("#apr_chk").html(autoApprHtml);
+					var autoApprHtml = $("#apr_chk").html();
+					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + name + " " + code_name +
+						"<input type='hidden' class='autoAppr' name='id' value='" + id + "'>" +
+						"</div>";
+					$("#apr_chk").html(autoApprHtml);
 
-        var apprLine = document.getElementById("apr_chk");
-        var apr_rows = apprLine.querySelectorAll(".apr_row");
+					var apprLine = document.getElementById("apr_chk");
+					var apr_rows = apprLine.querySelectorAll(".apr_row");
 
-        apr_rows.forEach(function(row, i) {
-            var apprOrder = document.createElement("input");
-            apprOrder.setAttribute("type", "hidden");
-            apprOrder.setAttribute("name", "apr_no");
-            apprOrder.setAttribute("value", i + 1);
-            row.appendChild(apprOrder);
-        });
+//					apr_rows.forEach(function(row, i) {
+//						var apprOrder = document.createElement("input");
+//						apprOrder.setAttribute("type", "hidden");
+//						apprOrder.setAttribute("name", "apr_no");
+//						apprOrder.setAttribute("value", i + 1);
+//						row.appendChild(apprOrder);
+//					});
 
-        var chkAppr = document.getElementById("chkAppr");
-        var chkApprClone1 = apprLine.cloneNode(true);
-        var apprCloneList = Array.from(chkApprClone1.querySelectorAll(".apr_row"));
+					var chkAppr = document.getElementById("chkAppr");
+					var chkApprClone1 = apprLine.cloneNode(true);
+					var apprCloneList = Array.from(chkApprClone1.querySelectorAll(".apr_row"));
 
-        while (chkAppr.firstChild) {
-            chkAppr.firstChild.remove();
-        }
+					while (chkAppr.firstChild) {
+						chkAppr.firstChild.remove();
+					}
 
-        apprCloneList.forEach(function(item) {
-            chkAppr.appendChild(item);
-        });
+					apprCloneList.forEach(function(item) {
+						chkAppr.appendChild(item);
+					});
 
-        chkAppr.style.display = "block";
-        var chkRef = document.getElementById("chkRef");
-        chkRef.style.display = "none";
+					chkAppr.style.display = "block";
+					var chkRef = document.getElementById("chkRef");
+					chkRef.style.display = "none";
 
-        var referenceLi = document.getElementById("getReference");
-        referenceLi.classList.remove("active");
+					var referenceLi = document.getElementById("getReference");
+					referenceLi.classList.remove("active");
 
-        var approvalLi = document.getElementById("getApproval");
-        approvalLi.classList.add("active");
+					var approvalLi = document.getElementById("getApproval");
+					approvalLi.classList.add("active");
 
-        var apr_row_text = [];
+					var apr_row_text = [];
 
-        apr_rows.forEach(function(row) {
-            apr_row_text.push(row.textContent);
-        });
+					apr_rows.forEach(function(row) {
+						apr_row_text.push(row.textContent);
+					});
 
-        console.log("apr_row_text", apr_row_text);
+					console.log("apr_row_text", apr_row_text);
 
-        var firstTr = document.getElementById("firstTr");
-        var secondTr = document.getElementById("secondTr");
-        var thirdTr = document.getElementById("thirdTr");
-        var apprTh = document.getElementById("apprTh");
+					var firstTr = document.getElementById("firstTr");
+					var secondTr = document.getElementById("secondTr");
+					var thirdTr = document.getElementById("thirdTr");
+					var apprTh = document.getElementById("apprTh");
 
-        for (var i = 0; i < apr_rows.length; i++) {
-            var str = apr_row_text[i];
-            var index = str.indexOf(' ');
-            var name = str.substring(0, index);
-            var spot = str.substring(index + 1);
-            console.log(name);
-            console.log(spot);
+					for (let i = 0; i < apr_rows.length; i++) {
+						var str = apr_row_text[i];
+						var index = str.indexOf(' ');
+						var name = str.substring(0, index);
+						var spot = str.substring(index + 1);
+						console.log(name);
+						console.log(spot);
 
-            var newTd1 = document.createElement('td');
-            var newTd2 = document.createElement('td');
-            var newTd3 = document.createElement('td');
+						var newTd1 = document.createElement('td');
+						var newTd2 = document.createElement('td');
+						var newTd3 = document.createElement('td');
 
-            firstTr.appendChild(newTd1);
-            newTd1.setAttribute('style', 'width: 90px; height: 20px;');
-            newTd1.setAttribute('class', 'fontSize14');
-            newTd1.textContent = spot;
+						firstTr.appendChild(newTd1);
+						newTd1.setAttribute('style', 'width: 90px; height: 20px;');
+						newTd1.setAttribute('class', 'fontSize14');
+						newTd1.textContent = spot;
 
-            secondTr.appendChild(newTd2);
-            newTd2.setAttribute('class', 'fontSize14');
-            newTd2.textContent = name;
+						secondTr.appendChild(newTd2);
+						newTd2.setAttribute('class', 'fontSize14');
+						newTd2.textContent = name;
 
-            thirdTr.appendChild(newTd3);
-            newTd3.setAttribute('style', 'height: 20px;');
-            newTd3.setAttribute('class', 'fontSize14');
-        }
-
-        apprTh.style.display = "";
+						thirdTr.appendChild(newTd3);
+						newTd3.setAttribute('style', 'height: 20px;');
+						newTd3.setAttribute('class', 'fontSize14');
+					}
+					apprTh.style.display = "";
+				}
+			}
+		}
     } catch (error) {
         console.log("Error..", error);
     }
