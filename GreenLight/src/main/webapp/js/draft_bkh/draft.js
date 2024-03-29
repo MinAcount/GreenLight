@@ -10,6 +10,7 @@ function insertDocument(){
 	var urgencyChecked = document.getElementById("urgency");
 	var urgency = urgencyChecked.checked?'Y':'N';
 	var tempcode = document.getElementById("tempcode").value;
+
 //	console.log("writer_id:",writer_id);
 //	console.log("content:",content);
 //	console.log("title:",title);
@@ -65,6 +66,37 @@ function insertDocument(){
 //			end_day:end_day,
 //			getsu:getsu
 //		})
+
+	
+	
+	var emp_id = [];
+	var orderno = [];
+	var apr_chk_div = document.getElementById("apr_chk");
+	var chkAppr_div = document.getElementById("chkAppr");
+//	console.log("apr_chk_div",apr_chk_div)
+	var idInputs = apr_chk_div.querySelectorAll("[name='id']");
+	var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
+//	console.log("idInputs",idInputs)
+	Array.from(idInputs).forEach(function(idInput){
+		emp_id.push(idInput.value)
+	})
+//	console.log(emp_id);
+	Array.from(apprOrderInputs).forEach(function(apprOrderInput){
+		console.log("------",apprOrderInput.value)
+		orderno.push(apprOrderInput.value)
+	})
+	console.log("orderno",orderno)
+	
+		/*fetch post*/
+	fetch("./insertApproval.do", {
+	    method: 'POST',
+	    headers:{'Content-Type': 'application/json'},
+	    body: JSON.stringify({
+			writer_id:writer_id,
+			emp_id:emp_id,
+			orderno:orderno,
+			docno:'202400035'
+		})
 	    
 	})
 	.then(response => {
@@ -79,6 +111,16 @@ function insertDocument(){
 	.catch(error => {
 	    console.error('오류 발생:', error);
 	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }
 

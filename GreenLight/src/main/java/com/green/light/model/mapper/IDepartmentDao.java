@@ -23,6 +23,8 @@ public interface IDepartmentDao {
 	public int deleteDept(String deptno);
 //	부서 복구	restoreDept
 	public int restoreDept(String deptno);
+//	퇴사한 직원의 직책 지우기	 deleteDeptMgr
+	public int deleteDeptMgr(String id);
 //	직원 직책 수거 및 부여	updateDeptPosition
 	public int updateDeptPosition(Map<String, Object> map);
 //	부서장 등록 및 변경	updateDeptMgr

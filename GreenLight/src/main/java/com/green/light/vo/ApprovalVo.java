@@ -8,8 +8,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Data
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -25,4 +25,12 @@ public class ApprovalVo {
 	private String appr_date;
 	private String signature;
 	private String comment;
+	
+	public ApprovalVo(String writer_id, String emp_id, int orderno) {
+		super();
+		this.writer_id = writer_id;
+		this.emp_id = emp_id;
+		this.orderno = orderno;
+	}
+	
 }

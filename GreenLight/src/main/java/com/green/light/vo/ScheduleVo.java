@@ -22,7 +22,7 @@ public class ScheduleVo {
 	private String creator;
 	private String phone;
 	private Date modified;
-	private String usertype;
+	private String label;
 	private String category;
 	private String title;
 	private String memo;

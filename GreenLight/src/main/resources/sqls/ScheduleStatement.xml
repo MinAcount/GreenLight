@@ -7,7 +7,7 @@
 		<result property="creator" column="CREATOR" />
 		<result property="phone" column="PHONE" />
 		<result property="modified" column="MODIFIED" />
-		<result property="usertype" column="USERTYPE" />
+		<result property="label" column="LABEL" />
 		<result property="category" column="CATEGORY" />
 		<result property="title" column="TITLE" />
 		<result property="memo" column="MEMO" />
@@ -29,17 +29,14 @@
 	<!-- 월별조회 -->
 	<select id="monthSchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">
 	SELECT 'M' AS GUBUN, CNO AS SYSID, CREATOR AS SYSNAME,
-			sc.SCHEDULE_ID, sc.USERTYPE,
-			cc.CODE_NAME AS CATEGORY, sc.TITLE,
+			sc.SCHEDULE_ID, sc.LABEL, sc.TITLE,
 			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
 		FROM SCHEDULE sc
-		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
 		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
 		WHERE CNO = #{user_id} AND TO_CHAR(sc.START_DATE, 'YYYY-MM') = #{viewmonth}
 	UNION ALL
 	SELECT 'P' AS GUBUN, jt.id AS SYSID, jt.name AS SYSNAME,
-			sc.SCHEDULE_ID, sc.USERTYPE,
-			cc.CODE_NAME AS CATEGORY, sc.TITLE,
+			sc.SCHEDULE_ID, sc.LABEL, sc.TITLE,
 			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
 			FROM SCHEDULE sc
 		JOIN JSON_TABLE(
@@ -48,7 +45,6 @@
 			 		id VARCHAR2(10) PATH '$.id',
 					name VARCHAR2(60) PATH '$.name'
 			 )) jt ON jt.id = #{user_id}
-	JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
 	JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
 	WHERE sc.VISIBILITY = 'Y' AND TO_CHAR(sc.START_DATE, 'YYYY-MM') = #{viewmonth}
 	</select>

@@ -7,7 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.green.light.model.mapper.IDepartmentDao;
+import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IEmployeeDao;
+import com.green.light.model.mapper.IHeadquartersDao;
+import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +22,13 @@ public class EmployeeServiceImpl implements IEmployeeService {
 	
 	@Autowired
 	private IEmployeeDao dao;
-
+	
+	@Autowired
+	private IDepartmentDao deptDao;
+	
+	@Autowired
+	private IHeadquartersDao headDao;
+	
 	@Transactional(readOnly = true)
 	@Override
 	public EmployeeVo getLogin(Map<String, Object> Map) {
@@ -81,20 +91,19 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
 	@Transactional(readOnly = true)
 	@Override
-	public boolean updateExit(Map<String, Object> map) {
+	public int updateExit(Map<String, Object> map) {
 		log.info("EmployeeServiceImpl updateExit 인사팀 전용 직원 퇴사 처리 및 부서장 공석 만들기");
-		int m = dao.updateExitEmployee(map);
 		var id = (String)map.get("id");
+		int n=0;
 		EmployeeVo vo = dao.getOneEmployee(id);
-		int n = 0;
-		if(vo.getPosition() == "01") {
-			n = dao.deleteDeptMgr(id);
-		}else if(vo.getPosition() == "02") {
-			n = dao.deleteHeadMgr(id);
-		}else {
-			
+		System.out.println(vo);
+		int m = dao.updateExitEmployee(map);
+		if (vo.getPosition().equals("부서장")) {
+			n = deptDao.deleteDeptMgr(id);
+		} else if (vo.getPosition().equals("본부장") || vo.getPosition().equals("대표")) {
+			n = headDao.deleteHeadMgr(id);
 		}
-		return (n+m)>0 ? true : false;
+		return (n+m);
 	}
 
 	@Override

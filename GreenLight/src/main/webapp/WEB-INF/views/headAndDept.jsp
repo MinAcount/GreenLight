@@ -28,7 +28,9 @@
 						onchange="selectHeadList()">
 						<option value="No">선택</option>
 						<c:forEach var="head" items="${headList}" varStatus="vs">
-							<option value="${head.headno}">${head.hname}</option>
+							<c:if test="${head.delflag ne 'Y'}">
+								<option value="${head.headno}">${head.hname}</option>
+							</c:if>
 						</c:forEach>
 					</select>
 					<button class='btn btn-primary' type='button' style='float: right;' onclick="location.href='./headAndDeptManage.do'">본부/부서 관리</button>

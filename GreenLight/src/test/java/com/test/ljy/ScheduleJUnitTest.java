@@ -73,7 +73,7 @@ public class ScheduleJUnitTest {
 		vo.setCno("2303100101");
 		vo.setCreator("이지원");
 		vo.setPhone("010-2108-5900");
-		vo.setUsertype("부서일정");
+		vo.setLabel("부서");
 		vo.setCategory("04");
 		vo.setTitle("거래처 미팅");
 		vo.setMemo("거래처 관련 미팅");
@@ -110,7 +110,7 @@ public class ScheduleJUnitTest {
 		ScheduleVo vo = new ScheduleVo();
 		vo.setSchedule_id("S240220004");
 		vo.setPhone("010-3213-2213");
-		vo.setUsertype("부서일정");
+		vo.setLabel("부서일정");
 		vo.setCategory("02");
 		vo.setTitle("운영팀 워크샵");
 		vo.setMemo("겨울 강원도 워크샵");

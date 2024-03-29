@@ -157,12 +157,12 @@ CREATE TABLE SCHEDULE (
     CREATOR VARCHAR2(60) NOT NULL,  			 -- 생성자 이름
     PHONE VARCHAR2(20),  						 -- 전화번호
     MODIFIED DATE DEFAULT CURRENT_DATE NOT NULL, -- 수정 일자
-    USERTYPE VARCHAR2(20) NOT NULL, 			 -- 대분류
-    CATEGORY VARCHAR2(2) NOT NULL,      		 -- 소분류 코드
+    LABEL VARCHAR2(50) NOT NULL, 			 	 -- 캘린더이름
+    CATEGORY VARCHAR2(2),      		 			 -- 소분류 코드
     TITLE VARCHAR2(100) NOT NULL,  				 -- 제목
     MEMO VARCHAR2(500),  						 -- 메모
     START_DATE DATE NOT NULL,  					 -- 시작일
-    END_DATE DATE NOT NULL,  					 -- 종료일
+    END_DATE DATE, 					 			 -- 종료일
     LOCATION VARCHAR2(500),  				 	 -- 장소
     PRIORITY VARCHAR2(2) NOT NULL,				 -- 우선순위
     RECUR CHAR(1) NOT NULL,						 -- 반복 여부
