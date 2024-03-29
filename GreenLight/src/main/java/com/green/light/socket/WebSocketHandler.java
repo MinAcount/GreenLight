@@ -2,6 +2,7 @@ package com.green.light.socket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -15,32 +16,60 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler{
 	
-	private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
+	private ArrayList<WebSocketSession> list;
+	
+	public WebSocketHandler() {
+		list = new ArrayList<WebSocketSession>();
+	}
 	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		log.info("WebSocketHandler, afterConnectionEstablished");
-		sessionList.add(session);
-		
-		log.info(session.getPrincipal().getName() + "님이 입장하셨습니다.");
+		log.info("afterConnectionEstablished 실행 {}", session);
+		super.afterConnectionEstablished(session);
 	}
 	
 	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		log.info("WebSocketHandler, handleTextMessage");
-		log.info(session.getId() + ":" + message);
+	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+		log.info("handleTextMessage 실행 : {}", session.getAttributes());
+		log.info("handleTextMessage 실행 : {}", message);
+		super.handleTextMessage(session, message);
+		String payload = message.getPayload();
+		String txt = "";
+		System.out.println("Message received from " + session.getId() + ": " + payload);
+		System.out.println(payload);
 		
-		for(WebSocketSession s : sessionList) {
-			s.sendMessage(new TextMessage(session.getPrincipal().getName() + ":" + message.getPayload()));
+		Map<String, Object> mySession = session.getAttributes();
+		String myChatIdSession = (String)mySession.get("chat_id");
+		String myIdSession = (String)mySession.get("id");
+		System.out.println(myChatIdSession);
+		System.out.println(myIdSession);
+
+//		String payload2 = payload.substring(0, payload.indexOf(":")).trim();
+			for(WebSocketSession s : list) {
+				Map<String, Object> sessionMap = s.getAttributes();
+				String otherChatIdSession = (String)sessionMap.get("chat_id");
+				String otherIdSession = (String)sessionMap.get("id");
+				if(myChatIdSession.equals(otherChatIdSession)) {
+					if(payload.equals(otherIdSession)) {
+	//					String newMsg = "[나]" + payload.replace(payload.substring(0, payload.trim().indexOf(":") + 1), "");
+						String newMsg = "[나]" + payload;
+						txt = newMsg;
+						System.out.println(txt);
+					} else {
+						String newMsgPart1 = "[다른 사람]" + payload;
+	//					String newMsgPart1 = payload.substring(0, payload.trim().indexOf(";"));
+	//					String newMsgPart2 = "[" + newMsgPart1 + "]" + payload.substring(payload.trim().indexOf(":") + 1);
+	//					txt = newMsgPart2;
+						txt = newMsgPart1;
+					}
+					s.sendMessage(new TextMessage(txt));
+				}
+			}
+			super.handleTextMessage(session, message);
 		}
-	}
-	
-	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		log.info("WebSocketHandler, afterConnectionClosed");
-		sessionList.remove(session);
-		log.info(session.getPrincipal().getName() + "님이 퇴장하셨습니다.");
-	}
 }
+	
+
 
 
 

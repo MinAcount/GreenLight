@@ -227,7 +227,7 @@
 				<!-- 채팅 입력 -->
 					<div id="bottomChat">
 						<input type="text" id="chatInput" placeholder="채팅 입력">
-						<button type="button" id="buttionChat" onclick="sendMessage()">전송</button>
+						<button type="button" id="buttonChat">전송</button>
 					</div>
 				</div>
 			</div>
