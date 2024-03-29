@@ -44,6 +44,15 @@
         VALUES (LPAD((SELECT MAX(HEADNO)
         FROM HEADQUARTERS h)+1,2,'0'), #{hname})
 </insert>
+<!-- 퇴사한 직원의 직책 지우기    deleteHeadMgr -->
+<update id="deleteHeadMgr" parameterType="java.lang.String">
+	UPDATE HEADQUARTERS SET HEAD_MGR = ''
+        WHERE HEAD_MGR = #{id}
+        AND (SELECT "POSITION"
+                        FROM EMPLOYEE e
+                        WHERE "POSITION" = '02'
+                        AND ID = #{id} AND ESTATUS = 'N') IS NOT NULL
+</update>
 <!-- 	직원 직책 수거 및 부여	updateHeadPosition -->
 <update id="updateHeadPosition" parameterType="java.util.Map">
 	UPDATE EMPLOYEE 

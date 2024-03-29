@@ -11,7 +11,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Component(value = "chatGroup.do")
+@Component(value = "chat.do")
 @Slf4j
 public class WebSocketHandler extends TextWebSocketHandler{
 	
