@@ -75,20 +75,7 @@
     });
 });
 
-window.onload = function() {
-	var time = document.getElementById("time");
 
-	function getClock() {
-		const d = new Date();
-		const h = String(d.getHours()).padStart(2, "0");
-		const m = String(d.getMinutes()).padStart(2, "0");
-		const s = String(d.getSeconds()).padStart(2, "0");
-		time.innerText = `${h}:${m}:${s}`;
-	}
-
-	getClock(); // 맨 처음에 한 번 실행
-	setInterval(getClock, 1000); // 1초 주기로 새로 실행
-}
 
 document.addEventListener("DOMContentLoaded", function() {
 	var currentURL = location.pathname.substring(12);

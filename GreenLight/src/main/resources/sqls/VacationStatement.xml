@@ -1,26 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.VacationDaoImpl">
-<!-- "휴가사용내역 월별조회"	selectVacationHistory -->
 
+<resultMap type="com.green.light.vo.VacationVo" id="VacVo">
+	<result property="vacno" column="VACNO"/>
+	<result property="id" column="ID"/>
+	<result property="start_day" column="START_DAY"/>
+	<result property="end_day" column="END_DAY"/>
+	<result property="half" column="HALF"/>
+	<result property="getsu" column="GETSU"/>
+	<result property="bigo" column="BIGO"/>
+	
+	<result property="used_leave" column="used_leave"/>
+	<result property="remaining_leave" column="remaining_leave"/>
+	
+	<collection property="empVo" resultMap="EmployeeVo" />
+	<collection property="deptVo" resultMap="DepartmentVo" />
+</resultMap>
+
+<resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+	<result property="id" column="ID" />
+	<result property="name" column="NAME" />
+	<result property="phone" column="PHONE" />
+	<result property="birthday" column="BIRTHDAY" />
+	<result property="gender" column="GENDER" />
+	<result property="address" column="ADDRESS" />
+	<result property="deptno" column="DEPTNO" />
+	<result property="spot" column="SPOT" />
+	<result property="position" column="POSITION" />
+	<result property="estatus" column="ESTATUS" />
+	<result property="join_day" column="JOIN_DAY" />
+	<result property="exit_day" column="EXIT_DAY" />
+	<result property="etype" column="ETYPE" />
+	<result property="leave" column="LEAVE" />
+	<result property="auth" column="AUTH" />
+	<result property="profile" column="PROFILE" />
+</resultMap>
+
+<resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVo">
+	<result property="deptno" column="DEPTNO" />
+	<result property="dname" column="DNAME" />
+
+</resultMap>
+
+
+<!-- "휴가사용내역 월별조회"	selectVacationHistory -->
 <select id="selectVacationHistory" resultType="VacationVo" parameterType="VacationVo">
+
+
 SELECT VACNO, ID, START_DAY, END_DAY, HALF, GETSU, BIGO 
-FROM VACATION v 
-WHERE ID = '2403110901'
-AND TO_CHAR(START_DAY, 'YYYY-MM-DD') BETWEEN '2024-02-01' AND LAST_DAY(TO_DATE('2024-02-01', 'YYYY-MM-DD'))
-ORDER BY START_DAY
+	FROM VACATION v 
+	WHERE ID = #{id}
+	AND TO_CHAR(START_DAY, 'YYYY-MM') = #{start_day}
+	AND START_DAY >= (SELECT JOIN_DAY FROM EMPLOYEE WHERE ID = #{id})
+	ORDER BY START_DAY
 </select>
+
 <!-- "직원 전체 휴가 조회"	selectAllEmployeeVacation -->
-<select id="selectAllEmployeeVacation">
+<select id="selectAllEmployeeVacation" parameterType="java.util.Map" resultMap="VacVo">
 <![CDATA[
-SELECT
-    E.ID , E.NAME , E.JOIN_DAY , D.DNAME , E.SPOT , E.LEAVE ,
-    SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
-                     V.START_DAY <= TO_DATE('2024-03-31', 'YYYY-MM-DD') 
-                 THEN V.GETSU ELSE 0 END, 0)) Used_Leave,
-    E.LEAVE - SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
-                                V.START_DAY <= TO_DATE('2024-03-31', 'YYYY-MM-DD') 
-                            THEN V.GETSU ELSE 0 END, 0))  Remaining_Leave 
+SELECT E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE,
+    SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                     V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM') 
+                 THEN V.GETSU ELSE 0 END, 0)) AS USED_LEAVE,
+    E.LEAVE - SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                                V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM') 
+                            THEN V.GETSU ELSE 0 END, 0)) AS REMAINING_LEAVE 
 FROM EMPLOYEE E
 INNER JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO
 LEFT JOIN VACATION V ON E.ID = V.ID
@@ -29,46 +74,43 @@ GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
 </select>
 
 <!-- "월 잔여 휴가갯수"	selectRemainingLeaveByMonth -->
-<select id="selectRemainingLeaveByMonth">
+<select id="selectRemainingLeaveByMonth" parameterType="java.util.Map" resultMap="VacVo">
 <![CDATA[
-  SELECT
-    E.ID , E.NAME , E.JOIN_DAY , E.LEAVE ,
-    SUM(NVL(CASE 
-                WHEN V.START_DAY >= TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') 
-                     AND V.START_DAY <= TO_DATE('2024-03-31', 'YYYY-MM-DD') 
-                THEN V.GETSU 
-                ELSE 0 
-            END, 0)) AS Used_Leave,
-    E.LEAVE - SUM(NVL(CASE 
-                            WHEN V.START_DAY >= TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') 
-                                 AND V.START_DAY <= TO_DATE('2024-03-31', 'YYYY-MM-DD') 
-                            THEN V.GETSU 
-                            ELSE 0 
-                        END, 0)) AS Remaining_Leave
+SELECT E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE,
+    SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                     V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM') 
+                 THEN V.GETSU ELSE 0 END, 0)) AS USED_LEAVE,
+    E.LEAVE - SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                                V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM') 
+                            THEN V.GETSU ELSE 0 END, 0)) AS REMAINING_LEAVE 
 FROM EMPLOYEE E
+INNER JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO
 LEFT JOIN VACATION V ON E.ID = V.ID
-WHERE E.ID = '2303100101'
-GROUP BY E.ID, E.NAME, E.JOIN_DAY, E.LEAVE
+WHERE E.ID = #{id}
+GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
 ]]>
-</select>
+</select>  
 <!-- 휴가사용등록	registerVacation -->
-<insert id="registerVacation">
+<insert id="registerVacation" parameterType="VacationVo">
+<selectKey resultType="java.lang.String" keyProperty="vacno" order="BEFORE" >
+	SELECT VACATION_SEQ.NEXTVAL FROM DUAL
+</selectKey>
 INSERT INTO VACATION (VACNO, ID, START_DAY, END_DAY, HALF, GETSU, BIGO)
-VALUES ('VACATION_SEQ.NEXTVAL', 1, TO_DATE('2024-03-10', 'YYYY-MM-DD'), 
-                TO_DATE('2024-03-10', 'YYYY-MM-DD'), 'N', 0.5, '반차')
+VALUES (#{vacno}, #{id}, TO_DATE(#{start_day}, 'YYYY-MM-DD'), 
+                TO_DATE(#{end_day}, 'YYYY-MM-DD'), #{half}, #{getsu}, #{bigo})
 </insert>
 <!-- 연차부여	grantLeave -->
-<update id="grantLeave">
+<update id="grantLeave" parameterType="java.util.Map">
 UPDATE EMPLOYEE
-        SET LEAVE = 15
-        WHERE ID = '2403110901'
+        SET LEAVE = #{leave}
+        WHERE ID = #{id}
 </update>
 
 <!-- 연차조정	adjustLeave -->
-<update id="adjustLeave">
+<update id="adjustLeave" parameterType="java.util.Map">
 UPDATE EMPLOYEE
-        SET LEAVE = LEAVE - 1.5
-        WHERE ID = '2403110901'
+        SET LEAVE = LEAVE - #{getsu}
+        WHERE ID = #{id}
 </update>
 
 </mapper>

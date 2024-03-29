@@ -30,7 +30,7 @@ public class EmployeeVo {
 	private String join_day;
 	private String exit_day;
 	private String etype;
-	private int leave;
+	private float leave;
 	private String auth;
 	private String profile;
 	private int fail;
