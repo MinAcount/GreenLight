@@ -17,6 +17,11 @@ public class DocumentDaoImpl implements IDocumentDao{
    
    private final String NS = "com.green.light.model.mapper.DocumentDaoImpl.";
    
+   @Override
+	public int getNextSequenceValue() {
+		return sqlsession.selectOne(NS+"getNextSequenceValue");
+	}
+   
 	@Override
 	public int insertDocument(DocumentVo docVo) {
 		return sqlsession.insert(NS+"insertDocument", docVo);

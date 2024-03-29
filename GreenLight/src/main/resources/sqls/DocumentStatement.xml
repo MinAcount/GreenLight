@@ -82,6 +82,10 @@
 <!--       <result property="delflag" column="DELFLAG"/> -->
    </resultMap>
    
+   <select id="getNextSequenceValue" resultType="java.lang.Integer">
+   		SELECT DOCUMENT_SEQ.NEXTVAL AS seq FROM DUAL	
+   </select>
+   
    <!-- 기안서 상신/임시저장 insertDocument -->
    <insert id="insertDocument" parameterType="DocumentVo">
    		INSERT INTO DOCUMENT

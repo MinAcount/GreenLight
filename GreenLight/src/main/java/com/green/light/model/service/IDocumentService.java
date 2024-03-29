@@ -4,11 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.green.light.vo.DocumentVo;
+import com.green.light.vo.FileStorageVo;
 
 public interface IDocumentService {
-	// 기안서 상신/임시저장 insertDocument
-	public int insertDocument(DocumentVo docVo);
-
+	// 기안서 상신/임시저장 + 파일 업로드
+	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files);
+	
 	// 결재대기문서함 전체조회 getAllPendingApprovalDraft
 	public List<DocumentVo> getAllPendingApprovalDraft(String id);
 

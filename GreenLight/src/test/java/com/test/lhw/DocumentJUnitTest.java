@@ -31,9 +31,9 @@ public class DocumentJUnitTest {
 	
 	@Test
 	public void DocumentTest() {
-		DocumentVo docVo = new DocumentVo("12", "2402110501", "배강훈 휴갸휴갸신쳥셔", "<h1>휴가신청서<h1>", "", "", "04", "01");
-		int insertDocumentRow = service.insertDocument(docVo);
-		assertEquals(1, insertDocumentRow);
+//		DocumentVo docVo = new DocumentVo("12", "2402110501", "배강훈 휴갸휴갸신쳥셔", "<h1>휴가신청서<h1>", "", "", "04", "01");
+//		int insertDocumentRow = service.insertDocument(docVo);
+//		assertEquals(1, insertDocumentRow);
 		
 //		List<DocumentVo> list = service.getAllDraft("2403110902");
 //		System.out.println(list);
@@ -49,6 +49,7 @@ public class DocumentJUnitTest {
 //		List<DocumentVo> list = service.getAllPendingApprovalDraft("2403110902");
 //		System.out.println("----------------------------"+list);
 //		assertNotEquals(0, list.size());
+		
 	}
 	
 	

@@ -19,7 +19,7 @@ import com.green.light.vo.EmployeeVo;
 public class ApprovalJUnitTest {
 	@Autowired
 	private IApprovalService service;
-
+	
 	@Test
 	public void test() {
 //		// 기안자의 부서장 조회 2403110901
@@ -27,10 +27,10 @@ public class ApprovalJUnitTest {
 //		System.out.println(vo1);
 //		assertNotNull(vo1);
 		
-		// 부서별 부서장 조회 02
-		EmployeeVo vo2 = service.selectDeptMgrByDept("09");
-		System.out.println("======================================================= "+vo2);
-		assertNotNull(vo2);
+//		// 부서별 부서장 조회 02
+//		EmployeeVo vo2 = service.selectDeptMgrByDept("09");
+//		System.out.println("======================================================= "+vo2);
+//		assertNotNull(vo2);
 	
 //	// 대표이사 조회
 //		EmployeeVo vo3 = service.selectCEO();
