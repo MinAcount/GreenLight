@@ -130,11 +130,11 @@
 			width: 22vh;
 			height: 22vh;
 			overflow: auto;
-			position: fixed;
 			z-index: 10000;
 			background-color: white;
 			border: 1px solid gray;
-			top: 17%;
+			position: absolute;
+			top: 6.4%;
 			left: 75%;
 		}
 		
@@ -149,7 +149,7 @@
 			justify-content: space-between;
 		}
 		
-		#settingBtn {
+		.settingBtn {
 			text-align: center;
 			border: 1px solid gray;
 			flex: 1;
@@ -162,11 +162,11 @@
 			width: 15vh;
 			height: 20vh;
 			overflow: auto;
-			position: fixed;
 			z-index: 10000;
 			background-color: white;
 			border: 1px solid gray;
-			top: 27%;
+			position: absolute;
+			top: 17.2%;
 			left: 66%;
 		}
 		
@@ -207,16 +207,7 @@
 						<div id="chatPeople">
 							<img alt="이미지" src="./assets/img/participants.png" height="30vh" width="30vh" onclick="openPeople()">
 						</div>
-						<div id="settingModal" class="settingModal">
-							<span id="closeSetting" onclick="closeSetting()">&times;</span>
-							<br/>
-							<div id="settingContainer">
-								<div id="settingBtn">초대하기</div>
-								<div id="settingBtn">채팅방 수정하기</div>
-								<div id="settingBtn">알림 끄기</div>
-								<div id="settingBtn">채팅방 나가기</div>
-							</div>
-						</div>
+						<div id="settingModal" class="settingModal"></div>
 						<div id="chatSetting">
 							<img alt="이미지" src="./assets/img/hamburger.png" height="30vh" width="30vh" onclick="openSetting()">
 						</div>

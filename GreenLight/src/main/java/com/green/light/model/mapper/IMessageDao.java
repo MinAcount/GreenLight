@@ -1,6 +1,7 @@
 package com.green.light.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import com.green.light.vo.MessageVo;
 
@@ -15,15 +16,15 @@ public interface IMessageDao {
 	// 채팅방 세부 조회 getViewInsideChat
 	public List<MessageVo> getViewInsideChat(String chat_id);
 	// 채팅방 이름 수정 updateChatName
-	
+	public int updateChatName(Map<String, Object> map);
 	// 채팅방 나가기 getOutChat
 	
 	// 채팅방 초대하기 insertInviteChat
 	
 	// 즐겨찾기 updateFavor
-	
+	public int updateFavor(Map<String, Object> map);
 	// 알림여부 updateNoti
-	
+	public int updateNoti(Map<String, Object> map);
 	// 채팅 더보기 getMoreMessage
 	
 	// 메시지 전송 insertSendMessage

@@ -54,7 +54,7 @@ function getAllChat(result){
 		html += '<div class="tavle-container-div">';
 		html += '<table class="table-container">   ';
 		html += '<thead>                           ';
-		html += '<tr>                              ';
+		html += '<tr>';
 		if(result[i].gmvo.favor=="Y"){
 			img="★";
 			//html += '<td>'+result[i].gmvo.favor+'</td>    ';
@@ -68,9 +68,9 @@ function getAllChat(result){
 		html += '<td>'+result[i].gmvo.roomname+'</td>     ';
 		html += '<td>'+formattedSendDate+'</td>          ';
 		html += '</tr>                             ';
-		html += '<tr onclick="getViewInsideChat('+result[i].chat_id+')">';
+		html += '<tr id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+')">';
 		html += '<td>'+result[i].content+'</td>            ';
-		html += '<td>'+result[i].gmvo.noti+'</td>     ';
+		html += '<td class="notinoti">'+result[i].gmvo.noti+'</td>     ';
 		html += '</tr>                             ';
 		html += '</thead>                          ';
 		html += '</table>                          ';
@@ -106,6 +106,7 @@ function getViewInsideChat(idx){
 					doGetViewInsideChat(result);
 					document.getElementById('chatRoom').style.display = 'block';
 					chatPeople(result);
+					chatSetting(result)
 					closePeople();
 					closeSettingAnother();
 					scrollToBottom();
@@ -144,6 +145,28 @@ function getViewInsideChat(idx){
             }
         }
         peopleModal.innerHTML = html;
+    }
+    
+    
+    function chatSetting(result){
+    	var settingModal = document.getElementById('settingModal');
+    	var html = '';
+    	console.log(result);
+    	
+    	html += '<span id="closeSetting" onclick="closeSetting()">&times;</span>';
+		html += '<br/>';
+		html += '<div id="settingContainer">';
+		html += '<div class="settingBtn">초대하기</div>';
+		html += '<div class="settingBtn" id="changeRoomName" onclick="changeRoomName()">채팅방 수정하기</div>';
+		if(result[0].noti == 'Y'){
+			html += '<div class="settingBtn" id="notificationYn" onclick="toggleNotification('+result[0].chat_id+')">알림 끄기</div>';
+		} else {
+			html += '<div class="settingBtn" id="notificationYn" onclick="toggleNotification('+result[0].chat_id+')">알림 켜기</div>';
+		}
+		html += '<div class="settingBtn">채팅방 나가기</div>';
+		html += '</div>';
+    	
+    	settingModal.innerHTML = html;
     }
 
 function doGetViewInsideChat(result){
@@ -202,7 +225,7 @@ function closeSettingAnother(){
 
 function openPeople(){
 	var modal = document.getElementById('peopleModal');
-	modal.style.display = 'block';
+		modal.style.display = 'block';
 }
 
 function closePeople(){
@@ -218,6 +241,57 @@ window.onclick = function(event){
 		modal.style.display = 'none';
 	}
 }
+
+function toggleNotification(chat_id) {
+	var notiBtn = document.getElementById("notificationYn");
+//	var chatListInfo = document.getElementById("chat" + chat_id);
+	var chatListInfo = document.querySelector("[id='chat" + chat_id + "']");
+	var chatListInfoNoti = chatListInfo.querySelectorAll(".notinoti")[0].innerText;
+	var currentTxt = notiBtn.innerText.trim();
+	console.log(currentTxt);
+	console.log(chat_id);
+	console.log(id);
+	console.log(chatListInfoNoti);
+	
+	var noti = '';
+	if(currentTxt == "알림 끄기"){
+			noti = "N";
+		} else {
+			noti = "Y";
+		}
+	
+	fetch("./updateNoti.do", {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+            'Accept': 'application/json'
+		},
+		body: JSON.stringify({
+			chat_id:chat_id,
+			id: id.value,
+			noti: noti
+		})
+	})
+	.then(response => {
+		if(!response.ok){
+			throw new Error('Network response was not ok');
+		}
+		return response.text();
+	})
+	.then(result => {
+		if(currentTxt == "알림 켜기"){
+			notiBtn.innerText = "알림 끄기";
+			chatListInfo.querySelectorAll(".notinoti")[0].innerText = 'Y';
+		} else {
+			notiBtn.innerText = "알림 켜기";
+			chatListInfo.querySelectorAll(".notinoti")[0].innerText = 'N';
+		}
+	})
+	.catch(error => {
+		console.error("네트워크 오류:", error);
+	});
+}
+
 
 var ws = null;
 var url = null;

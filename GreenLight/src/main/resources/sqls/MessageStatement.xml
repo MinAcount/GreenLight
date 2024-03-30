@@ -111,13 +111,13 @@ INSERT INTO GROUPMEMBER(GROUPNO, CHAT_ID, ID, ROOMNAME)
 <!-- 	 즐겨찾기 updateFavor -->
 <update id="updateFavor" parameterType="java.util.Map">
 UPDATE GROUPMEMBER
-       SET FAVOR = 'Y'
+       SET FAVOR = #{favor}
        WHERE CHAT_ID = #{chat_id} AND ID = #{id}
 </update>
 <!-- 	 알림여부 updateNoti -->
 <update id="updateNoti" parameterType="java.util.Map">
 UPDATE GROUPMEMBER
-       SET NOTI = 'N'
+       SET NOTI = #{noti}
        WHERE CHAT_ID = #{chat_id} AND ID = #{id}
 </update>
 <!-- 	 채팅 더보기 getMoreMessage -->
