@@ -91,7 +91,8 @@ public class SignatureController {
 	public ResponseEntity<?> insertSign(@RequestBody Map<String, Object> signData, HttpSession session) {
 	    log.info("SignatureController insertSign 서명생성 AJAX");
 	    EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
-	    log.info("대표서명 체크박스 값: {}", signData.get("main"));
+	    
+		List<SignVo> signlist = service.selectAllSign(loginVo.getId());
 	    
 	    String save_sign = (String) signData.get("data");
 	    log.info("전달받은 데이터 값: {}", save_sign);
@@ -99,12 +100,17 @@ public class SignatureController {
 	    if ("Y".equals((String) signData.get("main"))) {
 	        service.changeMainSign(loginVo.getId());
 	    }
+	    
 
+	    
 	    
 	    SignVo signVo = new SignVo();
 	    signVo.setSave_sign(save_sign);
 	    signVo.setId(loginVo.getId());
 	    signVo.setMain((String) signData.get("main"));
+	    if(signlist.size() == 0) {
+	    	signVo.setMain("Y");
+	    }
 	    service.insertSign(signVo);
 	    return ResponseEntity.ok("\"isc\":\"true\"");
 	}
