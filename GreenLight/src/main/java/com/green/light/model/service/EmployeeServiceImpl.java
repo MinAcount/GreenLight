@@ -72,13 +72,6 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		List<EmployeeVo> list = dao.getAllEmployeeByStatus(estatus);
 		return list;
 	}
-
-	@Override
-	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo) {
-		log.info("EmployeeServiceImpl getEmployeeBySearch 인사팀 전용 전체 직원 검색하여 조회");
-		List<EmployeeVo> list = dao.getEmployeeBySearch(vo);
-		return list;
-	}
 	
 	@Transactional(readOnly = true)
 	@Override

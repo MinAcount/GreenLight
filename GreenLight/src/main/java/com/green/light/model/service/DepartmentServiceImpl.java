@@ -46,6 +46,13 @@ public class DepartmentServiceImpl implements IDepartmentService {
 		int n = dao.updateDeptName(map);
 		return n;
 	}
+	
+	@Override
+	public List<DepartmentVo> getEmployeeBySearch(Map<String, Object> map) {
+		log.info("DepartmentServiceImpl getEmployeeBySearch 인사팀 전용 전체 직원 검색하여 조회");
+		List<DepartmentVo> list = dao.getEmployeeBySearch(map);
+		return list;
+	}
 
 	@Override
 	public int insertDept(Map<String, Object> map) {

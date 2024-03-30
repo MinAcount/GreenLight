@@ -28,30 +28,30 @@
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 					<div>
 						<nav class="nav nav-borders">
-							<ul
+							<ul id="selectEstatus"
 								style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
 								<li class="nav-link active ms-0"
-									onclick="selectByStatus('A'); setActive(this)">전체(${fn:length(list)})</li>
+									onclick="selectByStatus('A'); setActive(this)" value="A">전체(${fn:length(list)})</li>
 								<li class="nav-link"
-									onclick="selectByStatus('Y'); setActive(this)">재직중(${count})</li>
+									onclick="selectByStatus('Y'); setActive(this)" value="Y">재직중(${count})</li>
 								<li class="nav-link"
-									onclick="selectByStatus('N'); setActive(this)">퇴사자(${fn:length(list) - count})</li>
+									onclick="selectByStatus('N'); setActive(this)" value="N">퇴사자(${fn:length(list) - count})</li>
 							</ul>
 						</nav>
 
 					</div>
-					<form onsubmit="searchEmployee()">
+<!-- 					<form> -->
 						<div style="display: flex; flex-direction: row;">
 								<div class="datatable-dropdown">
-									<select class="datatable-selector">
-										<option value="name" selected="selected" class="opt">이름</option>
-										<option value="dept" class="opt">부서</option>
+									<select class="datatable-selector" id="searchOpt">
+										<option value="name" selected="selected">이름</option>
+										<option value="dept">부서</option>
 									</select>
 								</div>
 								<div class="datatable-search">
 									<input class="datatable-input" placeholder="Search..."
 										type="search" title="Search within table"
-										aria-controls="datatablesSimple" id="keyword">
+										aria-controls="datatablesSimple" id="keyword" onkeypress="searchEmployee(event)">
 								</div>
 							<div class="datatable-dropdown">
 								<select class="datatable-selector">
@@ -63,7 +63,7 @@
 								</select>
 							</div>
 						</div>
-					</form>
+<!-- 					</form> -->
 				</div>
 				<hr class="mt-0 mb-4">
 				<div>
