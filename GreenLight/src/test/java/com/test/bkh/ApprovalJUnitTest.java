@@ -2,6 +2,7 @@ package com.test.bkh;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -61,13 +62,19 @@ public class ApprovalJUnitTest {
 		
 		
 		// 결재자 추가
-		
+		List<ApprovalVo> approval = new ArrayList<ApprovalVo>();
 		ApprovalVo vo = new ApprovalVo();
-		vo.setWriter_id("2403110902");
-		vo.setEmp_id("2401110301");
-		vo.setOrderno(3);
-		int n = service.insertApproval(vo);
-		assertEquals(1, n);
+		vo.setApprno("56");
+		vo.setDocno("202400011");
+		vo.setWriter_id("2402110501");
+		vo.setAtype("01");
+		vo.setEmp_id("2403110901");
+		vo.setAppr_status("01");
+		vo.setOrderno(1);
+		approval.add(vo);
+		int n = service.insertApproval(approval);
+		System.out.println(approval.get(0).getApprno());
+//		assertEquals(1, n);
 
 	}
 

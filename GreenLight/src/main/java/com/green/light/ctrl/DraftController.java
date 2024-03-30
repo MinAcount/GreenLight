@@ -85,7 +85,7 @@ public class DraftController {
 			lists.add(vo1);
 			DepartmentVo vo2 = DeptService.selectDeptMgrByDept("09");
 			lists.add(vo2);
-			System.out.println("-------------------------------------"+lists);
+			System.out.println("-------------------------------------휴가"+lists);
 		} else if("02".equals(tempcode)) {
 			DepartmentVo vo1 = DeptService.selectDrafterDeptMgr(sessionId);
 			lists.add(vo1);
@@ -104,22 +104,6 @@ public class DraftController {
 		return lists;
 	}
 	
-	@PostMapping(value = "/insertApproval.do")
-	@ResponseBody
-	public ResponseEntity<?> insertApproval(@RequestBody List<Map<String, Object>> list){
-		System.out.println("-----------------------------"+list);
-//		List<String> emp_id = list.get(0)
-//		System.out.println("-------"+ emp_id);
-//		Object orderno = list.get("orderno");
-//		String writer_id = (String) map.get("writer_id");
-//		String docno = (String) map.get("docno");
-//		 if (emp_id instanceof String) {
-//		        System.out.println("String임");
-//		    } else {
-//		        System.out.println("String아님");
-//		    }
-		return null;
-	}
 	
 	
 }
