@@ -9,13 +9,13 @@ function insertDocument(){
    var draft_date = document.getElementById("draft_date").value;
    var urgencyChecked = document.getElementById("urgency");
    var urgency = urgencyChecked.checked?'Y':'N';
-   var tempcode = document.getElementById("tempcode").value;
-//   console.log("writer_id:",writer_id);
-//   console.log("content:",content);
-//   console.log("title:",title);
-//   console.log("draft_date:",draft_date);
-//   console.log("urgency:",urgency);
-//   console.log("tempcode:",tempcode);
+   var tempcode = document.getElementById("tempCode").value;
+   console.log("writer_id:",writer_id);
+   console.log("content:",content);
+   console.log("title:",title);
+   console.log("draft_date:",draft_date);
+   console.log("urgency:",urgency);
+   console.log("tempcode:",tempcode);
 
    /*vacation table*/
    /*var writer_id = document.getElementById("writer_id").value;*/
@@ -23,9 +23,9 @@ function insertDocument(){
    var end_day = document.getElementById("end_day").value;
    var getsu = document.getElementById("getsu").value;
    
-//   console.log("start_day:",start_day);
-//   console.log("end_day:",end_day);
-//   console.log("getsu:",getsu);
+   console.log("start_day:",start_day);
+   console.log("end_day:",end_day);
+   console.log("getsu:",getsu);
 
    /*Approval table*/
    var emp_id = [];
@@ -33,6 +33,7 @@ function insertDocument(){
    var apprLine = [];
    var apr_chk_div = document.getElementById("apr_chk");
    var chkAppr_div = document.getElementById("chkAppr");
+
 //   console.log("apr_chk_div",apr_chk_div)
    var idInputs = apr_chk_div.querySelectorAll("[name='id']");
    var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
@@ -41,6 +42,7 @@ function insertDocument(){
       emp_id.push(idInput.value)
    })
 //   console.log(emp_id);
+
 	Array.from(apprOrderInputs).forEach(function(apprOrderInput) {
 		//      console.log("------",apprOrderInput.value)
 		orderno.push(apprOrderInput.value)
@@ -87,7 +89,9 @@ function insertDocument(){
    formData.append("end_day",end_day);
    formData.append("getsu",getsu);
    formData.append("apprLine",JSON.stringify(apprLine));
-   
+
+  
+  
    for(let i = 0; i < files.length; i++){
       formData.append('files', files[i]);
       console.log("file:",files[i]);

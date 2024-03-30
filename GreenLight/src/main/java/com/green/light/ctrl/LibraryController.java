@@ -33,7 +33,17 @@ public class LibraryController {
 	@Autowired
 	private IDepartmentService deptservice;
 	
-	
+	@GetMapping(value = "/getAllPendingApprovalDraft.do")
+	public String approvalDaegiList(HttpSession session, Model model) {
+		log.info("LibraryController GET getAllPendingApprovalDraft.do 결재대기문서함 이동 후 전체조회");
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		String id = loginVo.getId();
+		
+		List<DocumentVo> lists = service.getAllPendingApprovalDraft(id);
+		
+		model.addAttribute("lists", lists);
+		return "getAllPendingApprovalDraft";
+	}
 	
 	 @GetMapping(value = "/draftList.do")
 	 public String draftList(Model model, HttpSession session) {
