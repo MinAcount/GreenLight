@@ -64,17 +64,10 @@ SELECT ID, TEXT, PARENT, SPOT, ICON
 
 
 <!-- 결재선 설정 -->
-<insert id="insertApproval" parameterType="java.util.List">
-	<selectKey keyProperty="apprno" resultType="int" order="BEFORE">
-		SELECT APPROVAL_SEQ.NEXTVAL FROM DUAL
-	</selectKey>
-
-  INSERT INTO APPROVAL
-	(APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO, APPR_DATE, SIGNATURE, COMMENT)
-   <foreach collection="list" item="item" separator=" UNION ALL " index="idx">
-       SELECT #{apprno} + #{idx}, #{docno}, #{writer_id}, #{item.atype}, #{item.emp_id}, '01', #{item.orderno}, '', '', '' FROM DUAL
-    </foreach>
-</insert>
+ <insert id="insertApproval" parameterType="ApprovalVo">
+    INSERT INTO APPROVAL (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO)
+    	VALUES (TO_CHAR((SELECT MAX(TO_NUMBER(APPRNO)) FROM APPROVAL)+1), (SELECT MAX(DOCNO) FROM DOCUMENT), #{writer_id}, #{atype}, #{emp_id}, '01', #{orderno})
+</insert> 
 
 
 <!-- 참조자 설정 -->

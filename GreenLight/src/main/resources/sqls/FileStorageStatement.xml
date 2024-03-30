@@ -5,4 +5,12 @@
 	INSERT INTO FILESTORAGE (REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG)
 		VALUES(#{ref_id}, '01', #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )
 </insert>
+
+<insert id="insertFiles" parameterType="java.util.List">
+    <foreach collection="list" item="fileStorageVo" separator=";">
+        INSERT INTO FILESTORAGE (REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG)
+        VALUES(#{fileStorageVo.ref_id}, '01', #{fileStorageVo.origin_name}, #{fileStorageVo.stored_name}, #{fileStorageVo.payload}, #{fileStorageVo.fsize}, CURRENT_DATE , 'N' )
+    </foreach>
+</insert>
+
 </mapper>

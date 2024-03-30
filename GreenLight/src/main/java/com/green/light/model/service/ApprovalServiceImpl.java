@@ -38,9 +38,9 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
-	public int insertApproval(List<ApprovalVo>  ApprovalVos) {
-		log.info("ApprovalServiceImpl insertApproval 결재선 추가 {}" ,ApprovalVos);
-		return dao.insertApproval(ApprovalVos);
+	public int insertApproval(ApprovalVo apprVo) {
+		log.info("ApprovalServiceImpl insertApproval 결재선 추가 {}" ,apprVo);
+		return dao.insertApproval(apprVo);
 	}
 
 	@Override

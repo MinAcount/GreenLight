@@ -42,8 +42,10 @@ public class DocumentController {
 	
 	@PostMapping(value = "/insertDocument.do")
 	@ResponseBody
-	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map, MultipartFile[] files) throws IOException {
+	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map, MultipartFile[] files) throws Exception {
 	    log.info("DocumentController insertDocument POST /insertDocument.do : {}, {}", map, files);
+	    
+	    // docVo에 값 넣어주기
 	    DocumentVo docVo = new DocumentVo("",
 	    		(String)map.get("writer_id"), 
 	    		(String)map.get("title"), 
@@ -52,13 +54,15 @@ public class DocumentController {
 				(String)map.get("urgency"), 
 				(String)map.get("tempcode"), 
     									"01");
-	    System.out.println("============================= " + docVo);
+	    System.out.println("==== docVo : " + docVo + " ====");
 	    
+	    // insert될 docno 값 생성
 	    int seq = dao.getNextSequenceValue() + 1;
 		String currentYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
 		String docno = currentYear + String.format("%05d", seq);
-		System.out.println("================================================== "+docno);
+		System.out.println("==== docno : " + docno + " ====");
 	    
+		// fileVo에 값 넣어주기
 	    List<FileStorageVo> fileVos = new ArrayList<FileStorageVo>();
 	    for(int i = 0; i < files.length; i++) {
 	    	byte[] byteArr = files[i].getBytes();
@@ -70,42 +74,45 @@ public class DocumentController {
 	    											(int)files[i].getSize(), 
 	    											"", 
 	    											"");
-	    	System.out.println(fileVo);
+	    	System.out.println("==== fileVo : " + fileVo + " ====");
 	    	fileVos.add(fileVo);
 	    }
 	    
+	    
+	    // apprVo에 값 넣어주기
 	    String jsonString = (String) map.get("apprLine");
 	      ObjectMapper objectMapper = new ObjectMapper();
 	      
-	      List<ApprovalVo> approval = new ArrayList<ApprovalVo>();
+	      List<ApprovalVo> apprVos = new ArrayList<ApprovalVo>();
 	      
-	         List<Map<String, String>> jsonArray = objectMapper.readValue(jsonString,
-	               new TypeReference<List<Map<String, String>>>() {
-	               });
+	      List<Map<String, String>> jsonArray = objectMapper.readValue(jsonString, new TypeReference<List<Map<String, String>>>() {
+		  
+	      });
 	         
-	         // 각 요소를 순회하면서 JSON 배열을 출력합니다.
-	         for (Map<String, String> element : jsonArray) { // {},{},{} =>vo
-//	              System.out.println(element);
-	            ApprovalVo vo = new ApprovalVo();
-	            vo.setApprno("");
-	            vo.setDocno(docno);
-	            vo.setWriter_id((String)map.get("writer_id"));
-	            vo.setAtype(element.get("atype"));
-	            vo.setEmp_id(element.get("emp_id"));
-	            vo.setAppr_status("");
-	            vo.setOrderno(Integer.parseInt((String) element.get("orderno")));
-	            vo.setAppr_date("");
-	            vo.setSignature("");
-	            vo.setComment("");
-//	            apprService.insertApproval(vo);
-	            approval.add(vo);
-	         }
+			// 각 요소를 순회하면서 JSON 배열을 출력합니다.
+			for (Map<String, String> element : jsonArray) { // {},{},{} =>vo
+	            System.out.println("==== jsonArray에 들어있는 객체 : " + element + " ====");
+				ApprovalVo apprVo = new ApprovalVo();
+				apprVo.setApprno("");
+				apprVo.setDocno(docno);
+				apprVo.setWriter_id((String) map.get("writer_id"));
+				apprVo.setAtype(element.get("atype"));
+				apprVo.setEmp_id(element.get("emp_id"));
+				apprVo.setAppr_status("");
+				apprVo.setOrderno(Integer.parseInt((String) element.get("orderno")));
+				apprVo.setAppr_date("");
+				apprVo.setSignature("");
+				apprVo.setComment("");
+//	            apprService.insertApproval(apprVo);
+				System.out.println("==== apprVo : " + apprVo + " ====");
+				apprVos.add(apprVo);
+			}
 //	         int n = apprService.insertApproval(approval);
 //	         System.out.println("몇개나 성공했니?:"+n);
-	    
-	    int n =service.insertDraft(docVo, fileVos, approval);
-	    System.out.println("======================= 실행 되어야 할 쿼리문의 갯수 : " + (fileVos.size() + 2) + ", " + "실행 된 쿼리문의 갯수 : " + n + ".");
-	    
+
+		// 기안서 상신 + 파일 등록 + 결재선 등록	
+	    int n =service.insertDraft(docVo, fileVos, apprVos);
+	    System.out.println("==== 성공한 쿼리문의 갯수 : " + n + "개 ====");
 	    
 //	    return ResponseEntity.ok().build();
 //	    return ResponseEntity.ok("{\"isc\":\"true\"}");
