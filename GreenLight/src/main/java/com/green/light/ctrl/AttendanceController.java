@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,26 +106,45 @@ public class AttendanceController {
     }
     
     @GetMapping(value = "/myAttendance.do")
-    public String myAttendance(HttpSession session, Model model) {
+    public String myAttendance(HttpSession session, Model model, String in_date) {
     	log.info("AttendanceController myAttendance 나의 근태현황");
         EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
         AttendanceVo AVo = new AttendanceVo();
         AVo.setId(EVo.getId());
-        AVo.setIn_date("2024-03");
+        
+        if(in_date ==null) {
+        LocalDate toDay = LocalDate.now();
+        String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        AVo.setIn_date(month);
+        model.addAttribute("month",month);
+        }else if(in_date != null) {
+        AVo.setIn_date(in_date);
+        model.addAttribute("month",in_date);
+        }
+        
         List<AttendanceVo> attList = service.getEmployeeDetails(AVo);
 		model.addAttribute("attList",attList);
 		
     	return "myAttendance";
     }
     
+    
+    
+    
     @GetMapping(value = "/excel.do")
-    public String excel(HttpSession session, Model model, HttpServletResponse response) throws UnsupportedEncodingException{
+    public String excel(HttpSession session, Model model, HttpServletResponse response, String in_date) throws UnsupportedEncodingException{
     	log.info("AttendanceController excel");
     	
         EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
         AttendanceVo AVo = new AttendanceVo();
         AVo.setId(EVo.getId());
-        AVo.setIn_date("2024-03");
+        if(in_date ==null) {
+        LocalDate toDay = LocalDate.now();
+        String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        AVo.setIn_date(month);
+        }else if(in_date != null) {
+        AVo.setIn_date(in_date);
+        }
         
     	// 저장되는 파일명
     	String fn = "근무리스트";
@@ -151,12 +171,21 @@ public class AttendanceController {
     }
     
     @GetMapping(value = "/employeeAttDetails.do")
-    public String employeeAttDetails(String id,Model model) {
+    public String employeeAttDetails(String id,Model model, String in_date) {
     	log.info("AttendanceController employeeAttDetails 직원상세");
-      	String in_date = "2024-03";
-      	AttendanceVo AVo = new AttendanceVo();
-      	AVo.setId(id);
-      	AVo.setIn_date(in_date);
+    	AttendanceVo AVo = new AttendanceVo();
+    	AVo.setId(id);
+    	
+        if(in_date ==null) {
+        LocalDate toDay = LocalDate.now();
+        String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        AVo.setIn_date(month);
+        model.addAttribute("month",month);
+        }else if(in_date != null) {
+        AVo.setIn_date(in_date);
+        model.addAttribute("month",in_date);
+        }
+        
       	List<AttendanceVo> lists = service.getEmployeeDetails(AVo);
       	EmployeeVo EVo = eService.getOneEmployee(id);
     	model.addAttribute("lists",lists);

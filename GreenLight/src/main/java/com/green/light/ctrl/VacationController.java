@@ -1,5 +1,7 @@
 package com.green.light.ctrl;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +29,26 @@ public class VacationController {
 	
 	
 	@GetMapping(value = "/myVacation.do")
-	public String myVacation(HttpSession session, Model model) {
+	public String myVacation(HttpSession session, Model model, String in_date) {
 		log.info("VacationController myVacation 내 휴가관리 페이지 이동");
 		EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("id", EVo.getId());
-		parameterMap.put("select_year", "2024");
-		parameterMap.put("select_day", "2024-03");
+		
+		if(in_date == null) {
+		LocalDate toDay = LocalDate.now();
+        String year = toDay.format(DateTimeFormatter.ofPattern("yyyy"));
+        String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        parameterMap.put("select_year", year);
+        parameterMap.put("select_day", month);
+        model.addAttribute("month",month);
+		}else if(in_date != null) {
+		parameterMap.put("select_year", in_date.substring(0,3));
+		parameterMap.put("select_day", in_date);
+        model.addAttribute("month",in_date);
+        }
+		
 		VacationVo lists = service.selectRemainingLeaveByMonth(parameterMap);
-		
-		
 		VacationVo parameterVo = new VacationVo();
 		parameterVo.setId(EVo.getId());
 		parameterVo.setStart_day((String)parameterMap.get("select_day"));
@@ -66,8 +78,16 @@ public class VacationController {
 		parameterMap.put("id", id);
 		parameterMap.put("select_year", "2024");
 		parameterMap.put("select_day", "2024-03");
-		VacationVo lists= service.selectRemainingLeaveByMonth(parameterMap);
-		model.addAttribute("lists",lists);
+		VacationVo vacVo= service.selectRemainingLeaveByMonth(parameterMap);
+		
+		VacationVo parameterVo = new VacationVo();
+		parameterVo.setId(id);
+		parameterVo.setStart_day((String)parameterMap.get("select_day"));
+		List<VacationVo> vacationList = service.selectVacationHistory(parameterVo);
+		
+		System.out.println(vacVo);
+		model.addAttribute("vacVo",vacVo);
+		model.addAttribute("vacationList",vacationList);
 		return "employeeVacDetails";
 	}
 	

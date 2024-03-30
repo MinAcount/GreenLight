@@ -27,6 +27,8 @@
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">${EVo.name} 근무현황</h1>
 				<input type="hidden" value="${EVo.id}" name="id">
+				<input type="hidden" id="hiddenMonth" value="${month}">
+				<h2><input type="month" style="border: 0" id="MM" value="${month}"  onchange="updateMonth()"></h2>
 					<input type="button" id="editButton" value="수정" onclick="toggleEdit()" style="float: right; display: ${editMode ? 'none' : 'block'};">
 					<input type="button" id="completeButton" value="수정 완료" onclick="submitForm()" style="float: right; display: ${editMode ? 'block' : 'none'};">
 				<div
@@ -152,6 +154,21 @@
 				alert("수정이 실패하였습니다.");
 			}
 		});
+	}
+		function updateMonth(){
+		var id = document.getElementsByName("id")[0].value;
+		var hiddenMonth = document.getElementById('hiddenMonth').value;
+		var selectMonth = document.getElementById('MM').value;
+		var encodedMonth = encodeURIComponent(selectMonth);
+		var dateYear = new Date().getFullYear();
+		var dateMonth = new Date().getMonth()+1;
+		if(new Date(selectMonth) > new Date()){
+			alert("현재보다 나중 날짜는 선택할 수 없습니다");
+			console.log(dateYear+"-"+dateMonth)
+			document.getElementById('MM').value = hiddenMonth;
+			return false;
+		}
+		window.location.href='./employeeAttDetails.do?in_date='+encodedMonth+"&id="+id;
 	}
 
 
