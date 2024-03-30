@@ -1,6 +1,7 @@
 package com.green.light.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +34,8 @@ public class ApprovalDaoImpl implements IApprovalDao{
 	}
 
 	@Override
-	public int insertApproval(List<ApprovalVo>  ApprovalVos) {
-		return sqlSession.insert(NS+"insertApproval", ApprovalVos);
+	public int insertApproval(ApprovalVo apprVo) {
+		return sqlSession.insert(NS+"insertApproval", apprVo);
 	}
 
 	@Override
