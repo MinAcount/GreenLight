@@ -7,7 +7,7 @@
 		<result property="creator" column="CREATOR" />
 		<result property="phone" column="PHONE" />
 		<result property="modified" column="MODIFIED" />
-		<result property="label" column="LABEL" />
+		<result property="label_name" column="LABEL_NAME" />
 		<result property="category" column="CATEGORY" />
 		<result property="title" column="TITLE" />
 		<result property="memo" column="MEMO" />
@@ -29,14 +29,14 @@
 	<!-- 월별조회 -->
 	<select id="monthSchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">
 	SELECT 'M' AS GUBUN, CNO AS SYSID, CREATOR AS SYSNAME,
-			sc.SCHEDULE_ID, sc.LABEL, sc.TITLE,
+			sc.SCHEDULE_ID, sc.LABEL_NAME, sc.TITLE,
 			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
 		FROM SCHEDULE sc
 		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
 		WHERE CNO = #{user_id} AND TO_CHAR(sc.START_DATE, 'YYYY-MM') = #{viewmonth}
 	UNION ALL
 	SELECT 'P' AS GUBUN, jt.id AS SYSID, jt.name AS SYSNAME,
-			sc.SCHEDULE_ID, sc.LABEL, sc.TITLE,
+			sc.SCHEDULE_ID, sc.LABEL_NAME, sc.TITLE,
 			sc.START_DATE, sc.END_DATE, ca.CODE_NAME AS ALARM
 			FROM SCHEDULE sc
 		JOIN JSON_TABLE(
@@ -72,12 +72,12 @@
 	<!-- 상세조회 -->
 	<select id="daySchedule" parameterType="java.util.Map" resultMap="ScheduleVoMap">
 	SELECT sc.SCHEDULE_ID, sc.CNO, sc.CREATOR, sc.PHONE, sc.MODIFIED,
-			sc.USERTYPE, cc.CODE_NAME AS CATEGORY,
+			sc.LABEL_NAME, cc.CODE_NAME AS CATEGORY,
 			sc.TITLE, sc.MEMO, sc.START_DATE, sc.END_DATE, sc.LOCATION,
 			cp.CODE_NAME AS PRIORITY,
 			sc.RECUR, sc.VISIBILITY, sc.PARTICIPANTS, sc.PERMISSION, ca.CODE_NAME AS ALARM
 		FROM SCHEDULE sc
-		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.USERTYPE
+		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.'카테고리'
 		JOIN COMMON cp ON sc.PRIORITY = cp.CODE AND cp."TYPE" = '일정우선순위'
 		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
 		WHERE (sc.CNO = #{user_id} OR #{user_id} IN (SELECT jt.id FROM
@@ -92,36 +92,21 @@
 	</select>
 	<!-- 일정등록 -->
 	<insert id="insertSchedule" parameterType="ScheduleVo">
-	INSERT INTO SCHEDULE (SCHEDULE_ID, CNO, CREATOR, PHONE, MODIFIED, USERTYPE, CATEGORY,
-							TITLE, MEMO, START_DATE, END_DATE, LOCATION, PRIORITY, RECUR, VISIBILITY,
-							PARTICIPANTS, PERMISSION, ALARM)
-	WITH W_USER AS (
-		SELECT CODE, CODE_NAME
-		FROM COMMON
-		WHERE "TYPE" = #{usertype}
-	),
-	W_PRIORITY AS (
-		SELECT CODE, CODE_NAME
-		FROM COMMON
-		WHERE "TYPE" = '일정우선순위'
-	),
-	W_ALARM AS (
-		SELECT CODE, CODE_NAME
-		FROM COMMON
-		WHERE "TYPE" = '일정알람시간'
-	)
-	SELECT 'S' || TO_CHAR(CURRENT_DATE, 'YYMMDD') || LPAD(SCHEDULE_SEQ.NEXTVAL, 3, '0'),
-	#{cno}, #{creator}, #{phone}, CURRENT_DATE, #{usertype}, (SELECT CODE FROM W_USER WHERE CODE = #{category}),
-	#{title}, #{memo},
-	#{start_date}, #{end_date},
-	#{location}, (SELECT CODE FROM W_PRIORITY WHERE CODE = #{priority}), #{recur}, #{visibility},
-	#{participants}, #{permission}, (SELECT CODE FROM W_ALARM WHERE CODE = #{alarm}) FROM DUAL
+		INSERT INTO SCHEDULE (SCHEDULE_ID, CNO, CREATOR, PHONE, MODIFIED, LABEL_NAME, CATEGORY,
+							  TITLE, MEMO, START_DATE, END_DATE, LOCATION, PRIORITY, RECUR, VISIBILITY,
+							  PARTICIPANTS, PERMISSION, ALARM)
+		VALUES
+		    ('S' || TO_CHAR(CURRENT_DATE, 'YYMMDD') || LPAD(SCHEDULE_SEQ.NEXTVAL, 3, '0'), 
+		     #{cno}, #{creator}, #{phone}, CURRENT_DATE, #{label_name}, #{category},
+		     #{title}, #{memo}, #{start_date}, #{end_date},
+		     #{location}, #{priority}, #{recur}, #{visibility},
+		     #{participants}, #{permission}, #{alarm})
 	</insert>
 	<!-- 일정수정 -->
 	<update id="updateSchedule" parameterType="ScheduleVo">
 		UPDATE SCHEDULE
         SET PHONE=#{phone}, MODIFIED=CURRENT_DATE, 
-                USERTYPE=#{usertype} , CATEGORY=#{category}, 
+                LABEL_NAME=#{label_name} , CATEGORY=#{category}, 
                 TITLE=#{title}, MEMO=#{memo}, 
                 START_DATE=#{start_date}, 
                 END_DATE=#{end_date}, 

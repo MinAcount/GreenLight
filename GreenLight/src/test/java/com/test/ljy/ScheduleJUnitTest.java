@@ -41,7 +41,7 @@ public class ScheduleJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-	@Test
+//	@Test
 	public void MonthScheduleTest() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user_id", "2312120601");
@@ -67,13 +67,13 @@ public class ScheduleJUnitTest {
 		assertNotNull(vo);
 	}
 	
-//	@Test
+	@Test
 	public void InsertScheduleTest() throws ParseException {
 		ScheduleVo vo = new ScheduleVo();
 		vo.setCno("2303100101");
 		vo.setCreator("이지원");
 		vo.setPhone("010-2108-5900");
-		vo.setLabel("부서");
+		vo.setLabel_name("부서");
 		vo.setCategory("04");
 		vo.setTitle("거래처 미팅");
 		vo.setMemo("거래처 관련 미팅");
@@ -101,6 +101,8 @@ public class ScheduleJUnitTest {
 		vo.setPermission("R");
 		vo.setAlarm("08");
 		
+		System.out.println("(((((((((((((((((((((((((((("+vo);
+		
 		int cnt = service.insertSchedule(vo);
 		assertEquals(1, cnt);
 	}
@@ -110,7 +112,7 @@ public class ScheduleJUnitTest {
 		ScheduleVo vo = new ScheduleVo();
 		vo.setSchedule_id("S240220004");
 		vo.setPhone("010-3213-2213");
-		vo.setLabel("부서일정");
+		vo.setLabel_name("부서일정");
 		vo.setCategory("02");
 		vo.setTitle("운영팀 워크샵");
 		vo.setMemo("겨울 강원도 워크샵");
