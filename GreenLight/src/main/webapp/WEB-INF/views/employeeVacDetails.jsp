@@ -25,35 +25,155 @@
 		</c:forEach>
 		<div id="layoutSidenav_content">
 			<div id="main_content">
-				<h1 style="margin-bottom: 70px; text-align: center;">${EVo.name} 연차현황</h1>
+				<h1 style="margin-bottom: 70px; text-align: center;">${vacVo.empVo.name} 연차현황</h1>
 				<input type="hidden" value="${EVo.id}" name="id">
-					<input type="button" id="editButton" value="수정" onclick="toggleEdit()" style="float: right; display: ${editMode ? 'none' : 'block'};">
-					<input type="button" id="completeButton" value="수정 완료" onclick="submitForm()" style="float: right; display: ${editMode ? 'block' : 'none'};">
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>
 				<hr class="mt-0 mb-4">
+				
+				<form>
+					<div class="container-xl px-4 mt-4">
+						<div class="row">
+							<div class="col-xl-4" style="width: 60%; margin: 0 auto;">
+							</div>
+							<div class="col-xl-8" style="width: 100%; margin: 10px auto;">
+								<div class="card mb-4">
+									<div class="card-header">${vacVo.empVo.id}</div>
+									<div class="card-body">
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="etype">이름</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_etype" value="${vacVo.empVo.name}" disabled="disabled">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="gender">부서</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_etype" value="${vacVo.deptVo.dname}" disabled="disabled">
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="etype">사원번호</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_etype" value="${vacVo.empVo.id}" disabled="disabled">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="etype">직위</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_etype" value="${vacVo.empVo.spot}" disabled="disabled">
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-12">
+												<label class="small mb-1" for="email">이메일*</label>
+												<input class="form-control" id="email" name="email" placeholder="이메일" value="${vo.email}" disabled="disabled">
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-12">
+												<label class="small mb-1" for="address">주소</label>
+												<input class="form-control" id="address" name="address" placeholder="주소" value="${vo.address}" disabled="disabled">
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="phone">전화번호*</label>
+												<input class="form-control" id="phone" name="phone" placeholder="전화번호 ex)01012345678" maxlength="11" value="${vo.phone}" disabled="disabled">
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="birthday">생년월일</label>
+												<fmt:parseDate value="${vo.birthday}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtBirthday"/>
+												<input class="form-control" value="<fmt:formatDate value="${fmtBirthday}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="join_day">입사일*</label>
+												<fmt:parseDate value="${vo.join_day}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtJoinDay"/>
+												<input class="form-control" id="hidden_join_day" value="<fmt:formatDate value="${fmtJoinDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+												<div id="join_day" style="display: none;">
+													<div class="input-group input-group-joined"
+														style="width: 14.5rem;">
+														<span class="input-group-text" id="litepickerSpan">
+															<i data-feather="calendar"></i>
+														</span> <input class="form-control ps-0"
+															id="litepickerSingleDate" name="join_day"
+															placeholder="YYYY-MM-DD" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="join_day">퇴사일</label>
+												<fmt:parseDate value="${vo.exit_day}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtExitDay"/>
+												<input id="hidden_exit_day" class="form-control" value="<fmt:formatDate value="${fmtExitDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+												<div id="exit_day" style="display: none;">
+													<div class="input-group input-group-joined"
+														style="width: 14.5rem;">
+														<span class="input-group-text" id="litepickerSpan">
+															<i data-feather="calendar"></i>
+														</span> <input class="form-control ps-0"
+															id="litepickerDate" name="exit_day"
+															placeholder="YYYY-MM-DD" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<p style="font-size: 7px; position:absolute; right: 20px;">* 필수입력사항입니다.</p>
+										
+										<c:if test="${vo.estatus eq 'N'}">
+											<button class="btn btn-danger" type="button" id="checkExitDayBtn" onclick="checkExitEmployee('N')">퇴사일 수정</button>
+											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitDayBtn" onclick="updateExitDay('${vo.id}')">수정 완료</button>
+											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
+										</c:if>
+										<c:if test="${vo.estatus eq 'Y'}">
+											<button class="btn btn-primary" type="button" id="employeeModifyBtn" onclick="checkModifyEmployee()">수정</button>
+											<button class="btn btn-danger" type="button" id="employeeExitBtn" onclick="checkExitEmployee('Y')">퇴사</button>
+											<button class="btn btn-primary" style="display: none;" type="button" id="updateEmployeeBtn" onclick="updateEmployee('${vo.id}')">수정 완료</button>
+											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitBtn" onclick="updateExit('${vo.id}')">퇴사 결정</button>
+											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
+										</c:if>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				
 				<div>
 				<form id="editForm" action="./attUpdate.do" method="post">
 					<table class="table">
 						<thead>
 							<tr>
-								<td></td>
-								<td>날짜</td>
-								<td>출근시간</td>
-								<td>퇴근시간</td>
-								<td>비고</td>
+								<td>휴가종류</td>
+								<td>연차사용기간</td>
+								<td>사용연차</td>
+								<td>내용</td>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="lists" items="${lists}" varStatus="vr">
-								<tr>
-								 <td><input type="radio" name="option"></td>
-								 <td>${lists.in_date.substring(0,10)}<input type="hidden" value="${lists.in_date.substring(0,10)}" name="in_date"></td>
-								 <td><input type="time" name="in_time" value="${lists.in_date.substring(11,16)}" style="border: 0" readonly="readonly"></td>
-								 <td><input type="time" name="out_time" value="${lists.out_date.substring(11,16)}" style="border: 0" readonly="readonly"></td>
-								 <td>${lists.att_status != null ? lists.att_status : '-'}</td>
-								</tr>
+							<c:forEach var="vlist" items="${vacationList}" varStatus="vr">
+							    <tr>
+									<c:choose>
+										<c:when test="${vlist.half eq 'A'}">
+									        <td>오전반차</td>
+										</c:when>
+										<c:when test="${vlist.half eq 'P'}">
+									        <td>오후반차</td>
+										</c:when>
+										<c:otherwise>
+									        <td>연차</td>
+										</c:otherwise>
+									</c:choose>					        
+							        
+		 					        <td>${vlist.start_day.substring(0,10)}~${vlist.end_day.substring(0,10)}</td> 
+							        <td>${vlist.getsu}</td>
+							        <td>${vlist.bigo}</td>
+							    </tr>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -67,94 +187,6 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
-	<script type="text/javascript">
-	var editMode = false;
 
-	function toggleEdit() {
-		  // 수정 버튼을 누른 라디오 버튼을 찾기
-		  var checkedRadio = document.querySelector('input[name="option"]:checked');
-		  
-		  // 라디오 버튼이 체크되어 있는지 확인
-		  if (!checkedRadio) {
-		    alert("수정할 항목을 선택해주세요.");
-		    return;
-		  }
-
-		  // 라디오 버튼의 부모 요소가 tr인지 확인하고, tr 찾기
-		  var trElement = checkedRadio.closest('tr');
-		    
-		  // 찾은 tr 요소에 대해 원하는 작업 수행
-		  if (trElement) {
-		      // 부모 요소의 모든 자식 요소 가져오기
-		      var allTrElements = Array.from(trElement.parentNode.children);
-		      // tr 요소의 인덱스 찾기
-		      var index = allTrElements.indexOf(trElement);
-		      
-		      // 인덱스 출력
-		      console.log("수정 버튼을 누른 라디오 버튼이 포함된 행(tr)의 인덱스:", index);
-		  } else {
-		      console.log("수정 버튼을 누른 라디오 버튼이 포함된 행(tr)을 찾을 수 없습니다.");
-		  }
-
-	    var editButton = document.getElementById("editButton");
-	    var completeButton = document.getElementById("completeButton");
-	    var inputs = document.querySelectorAll("input[type='time']");
-		var in_time = document.getElementsByName("in_time")[index];
-		var out_time = document.getElementsByName("out_time")[index];
-		var in_date = document.getElementsByName("in_date")[index];
-
-	    editMode = !editMode; // 수정 모드를 토글
-
-	    editButton.style.display = editMode ? "none" : "block";
-	    completeButton.style.display = editMode ? "block" : "none";
-	    
-	    // 수정 버튼이 활성화되면 해당 행의 시간 입력 필드를 수정 가능하게 만들기
-	    in_time.readOnly = !editMode;
-	    out_time.readOnly = !editMode;
-
-	    // 수정 모드가 활성화되면 다른 라디오 버튼을 비활성화
-	    var radioButtons = document.querySelectorAll('input[name="option"]');
-	    radioButtons.forEach(function(radioButton) {
-	        radioButton.disabled = editMode;
-	    });
-	}
-
-	function submitForm() {
-	    // 선택된 날짜의 값을 가져옴
-// 	    var in_date = document.querySelector('input[name="option"]:checked').parentNode.nextElementSibling.innerText.trim();
-	    var checkedRadio = document.querySelector('input[name="option"]:checked');
-	    var trElement = checkedRadio.closest('tr');
-	    var allTrElements = Array.from(trElement.parentNode.children);
-	    var index = allTrElements.indexOf(trElement);
-	    
-		var in_time = document.getElementsByName("in_time")[index].value;
-		var out_time = document.getElementsByName("out_time")[index].value;
-		var in_date = document.getElementsByName("in_date")[index].value;
-		var id = document.getElementsByName("id")[0].value;
-		
-		fetch('./attUpdate.do', {
-			method: 'POST',
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				in_time: in_time,
-				out_time: out_time,
-				in_date: in_date,
-				id: id
-			}),
-		})
-		.then(data => data.json())
-		.then(result => {
-			console.log(result);
-			if (result.msg == 'SUCCESS') {
-				alert("수정이 완료되었습니다.");
-				window.location.reload();
-			}else if (result.msg == 'UPDATEFAIL'){
-				alert("수정이 실패하였습니다.");
-			}
-		});
-	}
-
-
-	</script>
 </body>
 </html>

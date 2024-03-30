@@ -41,7 +41,6 @@
 					class="d-flex align-items-center justify-content-between mt-4 mb-0">
 					<a class="small" href="./findPassword.do">비밀번호 찾기</a>
 					<button class="btn btn-primary" type="button" onclick="loginSubmit()" >로그인</button>
-
 				</div>
 			</form>
 		</div>

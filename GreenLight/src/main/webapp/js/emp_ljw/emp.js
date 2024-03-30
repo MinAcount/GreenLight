@@ -216,9 +216,68 @@ function updateList(result) {
 }
 
 //employeeList.jsp
-function searchEmployee(){
-	var selectOpt = document.getElementsByClassName("opt");
-	alert(selectOpt.value)
+function searchEmployee(event){
+	var option = document.querySelector("#searchOpt option:checked").value;
+	var activeEstatus = document.querySelector("#selectEstatus .nav-link.active").getAttribute("value");
+	var keyword = document.querySelector("#keyword").value;
+	if(keyword == ""){
+		alert("조회할 키워드를 입력해주세요");
+		return;
+	}
+	if(event.key == 'Enter'){
+		fetch("./searchEmployee.do",{
+			method:"POST",
+			headers:{"Content-type":"application/json"},
+			body:JSON.stringify({
+				opt:option,
+				keyword:keyword
+			})
+		})
+		.then(data => data.json())
+		.then(result => {
+			console.log(result);
+			document.querySelector("#keyword").value = "";
+			searchList(result, activeEstatus);
+		});
+	}
+}
+
+//employeeOneModify.jsp
+function searchList(result, selectEstatus){
+	console.log(selectEstatus);
+	var inputTableBody = document.getElementById("inputTableBody");
+    var tableHTML = '';
+    inputTableBody.innerHTML = '';
+    var count = 1;
+    result.forEach(function (res) {
+		res.empVo.forEach(function(item){
+			if(selectEstatus == 'A'){
+				tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
+				tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+				tableHTML += "<td>" + item.id + "</td>";
+				tableHTML += "<td>" + res.dname + "</td>";
+				tableHTML += "<td>" + item.name + "</td>";
+				tableHTML += "<td>" + item.spot + "</td>";
+				tableHTML += "<td>" + (item.position ? item.position : '-') + "</td>";
+				tableHTML += "<td>" + (item.estatus == 'Y' ? '재직중' : '퇴사') + "</td>";
+				tableHTML += "</tr>";
+				count++;
+			}
+			if(item.estatus == selectEstatus){
+				tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
+				tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+				tableHTML += "<td>" + item.id + "</td>";
+				tableHTML += "<td>" + res.dname + "</td>";
+				tableHTML += "<td>" + item.name + "</td>";
+				tableHTML += "<td>" + item.spot + "</td>";
+				tableHTML += "<td>" + (item.position ? item.position : '-') + "</td>";
+				tableHTML += "<td>" + (item.estatus == 'Y' ? '재직중' : '퇴사') + "</td>";
+				tableHTML += "</tr>";
+				count++;
+			}
+		})
+    });
+    inputTableBody.innerHTML = tableHTML;
 }
 
 //employeeOneModify.jsp

@@ -32,13 +32,13 @@
 					<table class="datatable-table" id="datatablesSimple">
 						<thead>
 							<tr style="width: 100%;">
-								<th style="width: 5%;"></th>
-								<th style="width: 9%;">사원번호</th>
-								<th style="width: 20%;">부서</th>
-								<th style="width: 15%;">이름</th>
-								<th style="width: 10%;">직위</th>
-								<th style="width: 10%;">직책</th>
-								<th style="width: 15%; text-align: right;">누적근무시간</th>
+								<th></th>
+								<th>사원번호</th>
+								<th>부서</th>
+								<th>이름</th>
+								<th>직위</th>
+								<th>직책</th>
+								<th>누적근무시간</th>
 							</tr>
 						</thead>
 						<tbody id="inputTableBody">

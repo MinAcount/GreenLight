@@ -33,32 +33,46 @@ function insertDocument(){
    var apprLine = [];
    var apr_chk_div = document.getElementById("apr_chk");
    var chkAppr_div = document.getElementById("chkAppr");
-   console.log("apr_chk_div",apr_chk_div)
+
+//   console.log("apr_chk_div",apr_chk_div)
    var idInputs = apr_chk_div.querySelectorAll("[name='id']");
    var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
-   console.log("idInputs",idInputs)
+//   console.log("idInputs",idInputs)
    Array.from(idInputs).forEach(function(idInput){
       emp_id.push(idInput.value)
    })
 //   console.log(emp_id);
-   Array.from(apprOrderInputs).forEach(function(apprOrderInput){
-      console.log("------",apprOrderInput.value)
-      orderno.push(apprOrderInput.value)
-   })
-//   console.log("orderno",orderno)
-   
-   
-   for(let i = 0; i < emp_id.length; i++){
-   let apprVo =({
-      writer_id:writer_id,
-      emp_id:emp_id[i],
-      orderno:orderno[i],
-      atype:"01"
-   })
-   apprLine.push(apprVo);
+
+	Array.from(apprOrderInputs).forEach(function(apprOrderInput) {
+		//      console.log("------",apprOrderInput.value)
+		orderno.push(apprOrderInput.value)
+	})
+	//   console.log("orderno",orderno)
+
+
+	var ref_emp_id = [];
+	var chkRef_div = document.getElementById("chkRef");
+	var ids = chkRef_div.querySelectorAll("[name='id']");
+	
+	Array.from(ids).forEach(function(id){
+		ref_emp_id.push(id.value)
+	})
+	console.log("ref_emp_id",ref_emp_id);
+
+	for (let i = 0; i < emp_id.length; i++) {
+		let apprVo = ({
+			writer_id: writer_id,
+			emp_id: emp_id[i],
+			orderno: orderno[i],
+			atype: "01"
+		})
+	apprLine.push(apprVo);
 }
    console.log(apprLine);
    console.log(typeof apprLine);
+   
+   
+   
    
    /*filestorage table */
    var fileInput = document.getElementById("fileInput");
@@ -75,7 +89,9 @@ function insertDocument(){
    formData.append("end_day",end_day);
    formData.append("getsu",getsu);
    formData.append("apprLine",JSON.stringify(apprLine));
-      
+
+  
+  
    for(let i = 0; i < files.length; i++){
       formData.append('files', files[i]);
       console.log("file:",files[i]);
@@ -85,19 +101,6 @@ function insertDocument(){
    fetch("./insertDocument.do", {
        method: 'POST',
        body:formData
-//       headers:{'Content-Type': 'application/json'},
-//       body: JSON.stringify({
-//         writer_id:writer_id,
-//         content:content,
-//         title:title,
-//         draft_date:draft_date,
-//         urgency:urgency,
-//         tempcode:tempcode,
-//         start_day:start_day,
-//         end_day:end_day,
-//         getsu:getsu
-//      })
-
    })
    .then(response => {
        if (!response.ok) {
@@ -113,48 +116,6 @@ function insertDocument(){
    });
   
    
-   var emp_id = [];
-   var orderno = [];
-   var apr_chk_div = document.getElementById("apr_chk");
-   var chkAppr_div = document.getElementById("chkAppr");
-//   console.log("apr_chk_div",apr_chk_div)
-   var idInputs = apr_chk_div.querySelectorAll("[name='id']");
-   var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
-//   console.log("idInputs",idInputs)
-   Array.from(idInputs).forEach(function(idInput){
-      emp_id.push(idInput.value)
-   })
-//   console.log(emp_id);
-   Array.from(apprOrderInputs).forEach(function(apprOrderInput){
-      console.log("------",apprOrderInput.value)
-      orderno.push(apprOrderInput.value)
-   })
-   console.log("orderno",orderno)
-   
-      /*fetch post*/
-   fetch("./insertApproval.do", {
-       method: 'POST',
-       headers:{'Content-Type': 'application/json'},
-       body: JSON.stringify({
-         writer_id:writer_id,
-         emp_id:emp_id,
-         orderno:orderno,
-         docno:'202400035'
-      })
-       
-   })
-   .then(response => {
-       if (!response.ok) {
-           throw new Error('네트워크 에러..');
-       }
-       return response.json();
-   })
-   .then(data => {
-       console.log('data:', data);
-   })
-   .catch(error => {
-       console.error('오류 발생:', error);
-   });
 }
 
 

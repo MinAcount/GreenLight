@@ -50,7 +50,7 @@ function addDeptList(result){
 	}else{
 	    result.headMgrHubo.forEach(function (item) {
 			huboHTML += "<tr>";
-			huboHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
+			huboHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' value='"+item.id+"'></td>";
 			huboHTML += "<td> ";
 			result.list.forEach(function(dept){
 				if(dept.deptno == item.deptno){
@@ -58,7 +58,6 @@ function addDeptList(result){
 				}
 			});
 			huboHTML += item.name+" "+item.spot+"</td>";
-			
 			huboHTML += "</tr>";
 		});
 		document.getElementById("modalSubmitBtn").style ="display:block; margin-left: 10px;";
@@ -125,9 +124,9 @@ function getDept(result){
     buttonZone.innerHTML = "";
     var buttonHTML = "";
     if(result.dept_mgr != null){
-		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.dept_mgr+",\"deptMgr\","+result.deptno+")'>부서장 수정</button>"
+		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' onclick='modifyDeptManager("+result.deptno+")'>부서장 수정</button>"
 	}else{
-	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.dept_mgr+",\"deptMgr\","+result.deptno+")'>부서장 등록</button>"
+	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' onclick='modifyDeptManager("+result.deptno+")'>부서장 등록</button>"
 	}
 	buttonZone.innerHTML = buttonHTML;
 }
@@ -192,28 +191,46 @@ function getDeptList(result){
     buttonZone.innerHTML = "";
     var buttonHTML = "";
     if(result.head_mgr != null){
-		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.head_mgr+",\"headMgr\","+result.headno+")'>본부장 수정</button>"
+		buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.headno+")'>본부장 수정</button>"
 	}else{
-	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.head_mgr+",\"headMgr\","+result.headno+")'>본부장 등록</button>"
+	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.headno+")'>본부장 등록</button>"
 	}
 	buttonZone.innerHTML = buttonHTML;
 }
 
-function modifyManager(id,gubun,val){
-	let no = val.toString().padStart(2, '0');
-	console.log("변경할 manager의 id : ",id);
-	console.log("변경할 manager의 구분 : ",gubun);
-	console.log("변경할 manager가 속한 곳 : ",no);
-//	fetch("./delManager.do", {
-//		method:"POST",
-//		body:{
-//			id:id,
-//			gubun:gubun,
-//			no:no
-//		}
-//	})
-//	.then(data => data.json())
-//	.then(result => {
-//		console.log(result);
-//	});
+//headAndDept.jsp
+function modifyManager(val){
+	let heanno = val.toString().padStart(2, '0');
+	console.log("변경할 manager가 속한 곳의 번호 : ",heanno);
+	document.getElementById("modalSubmitBtn").addEventListener("click",function(){
+		modifyHeadManager(val);
+	})
+}
+
+//headAndDept.jsp
+function modifyHeadManager(val){
+	let headno = val.toString().padStart(2, '0');
+	var headHubo = document.querySelectorAll("#managerHubo input[type='radio']");
+	var count = 0;
+	headHubo.forEach(function(head){
+		if(head.checked){
+			count = 1;
+			var confirmResult = confirm("부서장을 변경하시겠습니까?");
+			if(confirmResult){
+				alert("부서장 변경이 완료되었습니다");
+				location.href="./updateHeadManager.do?id="+head.value+"&headno="+headno;
+			}
+		}
+	})
+	if(count == 0){
+		alert("선택된 사람이 없습니다");
+		return;
+	}
+}
+
+//headAndDept.jsp
+function modifyDeptManager(val){
+	let deptno = val.toString().padStart(2, '0');
+	console.log("ho..");
+	console.log(deptno);
 }

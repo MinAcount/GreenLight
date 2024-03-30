@@ -53,11 +53,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	}
 
 	@Override
-	public List<EmployeeVo> getEmployeeBySearch(EmployeeVo vo) {
-		return sqlsession.selectList(NS+"getEmployeeBySearch",vo);
-	}
-
-	@Override
 	public int updateOneEmployee(EmployeeVo vo) {
 		return sqlsession.update(NS+"updateOneEmployee", vo);
 	}

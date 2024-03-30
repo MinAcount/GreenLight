@@ -72,6 +72,11 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	public int updateDeptMgr(Map<String, Object> map) {
 		return sqlSession.update(NS+"updateDeptMgr", map);
 	}
+	
+	@Override
+	public List<DepartmentVo> getEmployeeBySearch(Map<String, Object> map) {
+		return sqlSession.selectList(NS+"getEmployeeBySearch",map);
+	}
 
 	@Override
 	public DepartmentVo selectDeptMgrByDept(String deptno) {
@@ -82,7 +87,9 @@ public class DepartmentDaoImpl implements IDepartmentDao {
 	public DepartmentVo selectDrafterDeptMgr(String id) {
 		return sqlSession.selectOne(NS+"selectDrafterDeptMgr", id);
 	}
-  public DepartmentVo getOneDeptInfo(String deptno) {
+	
+	@Override
+	public DepartmentVo getOneDeptInfo(String deptno) {
 		return sqlSession.selectOne(NS+"getOneDeptInfo", deptno);
 	}
 
