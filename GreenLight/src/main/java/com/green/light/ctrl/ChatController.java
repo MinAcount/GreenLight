@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.mapper.IDocumentDao;
@@ -61,6 +63,40 @@ public class ChatController {
 		session.setAttribute("id", id);
 		
 		return "chatGroup";
+	}
+	
+	@PostMapping(value = "/updateNoti.do")
+	@ResponseBody
+	public ResponseEntity<?> updateNoti(@RequestBody Map<String, Object> map){
+		log.info("ChatController updateNoti 채팅방 알림 {}", map);
+		String chat_id = (String)map.get("chat_id").toString();
+		String id = (String)map.get("id").toString();
+		String noti = (String)map.get("noti").toString();
+		log.info("ChatController updateNoti 채팅방 알림 {} {} {}", chat_id, id, noti);
+		int n = dao.updateNoti(map);
+		return ResponseEntity.ok(n);
+	}
+	
+	@PostMapping(value = "/updateFavor.do")
+	@ResponseBody
+	public ResponseEntity<?> updateFavor(@RequestBody Map<String, Object> map){
+		log.info("ChatController updateFavor 채팅방 즐겨찾기 {}", map);
+		String chat_id = (String)map.get("chat_id").toString();
+		String id = (String)map.get("id").toString();
+		String favor = (String)map.get("favor").toString();
+		log.info("ChatController updateFavor 채팅방 즐겨찾기 {} {} {}", chat_id, id, favor);
+		int n = dao.updateFavor(map);
+		return ResponseEntity.ok(n);
+	}
+	
+	@PostMapping(value = "/updateChatName.do")
+	@ResponseBody
+	public ResponseEntity<?> updateChatName(@RequestBody Map<String, Object> map){
+		String chat_id = (String)map.get("chat_id").toString();
+		String roomname = (String)map.get("roomname").toString();
+		log.info("ChatController updateChatName 채팅방 이름수정 {} {}", chat_id, roomname);
+		int n = dao.updateChatName(map);
+		return ResponseEntity.ok(n);
 	}
 }
 
