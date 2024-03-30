@@ -47,6 +47,4 @@ public class DocumentVo {
 		this.doc_status = doc_status;
 	}
 	
-	
-	
 }

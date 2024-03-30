@@ -3,12 +3,13 @@ package com.green.light.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
 
 public interface IDocumentService {
 	// 기안서 상신/임시저장 + 파일 업로드
-	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files);
+	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files, List<ApprovalVo> approval);
 	
 	// 결재대기문서함 전체조회 getAllPendingApprovalDraft
 	public List<DocumentVo> getAllPendingApprovalDraft(String id);

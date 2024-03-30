@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.green.light.model.mapper.IApprovalDao;
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IFileStorageDao;
+import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
 
@@ -24,21 +26,26 @@ public class DocumentServiceImpl implements IDocumentService{
 	private IDocumentDao dao;
 	@Autowired
 	private IFileStorageDao fDao;
+	@Autowired
+	private IApprovalDao aDao;
 	
 	@Override
 	@Transactional
-	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files) {
-		log.info("DocumentServiceImpl insertDraft 게시글, 파일 업로드 : {}", files);
+	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files, List<ApprovalVo> approval) {
+		log.info("DocumentServiceImpl insertDraft 게시글, 파일 업로드 : {}, {}, {}", docVo, files, approval);
 		int cnt = 0;
-		int seq = dao.getNextSequenceValue() + 1;
-		String currentYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
-		String docno = currentYear + String.format("%05d", seq);
-		System.out.println("================================================== "+docno);
+		
 		cnt += dao.insertDocument(docVo);
+		System.out.println("=================================== insertDocument 실행");
+		
 		for(int i = 0; i < files.size(); i++) {
-			files.get(i).setRef_id(docno);
 			cnt += fDao.insertFile(files.get(i));
+			System.out.println("=================================== insertFile 실행");
 		}
+		
+		System.out.println("====================================approval:"+approval);
+		cnt += aDao.insertApproval(approval);
+		System.out.println("=================================== insertApproval 실행");
 		
 		return cnt;
 	}

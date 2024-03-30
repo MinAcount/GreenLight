@@ -17,5 +17,5 @@ public interface IApprovalDao {
 	public List<ApprJstreeVo> getAllApprJstreeView();
 	
 	// 결재자 추가
-	public int insertApproval(ApprovalVo vo);
+	public int insertApproval(List<ApprovalVo> ApprovalVos);
 }

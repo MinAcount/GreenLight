@@ -9,13 +9,13 @@ function insertDocument(){
    var draft_date = document.getElementById("draft_date").value;
    var urgencyChecked = document.getElementById("urgency");
    var urgency = urgencyChecked.checked?'Y':'N';
-   var tempcode = document.getElementById("tempcode").value;
-//   console.log("writer_id:",writer_id);
-//   console.log("content:",content);
-//   console.log("title:",title);
-//   console.log("draft_date:",draft_date);
-//   console.log("urgency:",urgency);
-//   console.log("tempcode:",tempcode);
+   var tempcode = document.getElementById("tempCode").value;
+   console.log("writer_id:",writer_id);
+   console.log("content:",content);
+   console.log("title:",title);
+   console.log("draft_date:",draft_date);
+   console.log("urgency:",urgency);
+   console.log("tempcode:",tempcode);
 
    /*vacation table*/
    /*var writer_id = document.getElementById("writer_id").value;*/
@@ -23,11 +23,42 @@ function insertDocument(){
    var end_day = document.getElementById("end_day").value;
    var getsu = document.getElementById("getsu").value;
    
-//   console.log("start_day:",start_day);
-//   console.log("end_day:",end_day);
-//   console.log("getsu:",getsu);
+   console.log("start_day:",start_day);
+   console.log("end_day:",end_day);
+   console.log("getsu:",getsu);
 
    /*Approval table*/
+   var emp_id = [];
+   var orderno = [];
+   var apprLine = [];
+   var apr_chk_div = document.getElementById("apr_chk");
+   var chkAppr_div = document.getElementById("chkAppr");
+   console.log("apr_chk_div",apr_chk_div)
+   var idInputs = apr_chk_div.querySelectorAll("[name='id']");
+   var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
+   console.log("idInputs",idInputs)
+   Array.from(idInputs).forEach(function(idInput){
+      emp_id.push(idInput.value)
+   })
+//   console.log(emp_id);
+   Array.from(apprOrderInputs).forEach(function(apprOrderInput){
+      console.log("------",apprOrderInput.value)
+      orderno.push(apprOrderInput.value)
+   })
+//   console.log("orderno",orderno)
+   
+   
+   for(let i = 0; i < emp_id.length; i++){
+   let apprVo =({
+      writer_id:writer_id,
+      emp_id:emp_id[i],
+      orderno:orderno[i],
+      atype:"01"
+   })
+   apprLine.push(apprVo);
+}
+   console.log(apprLine);
+   console.log(typeof apprLine);
    
    /*filestorage table */
    var fileInput = document.getElementById("fileInput");
@@ -43,7 +74,8 @@ function insertDocument(){
    formData.append("start_day",start_day);
    formData.append("end_day",end_day);
    formData.append("getsu",getsu);
-   
+   formData.append("apprLine",JSON.stringify(apprLine));
+      
    for(let i = 0; i < files.length; i++){
       formData.append('files', files[i]);
       console.log("file:",files[i]);

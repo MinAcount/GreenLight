@@ -2,45 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.ApprovalDaoImpl">
 <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVoMap">
-	<result property="id" column="ID"/>
-	<result property="name" column="NAME"/>
-	<result property="deptno" column="DEPTNO"/>
-	<result property="position" column="POSITION"/>
-	<result property="spot" column="SPOT"/>
-	<collection property="deptVo" resultMap="DepartmentVoMap"/>
-	<collection property="comVo" resultMap="CommonVoMap"/>
+   <result property="id" column="ID"/>
+   <result property="name" column="NAME"/>
+   <result property="deptno" column="DEPTNO"/>
+   <result property="position" column="POSITION"/>
+   <result property="spot" column="SPOT"/>
+   <collection property="deptVo" resultMap="DepartmentVoMap"/>
+   <collection property="comVo" resultMap="CommonVoMap"/>
 </resultMap>
 
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVoMap">
-	<result property="deptno" column="DEPTNO"/>
-	<result property="dept_mgr" column="DEPT_MGR"/>
+   <result property="deptno" column="DEPTNO"/>
+   <result property="dept_mgr" column="DEPT_MGR"/>
 </resultMap>
 
 <resultMap type="com.green.light.vo.CommonVo" id="CommonVoMap">
-	<result property="code_name" column="CODE_NAME"/>
-	<result property="code" column="CODE"/>
-	<result property="type" column="TYPE"/>
+   <result property="code_name" column="CODE_NAME"/>
+   <result property="code" column="CODE"/>
+   <result property="type" column="TYPE"/>
 </resultMap>
 
 <resultMap type="com.green.light.vo.ApprJstreeVo" id="ApprJstreeVo">
-	<result property="id" column="ID"/>
-	<result property="parent" column="PARENT"/>
-	<result property="icon" column="ICON"/>
-	<result property="text" column="TEXT"/>
-	<result property="spot" column="SPOT"/>
+   <result property="id" column="ID"/>
+   <result property="parent" column="PARENT"/>
+   <result property="icon" column="ICON"/>
+   <result property="text" column="TEXT"/>
+   <result property="spot" column="SPOT"/>
 </resultMap>
 
 <resultMap type="com.green.light.vo.ApprovalVo" id="ApprovalVo">
-	<result property="apprno" column="APPRNO"/>
-	<result property="docno" column="DOCNO"/>
-	<result property="writer_id" column="WRITER_ID"/>
-	<result property="atype" column="ATYPE"/>
-	<result property="emp_id" column="EMP_ID"/>
-	<result property="appr_status" column="APPR_STATUS"/>
-	<result property="orderno" column="ORDERNO"/>
-	<result property="appr_date" column="APPR_DATE"/>
-	<result property="signature" column="SIGNATURE"/>
-	<result property="comment" column="COMMENT"/>
+   <result property="apprno" column="APPRNO"/>
+   <result property="docno" column="DOCNO"/>
+   <result property="writer_id" column="WRITER_ID"/>
+   <result property="atype" column="ATYPE"/>
+   <result property="emp_id" column="EMP_ID"/>
+   <result property="appr_status" column="APPR_STATUS"/>
+   <result property="orderno" column="ORDERNO"/>
+   <result property="appr_date" column="APPR_DATE"/>
+   <result property="signature" column="SIGNATURE"/>
+   <result property="comment" column="COMMENT"/>
 </resultMap>
 
 
@@ -50,26 +50,46 @@
 <!-- 자동결재선 대표이사 조회 selectCEO -->
 <select id="selectCEO" resultMap="EmployeeVoMap">
 SELECT E.ID, E.NAME, C.CODE_NAME
-	FROM EMPLOYEE E
-	JOIN COMMON C ON C.CODE = E."POSITION"  AND C."TYPE" = '직책'
-	WHERE E."POSITION" = '04'
-	AND E.DEPTNO = '00'
+   FROM EMPLOYEE E
+   JOIN COMMON C ON C.CODE = E."POSITION"  AND C."TYPE" = '직책'
+   WHERE E."POSITION" = '04'
+   AND E.DEPTNO = '00'
 </select>
 
 <!-- 결재선 설정을 위한 jstree view 검색 selectApprJstreeView -->
 <select id="getAllApprJstreeView" resultMap="ApprJstreeVo">
 SELECT ID, TEXT, PARENT, SPOT, ICON
-	FROM APPR_JSTREE_VIEW ajv
+   FROM APPR_JSTREE_VIEW ajv
 </select>
 
 
 <!-- 결재선 설정 -->
-<insert id="insertApproval" parameterType="ApprovalVo">
-	INSERT INTO APPROVAL
-		(APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO, APPR_DATE, SIGNATURE, "COMMENT")
-		VALUES
-		(APPROVAL_SEQ.NEXTVAL, '202400013', #{writer_id,jdbcType=VARCHAR}, '01', #{emp_id,jdbcType=VARCHAR}, '01', #{orderno,jdbcType=INTEGER}, '', '', '')
+<insert id="insertApproval" parameterType="java.util.List">
+   <selectKey keyProperty="apprno" resultType="int" order="BEFORE">
+      SELECT APPROVAL_SEQ.NEXTVAL FROM DUAL
+   </selectKey>
+
+  INSERT INTO APPROVAL
+   (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO, APPR_DATE, SIGNATURE, COMMENT)
+   <foreach collection="list" item="item" separator=" UNION ALL " index="idx">
+       SELECT #{apprno} + #{idx}, #{docno}, #{writer_id}, #{item.atype}, #{item.emp_id}, '01', #{item.orderno}, '', '', '' FROM DUAL
+    </foreach>
 </insert>
+
+
+<!-- 참조자 설정 -->
+<insert id="insertReference" parameterType="java.util.List">
+   <selectKey keyProperty="apprno" resultType="int" order="BEFORE">
+      SELECT APPROVAL_SEQ.NEXTVAL FROM DUAL
+   </selectKey>
+
+  INSERT INTO APPROVAL
+   (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO, APPR_DATE, SIGNATURE, COMMENT)
+   <foreach collection="list" item="item" separator=" UNION ALL " index="idx">
+       SELECT #{apprno} + #{idx}, #{docno}, #{writer_id}, #{item.atype}, #{item.emp_id}, '01', #{item.orderno}, '', '', '' FROM DUAL
+    </foreach>
+</insert>
+
 
 
 
