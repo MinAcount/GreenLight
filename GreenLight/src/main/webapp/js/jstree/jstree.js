@@ -754,6 +754,8 @@ async function selectComplete() {
 		console.log("tempCode", document.getElementById("tempCode").value)
 		
 		var autoApprHtml = $("#apr_chk").html();
+		var chkApprDiv = document.getElementById("chkAppr");
+		var aprrows = chkApprDiv.getElementsByClassName(".apr_row");
 		console.log("--------------------------")
 		var ids = new Array();
 		ids.push(data2[0].empVo[0].id)
@@ -763,13 +765,22 @@ async function selectComplete() {
 		data2.forEach(function(list){
 			console.log("data2 foreach")
 			ids.forEach(function(id){
-				console.log("ids",ids)
-				if(list.empVo[0].id != id || id == null){
-					console.log("list.empVo.id",list.empVo[0].id)
+				console.log("ids", ids)
+				if (list.empVo[0].id != id || id == null) {
+					console.log("list.empVo.id", list.empVo[0].id)
 					ids.push(list.empVo[0].id);
 					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + list.empVo[0].name + " " + list.comVo.code_name +
-				"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
-				"</div>";
+						"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
+						"</div>";
+
+					aprrows.forEach(function(row, i) {
+						var orderno = document.createElement("input");
+						orderno.setAttribute("type", "hidden");
+						orderno.setAttribute("name", "apr_no");
+						orderno.setAttribute("value", i + 1);
+						row.appendChild(orderno);
+
+					})
 				}
 			})
 		})
