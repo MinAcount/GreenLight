@@ -89,7 +89,7 @@ $(function() {
 
 	$('#apprJstree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
-		plugins: ['types', 'search', 'contextmenu'],
+		plugins: ['types', 'search'],
 		// core : 핵심 기능을 구성하는 옵션(data, themes, animation, check_callback 등)
 
 		core: {
@@ -140,7 +140,7 @@ $(function() {
 		//		console.log(children, typeof children)
 
 		if (children.length > 0) {
-			children.each(function(index, child) {
+			children.each(function(child) {
 				//			console.log(child, typeof child)
 				var childNode = $("#refJstree").jstree().get_node(child.id)
 				//			console.log("childNode",childNode)
@@ -161,6 +161,7 @@ $(function() {
 					"<line x1='14' y1='11' x2='14' y2='17'></line>" +
 					"</svg>" +
 					"</div>" +
+					"<input type='hidden' name='id' value='" + sel + "'>" +
 					"</div>" +
 					"</div>";
 				$("#ref_chk").html(htmlCode);
@@ -184,6 +185,7 @@ $(function() {
 				"<line x1='14' y1='11' x2='14' y2='17'></line>" +
 				"</svg>" +
 				"</div>" +
+				"<input type='hidden' name='id' value='" + sel + "'>" +
 				"</div>" +
 				"</div>";
 			$("#ref_chk").html(htmlCode);
@@ -195,16 +197,18 @@ $(function() {
 	});
 
 
-
-
 	// Add Employee Button Click
 	$("#addEmp").on('click', function() {
 		var sel = $("#apprJstree").jstree('get_selected');
-		var apr_row = document.querySelectorAll(".apr_row");
-		var autoAppr = document.querySelectorAll(".autoAppr");
+		var apr_chk = document.getElementById("apr_chk");
+		var apr_row = apr_chk.querySelectorAll(".apr_row");
+		var autoAppr = apr_chk.querySelectorAll(".autoAppr");
 		var autoAppr_length = autoAppr.length;
-		console.log("autoAppr_length", typeof autoAppr_length)
-		if (apr_row.length > (3 + autoAppr_length)) {
+		console.log("autoAppr_length",autoAppr_length)
+		var apr_row_length = apr_row.length;
+		var added_length = apr_row_length-autoAppr_length;
+		console.log("autoAppr_length",autoAppr_length)
+		if (added_length>3-autoAppr_length) {
 			console.log("결재자는 최대 4명까지만 설정가능합니다");
 			return;
 		}
@@ -305,6 +309,8 @@ function delRef(event) {
 	var text = parentDiv.textContent;
 	console.log("text", text)
 
+	deletedRef.push(parentDiv);
+	
 	// 삭제
 	parentDiv.remove();
 
@@ -315,7 +321,8 @@ function delRef(event) {
 
 }
 
-
+var deletedAppr = [];
+var deletedRef = [];
 // 결재자 삭제
 function del(event) {
 	// 클릭된 span의 parent div
@@ -324,13 +331,15 @@ function del(event) {
 
 	var text = parentDiv.textContent;
 	console.log("text", text)
-
+	
+	deletedAppr.push(parentDiv);
 	// 삭제
 	parentDiv.remove();
 
 	var deletedNode = findTreeNodeByText2(text);
 	console.log(deletedNode)
 	$("#apprJstree").jstree('show_node', deletedNode.id);
+	
 }
 
 
@@ -393,23 +402,14 @@ var children_apr_row;
 var parent_apr_row;
 // 초기화 버튼 기능
 function clean() {
-	//	var jstree = $("#apprJstree").jstree();
-	//	var allNodes = jstree.get_json(null, { flat: true });
-	//	$("#apr_chk").html("");
-	//	//모든 노드 표시
-	//	$("#apprJstree").jstree('show_all');
-	//	for (var i = 0; i < allNodes.length; i++) {
-	//		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
-	//	}
-
-
 	parent_apr_row = document.getElementsByClassName("apr_row");
+	
 	//	console.log(parent_apr_row,parent_apr_row.length)
 	var parent_apr_row_clone = Array.from(parent_apr_row);
-
 	for (let i = 0; i < parent_apr_row.length; i++) {
 		children_apr_row = parent_apr_row_clone[i].querySelector("[name='delIcon']");
 		if (children_apr_row) {
+			deletedAppr.push(parent_apr_row_clone[i]);
 			parent_apr_row_clone[i].remove();
 			//			console.log("parent_apr_row_clone",parent_apr_row_clone[i])
 			var enable_id = parent_apr_row_clone[i].querySelector("[name='id']").value;
@@ -417,6 +417,8 @@ function clean() {
 			$("#apprJstree").jstree().show_node(enable_id);
 		}
 	}
+	
+	console.log("cleanAppr",cleanAppr);
 }
 
 
@@ -526,6 +528,13 @@ function apprDone() {
 	}
 
 	apprTh.style.display = "";
+	
+	
+	var apr_chk_apr_rows = apprLineOriginal.querySelectorAll(".apr_row");
+	apr_chk_apr_rows.forEach(function(apr_chk_apr_row){
+		apr_chk_apr_row.setAttribute('name', 'aprDone');
+	})
+	
 }
 
 
@@ -588,16 +597,9 @@ function refDone() {
 
 
 
-	ref_rows.forEach(function(row, i) {
-		var refId = document.createElement("input");
-		refId.setAttribute("type", "hidden");
-		refId.setAttribute("name", "id");
-		refId.setAttribute("value", ref_id[i]);
-		row.appendChild(refId);
-	})
 
 	// 결재순서 담은 input태그 추가
-	var apr_rows = apprLine.querySelectorAll(".apr_row");
+	var apr_rows = document.getElementById("apr_chk").querySelectorAll(".apr_row");
 
 	apr_rows.forEach(function(row, i) {
 		var apprOrder = document.createElement("input");
@@ -607,6 +609,15 @@ function refDone() {
 		row.appendChild(apprOrder);
 
 	})
+	
+	var ref_chk_apr_rows = document.getElementById("ref_chk").querySelectorAll(".ref_row");
+	console.log("ref_chk_apr_rows",ref_chk_apr_rows)
+	ref_chk_apr_rows.forEach(function(ref_chk_apr_row){
+		ref_chk_apr_row.setAttribute('name', 'refDone');
+	})
+	
+	
+	
 }
 
 
@@ -622,13 +633,60 @@ function getRefLine() {
 
 // 결재자 확인 클릭
 function getApprLine() {
-	chkAppr.style.display = "block";
+	document.getElementById("chkAppr").style.display = "block";
 	var chkRef = document.getElementById("chkRef");
 	chkRef.style.display = "none";
 }
 
 
+function apprCancel() {
+	var apr_chk = document.getElementById("apr_chk");
+	var apr_rows = apr_chk.querySelectorAll(".apr_row");
+	apr_rows.forEach(function(apr_row) {
+		if (apr_row.getAttribute("name") !== "aprDone") {
+			var id = apr_row.querySelector("[name='id']").value;
+			$("#apprJstree").jstree().show_node(id);
+			apr_row.remove();
+		}
 
+	})
+	
+	deletedAppr.forEach(function(appr){
+		apr_chk.append(appr);
+		console.log("appr",appr);
+		var id = appr.querySelector("[name='id']").value;
+		console.log("id",id)
+		$("#apprJstree").jstree().hide_node(id);
+	})
+
+	deletedAppr = [];
+}
+
+
+function refCancel() {
+	var ref_chk = document.getElementById("ref_chk");
+	var ref_rows = ref_chk.querySelectorAll(".ref_row");
+	console.log(ref_rows)
+	ref_rows.forEach(function(ref_row) {
+		if (ref_row.getAttribute("name") !== "refDone") {
+			var id = ref_row.querySelector("[name='id']").value;
+			
+			$("#refJstree").jstree().show_node(id);
+			ref_row.remove();
+		}
+
+	})
+	
+	deletedRef.forEach(function(ref){
+		ref_chk.append(ref);
+		console.log("ref",ref);
+		var id = ref.querySelector("[name='id']").value;
+		console.log("id",id)
+		$("#refJstree").jstree().hide_node(id);
+	})
+
+	deletedRef = [];
+}
 
 
 
@@ -747,10 +805,12 @@ async function selectComplete() {
 		console.log("--------------------------")
 		var ids = new Array();
 		ids.push(data2[0].empVo[0].id)
-		autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
+		autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
 				"<input type='hidden' class='autoAppr' name='id' value='" + data2[0].empVo[0].id + "'>" +
 				"</div>";
 				
+		$("#apprJstree").jstree().hide_node(data2[0].empVo[0].id);
+		
 		data2.forEach(function(list){
 			console.log("data2 foreach")
 			ids.forEach(function(id){
@@ -758,10 +818,10 @@ async function selectComplete() {
 				if (list.empVo[0].id != id || id == null) {
 					console.log("list.empVo.id", list.empVo[0].id)
 					ids.push(list.empVo[0].id);
-					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + list.empVo[0].name + " " + list.comVo.code_name +
+					autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + list.empVo[0].name + " " + list.comVo.code_name +
 						"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
 						"</div>";
-
+					$("#apprJstree").jstree().hide_node(list.empVo[0].id);
 				}
 			})
 		})

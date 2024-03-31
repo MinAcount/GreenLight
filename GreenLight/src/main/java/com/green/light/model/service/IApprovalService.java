@@ -18,6 +18,5 @@ public interface IApprovalService {
 	// 결재자 추가
 	public int insertApproval(ApprovalVo apprVo);
 	
-	// 참조자 추가
-	public int insertReference (List<ApprovalVo> ReferenceVos);
+
 }
