@@ -1,6 +1,9 @@
 package com.test.ktm;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,16 +32,16 @@ public class SigntureJUnitTest {
 	public void SignTest() {
 
 
-//		List<SignVo>  lists = service.selectAllSign("2403110901");
-//		assertNotNull(lists);
+		List<SignVo>  lists = service.selectAllSign("2403110901");
+		assertNotNull(lists);
 		
-		SignVo inVo = new SignVo();
-		inVo.setId("2303100101");
-		inVo.setSave_sign("clob");
-		inVo.setMain("Y");
+//		SignVo inVo = new SignVo();
+//		inVo.setId("2303100101");
+//		inVo.setSave_sign("clob");
+//		inVo.setMain("Y");
 		
-		int i = service.insertSign(inVo);
-		assertEquals(i, 1);
+//		int i = service.insertSign(inVo);
+//		assertEquals(i, 1);
 //
 //		inVo.setSignno("2");
 //		
