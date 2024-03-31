@@ -1,6 +1,17 @@
-function insertDocument(){
-   console.log("insertDocument()");
-   
+function insertDocument() {
+	console.log("insertDocument()");
+	// 결재순서 input 만들기
+	var chkApprDiv = document.getElementById("chkAppr");
+	var aprrows = chkApprDiv.querySelectorAll(".apr_row");
+	aprrows.forEach(function(row, i) {
+		var orderno = document.createElement("input");
+		orderno.setAttribute("type", "hidden");
+		orderno.setAttribute("name", "apr_no");
+		orderno.setAttribute("value", i + 1);
+		row.appendChild(orderno);
+	})
+
+
    /*document table*/
    var writer_id = document.getElementById("writer_id").value;
    var templateArea = document.getElementById("templateArea");
@@ -28,6 +39,7 @@ function insertDocument(){
    console.log("getsu:",getsu);
 
    /*Approval table*/
+   // 결재자 값 넘기기
    var emp_id = [];
    var orderno = [];
    var apprLine = [];
@@ -49,7 +61,7 @@ function insertDocument(){
 	})
 	//   console.log("orderno",orderno)
 
-
+	// 참조자 값 넘기기
 	var ref_emp_id = [];
 	var chkRef_div = document.getElementById("chkRef");
 	var ids = chkRef_div.querySelectorAll("[name='id']");
@@ -59,19 +71,18 @@ function insertDocument(){
 	})
 	console.log("ref_emp_id",ref_emp_id);
 
-	for (let i = 0; i < emp_id.length; i++) {
-		let apprVo = ({
+	for (let i = 0; i < ref_emp_id.length; i++) {
+		let refVo = ({
 			writer_id: writer_id,
-			emp_id: emp_id[i],
-			orderno: orderno[i],
-			atype: "01"
+			emp_id: writer_id,
+			atype: "03"
 		})
-	apprLine.push(apprVo);
+	refLine.push(refVo);
 }
-   console.log(apprLine);
-   console.log(typeof apprLine);
+   console.log(refLine);
+   console.log(typeof refLine);
    
-   
+   // 작성자 값 넘기기
    
    
    /*filestorage table */
