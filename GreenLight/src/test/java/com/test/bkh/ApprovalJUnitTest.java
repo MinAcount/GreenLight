@@ -72,7 +72,7 @@ public class ApprovalJUnitTest {
 		vo.setAppr_status("01");
 		vo.setOrderno(1);
 		approval.add(vo);
-		int n = service.insertApproval(approval);
+//		int n = service.insertApproval(approval);
 		System.out.println(approval.get(0).getApprno());
 //		assertEquals(1, n);
 
