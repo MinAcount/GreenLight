@@ -34,7 +34,7 @@ public class ApprovalDaoImpl implements IApprovalDao{
 	}
 
 	@Override
-	public int insertApproval(ApprovalVo apprVo) {
+	public int insertApproval(ApprovalVo  apprVo) {
 		return sqlSession.insert(NS+"insertApproval", apprVo);
 	}
 

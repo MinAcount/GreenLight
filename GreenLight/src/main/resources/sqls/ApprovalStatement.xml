@@ -64,12 +64,10 @@ SELECT ID, TEXT, PARENT, SPOT, ICON
 
 
 <!-- 결재선 설정 -->
-<insert id="insertApproval" parameterType="com.green.light.vo.ApprovalVo">
-        INSERT INTO APPROVAL (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO)
-        VALUES (TO_CHAR((SELECT MAX(TO_NUMBER(APPRNO)) FROM APPROVAL)+1), (SELECT MAX(DOCNO) FROM DOCUMENT), #{writer_id}, #{atype}, #{emp_id}, '01', #{orderno})
-</insert>
-
-
+ <insert id="insertApproval" parameterType="ApprovalVo">
+    INSERT INTO APPROVAL (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO)
+    	VALUES (TO_CHAR((SELECT MAX(TO_NUMBER(APPRNO)) FROM APPROVAL)+1), (SELECT MAX(DOCNO) FROM DOCUMENT), #{writer_id}, #{atype}, #{emp_id}, '01', #{orderno})
+</insert> 
 
 <!-- <insert id="insertApproval" parameterType="java.util.List"> -->
 <!-- 	<selectKey keyProperty="apprno" resultType="int" order="BEFORE"> -->
