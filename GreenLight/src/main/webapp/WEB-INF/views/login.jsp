@@ -23,8 +23,9 @@
 				</div>
 
 				<!-- 비밀번호-->
-				<div class="mb-3">
+				<div class="mb-3" style="position: relative;">
 					<input class="form-control" id="password" name="password" type="password" placeholder="비밀번호 입력">
+					<p id="capsLockChk" style="display: none;">CapsLock 켜짐</p>
 				</div>
 
 				<!-- 비밀번호 저장-->
@@ -39,13 +40,12 @@
 				<!-- 로그인 박스-->
 				<div
 					class="d-flex align-items-center justify-content-between mt-4 mb-0">
-					<a class="small" href="./findPassword.do">비밀번호 찾기</a>
 					<button class="btn btn-primary" type="button" onclick="loginSubmit()" >로그인</button>
 				</div>
 			</form>
 		</div>
 	</div>
-	<div class="toast show" role="alert" aria-live="assertive"
+	<div class="toast" role="alert" aria-live="assertive"
 		aria-atomic="true" style="opacity: 1; /* position: absolute; left: 50%; top:50%; margin-left:-250px; margin-top:-50px; */">
 		<div class="toast-header text-danger">
 			<i data-feather="alert-circle" id="toastFeather"></i> <strong
@@ -76,14 +76,18 @@
 	        loginSubmit();
 	      }
 	    });
+		password.addEventListener("keydown", function (event) {
+			const capsLockOn = event.getModifierState && event.getModifierState("CapsLock");
+			if(capsLockOn){
+				document.getElementById("capsLockChk").style = "display:block; color:red; font-size:10px; position:absolute; top:14px; right:14px;";
+			}else{
+				document.getElementById("capsLockChk").style.display = "none";
+			}
+		});
 		function loginSubmit() {
 			var id = document.getElementById("id").value;
 			var password = document.getElementById("password").value;
 			var failCount = parseInt(document.getElementById("fail").innerHTML);
-			console.log("id:",id);
-			console.log("pwd:",password);
-			console.log("failCount:",failCount);
-			console.log("failCount:",typeof failCount);
 			
 			if(id == "" || password == ""){
 				alert("아이디와 비밀번호를 입력해주세요.");
@@ -111,7 +115,8 @@
 				}else if (result.msg == 'SUCCESSADMIN'){
 					location.href="./admin.do";
 				}else if(result.msg == 'FAILPASS'){
-					alert("비밀번호를 다시 확인하여주세요");
+// 					document.querySelectorAll(".toast")[0].classList.add("show");
+					alert("비밀번호를 다시 확인해주세요");
 					location.reload();
 				}else{
 					alert("로그인에 실패하였습니다. 관리자에게 문의해주세요");

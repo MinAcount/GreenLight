@@ -173,7 +173,7 @@ public class HeadquatersController {
 	
 	@GetMapping("/updateHeadManager.do")
 	public String updateHeadManager(String headno, String id) {
-		log.info("HeadquatersController GET updateHeadManager.do 부서장 복구 및 변경 : {}/{}", headno, id);
+		log.info("HeadquatersController GET updateHeadManager.do 본부장 복구 및 변경 : {}/{}", headno, id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
 		map.put("headno", headno);

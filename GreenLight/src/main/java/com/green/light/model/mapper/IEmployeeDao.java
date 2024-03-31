@@ -26,8 +26,6 @@ public interface IEmployeeDao {
 	public List<EmployeeVo> getAllEmployeeByStatus(String estatus);
 //	직원 정보 수정	updateOneEmployee
 	public int updateOneEmployee(EmployeeVo vo);
-//	권한 변경	updateEmployeeAuth
-	public int updateEmployeeAuth(String id);
 //	직원 퇴사 처리	updateExitEmployee
 	public int updateExitEmployee(Map<String, Object> map);
 //	퇴사일 수정	updateEmployeeExitDay

@@ -131,13 +131,9 @@
 	UPDATE EMPLOYEE
         SET NAME = #{name} , DEPTNO = #{deptno}, ETYPE = #{etype},
         SPOT = #{spot} , EMAIL = #{email}, ADDRESS = #{address},
-        PHONE = #{phone}, PROFILE= #{profile}, JOIN_DAY = #{join_day}
+        PHONE = #{phone}, PROFILE= #{profile}, JOIN_DAY = #{join_day},
+        AUTH = (CASE WHEN #{deptno} = '09' THEN '02' ELSE '01' END)
         WHERE ID = #{id} AND ESTATUS = 'Y'
-</update>
-<!-- 권한 변경	updateEmployeeAuth -->
-<update id="updateEmployeeAuth" parameterType="java.lang.String">
-	UPDATE EMPLOYEE SET AUTH = CASE WHEN DEPTNO = '09' THEN '02' ELSE '01' END
-        WHERE ID = #{id}
 </update>
 <!-- 직원 퇴사 처리	updateExitEmployee -->
 <update id="updateExitEmployee" parameterType="java.lang.String">
@@ -153,13 +149,14 @@
 <!-- 직원 입사 처리	insertEmployee -->
 <insert id="insertEmployee" parameterType="EmpVo">
 	INSERT INTO EMPLOYEE e (ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, PASSWORD, 
-						ADDRESS, DEPTNO, SPOT, JOIN_DAY, ETYPE, PROFILE)
-	VALUES((SELECT COALESCE ((SELECT TO_CHAR(MAX(ID)+1)
-	FROM EMPLOYEE e
-	WHERE ID LIKE (TO_CHAR(TO_DATE(#{join_day}),'YYMMDD'))||#{deptno}||'%')
+						ADDRESS, DEPTNO, SPOT, JOIN_DAY, ETYPE, PROFILE, AUTH)
+	SELECT COALESCE ((SELECT TO_CHAR(MAX(ID)+1)
+	FROM EMPLOYEE 
+	WHERE ID LIKE TO_CHAR(TO_DATE(#{join_day}), 'YYMMDD') || #{deptno} || '%')
 				,TO_CHAR(TO_DATE(#{join_day}),'YYMMDD')||#{deptno}||'01') AS ID
-	FROM DUAL),#{name}, #{email},#{phone},#{birthday},#{gender}, #{password},
-	#{address},#{deptno},#{spot}, #{join_day},#{etype},#{profile})
+	,#{name}, #{email},#{phone},#{birthday},#{gender}, #{password},
+	#{address},#{deptno},#{spot}, #{join_day},#{etype},#{profile},
+	(CASE WHEN #{deptno} = '09' THEN '02' ELSE '01' END) AS AUTH FROM DUAL
 </insert>
 <!-- 부서장 후보 조회	getDeptMgrHubo -->
 <select id="getDeptMgrHubo" parameterType="java.lang.String" resultType="EmpVo">

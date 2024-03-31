@@ -32,6 +32,7 @@
         FROM HEADQUARTERS h LEFT JOIN DEPARTMENT d
         ON h.HEADNO = d.HEADNO
         WHERE h.HEADNO = #{headno}
+        AND d.DELFLAG = 'N'
 </select>
 <!-- 	본부명 수정	updateHeadName -->
 <update id="updateHeadName" parameterType="java.util.Map">

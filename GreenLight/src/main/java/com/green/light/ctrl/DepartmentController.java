@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.IDepartmentService;
-import com.green.light.model.service.IHeadquartersService;
 import com.green.light.vo.DepartmentVo;
-import com.green.light.vo.HeadquartersVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,9 +25,6 @@ public class DepartmentController {
 
 	@Autowired
 	private IDepartmentService deptService;
-	
-	@Autowired
-	private IHeadquartersService headService;
 	
 	@PostMapping("/selectdept.do")
 	@ResponseBody
@@ -109,5 +105,15 @@ public class DepartmentController {
 		log.info("DepartmentController GET deptRecycle.do 부서 복구 : {}", deptno);
 		int n = deptService.restoreDept(deptno);
 		return ResponseEntity.ok(n);
+	}
+	
+	@GetMapping("/updateDeptManager.do")
+	public String updateDeptManager(String deptno, String id) {
+		log.info("DepartmentController GET updateDeptManager.do 부서장 복구 및 변경 : {}/{}", deptno, id);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("deptno", deptno);
+		deptService.updateDeptMgr(map);
+		return "redirect:/headAndDept.do";
 	}
 }

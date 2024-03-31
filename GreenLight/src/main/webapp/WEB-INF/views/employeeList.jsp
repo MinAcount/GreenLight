@@ -3,7 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
+<style type="text/css">
+	.form-control:focus, .datatable-input:focus {
+	  color: #69707a;
+	  box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2);
+	}
+</style>
 </head>
 <body class="nav-fixed">
 
@@ -40,30 +45,29 @@
 						</nav>
 
 					</div>
-<!-- 					<form> -->
-						<div style="display: flex; flex-direction: row;">
-								<div class="datatable-dropdown">
-									<select class="datatable-selector" id="searchOpt">
-										<option value="name" selected="selected">이름</option>
-										<option value="dept">부서</option>
-									</select>
-								</div>
-								<div class="datatable-search">
-									<input class="datatable-input" placeholder="Search..."
-										type="search" title="Search within table"
-										aria-controls="datatablesSimple" id="keyword" onkeypress="searchEmployee(event)">
-								</div>
-							<div class="datatable-dropdown">
-								<select class="datatable-selector">
-									<option value="5" selected="selected">5</option>
-									<option value="10">10</option>
-									<option value="20">20</option>
-									<option value="30">30</option>
-									<option value="50">50</option>
-								</select>
-							</div>
+					<div style="display: flex; flex-direction: row;">
+						<div class="datatable-dropdown" style="margin-right: 10px;">
+							<select class="datatable-selector" id="searchOpt">
+								<option value="name" selected="selected">이름</option>
+								<option value="dept">부서</option>
+							</select>
 						</div>
-<!-- 					</form> -->
+						<div class="datatable-search" style="margin-right: 10px;">
+							<input class="datatable-input" placeholder="Search..."
+								type="search" title="Search within table"
+								aria-controls="datatablesSimple" id="keyword"
+								onkeypress="searchEmployee(event)">
+						</div>
+						<div class="datatable-dropdown">
+							<select class="datatable-selector">
+								<option value="5" selected="selected">5</option>
+								<option value="10">10</option>
+								<option value="20">20</option>
+								<option value="30">30</option>
+								<option value="50">50</option>
+							</select>
+						</div>
+					</div>
 				</div>
 				<hr class="mt-0 mb-4">
 				<div>
