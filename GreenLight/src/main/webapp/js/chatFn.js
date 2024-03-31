@@ -64,8 +64,8 @@ function getAllChat(result){
 			html += '<td>'+img+'</td>';
 		}
 		html += '</tr>                             ';
-		html += '<tr onclick="getViewInsideChat('+result[i].chat_id+')">';
-		html += '<td>'+result[i].gmvo.roomname+'</td>     ';
+		html += '<tr id=\"roomname'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+')">';
+		html += '<td class="roomnamename">'+result[i].gmvo.roomname+'</td>     ';
 		html += '<td>'+formattedSendDate+'</td>          ';
 		html += '</tr>                             ';
 		html += '<tr id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+')">';
@@ -106,7 +106,7 @@ function getViewInsideChat(idx){
 					doGetViewInsideChat(result);
 					document.getElementById('chatRoom').style.display = 'block';
 					chatPeople(result);
-					chatSetting(result)
+					chatSetting(result);
 					closePeople();
 					closeSettingAnother();
 					scrollToBottom();
@@ -115,15 +115,7 @@ function getViewInsideChat(idx){
 				}
 			});
 	
-	function formatSendDate(send_date){
-		var date = new Date(send_date);
-		var hours = date.getHours();
-		var minutes = date.getMinutes();
-	    var amOrPm = hours >= 12 ? '오후' : '오전'; // 시간이 12 이상인 경우 '오후', 그렇지 않은 경우 '오전'
-	    hours = hours % 12 || 12; // 시간을 12시간 형식으로 조정
-	    var timeString = amOrPm + ' ' + hours + ':' + (minutes < 10 ? '0' : '') + minutes; // 시간과 분을 구분자와 함께 합치기
-	    return timeString;
-	}
+	
 	
 	function scrollToBottom() {
 	    var chatRoom = document.getElementById('middleChat');
@@ -148,6 +140,9 @@ function getViewInsideChat(idx){
     }
     
     
+    }
+    
+    
     function chatSetting(result){
     	var settingModal = document.getElementById('settingModal');
     	var html = '';
@@ -157,7 +152,7 @@ function getViewInsideChat(idx){
 		html += '<br/>';
 		html += '<div id="settingContainer">';
 		html += '<div class="settingBtn">초대하기</div>';
-		html += '<div class="settingBtn" id="changeRoomName" onclick="changeRoomName()">채팅방 수정하기</div>';
+		html += '<div class="settingBtn" id="changeRoomName" onclick="changeRoomName('+result[0].chat_id+')">채팅방 수정하기</div>';
 		if(result[0].noti == 'Y'){
 			html += '<div class="settingBtn" id="notificationYn" onclick="toggleNotification('+result[0].chat_id+')">알림 끄기</div>';
 		} else {
@@ -168,11 +163,21 @@ function getViewInsideChat(idx){
     	
     	settingModal.innerHTML = html;
     }
+    function formatSendDate(send_date){
+		var date = new Date(send_date);
+		var hours = date.getHours();
+		var minutes = date.getMinutes();
+	    var amOrPm = hours >= 12 ? '오후' : '오전'; // 시간이 12 이상인 경우 '오후', 그렇지 않은 경우 '오전'
+	    hours = hours % 12 || 12; // 시간을 12시간 형식으로 조정
+	    var timeString = amOrPm + ' ' + hours + ':' + (minutes < 10 ? '0' : '') + minutes; // 시간과 분을 구분자와 함께 합치기
+	    return timeString;
+	}
 
 function doGetViewInsideChat(result){
 	var chatRoom = document.getElementById('middleChat');
 	var html = '';
-	document.getElementById('roomName').innerText=result[idx].gmvo.roomname;
+	console.log(result[0].gmvo.roomname);
+	document.getElementById('roomName').innerText=result[0].gmvo.roomname;
 	copyResult = result;
 	
 	function alignChatMessage(chat){
@@ -200,9 +205,76 @@ function doGetViewInsideChat(result){
 		html += '</div>';
 	};
 		chatRoom.innerHTML = html;
-	}
 }
 
+function changeRoomName(chat_id) {
+    	var roomNameDiv = document.getElementById("roomName");
+    	var roomNameForChatId = document.getElementById("chatList");
+    	var chatNameInfo = document.querySelector("[id='roomname" + chat_id + "']");
+    	var chatNameInfoRoomName = chatNameInfo.querySelectorAll(".roomnamename")[0].innerText;
+    	console.log(roomNameDiv);
+    	console.log(chat_id);
+    	console.log(chatNameInfo);
+    	console.log(chatNameInfoRoomName);
+    	
+    	var inputField = document.createElement("input");
+    	inputField.type = "text";
+    	inputField.value = roomNameDiv.innerText;
+    	inputField.id = "inputRoomName";
+    	inputField.style.width = "20vh";
+    	console.log(roomNameDiv.innerText);
+    	
+    	roomNameDiv.innerHTML = '';
+    	roomNameDiv.appendChild(inputField);
+    	inputField.disabled = false;
+    	
+    	inputField.addEventListener("keypress", function(event){
+    		if(event.key == "Enter"){
+    			var newRoomName = inputField.value;
+    			console.log(newRoomName);
+    			chatNameInfo.querySelectorAll(".roomnamename")[0].innerText = newRoomName;
+    			updateRoomName(newRoomName, chat_id);
+    			inputField.disabled = true;
+    		}
+    	});
+    	inputField.focus();
+    }
+
+    
+function updateRoomName(newRoomName, chat_id){
+	console.log(newRoomName);
+	console.log(chat_id);
+    fetch("./updateChatName.do", {
+    	method: 'POST',
+    	headers: {
+    		'Content-Type': 'application/json',
+    		'Accept': 'application/json'
+    	},
+    	body: JSON.stringify({ 
+    		roomname: newRoomName,
+    		chat_id: chat_id
+    	})
+    })
+    .then(response => {
+		 if (!response.ok) {
+		     throw new Error('네트워크 오류');
+		 }
+		 return response.json();
+	})
+	.then(result => {
+	// 성공적으로 업데이트된 경우 새로운 이름을 표시
+		if (result.success) {
+		    var roomNameDiv = document.getElementById("roomName");
+		    roomNameDiv.innerText = newRoomName;
+		    console.log(newRoomName);
+		} else {
+//		    alert("채팅방 이름 업데이트에 실패했습니다.");
+		}
+	})
+	.catch(error => {
+		console.error('Update room name failed:', error);
+	});
+}
 
 
 

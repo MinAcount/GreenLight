@@ -89,9 +89,10 @@
 			text-align: left;
 			width: 30vh;
 			height: 10vh;
-			padding-top: 3.7vh;
+			padding-top:3.2vh;
 			font-size: large;
 			margin-left: 2vh;
+			align-items: center;
 		}
 		
 		#chatSetting {
