@@ -8,6 +8,7 @@ import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
 
 public interface IDocumentService {
+
 	// 기안서 상신/임시저장 + 파일 등록 + 결재자/참조자 등록
 	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files, List<ApprovalVo> approval);
 	

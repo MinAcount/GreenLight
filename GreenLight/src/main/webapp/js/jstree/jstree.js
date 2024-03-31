@@ -400,8 +400,6 @@ function clean() {
 	//	$("#apprJstree").jstree('show_all');
 	//	for (var i = 0; i < allNodes.length; i++) {
 	//		var iNode = $("#apprJstree").jstree().get_node(allNodes[i]);
-	//		//모든 노드 enable
-	//		$("#apprJstree").jstree('enable_node', iNode);
 	//	}
 
 
@@ -441,17 +439,7 @@ function apprDone() {
 	});
 
 
-	// 결재순서 담은 input태그 추가
-	var apr_rows = apprLine.querySelectorAll(".apr_row");
-
-	apr_rows.forEach(function(row, i) {
-		var apprOrder = document.createElement("input");
-		apprOrder.setAttribute("type", "hidden");
-		apprOrder.setAttribute("name", "apr_no");
-		apprOrder.setAttribute("value", i + 1);
-		row.appendChild(apprOrder);
-
-	})
+	
 
 
 	console.log("last_apprLine", apprLine)
@@ -481,6 +469,7 @@ function apprDone() {
 
 	var apr_row_text = [];
 
+	var apr_rows = chkAppr.querySelectorAll(".apr_row")
 	apr_rows.forEach(function(row) {
 		apr_row_text.push(row.textContent);
 	})
@@ -754,14 +743,14 @@ async function selectComplete() {
 		console.log("tempCode", document.getElementById("tempCode").value)
 		
 		var autoApprHtml = $("#apr_chk").html();
-		var chkApprDiv = document.getElementById("chkAppr");
-		var aprrows = chkApprDiv.getElementsByClassName(".apr_row");
+		
 		console.log("--------------------------")
 		var ids = new Array();
 		ids.push(data2[0].empVo[0].id)
 		autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
 				"<input type='hidden' class='autoAppr' name='id' value='" + data2[0].empVo[0].id + "'>" +
 				"</div>";
+				
 		data2.forEach(function(list){
 			console.log("data2 foreach")
 			ids.forEach(function(id){
@@ -773,18 +762,11 @@ async function selectComplete() {
 						"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
 						"</div>";
 
-					aprrows.forEach(function(row, i) {
-						var orderno = document.createElement("input");
-						orderno.setAttribute("type", "hidden");
-						orderno.setAttribute("name", "apr_no");
-						orderno.setAttribute("value", i + 1);
-						row.appendChild(orderno);
-
-					})
 				}
 			})
 		})
 		$("#apr_chk").html(autoApprHtml);
+		
 //		for (let i = 0; i < data2.length; i++) {
 //			var code_name = data2[i].comVo.code_name;
 //			var id = data2[i].empVo[0].id;
