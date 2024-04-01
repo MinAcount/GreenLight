@@ -104,11 +104,11 @@ function getDept(result){
 			}
 			tableHTML += "<tr>";
 			if(item.position == "부서원"){
-				tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
+				tableHTML += "<td class='dept_mgr_hubo'><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
 			}else{
 				tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' disabled='disabled'></td>";
 			}
-			tableHTML += "<td>"+item.id+"</td>";
+			tableHTML += "<td class='dept_mgr_hubo_id'>"+item.id+"</td>";
 			tableHTML += "<td>"+item.name+"</td>";
 			tableHTML += "<td>"+result.dname+"</td>";
 			tableHTML += "<td>"+item.spot+"</td>";
@@ -215,10 +215,12 @@ function modifyHeadManager(val){
 	headHubo.forEach(function(head){
 		if(head.checked){
 			count = 1;
-			var confirmResult = confirm("부서장을 변경하시겠습니까?");
+			var confirmResult = confirm("본부장으로 등록하시겠습니까?");
 			if(confirmResult){
-				alert("부서장 변경이 완료되었습니다");
+				alert("본부장 변경이 완료되었습니다");
 				location.href="./updateHeadManager.do?id="+head.value+"&headno="+headno;
+			}else{
+				return;
 			}
 		}
 	})
@@ -231,6 +233,19 @@ function modifyHeadManager(val){
 //headAndDept.jsp
 function modifyDeptManager(val){
 	let deptno = val.toString().padStart(2, '0');
-	console.log("ho..");
-	console.log(deptno);
+	var deptHubo = document.querySelector(".dept_mgr_hubo input[type='radio']:checked");
+	if(!deptHubo){
+		alert("선택된 사람이 없습니다");
+		return;
+	}else{
+		console.log(deptHubo);
+		const deptHuboId = deptHubo.closest('tr').querySelector(".dept_mgr_hubo_id").innerText;
+		var confirmResult = confirm("부서장으로 등록하시겠습니까?");
+		if (confirmResult) {
+			alert("부서장 변경이 완료되었습니다");
+			location.href = "./updateDeptManager.do?id=" + deptHuboId + "&deptno=" + deptno;
+		} else {
+			return;
+		}
+	}
 }

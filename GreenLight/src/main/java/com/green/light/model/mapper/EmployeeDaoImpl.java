@@ -58,11 +58,6 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 	}
 
 	@Override
-	public int updateEmployeeAuth(String id) {
-		return sqlsession.update(NS+"updateEmployeeAuth", id);
-	}
-
-	@Override
 	public int updateExitEmployee(Map<String, Object> map) {
 		return sqlsession.update(NS+"updateExitEmployee", map);
 	}

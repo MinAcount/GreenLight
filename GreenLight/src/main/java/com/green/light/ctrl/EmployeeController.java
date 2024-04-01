@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -47,7 +48,7 @@ public class EmployeeController {
 	
 	@GetMapping("/employeeList.do")
 	public String employeeList(Model model) {
-		log.info("EmployeeController GET employeeList 직원 정보 리스트");
+		log.info("EmployeeController GET employeeList.do 직원 정보 리스트");
 		List<EmployeeVo> list = employeeService.getAllEmployee();
 		List<DepartmentVo> deptList = departmentService.getAllDept();
 		model.addAttribute("list",list);
@@ -58,7 +59,7 @@ public class EmployeeController {
 	
 	@GetMapping("/employeeOne.do")
 	public String employeeOne(String id, Model model) {
-		log.info("EmployeeController GET employeeOne 직원 상세 정보 : {}",id);
+		log.info("EmployeeController GET employeeOne.do 직원 상세 정보 : {}",id);
 		EmployeeVo vo = employeeService.getOneEmployee(id);
 		System.out.println("입력된 vo"+vo);
 		List<DepartmentVo> deptList = departmentService.getAllDept();
@@ -70,7 +71,7 @@ public class EmployeeController {
 	@PostMapping("/employeeUpdate.do")
 	@ResponseBody
 	public ResponseEntity<String> employeeUpdate(MultipartFile profile, @RequestParam Map<String, String> map, HttpSession session) throws IOException {
-	    log.info("EmployeeController POST employeeUpdate 직원 수정 : {}/{}", profile, map);
+	    log.info("EmployeeController POST employeeUpdate.do 직원 수정 : {}/{}", profile, map);
 	    String strProfile = "";
 	    if(profile != null) {
 	    	byte[] byteArr = profile.getBytes();
@@ -99,7 +100,7 @@ public class EmployeeController {
 	
 	@GetMapping("/updateExitDay.do")
 	public String updateExit(String id, String exit_day) {
-		log.info("EmployeeController GET updateExit 직원 퇴사일 수정 {}/{}",id,exit_day);
+		log.info("EmployeeController GET updateExit.do 직원 퇴사일 수정 {}/{}",id,exit_day);
 		Map<String, Object> map = new HashMap<String, Object>(){{
 			put("id",id);
 			put("exit_day",exit_day);
@@ -110,7 +111,7 @@ public class EmployeeController {
 	
 	@GetMapping("/employeeAddForm.do")
 	public String employeeAddForm(Model model) {
-		log.info("EmployeeController GET employeeAddForm 직원 추가 페이지 이동");
+		log.info("EmployeeController GET employeeAddForm.do 직원 추가 페이지 이동");
 		List<DepartmentVo> deptList = departmentService.getAllDept();
 		model.addAttribute("deptList",deptList);
 		return "employeeAddForm";
@@ -119,7 +120,7 @@ public class EmployeeController {
 	@PostMapping("/updateExit.do")
 	@ResponseBody
 	public ResponseEntity<?> updateExit(@RequestBody Map<String, Object> map){
-	    log.info("EmployeeController POST updateExit 직원 퇴사 : {}", map);
+	    log.info("EmployeeController POST updateExit.do 직원 퇴사 : {}", map);
 	    String id = (String)map.get("id");
 	    List<DocumentVo> docList = docService.getAllPendingApprovalDraft(id);
 	    System.out.println("결재대기중인문서:"+docList);
@@ -138,7 +139,7 @@ public class EmployeeController {
 	@PostMapping("/employeeAdd.do")
 	@ResponseBody
 	public ResponseEntity<String> employeeAdd(MultipartFile profile, @RequestParam Map<String, String> map) throws IOException {
-	    log.info("EmployeeController POST employeeAdd 직원 추가 : {}/{}", profile, map);
+	    log.info("EmployeeController POST employeeAdd.do 직원 추가 : {}/{}", profile, map);
 	    String strProfile = "";
 	    if(profile != null) {
 	    	byte[] byteArr = profile.getBytes();
@@ -250,5 +251,28 @@ public class EmployeeController {
 		log.info("EmployeeController POST searchEmployee.do 직원 검색 : {}", map);
 		List<DepartmentVo> list = departmentService.getEmployeeBySearch(map);
 		return ResponseEntity.ok(list);
+	}
+	
+	@PostMapping("/passwordReset.do")
+	@ResponseBody
+	public ResponseEntity<String> passwordReset(@RequestBody String id) {
+	    log.info("EmployeeController POST passwordReset.do 직원 비밀번호 초기화 {}",id);
+	    String randomCharacter = "abcdefghijklmnopqrstuvwxyz0123456789#?!@$%^&*-";
+	    String password = "";
+	    for(int i=0; i<6; i++) {
+	    	int randomIndex = (int)(Math.random()*randomCharacter.length());
+	    	password += randomCharacter.charAt(randomIndex);
+	    }
+	    System.out.println("보여지는 password"+password);
+	    String encodePassword = passwordEncoder.encode(password);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("password", encodePassword);
+		int n = employeeService.updatePassword(map);
+	    if (n>0) {
+	    	return ResponseEntity.ok(password);
+	    } else {
+	    	return ResponseEntity.ok("fail");
+	    }
 	}
 }

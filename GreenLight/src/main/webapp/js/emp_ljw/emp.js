@@ -220,11 +220,11 @@ function searchEmployee(event){
 	var option = document.querySelector("#searchOpt option:checked").value;
 	var activeEstatus = document.querySelector("#selectEstatus .nav-link.active").getAttribute("value");
 	var keyword = document.querySelector("#keyword").value;
-	if(keyword == ""){
-		alert("조회할 키워드를 입력해주세요");
-		return;
-	}
 	if(event.key == 'Enter'){
+		if(keyword == ""){
+			alert("조회할 키워드를 입력해주세요");
+			return;
+		}
 		fetch("./searchEmployee.do",{
 			method:"POST",
 			headers:{"Content-type":"application/json"},
@@ -482,5 +482,25 @@ function updateEmployee(id){
 			}
 			location.href="./employeeOne.do?id="+id;
 		});
+	}
+}
+
+//employeeOneModify.jsp
+function passwordReset(id){
+	var name = document.getElementById("name").value;
+	var confirmResult = confirm(name+"님의 비밀번호를 초기화 하시겠습니까?");
+	if(confirmResult){
+		fetch("./passwordReset.do",{
+				method: 'POST',
+				body: id,
+			})
+			.then(data => data.text())
+			.then(result =>{
+				if(result == 'fail'){
+					alert("비밀번호 초기화에 실패하였습니다");
+				}else{
+					alert("비밀번호는 "+result+" 입니다\n수정을 권장합니다");
+				}
+			});
 	}
 }

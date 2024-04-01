@@ -8,10 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.green.light.model.mapper.IDepartmentDao;
-import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IEmployeeDao;
 import com.green.light.model.mapper.IHeadquartersDao;
-import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -73,13 +71,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return list;
 	}
 	
-	@Transactional(readOnly = true)
 	@Override
 	public boolean updateEmployee(EmployeeVo vo) {
 		log.info("EmployeeServiceImpl updateEmployee 인사팀 전용 직원 정보 수정 및 권한 변경");
 		int n = dao.updateOneEmployee(vo);
-		int m = dao.updateEmployeeAuth(vo.getId());
-		return (n+m)>0 ? true : false;
+		return n>0 ? true : false;
 	}
 
 	@Transactional(readOnly = true)
@@ -106,13 +102,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return n;
 	}
 
-	@Transactional(readOnly = true)
 	@Override
 	public boolean insertEmployee(EmployeeVo vo) {
 		log.info("EmployeeServiceImpl insertEmployee 인사팀 전용 직원 입사 처리 및 권한 부여");
 		int n = dao.insertEmployee(vo);
-		int m = dao.updateEmployeeAuth(vo.getId());
-		return (n+m)>0 ? true : false;
+		return n>0 ? true : false;
 	}
 
 	@Override
