@@ -61,8 +61,13 @@ public class ScheduleJUnitTest {
 	
 //	@Test
 	public void dayScheduleTest() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String user_id = "2312120601";
 		String schedule_id = "S240328004";
-		ScheduleVo vo = service.daySchedule(schedule_id);
+		map.put("user_id", user_id);
+		map.put("schedule_id", schedule_id);
+		
+		ScheduleVo vo = service.daySchedule(map);
 		System.out.println(vo);
 		assertNotNull(vo);
 	}
@@ -100,8 +105,6 @@ public class ScheduleJUnitTest {
         
 		vo.setPermission("R");
 		vo.setAlarm("08");
-		
-		System.out.println("(((((((((((((((((((((((((((("+vo);
 		
 		int cnt = service.insertSchedule(vo);
 		assertEquals(1, cnt);

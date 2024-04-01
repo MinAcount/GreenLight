@@ -70,11 +70,10 @@ public class ScheduleController {
 		return lists;
 	}
 
-	@PostMapping(value = "/detailView.do")
+	@GetMapping(value = "/oneSchedule.do")
 	@ResponseBody
-	@CrossOrigin(origins = "http://allowed-origin.com")
-	public ScheduleVo DetailView(@RequestParam("schedule_id") String schedule_id, Model model) {
-		log.info("ScheduleController POST detailView.do 일정 상세조회 : {}", schedule_id);
+	public ScheduleVo OneSchedule(@RequestParam("schedule_id") String schedule_id, Model model) {
+		log.info("ScheduleController GET oneSchedule.do 일정 상세 보기 : {}", schedule_id);
 		ScheduleVo vo = service.daySchedule(schedule_id);
 		System.out.println(vo);
 		return vo;
