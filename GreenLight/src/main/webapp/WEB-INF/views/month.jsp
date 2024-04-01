@@ -231,6 +231,7 @@
 						<button type="button" class="btn btn-primary"
 							onclick="addScheduleHandler()">추가</button>
 					</div>
+<!-- 					</div> -->
 				</div>
 			</div>
 		</div>
