@@ -4,5 +4,8 @@ public interface ICronDao {
 	
 	
 	public int autoCompleteWorkTime();
+	
+	
+	
 
 }

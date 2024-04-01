@@ -36,6 +36,12 @@ public class VacationServiceImpl implements IVacationService {
 		log.info("VacationServiceImpl selectRemainingLeaveByMonth 전달받은 값 : {}",map);
 		return dao.selectRemainingLeaveByMonth(map);
 	}
+	
+	@Override
+	public VacationVo selectRemainingLeaveByDay(Map<String, Object> map) {
+		log.info("VacationServiceImpl selectRemainingLeaveByDay 전달받은 값 : {}",map);
+		return dao.selectRemainingLeaveByDay(map);
+	}
 
 	@Override
 	public int registerVacation(VacationVo vo) {
