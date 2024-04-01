@@ -135,19 +135,18 @@ $(function() {
 		var sel = $("#refJstree").jstree('get_selected');
 		console.log("sel----------", sel)
 		var selectedNode = $("#refJstree").jstree().get_node(sel);
-		//		console.log(selectedNode)
+				console.log(selectedNode)
 		var children = $("#refJstree").jstree().get_children_dom(selectedNode);
-		//		console.log(children, typeof children)
+				console.log(children, children.length)
 
 		if (children.length > 0) {
-			children.each(function(child) {
-				//			console.log(child, typeof child)
-				var childNode = $("#refJstree").jstree().get_node(child.id)
-				//			console.log("childNode",childNode)
+			children.each(function() {
+				var childNode = $("#refJstree").jstree().get_node($(this).attr('id'));
+							console.log("childNode",childNode)
 				var selText = $("#refJstree").jstree().get_text(childNode);
-				//			console.log(selText)
+							console.log(selText)
 				// Hide selected node
-				$("#refJstree").jstree('hide_node', child);
+				$("#refJstree").jstree('hide_node', childNode);
 				if (!selText) {
 					return;
 				}
@@ -193,7 +192,7 @@ $(function() {
 
 
 		$("#refJstree").jstree('deselect_node', sel);
-
+		deletedRef = [];
 	});
 
 
@@ -234,8 +233,8 @@ $(function() {
 		$("#apprJstree").jstree('deselect_node', sel);
 
 
-
-
+	
+		deletedAppr = [];
 	});
 
 
@@ -396,6 +395,8 @@ function cleanRef() {
 		//모든 노드 enable
 		$("#refJstree").jstree('enable_node', iNode);
 	}
+	
+	deletedRef = [];
 }
 
 var children_apr_row;
@@ -419,6 +420,7 @@ function clean() {
 	}
 	
 	console.log("cleanAppr",cleanAppr);
+	deletedAppr = [];
 }
 
 

@@ -65,7 +65,8 @@ function insertDocument() {
 			writer_id: writer_id,
 			emp_id: emp_id[i],
 			atype: "01",
-			orderno:orderno[i]
+			orderno:orderno[i],
+			appr_status:"01"
 		})
 		apprLine.push(apprVo);
 	}
@@ -95,7 +96,12 @@ function insertDocument() {
 	console.log(typeof refLine);
 
 	// 작성자 값 넘기기
-
+		var writerVo = {
+			writer_id: writer_id,
+			emp_id: writer_id,
+			atype: "03"
+		}
+		console.log("writerVo",writerVo)
 
 	/*filestorage table */
 	var fileInput = document.getElementById("fileInput");
@@ -113,6 +119,7 @@ function insertDocument() {
 	formData.append("getsu", getsu);
 	formData.append("apprLine", JSON.stringify(apprLine));
 	formData.append("refLine", JSON.stringify(refLine));
+	formData.append("writerVo", JSON.stringify(writerVo));
 
 
 	for (let i = 0; i < files.length; i++) {
@@ -139,6 +146,7 @@ function insertDocument() {
 		});
 
 
+
 }
 
 
@@ -158,3 +166,85 @@ function radioActiveE(chk) {
 	//      console.log("input[name='start_day']");
 	$("input[name='종료일']").prop("disabled", !chk);
 }
+
+
+
+
+var lastDetail;
+function addExpenseDetail(){
+	console.log("addExpenseDetail()")
+	var expenseDetail = document.getElementById("expenseDetail");
+	var tbody = expenseDetail.lastElementChild;
+	var lastRow = tbody.lastElementChild;
+	console.log("lastRow",lastRow)
+	
+	// 새로운 <tr> 생성
+	var newRow = document.createElement("tr");
+	newRow.setAttribute("class","details");
+
+	var tbodyTrs = tbody.getElementsByTagName("tr");
+	lastDetail = tbodyTrs[tbodyTrs.length-2];
+	console.log("lastDetail",lastDetail)
+
+
+	var amountInput = lastDetail.querySelector("[name='amount']");
+	// input 요소에 input 이벤트 리스너를 추가
+	amountInput.addEventListener("input", function(event) {
+		// 입력된 값 가져오기
+		var inputValue = event.target.value;
+
+		// 입력된 값을 콘솔에 출력
+		console.log("사용자 입력:", inputValue);
+	});
+	
+	var detailsTr = document.getElementsByClassName("details");
+	console.log("detailsTr",detailsTr)
+	if (detailsTr.length < 10) {
+		if (amountInput.value != '') {
+			newRow.innerHTML = '<td class="pdl10 pdr10"></td>' +
+				'<td class="pdl10 pdr10">' +
+				'<select class="datatable-selector" name="deptno" id="deptno">' +
+				'<option>물품구입비</option>' +
+				'<option>잡비</option>' +
+				'<option>회식비</option>' +
+				'<option>식비</option>' +
+				'<option>교통비</option>' +
+				'<option>기타</option>' +
+				'</select>' +
+				'</td>' +
+				'<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>' +
+				'<td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="text"></td>';
+			// 마지막 <tr> 요소 앞에 새로운 <tr> 요소를 삽입
+			tbody.insertBefore(newRow, lastRow);
+		}
+		else {
+			console.log("값을 입력하세요")
+		}
+	}else{
+		console.log("10개까지밖에 안돼용")
+	}
+}
+
+
+
+
+function deleteExpenseDetail(){
+	console.log(deleteExpenseDetail);
+	lastDetail.remove();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
