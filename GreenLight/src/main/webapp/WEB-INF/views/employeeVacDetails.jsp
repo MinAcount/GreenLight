@@ -143,9 +143,8 @@
 					</div>
 				</form>
 
-				
+				<hr class="mt-0 mb-4">
 				<div>
-				<form id="editForm" action="./attUpdate.do" method="post">
 					<table class="table">
 						<thead>
 							<tr>
@@ -177,7 +176,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-				</form>
 				</div>
 			</div>
 			<%@ include file="./include/footer.jsp"%>
