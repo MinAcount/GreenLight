@@ -59,7 +59,7 @@ SELECT E.ID, E.NAME, C.CODE_NAME
 <!-- 결재선 설정을 위한 jstree view 검색 selectApprJstreeView -->
 <select id="getAllApprJstreeView" resultMap="ApprJstreeVo">
 SELECT ID, TEXT, PARENT, SPOT, ICON
-   FROM APPR_JSTREE_VIEW ajv
+   FROM APPR_JSTREE_VIEW
 </select>
 
 
@@ -68,33 +68,6 @@ SELECT ID, TEXT, PARENT, SPOT, ICON
     INSERT INTO APPROVAL (APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO)
     	VALUES (TO_CHAR((SELECT MAX(TO_NUMBER(APPRNO)) FROM APPROVAL)+1), (SELECT MAX(DOCNO) FROM DOCUMENT), #{writer_id}, #{atype}, #{emp_id}, '01', #{orderno})
 </insert> 
-
-<!-- <insert id="insertApproval" parameterType="java.util.List"> -->
-<!-- 	<selectKey keyProperty="apprno" resultType="int" order="BEFORE"> -->
-<!-- 		SELECT APPROVAL_SEQ.NEXTVAL FROM DUAL -->
-<!-- 	</selectKey> -->
-
-<!--   INSERT INTO APPROVAL -->
-<!-- 	(APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS, ORDERNO, APPR_DATE, SIGNATURE, COMMENT) -->
-<!--    <foreach collection="list" item="item" separator=" UNION ALL " index="idx"> -->
-<!--        SELECT #{apprno} + #{idx}, (SELECT MAX(DOCNO) FROM DOCUMENT) AS DOCNO, #{writer_id}, #{item.atype}, #{item.emp_id}, '01', #{item.orderno}, '', '', '' FROM DUAL -->
-<!--     </foreach> -->
-<!-- </insert> -->
-
-
-<!-- 참조자 설정 -->
-<insert id="insertReference" parameterType="java.util.List">
-	<selectKey keyProperty="apprno" resultType="int" order="BEFORE">
-		SELECT APPROVAL_SEQ.NEXTVAL FROM DUAL
-	</selectKey>
-
-  INSERT INTO APPROVAL
-	(APPRNO, DOCNO, WRITER_ID, ATYPE, EMP_ID, APPR_STATUS)
-   <foreach collection="list" item="item" separator=" UNION ALL " index="idx">
-       SELECT #{apprno} + #{idx}, #{docno}, #{writer_id}, #{item.atype}, #{item.emp_id}, '01' FROM DUAL
-    </foreach>
-</insert>
-
 
 
 

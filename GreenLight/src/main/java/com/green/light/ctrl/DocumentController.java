@@ -107,6 +107,53 @@ public class DocumentController {
 				System.out.println("==== apprVo : " + apprVo + " ====");
 				apprVos.add(apprVo);
 			}
+			
+			
+			
+			
+			
+			
+			// refVo에 값 넣어주기
+		    String jsonRefString = (String) map.get("refLine");
+		      ObjectMapper objectMapper2 = new ObjectMapper();
+		      
+		      
+		      List<Map<String, String>> jsonRefArray = objectMapper2.readValue(jsonRefString, new TypeReference<List<Map<String, String>>>() {
+			  
+		      });
+		         
+				// 각 요소를 순회하면서 JSON 배열을 출력합니다.
+				for (Map<String, String> element : jsonRefArray) { // {},{},{} =>vo
+		            System.out.println("==== jsonArray에 들어있는 객체 : " + element + " ====");
+					ApprovalVo refVo = new ApprovalVo();
+					refVo.setApprno("");
+					refVo.setDocno(docno);
+					refVo.setWriter_id((String) map.get("writer_id"));
+					refVo.setAtype(element.get("atype"));
+					refVo.setEmp_id(element.get("emp_id"));
+					refVo.setAppr_status("");
+					refVo.setAppr_date("");
+//					refVo.setOrderno();
+					refVo.setSignature("");
+					refVo.setComment("");
+//		            apprService.insertApproval(refVo);
+					System.out.println("==== apprVo : " + refVo + " ====");
+					apprVos.add(refVo);
+				}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 //	         int n = apprService.insertApproval(approval);
 //	         System.out.println("몇개나 성공했니?:"+n);
 

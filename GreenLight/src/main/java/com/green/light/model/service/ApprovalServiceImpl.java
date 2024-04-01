@@ -44,11 +44,6 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.insertApproval(apprVo);
 	}
 
-	@Override
-	public int insertReference(List<ApprovalVo> ReferenceVos) {
-		log.info("ApprovalServiceImpl insertReference 참조자 추가 {}" ,ReferenceVos);
-		return dao.insertReference(ReferenceVos);
-	}
 
 	
 }
