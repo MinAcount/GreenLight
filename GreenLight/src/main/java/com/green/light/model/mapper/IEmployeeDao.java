@@ -30,6 +30,8 @@ public interface IEmployeeDao {
 	public int updateExitEmployee(Map<String, Object> map);
 //	퇴사일 수정	updateEmployeeExitDay
 	public int updateEmployeeExitDay(Map<String, Object> map);
+//	부서 발령신청서에 의한 부서 변경	updateEmployeeDept
+	public int updateEmployeeDept(Map<String, Object> map);
 //	직원 입사 처리	insertEmployee
 	public int insertEmployee(EmployeeVo vo);
 //	부서장 후보 조회	getDeptMgrHubo

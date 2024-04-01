@@ -26,6 +26,8 @@ public interface IEmployeeService {
 	public boolean updateEmployee(EmployeeVo vo);
 //	직원 퇴사 처리	updateExit
 	public int updateExit(Map<String, Object> map);
+//	부서 발령신청서에 의한 부서 변경	updateEmployeeDept
+	public int updateEmployeeDept(Map<String, Object> map);
 //	퇴사일 수정	updateEmployeeExitDay
 	public int updateEmployeeExitDay(Map<String, Object> map);
 //	직원 입사 처리	insertEmployee

@@ -36,11 +36,11 @@
 							<ul id="selectEstatus"
 								style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
 								<li class="nav-link active ms-0"
-									onclick="selectByStatus('A'); setActive(this)" value="A">전체(${fn:length(list)})</li>
+									onclick="selectByStatus('A','emp'); setActive(this)" value="A">전체(${fn:length(list)})</li>
 								<li class="nav-link"
-									onclick="selectByStatus('Y'); setActive(this)" value="Y">재직중(${count})</li>
+									onclick="selectByStatus('Y','emp'); setActive(this)" value="Y">재직중(${count})</li>
 								<li class="nav-link"
-									onclick="selectByStatus('N'); setActive(this)" value="N">퇴사자(${fn:length(list) - count})</li>
+									onclick="selectByStatus('N','emp'); setActive(this)" value="N">퇴사자(${fn:length(list) - count})</li>
 							</ul>
 						</nav>
 

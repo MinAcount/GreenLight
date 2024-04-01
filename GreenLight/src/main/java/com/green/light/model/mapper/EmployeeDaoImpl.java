@@ -87,4 +87,9 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		return sqlsession.selectOne(NS+"getLoginFail",id);
 	}
 
+	@Override
+	public int updateEmployeeDept(Map<String, Object> map) {
+		return sqlsession.update(NS+"updateEmployeeDept",map);
+	}
+
 }

@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.green.light.model.mapper.FileStorageDaoImpl">
+
+<resultMap type="com.green.light.vo.FileStorageVo" id="fileVo">
+	<result property="ref_id" column="REF_ID" />
+	<result property="ftype" column="FTYPE" />
+	<result property="origin_name" column="ORIGIN_NAME" />
+	<result property="stored_name" column="STORED_NAME" />
+	<result property="payload" column="PAYLOAD" />
+	<result property="fsize" column="FSIZE" />
+	<result property="upload_date" column="UPLOAD_DATE" />
+	<result property="delflag" column="DELFLAG" />
+	<collection property="comVo" resultMap="CommonVo" />
+</resultMap>
+<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+	<result property="type" column="TYPE" />
+	<result property="code_name" column="CODE_NAME" />
+	<result property="code" column="CODE" />
+</resultMap>
+
 <insert id="insertFile" parameterType="FileStorageVo">
 	INSERT INTO FILESTORAGE (REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG)
-		VALUES(#{ref_id}, '01', #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )
+		VALUES(#{ref_id}, #{ftype}, #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )
 </insert>
 
 <insert id="insertFiles" parameterType="java.util.List">
@@ -12,5 +30,27 @@
         VALUES(#{fileStorageVo.ref_id}, '01', #{fileStorageVo.origin_name}, #{fileStorageVo.stored_name}, #{fileStorageVo.payload}, #{fileStorageVo.fsize}, CURRENT_DATE , 'N' )
     </foreach>
 </insert>
+<select id="getOneFile" parameterType="java.util.Map" resultMap="fileVo">
+	SELECT REF_ID, FTYPE, c.CODE ,c.CODE_NAME , ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG
+		FROM COMMON c
+		LEFT JOIN FILESTORAGE f ON c."TYPE" = '파일구분' 
+		                        AND c.CODE = f.FTYPE
+		                        AND f.REF_ID = #{id}
+		WHERE c."TYPE" = '파일구분'
+		AND (c.CODE BETWEEN #{start} AND #{end})
+		ORDER BY c.CODE_NAME
+</select>
+<select id="downloadFile" parameterType="java.util.Map" resultMap="fileVo">
+	SELECT REF_ID, FTYPE, c.CODE ,c.CODE_NAME , ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG
+		FROM COMMON c JOIN FILESTORAGE f 
+			ON c."TYPE" = '파일구분' 
+			AND c.CODE = f.FTYPE
+		    AND f.REF_ID = #{id}
+			AND c.CODE = #{ftype}
+</select>
+<delete id="deleteOneFile" parameterType="java.util.Map">
+	DELETE FROM FILESTORAGE
+		WHERE REF_ID = #{id} AND FTYPE = #{ftype}
+</delete>
 
 </mapper>
