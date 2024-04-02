@@ -1,5 +1,29 @@
 function insertDocument() {
 	console.log("insertDocument()");
+	
+	
+	//input들 value 값 저장하기
+	var templateArea = document.getElementById("templateArea");
+	var inputs = templateArea.querySelectorAll("input[type='text']");
+	console.log("inputs", inputs)
+	inputs.forEach(function(input) {
+		console.log(input.value);
+		var newPTag = document.createElement("P");
+		input.parentElement.appendChild(newPTag);
+		console.log("input", input.parentElement);
+		if (input.value != null) {
+			newPTag.textContent = input.value;
+			console.log("newPTag", newPTag.textContent);
+		}
+		input.remove();
+		//		input.setAttribute("value",input.value);
+		//		input.setAttribute("readonly", "readonly");
+	})
+	
+	
+	
+	
+	
 	// 결재순서 input 만들기
 	var chkApprDiv = document.getElementById("chkAppr");
 	var aprrows = chkApprDiv.querySelectorAll(".apr_row");
@@ -13,11 +37,13 @@ function insertDocument() {
 
 
 	/*document table*/
-	var writer_id = document.getElementById("writer_id").value;
+	var writer_id = document.getElementById("writer_id").textContent;
 	var templateArea = document.getElementById("templateArea");
 	var content = templateArea.innerHTML;
-	var title = document.getElementById("title").value;
-	var draft_date = document.getElementById("draft_date").value;
+	var titleTd = document.getElementById("title");
+	var titleP = titleTd.getElementsByTagName("p")[0];
+	var title = titleP.textContent;
+	var draft_date = document.getElementById("draft_date").textContent;
 	var urgencyChecked = document.getElementById("urgency");
 	var urgency = urgencyChecked.checked ? 'Y' : 'N';
 	var tempcode = document.getElementById("tempCode").value;
@@ -28,15 +54,31 @@ function insertDocument() {
 	console.log("urgency:", urgency);
 	console.log("tempcode:", tempcode);
 
+
 	/*vacation table*/
 	/*var writer_id = document.getElementById("writer_id").value;*/
 	var start_day = document.getElementById("start_day").value;
 	var end_day = document.getElementById("end_day").value;
-	var getsu = document.getElementById("getsu").value;
+	
+	var getsu = document.getElementById("getsu").textContent;
 
 	console.log("start_day:", start_day);
 	console.log("end_day:", end_day);
 	console.log("getsu:", getsu);
+
+	//기간 및 일시 태그 대체
+	var dateRange = templateArea.querySelector("#dateRange");
+
+	var newP = document.createElement("p");
+	newP.textContent = start_day + " ~ " + end_day;
+	console.log("newP",newP.textContent)
+	
+	dateRange.innerHTML = "";
+	dateRange.appendChild(newP);
+	
+	
+	
+	content = templateArea.innerHTML;
 
 	/*Approval table*/
 	// 결재자 값 넘기기
@@ -65,8 +107,8 @@ function insertDocument() {
 			writer_id: writer_id,
 			emp_id: emp_id[i],
 			atype: "01",
-			orderno:orderno[i],
-			appr_status:"01"
+			orderno: orderno[i],
+			appr_status: "01"
 		})
 		apprLine.push(apprVo);
 	}
@@ -96,12 +138,12 @@ function insertDocument() {
 	console.log(typeof refLine);
 
 	// 작성자 값 넘기기
-		var writerVo = {
-			writer_id: writer_id,
-			emp_id: writer_id,
-			atype: "03"
-		}
-		console.log("writerVo",writerVo)
+	var writerVo = {
+		writer_id: writer_id,
+		emp_id: writer_id,
+		atype: "03"
+	}
+	console.log("writerVo", writerVo)
 
 	/*filestorage table */
 	var fileInput = document.getElementById("fileInput");
@@ -147,6 +189,7 @@ function insertDocument() {
 
 
 
+
 }
 
 
@@ -171,20 +214,20 @@ function radioActiveE(chk) {
 
 
 var lastDetail;
-function addExpenseDetail(){
+function addExpenseDetail() {
 	console.log("addExpenseDetail()")
 	var expenseDetail = document.getElementById("expenseDetail");
 	var tbody = expenseDetail.lastElementChild;
 	var lastRow = tbody.lastElementChild;
-	console.log("lastRow",lastRow)
-	
+	console.log("lastRow", lastRow)
+
 	// 새로운 <tr> 생성
 	var newRow = document.createElement("tr");
-	newRow.setAttribute("class","details");
+	newRow.setAttribute("class", "details");
 
 	var tbodyTrs = tbody.getElementsByTagName("tr");
-	lastDetail = tbodyTrs[tbodyTrs.length-2];
-	console.log("lastDetail",lastDetail)
+	lastDetail = tbodyTrs[tbodyTrs.length - 2];
+	console.log("lastDetail", lastDetail)
 
 
 	var amountInput = lastDetail.querySelector("[name='amount']");
@@ -196,12 +239,14 @@ function addExpenseDetail(){
 		// 입력된 값을 콘솔에 출력
 		console.log("사용자 입력:", inputValue);
 	});
-	
+
 	var detailsTr = document.getElementsByClassName("details");
-	console.log("detailsTr",detailsTr)
+	console.log("detailsTr", detailsTr)
 	if (detailsTr.length < 10) {
 		if (amountInput.value != '') {
-			newRow.innerHTML = '<td class="pdl10 pdr10"></td>' +
+			newRow.innerHTML = '<td class="pdl10 pdr10">' +
+                '<input class="width100p height33px" type="text">'+
+                '</td>' +
 				'<td class="pdl10 pdr10">' +
 				'<select class="datatable-selector" name="deptno" id="deptno">' +
 				'<option>물품구입비</option>' +
@@ -220,7 +265,7 @@ function addExpenseDetail(){
 		else {
 			console.log("값을 입력하세요")
 		}
-	}else{
+	} else {
 		console.log("10개까지밖에 안돼용")
 	}
 }
@@ -228,9 +273,20 @@ function addExpenseDetail(){
 
 
 
-function deleteExpenseDetail(){
+function deleteExpenseDetail() {
 	console.log(deleteExpenseDetail);
-	lastDetail.remove();
+	var expenseDetail = document.getElementById("expenseDetail");
+	console.log("expenseDetail", expenseDetail);
+	var tbody = expenseDetail.getElementsByTagName("tbody")[0];
+	console.log("tbody", tbody);
+	var tbodyTrs = tbody.querySelectorAll(".details");
+	console.log("tbodyTrs", tbodyTrs);
+	var delLastDetail = tbodyTrs[tbodyTrs.length - 1];
+	console.log("delLastDetail", delLastDetail);
+
+	if (tbodyTrs.length > 1) {
+		delLastDetail.remove();
+	}
 }
 
 

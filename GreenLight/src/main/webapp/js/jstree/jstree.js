@@ -729,9 +729,9 @@ async function selectComplete() {
 			console.log("dname:", dname);
 			console.log("writer_id:", writer_id);
 
-			name.value = loginVo_name;
-			dname.value = deptVo_dname;
-			writer_id.value = loginVo_id;
+			name.textContent = loginVo_name;
+			dname.textContent = deptVo_dname;
+			writer_id.textContent = loginVo_id;
 
 			// 기안 뿌리기
 			var today = new Date();
@@ -744,7 +744,7 @@ async function selectComplete() {
 			console.log(dateString)
 
 			// input 요소의 value에 할당
-			document.querySelector("#draft_date").value = dateString;
+			document.querySelector("#draft_date").textContent = dateString;
 			
 			// 기안란 직위, 이름, 기안일 textContent
 			document.querySelector("#drafter_spot").textContent = loginVo_spot;
@@ -793,7 +793,7 @@ async function selectComplete() {
 				var getsu_date = end_date.getTime() - start_date.getTime();
 				var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
 				console.log("getsu:", getsu);
-				document.getElementById("getsu").value = getsu;
+				document.getElementById("getsu").textContent = getsu;
 			});
 
 

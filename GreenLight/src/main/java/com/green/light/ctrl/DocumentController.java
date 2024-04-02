@@ -11,6 +11,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +24,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDocumentService;
+import com.green.light.model.service.IEmployeeService;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
+import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.FileStorageVo;
 import com.green.light.vo.VacationVo;
 
@@ -42,7 +45,8 @@ public class DocumentController {
 	
 	@PostMapping(value = "/insertDocument.do")
 	@ResponseBody
-	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map, MultipartFile[] files) throws Exception {
+	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map,
+			/* @RequestParam(name = "files", required = false) */ MultipartFile[] files) throws Exception {
 	    log.info("DocumentController insertDocument POST /insertDocument.do : {}, {}", map, files);
 	    
 	    // docVo에 값 넣어주기
@@ -73,7 +77,8 @@ public class DocumentController {
 	    											Base64.getEncoder().encodeToString(byteArr), 
 	    											(int)files[i].getSize(), 
 	    											"", 
-	    											"");
+	    											"",
+	    											null);
 	    	System.out.println("==== fileVo : " + fileVo + " ====");
 	    	fileVos.add(fileVo);
 	    }
@@ -197,7 +202,19 @@ public class DocumentController {
 	}
 	
 	@GetMapping(value = "/draftDetail.do")
-	public String draftDetail() {
+	public String draftDetail(Model model, @RequestParam("docno") String docno) {
+		System.out.println("docno:"+ docno);
+		DocumentVo docVo = service.getDocumentDetail(docno);
+		model.addAttribute("docVo",docVo);
+		System.out.println("docVo:"+docVo);
+		
+		List<EmployeeVo> apprVo = apprService.getApproval(docno);
+		model.addAttribute("apprVo",apprVo);
+		System.out.println("apprVo"+apprVo);
+		
+		List<EmployeeVo> refVo = apprService.getReference(docno);
+		model.addAttribute("refVo", refVo);
+		System.out.println("refVo"+refVo);
 		return "draftDetail";
 	}
 }

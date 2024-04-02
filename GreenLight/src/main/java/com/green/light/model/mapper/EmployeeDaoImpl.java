@@ -92,4 +92,9 @@ public class EmployeeDaoImpl implements IEmployeeDao {
 		return sqlsession.update(NS+"updateEmployeeDept",map);
 	}
 
+	@Override
+	public List<EmployeeVo> getApproval(String docno) {
+		return sqlsession.selectList(NS+"getApproval", docno);
+	}
+
 }

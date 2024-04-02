@@ -86,6 +86,15 @@
    		SELECT DOCUMENT_SEQ.NEXTVAL AS seq FROM DUAL	
    </select>
    
+   <!-- 기안서 상세조회 -->
+   <select id="getDocumentDetail" resultMap="DocumentVo" parameterType="java.lang.String">
+	   	SELECT E.NAME , D2.DNAME , D.DRAFT_DATE , D.DOCNO , D.CONTENT
+			FROM DOCUMENT d
+			JOIN EMPLOYEE e ON D.WRITER_ID = E.ID
+			JOIN DEPARTMENT d2 ON E.DEPTNO = D2.DEPTNO
+			WHERE DOCNO = #{docno}
+   </select>
+   
    <!-- 기안서 상신/임시저장 insertDocument -->
    <insert id="insertDocument" parameterType="DocumentVo">
    		INSERT INTO DOCUMENT

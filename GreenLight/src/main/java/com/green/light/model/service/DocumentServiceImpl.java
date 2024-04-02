@@ -123,5 +123,14 @@ public class DocumentServiceImpl implements IDocumentService{
 		log.info("DocumentServiceImpl getAllRefDraftByDocStatus 참조문서함 기안서상태별 전체조회 : {}", map);
 		return dao.getAllRefDraftByDocStatus(map);
 	}
+
+
+	@Override
+	public DocumentVo getDocumentDetail(String docno) {
+		log.info("DocumentServiceImpl getDocumentDetail 기안문서 상세조회 : {}", docno);
+		return dao.getDocumentDetail(docno);
+	}
+
+
 	
 }
