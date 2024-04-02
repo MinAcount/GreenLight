@@ -19811,3 +19811,18 @@ th, td {
 .pdl10{
 	padding-left: 10px;
 }
+.pdr10{
+	padding-right: 10px;
+}
+
+.borderNone{
+	border: none;
+}
+
+.width100p{
+	width: 100%;
+}
+
+.height33px {
+	height: 33px;
+}

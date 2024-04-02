@@ -95,10 +95,10 @@ public class DocumentController {
 				ApprovalVo apprVo = new ApprovalVo();
 				apprVo.setApprno("");
 				apprVo.setDocno(docno);
-				apprVo.setWriter_id((String) map.get("writer_id"));
+				apprVo.setWriter_id((String) element.get("writer_id"));
 				apprVo.setAtype(element.get("atype"));
 				apprVo.setEmp_id(element.get("emp_id"));
-				apprVo.setAppr_status("");
+				apprVo.setAppr_status(element.get("appr_status"));
 				apprVo.setOrderno(Integer.parseInt((String) element.get("orderno")));
 				apprVo.setAppr_date("");
 				apprVo.setSignature("");
@@ -124,7 +124,7 @@ public class DocumentController {
 		         
 				// 각 요소를 순회하면서 JSON 배열을 출력합니다.
 				for (Map<String, String> element : jsonRefArray) { // {},{},{} =>vo
-		            System.out.println("==== jsonArray에 들어있는 객체 : " + element + " ====");
+		            System.out.println("==== jsonRefArray에 들어있는 객체 : " + element + " ====");
 					ApprovalVo refVo = new ApprovalVo();
 					refVo.setApprno("");
 					refVo.setDocno(docno);
@@ -136,14 +136,39 @@ public class DocumentController {
 //					refVo.setOrderno();
 					refVo.setSignature("");
 					refVo.setComment("");
-//		            apprService.insertApproval(refVo);
 					System.out.println("==== apprVo : " + refVo + " ====");
 					apprVos.add(refVo);
 				}
 			
 			
 			
-			
+				String jsonWriterString = (String) map.get("writerVo");	
+				System.out.println("===== wirterVo:" + jsonWriterString);
+				
+				ObjectMapper objectMapper3 = new ObjectMapper();
+				ApprovalVo writerVo = objectMapper3.readValue(jsonWriterString, ApprovalVo.class);
+				ApprovalVo vo = new ApprovalVo("", 
+						docno, 
+						(String)writerVo.getWriter_id(),
+						(String)writerVo.getAtype(),
+						(String)writerVo.getEmp_id(),
+						"",
+						0,
+						"",
+						"",
+						"");
+//						vo.setApprno("");
+//						vo.setDocno(docno);
+//						vo.setWriter_id((String)writerVo.getWriter_id());
+//						vo.setAtype((String)writerVo.getAtype());
+//						vo.setEmp_id((String)writerVo.getEmp_id());
+//						vo.setAppr_status("");
+//						vo.setAppr_date("");
+////						vo.setOrderno();
+//						vo.setSignature("");
+//						vo.setComment("");
+						System.out.println("==== writerVo : " + vo + " ====");
+						apprVos.add(vo);
 			
 			
 			
