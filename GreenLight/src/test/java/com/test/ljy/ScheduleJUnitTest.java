@@ -41,7 +41,7 @@ public class ScheduleJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-//	@Test
+	@Test
 	public void MonthScheduleTest() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user_id", "2312120601");
@@ -61,18 +61,13 @@ public class ScheduleJUnitTest {
 	
 //	@Test
 	public void dayScheduleTest() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String user_id = "2312120601";
 		String schedule_id = "S240328004";
-		map.put("user_id", user_id);
-		map.put("schedule_id", schedule_id);
-		
-//		ScheduleVo vo = service.daySchedule(map);
-//		System.out.println(vo);
-//		assertNotNull(vo);
+		ScheduleVo vo = service.daySchedule(schedule_id);
+		System.out.println(vo);
+		assertNotNull(vo);
 	}
 	
-	@Test
+//	@Test
 	public void InsertScheduleTest() throws ParseException {
 		ScheduleVo vo = new ScheduleVo();
 		vo.setCno("2303100101");
