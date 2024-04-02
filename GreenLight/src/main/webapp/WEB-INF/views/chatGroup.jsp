@@ -104,12 +104,12 @@
 		
 		.right {
 		    text-align: right;
-		    height: 10vh;
+		    height: 9vh;
 		}
 		
 		.left {
 			text-align: left;
-			height: 10vh;
+			height: 9vh;
 		}
 		
 		#textbox {
@@ -184,6 +184,7 @@
 	<div id="layoutSidenav">
 		<%@ include file="./include/mainSidenav.jsp" %>
 <input type="hidden" value="${loginVo.id}" id="id">
+<input type="hidden" value="${loginVo.name}" id="name">
 <!-- 콘텐트 영역 -->
 	<div id="layoutSidenav_content">
 		<div id="main_content">
