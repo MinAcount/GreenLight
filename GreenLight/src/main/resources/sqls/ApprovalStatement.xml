@@ -7,7 +7,7 @@
    <result property="deptno" column="DEPTNO"/>
    <result property="position" column="POSITION"/>
    <result property="spot" column="SPOT"/>
-   <collection property="deptVo" resultMap="DepartmentVoMap"/>
+<!--    <collection property="deptVo" resultMap="DepartmentVoMap"/> -->
    <collection property="comVo" resultMap="CommonVoMap"/>
 </resultMap>
 
@@ -69,6 +69,23 @@ SELECT ID, TEXT, PARENT, SPOT, ICON
     	VALUES (TO_CHAR((SELECT MAX(TO_NUMBER(APPRNO)) FROM APPROVAL)+1), (SELECT MAX(DOCNO) FROM DOCUMENT), #{writer_id}, #{atype}, #{emp_id}, #{appr_status}, #{orderno})
 </insert> 
 
+<!-- 결재선 조회 -->
+<select id="getApproval" parameterType="java.lang.String" resultMap="EmployeeVoMap">
+SELECT e.NAME , (SELECT CODE_NAME FROM COMMON c WHERE e.SPOT = c.CODE AND c."TYPE" = '직위') AS SPOT,
+		a.EMP_ID, a.ORDERNO , a.APPR_STATUS , a.APPR_DATE , a.SIGNATURE ,a."COMMENT" 
+        FROM APPROVAL a JOIN EMPLOYEE e 
+        ON a.EMP_ID = e.ID 
+        WHERE DOCNO = #{docno} AND ATYPE = '01'
+        ORDER BY ORDERNO 
+</select>
 
+<!-- 참조자 조회-->
+<select id="getReference" parameterType="java.lang.String" resultMap="EmployeeVoMap">
+	SELECT e.NAME , (SELECT CODE_NAME FROM COMMON c WHERE e.SPOT = c.CODE AND c."TYPE" = '직위') AS SPOT,
+		a.EMP_ID, a.ORDERNO , a.APPR_STATUS , a.APPR_DATE , a.SIGNATURE ,a."COMMENT" 
+        FROM APPROVAL a JOIN EMPLOYEE e 
+        ON a.EMP_ID = e.ID 
+        WHERE DOCNO = #{docno} AND ATYPE = '02'
+</select>
 
 </mapper>

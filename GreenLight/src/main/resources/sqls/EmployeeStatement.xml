@@ -28,6 +28,7 @@
 	<result property="code_name" column="CODE_NAME"/>
 </resultMap>
 
+
 <!-- 로그인	getLogin -->
 <select id="getLogin" parameterType="java.util.Map" resultType="EmpVo">
 	<![CDATA[
@@ -189,4 +190,8 @@
         AND ESTATUS = 'Y'
         ORDER BY NAME
 </select>
+
+
+
+
 </mapper>

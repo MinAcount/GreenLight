@@ -19826,3 +19826,8 @@ th, td {
 .height33px {
 	height: 33px;
 }
+
+.badge-danger{
+	background-color: red;
+}
+

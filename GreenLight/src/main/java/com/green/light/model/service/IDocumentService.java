@@ -35,5 +35,8 @@ public interface IDocumentService {
 
 	// 참조문서함 기안서상태별 전체조회 getAllRefDraftByDocStatus
 	public List<DocumentVo> getAllRefDraftByDocStatus(Map<String, Object> map);
+	
+	// 기안문서 상세조회 getDocumentDetail
+	public DocumentVo getDocumentDetail(String docno);
 
 }
