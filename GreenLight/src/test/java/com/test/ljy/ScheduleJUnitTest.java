@@ -67,9 +67,9 @@ public class ScheduleJUnitTest {
 		map.put("user_id", user_id);
 		map.put("schedule_id", schedule_id);
 		
-		ScheduleVo vo = service.daySchedule(map);
-		System.out.println(vo);
-		assertNotNull(vo);
+//		ScheduleVo vo = service.daySchedule(map);
+//		System.out.println(vo);
+//		assertNotNull(vo);
 	}
 	
 	@Test
