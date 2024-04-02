@@ -91,6 +91,7 @@ var getMsgData = "";
 var id = "";
 var chatListAll = "";
 var chatListNoti = "";
+var name = "";
 
 //채팅방 목록 클릭 시 chat_id 전달하여 해당 채팅방 오픈
 function getViewInsideChat(idx, i){
@@ -110,14 +111,45 @@ function getViewInsideChat(idx, i){
 			
 			ws.onopen = function(){
 				console.log("웹소켓 오픈");
-				ws.send("#$nick:" + id);
-				console.log(id);
 			}
 			
 			ws.onclose = function(){
 				alert("서버와 연결이 종료되었습니다");
 			}
 			
+			function formatSendDate(send_date){
+				var date = new Date(send_date);
+				var hours = date.getHours();
+				var minutes = date.getMinutes();
+			    var amOrPm = hours >= 12 ? '오후' : '오전'; // 시간이 12 이상인 경우 '오후', 그렇지 않은 경우 '오전'
+			    hours = hours % 12 || 12; // 시간을 12시간 형식으로 조정
+			    var timeString = amOrPm + ' ' + hours + ':' + (minutes < 10 ? '0' : '') + minutes; // 시간과 분을 구분자와 함께 합치기
+			    return timeString;
+			}
+			
+			ws.onmessage = function(event){
+				var msg = event.data.split(":")[0];
+				var sendName = event.data.split(":")[1];
+				var chat_id = event.data.split(":")[2];
+				var send_date = new Date();
+				var formattedSendDate = formatSendDate(send_date);
+				name = document.getElementById("name").value;
+				console.log("서버로부터 전달된 메시지 : ", msg);
+				console.log(msg);
+				console.log(sendName);
+				console.log(chat_id);
+				if(sendName.startsWith(name)){
+					console.log("확인1");
+					$("#middleChat").append($("<div>").css("float", "right").append($("<div>").text(sendName).css("text-align", "right")).append($("<span>").text(formattedSendDate).css("text-align", "right")).append($("<span id='textbox'>").text(msg).css("text-align", "right"))).append("<br><br><br>");
+				} else {
+					console.log("확인2");
+					$("#middleChat").append($("<div>").css("float", "left").append($("<div>").text(sendName).css("text-align", "left")).append($("<span id='textbox'>").text(msg).css("text-align", "left")).append($("<span>").text(formattedSendDate).css("text-align", "left"))).append("<br><br><br>");
+				}
+				$("#middleChat").scrollTop($("#middleChat")[0].scrollHeight);
+				
+				document.getElementById('roomname'+chat_id).children[1].innerText = formatSendDate(send_date);
+				document.getElementById('chat'+chat_id).children[0].innerText = msg;
+			};
 			
 			
 			fetch('./insideChat.do', {
@@ -127,7 +159,6 @@ function getViewInsideChat(idx, i){
 					"Accept":"application/json"
 					},
 				body: JSON.stringify({
-					//id:chat_id
 					id:idx
 				}),
 			})
@@ -190,6 +221,27 @@ function getViewInsideChat(idx, i){
 		if(message != ""){
 			ws.send(message + ":" + id + ":" + chat_id);
 			$("#chatInput").val("");
+			fetch('./insertSendMessage.do', {
+					method: 'POST',
+					headers: {
+						"Content-Type":"application/json"
+					},
+					body: JSON.stringify({
+						chat_id:chat_id,
+						writter:id,
+						content:message
+					})
+				})
+				.then(response => {
+					if(!response.ok){
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					console.log("성공 : ", data);
+				});
+			
 		}
 	}
 

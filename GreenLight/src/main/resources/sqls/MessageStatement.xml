@@ -55,6 +55,7 @@ SELECT GROUPNO, CHAT_ID, ROOMNAME,
              FROM GROUPMEMBER G, MESSAGE M
              WHERE G.ID = #{id}
              AND G.CHAT_ID = M.CHAT_ID
+             AND G.LAST_MESG = M.MESG_ID 
              GROUP BY G.CHAT_ID) S
        WHERE GROUP_OUT = 'N'
        ORDER BY FAVOR DESC, SEND_DATE DESC
@@ -120,12 +121,20 @@ UPDATE GROUPMEMBER
        SET NOTI = #{noti}
        WHERE CHAT_ID = #{chat_id} AND ID = #{id}
 </update>
-<!-- 	 채팅 더보기 getMoreMessage -->
-
 <!-- 	 메시지 전송 insertSendMessage -->
-
-
-
+<insert id="insertSendMessage" parameterType="MessageVo">
+	<selectKey resultType="java.lang.String" keyProperty="mesg_id" order="BEFORE">
+		SELECT MESSAGE_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO MESSAGE (MESG_ID, CHAT_ID, WRITTER, CONTENT, SEND_DATE, FILE_YN) 
+    VALUES (#{mesg_id}, #{chat_id}, #{writter}, #{content}, CURRENT_DATE, 'N')
+</insert>
+<!-- 	 메시지 전송 updateSendMessage -->
+<update id="updateSendMessage" parameterType="java.util.Map">
+UPDATE GROUPMEMBER
+       SET LAST_MESG = MESSAGE_SEQ.CURRVAL
+       WHERE CHAT_ID = #{chat_id}
+</update>
 
 
 

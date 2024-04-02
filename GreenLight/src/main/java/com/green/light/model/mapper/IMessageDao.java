@@ -25,8 +25,8 @@ public interface IMessageDao {
 	public int updateFavor(Map<String, Object> map);
 	// 알림여부 updateNoti
 	public int updateNoti(Map<String, Object> map);
-	// 채팅 더보기 getMoreMessage
-	
 	// 메시지 전송 insertSendMessage
-	
+	public int insertSendMessage(MessageVo vo);
+	// 메시지 전송 updateSendMessage
+	public int updateSendMessage(String chat_id);
 }

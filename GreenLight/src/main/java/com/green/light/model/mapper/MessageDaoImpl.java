@@ -50,4 +50,16 @@ public class MessageDaoImpl implements IMessageDao {
 		return sqlsession.update(NS + "updateChatName", map);
 	}
 
+	@Override
+	public int insertSendMessage(MessageVo vo) {
+		log.info("insertSendMessage {}", vo);
+		return sqlsession.insert(NS + "insertSendMessage", vo);
+	}
+
+	@Override
+	public int updateSendMessage(String chat_id) {
+		log.info("updateSendMessage {}", chat_id);
+		return sqlsession.update(NS + "updateSendMessage", chat_id);
+	}
+
 }
