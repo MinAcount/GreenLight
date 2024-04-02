@@ -170,7 +170,127 @@
 				<div
 					style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
 					<div id="templateArea">
-						
+						<div style="width: 100%; text-align: center;" id="templateAreaLeft">
+                     <div class="top"
+                     style="text-align: center; margin-bottom: 70px; padding-top: 30px;">
+                     <h2>지출결의서</h2>
+                  </div>
+                  <div class="header1"
+								style="display: flex; flex-direction: row; justify-content: flex-end; margin-bottom: 50px;">
+								<div style="display: flex; flex-direction: row;">
+									<table id="WriterArea" class="template" style="height: 160px;">
+										<tr>
+											<th rowspan="3" class="width30">신청</th>
+											<td id="drafter_spot" class="fontSize14" style="width: 90px; height: 20px;"></td>
+										</tr>
+										<tr>
+											<td>
+												<div id="drafter_name" class="fontSize14"></div>
+											</td>
+										</tr>
+										<tr>
+											<td id="drafter_draft_date" class="fontSize14" style="height: 20px;"></td>
+										</tr>
+									</table>
+									<table id="approvalArea" class="template"
+										style="margin-left: 10px; height: 160px;">
+										<tr id="firstTr">
+											<th id="apprTh" rowspan="3" class="width30" style="display: none;">승인</th>
+											
+										</tr>
+										<tr id="secondTr">
+											
+										</tr>
+										<tr id="thirdTr">
+											
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div class="header2"
+								style="display: flex; flex-direction: row; justify-content: flex-start;">
+								<div style="width: 100%;">
+									<table class="template" style="width: 65%;">
+										<tr>
+											<th style="width: 80px;">기안자</th>
+											<td id="draftWriter" style="width: 180px;" class="paddingL10">
+												<input type="text" id="name" name="name" value="" readonly="readonly">
+                                    			<input type="hidden" id="writer_id" name="writer_id" value="">
+											</td>
+										</tr>
+										<tr>
+											<th>소속부서</th>
+											<td class="paddingL10">
+												<input type="text" id="dname" name="dname" value="">
+											</td>
+										</tr>
+										<tr>
+											<th>기안일</th>
+											<td class="paddingL10">
+												<input type="text" id="draft_date" name="draft_date" value="">
+											</td>
+										</tr>
+										<tr>
+											<th>문서번호</th>
+											<td class="paddingL10"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+							<div id="content">
+								<div style="width: 100%; margin-top: 30px;">
+									<table class="template" style="width: 100%;">
+										<colgroup>
+											<col width="20%">
+											<col width="80%">
+										</colgroup>
+										<tr>
+											<th style="width: 20%;">제목</th>
+											<td colspan="3">
+												<input type="text" id="title" name="title">
+											</td>
+										</tr>
+										<tr>
+											<th>금액</th>
+											<td><input type="text"></td>
+										</tr>
+										<tr>
+											<th>지출사유</th>
+											<td><input type="text"></td>
+										</tr>
+									</table>
+								</div>
+							</div>
+                  <div class="AddDetails"
+                     style="margin-top: 30px; margin-bottom: 10px; text-align: right;">
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1">추가</button>
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1">삭제</button>
+                  </div>
+                  <div class="bottom" style="width: 100%;">
+                     <table class="template" style="width: 100%;">
+                        <tr>
+                           <th>일자</th>
+                           <th>분류</th>
+                           <th>사용내역</th>
+                           <th>금액</th>
+                           <th>비고</th>
+                        </tr>
+                        <tr>
+                           <td><input type="text"></td>
+                           <td><input type="text"></td>
+                           <td><input type="text"></td>
+                           <td><input type="text"></td>
+                           <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                           <th colspan="2">합계</th>
+                           <td colspan="3"><p id=""></p></td>
+                        </tr>
+                     </table>
+                  </div>
+                  </div>
 					</div>
 					<div
 						style="margin-left: 30px; width: 25%; border: 1px solid black; padding: 10px; border-color: #B0B5B1;">
