@@ -3,7 +3,7 @@
 <mapper namespace="com.green.light.model.mapper.FileStorageDaoImpl">
 <insert id="insertFile" parameterType="FileStorageVo">
 	INSERT INTO FILESTORAGE (REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG)
-		VALUES(#{ref_id}, '01', #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )
+		VALUES(#{ref_id}, #{ftype}, #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )
 </insert>
 
 <insert id="insertFiles" parameterType="java.util.List">

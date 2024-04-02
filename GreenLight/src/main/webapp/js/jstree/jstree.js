@@ -713,9 +713,11 @@ async function selectComplete() {
 			var loginVo_name = document.getElementById("loginVo_name").value;
 			var deptVo_dname = document.getElementById("deptVo_dname").value;
 			var loginVo_id = document.getElementById("loginVo_id").value;
+			var loginVo_spot = document.getElementById("loginVo_spot").value;
 			console.log("loginVo_name:", loginVo_name);
 			console.log("deptVo_dname:", deptVo_dname);
 			console.log("loginVo_id:", loginVo_id);
+			console.log("loginVo_spot:", loginVo_spot);
 
 			// 값이 뿌려질 input hidden 태그 탐색
 			var name = document.getElementById("name");
@@ -741,7 +743,16 @@ async function selectComplete() {
 
 			// input 요소의 value에 할당
 			document.querySelector("#draft_date").value = dateString;
+			
+			// 기안란 직위, 이름, 기안일 textContent
+			document.querySelector("#drafter_spot").textContent = loginVo_spot;
+			document.querySelector("#drafter_name").textContent = loginVo_name;
+			document.querySelector("#drafter_draft_date").textContent = dateString;
 
+			// 상신 유효성 검사 submission validation
+
+			// 임시저장 유효성 검사 temporary validation
+			
 			// 공가 선택시 신청연차 초기화
 			document.querySelector("#getsuFlag").addEventListener("change", function() {
 				console.log("getsuFlag()");
