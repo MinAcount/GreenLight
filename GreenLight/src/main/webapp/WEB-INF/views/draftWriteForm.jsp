@@ -1,16 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script type="text/javascript" src="./se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="./se2/js/service/HuskyEZCreator.js"
+	charset="utf-8"></script>
 <script type="text/javascript" src="./js/draft_bkh/draft.js"></script>
 </head>
 <body class="nav-fixed">
-   <%@ include file='./include/mainHeader.jsp'%>
-   <!-- 사이드나브바 & 콘텐트 영역 -->
-   
-   <i data-feather='check-circle' id='toastFeather'></i>
+	<%@ include file='./include/mainHeader.jsp'%>
+	<!-- 사이드나브바 & 콘텐트 영역 -->
+
+	<i data-feather='check-circle' id='toastFeather'></i>
 	<div id="layoutSidenav">
 		<%@ include file='./include/mainSidenav.jsp'%>
 
@@ -20,42 +21,56 @@
 				<h1 style="margin-bottom: 70px; text-align: center;">기안서 작성</h1>
 				<hr class="mt-0 mb-5">
 
-				<div style="display: flex; flex-direction: row; justify-content: space-between;">
-<!-- 문서양식선택 모달 -->
-            <div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
-               <div class="modal-dialog">
-                  <div class="modal-content" style="width: 800px; height: 600px;">
-                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <input type="hidden" id="tempcode" name="tempcode" value="">
+				<div
+					style="display: flex; flex-direction: row; justify-content: space-between;">
+					<!-- 문서양식선택 모달 -->
+					<div class="modal fade" id="templateModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true"
+						data-bs-backdrop="static">
+						<div class="modal-dialog">
+							<div class="modal-content" style="width: 800px; height: 600px;">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+									<input type="hidden" id="tempcode" name="tempcode" value="">
 
-                     </div>
-                     <div class="modal-body" style="display: flex; flex-direction: column; justify-content: space-between;">
-                        <div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around;">
-                           <!-- 문서양식목록(js tree) -->
-                           <div style="width: 395px; min-height: 450px; border-right: 1px solid black;">
-                              <div id="search_box">
-                                 <input id="search" type="text">
-                              </div>
-                              <div id="JTSelectTemplate" style="max-height:450px; overflow-y: scroll;"></div>
-                              
-                           </div>
-                           <!-- 선택된 문서양식 미리보기 -->
-                           <div style="width: 395px; min-height: 450px;"></div>
-                        </div>
-                        <div class="modal-footer">
-                           <button class="btn btn-secondary btn-sm" type="button" data-bs-dismiss="modal">취소</button>
-                           <button class="btn btn-primary btn-sm" type="button" style="margin-left: 10px;" data-bs-dismiss="modal" onclick="selectComplete()">완료</button>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-               <div>
-                  <button id="selectTemplateModal" class="btn btn-secondary " type="button" data-bs-toggle="modal" data-bs-target="#templateModal" style="margin-right: 5px;">문서양식 선택</button>
+								</div>
+								<div class="modal-body"
+									style="display: flex; flex-direction: column; justify-content: space-between;">
+									<div class="toast-body"
+										style="display: flex; flex-direction: row; justify-content: space-around;">
+										<!-- 문서양식목록(js tree) -->
+										<div
+											style="width: 395px; min-height: 450px; border-right: 1px solid black;">
+											<div id="search_box">
+												<input id="search" type="text">
+											</div>
+											<div id="JTSelectTemplate"
+												style="max-height: 450px; overflow-y: scroll;"></div>
 
-<!-- 결재선 설정 -->
+										</div>
+										<!-- 선택된 문서양식 미리보기 -->
+										<div style="width: 395px; min-height: 450px;"></div>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary btn-sm" type="button"
+											data-bs-dismiss="modal">취소</button>
+										<button class="btn btn-primary btn-sm" type="button"
+											style="margin-left: 10px;" data-bs-dismiss="modal"
+											onclick="selectComplete()">완료</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<button id="selectTemplateModal" class="btn btn-secondary "
+							type="button" data-bs-toggle="modal"
+							data-bs-target="#templateModal" style="margin-right: 5px;">문서양식
+							선택</button>
+
+						<!-- 결재선 설정 -->
 						<button class="btn btn-secondary " type="button"
 							data-bs-toggle="modal" data-bs-target="#approvalModal"
 							style="margin-right: 5px;">결재선 설정</button>
@@ -107,8 +122,9 @@
 							</div>
 						</div>
 
-<!-- 참조자추가 모달 -->
-						<button class="btn btn-secondary " type="button" data-bs-toggle="modal" data-bs-target="#refModal">참조자 추가</button>
+						<!-- 참조자추가 모달 -->
+						<button class="btn btn-secondary " type="button"
+							data-bs-toggle="modal" data-bs-target="#refModal">참조자 추가</button>
 
 						<div class="modal fade" id="refModal" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
@@ -169,6 +185,12 @@
                   <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
                   <input type="hidden" id="tempCode" value="">
                   <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
+
+				<input type="hidden" id="loginVo_name"
+					value="${sessionScope.loginVo.name}"> <input type="hidden"
+					id="deptVo_dname" value="${deptVo.dname}"> <input
+					type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
+				<input type="hidden" id="tempCode" value="">
 				<div
 					style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
 					<div id="templateArea">
@@ -341,7 +363,9 @@
 
 
 
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-   <script src="js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/scripts.js"></script>
 </body>
 </html>

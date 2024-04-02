@@ -17,6 +17,8 @@ public interface IVacationService {
 //	"월 잔여 	휴가갯수"	selectRemainingLeaveByMonth
 	public VacationVo selectRemainingLeaveByMonth(Map<String, Object> map);
 	
+//	"일 잔여 휴가갯수"	selectRemainingLeaveByDay
+	public VacationVo selectRemainingLeaveByDay(Map<String, Object> map);
 	
 //	휴가사용등록	registerVacation
 	public int registerVacation(VacationVo vo);

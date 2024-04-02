@@ -38,6 +38,12 @@ public class VacationDaoImpl implements IVacationDao {
 		log.info("VacationDaoImpl selectRemainingLeaveByMonth 전달받은 값 {}",map);
 		return session.selectOne(NS+"selectRemainingLeaveByMonth" , map);
 	}
+	
+	@Override
+	public VacationVo selectRemainingLeaveByDay(Map<String, Object> map) {
+		log.info("VacationDaoImpl selectRemainingLeaveByDay 전달받은 값 {}",map);
+		return session.selectOne(NS+"selectRemainingLeaveByDay", map);
+	}
 
 	@Override
 	public int registerVacation(VacationVo vo) {

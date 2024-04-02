@@ -1,5 +1,8 @@
 package com.green.light.model.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,28 @@ public class FileStorageServiceImpl implements IFileStorageService {
 	
 	@Override
 	public int insertFile(FileStorageVo fileVo) {
-		log.info("FileStorageServiceImplv insertFile 파일 업로드 : {}", fileVo);
+		log.info("FileStorageServiceImpl insertFile 파일 업로드 : {}", fileVo);
 		return dao.insertFile(fileVo);
+	}
+
+
+	@Override
+	public List<FileStorageVo> getOneFile(Map<String, Object> map) {
+		log.info("FileStorageServiceImpl getOneFile 파일 상세 조회");
+		return dao.getOneFile(map);
+	}
+
+
+	@Override
+	public int deleteOneFile(Map<String, Object> map) {
+		log.info("FileStorageServiceImpl deleteOneFile 파일 삭제");
+		return dao.deleteOneFile(map);
+	}
+
+
+	@Override
+	public FileStorageVo downloadFile(Map<String, Object> map) {
+		log.info("FileStorageServiceImpl downloadFile 파일 다운로드");
+		return dao.downloadFile(map);
 	}
 }

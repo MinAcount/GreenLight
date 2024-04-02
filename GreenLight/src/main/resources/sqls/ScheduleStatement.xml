@@ -70,25 +70,17 @@
 				WHERE sc.VISIBILITY = 'Y'))
 	</select>
 	<!-- 상세조회 -->
-	<select id="daySchedule" parameterType="java.util.Map" resultMap="ScheduleVoMap">
-	SELECT sc.SCHEDULE_ID, sc.CNO, sc.CREATOR, sc.PHONE, sc.MODIFIED,
-			sc.LABEL_NAME, cc.CODE_NAME AS CATEGORY,
-			sc.TITLE, sc.MEMO, sc.START_DATE, sc.END_DATE, sc.LOCATION,
-			cp.CODE_NAME AS PRIORITY,
-			sc.RECUR, sc.VISIBILITY, sc.PARTICIPANTS, sc.PERMISSION, ca.CODE_NAME AS ALARM
-		FROM SCHEDULE sc
-		JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = sc.'카테고리'
-		JOIN COMMON cp ON sc.PRIORITY = cp.CODE AND cp."TYPE" = '일정우선순위'
-		JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
-		WHERE (sc.CNO = #{user_id} OR #{user_id} IN (SELECT jt.id FROM
-															JSON_TABLE(
-																sc.PARTICIPANTS, '$[*]'
-																COLUMNS (
-																	id VARCHAR2(10) PATH '$.id',
-																	name VARCHAR2(60) PATH '$.name'
-															)) jt
-				WHERE sc.VISIBILITY = 'Y'))
-		AND sc.SCHEDULE_ID = #{schedule_id}
+	<select id="daySchedule" parameterType="java.lang.String" resultMap="ScheduleVoMap">
+	SELECT sc.SCHEDULE_ID, sc.CNO, sc.CREATOR, sc.PHONE, sc.MODIFIED, 
+       sc.LABEL_NAME, cc.CODE_NAME AS CATEGORY, 
+       sc.TITLE, sc.MEMO, sc.START_DATE, sc.END_DATE, sc.LOCATION, 
+       cp.CODE_NAME AS PRIORITY,
+       sc.RECUR, sc.VISIBILITY, sc.PARTICIPANTS, sc.PERMISSION, ca.CODE_NAME AS ALARM
+    FROM SCHEDULE sc
+    JOIN COMMON cc ON sc.CATEGORY = cc.CODE AND cc."TYPE" = '카테고리'
+    JOIN COMMON cp ON sc.PRIORITY = cp.CODE AND cp."TYPE" = '일정우선순위'
+    JOIN COMMON ca ON sc.ALARM = ca.CODE AND ca."TYPE" = '일정알람시간'
+    WHERE sc.SCHEDULE_ID = #{schedule_id}
 	</select>
 	<!-- 일정등록 -->
 	<insert id="insertSchedule" parameterType="ScheduleVo">

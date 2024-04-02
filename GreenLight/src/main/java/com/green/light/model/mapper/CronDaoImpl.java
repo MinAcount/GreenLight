@@ -22,8 +22,10 @@ public class CronDaoImpl implements ICronDao{
 //	@Scheduled(cron="0/10 * * * * *")//10초에 한번씩
 	@Scheduled(cron = "0 0 1 * * *")//오전 1시에 한번
 	public int autoCompleteWorkTime() {
-		log.info("AttendanceDaoImpl autoCompleteWorkTime 자동퇴근처리");
+		log.info("CronDaoImpl autoCompleteWorkTime 자동퇴근처리 크론");
 		return session.update(NS+"autoCompleteWorkTime");
 	}
+	
+	
 
 }

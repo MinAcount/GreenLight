@@ -130,4 +130,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return vo;
 	}
 
+	@Override
+	public int updateEmployeeDept(Map<String, Object> map) {
+		log.info("EmployeeServiceImpl updateEmployeeDept 부서발령신청서에 의한 부서 변경 및 권한 변경");
+		int n = dao.updateEmployeeDept(map);
+		return n;
+	}
+
 }

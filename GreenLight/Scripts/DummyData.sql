@@ -647,49 +647,43 @@ SELECT '결재타입', '02', '참조자', '' FROM DUAL
 UNION ALL
 SELECT '결재타입', '03', '작성자', '' FROM DUAL;
 
--- 개인일정
+-- 일정
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
-SELECT '개인일정', '01', '휴가', '' FROM DUAL
+SELECT '카테고리', '01', '휴가', '' FROM DUAL
 UNION ALL
-SELECT '개인일정', '02', '출장', '' FROM DUAL
+SELECT '카테고리', '02', '출장', '' FROM DUAL
 UNION ALL
-SELECT '개인일정', '03', '경조사', '' FROM DUAL
+SELECT '카테고리', '03', '경조사', '' FROM DUAL
 UNION ALL
-SELECT '개인일정', '04', '개인일정', '' FROM DUAL;
-
--- 부서일정
-INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
-SELECT '부서일정', '01', '회의', '' FROM DUAL
+SELECT '카테고리', '04', '회의', '' FROM DUAL
 UNION ALL
-SELECT '부서일정', '02', '협업', '' FROM DUAL
+SELECT '카테고리', '05', '협업', '' FROM DUAL
 UNION ALL
-SELECT '부서일정', '03', '교육', '' FROM DUAL
+SELECT '카테고리', '06', '교육', '' FROM DUAL
 UNION ALL
-SELECT '부서일정', '04', '워크숍', '' FROM DUAL
+SELECT '카테고리', '07', '워크숍', '' FROM DUAL
 UNION ALL
-SELECT '부서일정', '05', '회식', '' FROM DUAL;
-
--- 회사일정
-INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
-SELECT '회사일정', '01', '공휴일', '' FROM DUAL
+SELECT '카테고리', '08', '회식', '' FROM DUAL
 UNION ALL
-SELECT '회사일정', '02', '기념일', '' FROM DUAL
+SELECT '카테고리', '09', '공휴일', '' FROM DUAL
 UNION ALL
-SELECT '회사일정', '03', '행사', '' FROM DUAL
+SELECT '카테고리', '10', '기념일', '' FROM DUAL
 UNION ALL
-SELECT '회사일정', '04', '세미나', '' FROM DUAL
+SELECT '카테고리', '11', '행사', '' FROM DUAL
 UNION ALL
-SELECT '회사일정', '05', '정산', '' FROM DUAL;
+SELECT '카테고리', '12', '세미나', '' FROM DUAL
+UNION ALL
+SELECT '카테고리', '13', '정산', '' FROM DUAL;
 
 -- 우선순위
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
-SELECT '일정우선순위', '01', '높음', '' FROM DUAL
+SELECT '우선순위', '01', '높음', '' FROM DUAL
 UNION ALL
-SELECT '일정우선순위', '02', '중간', '' FROM DUAL
+SELECT '우선순위', '02', '중간', '' FROM DUAL
 UNION ALL
-SELECT '일정우선순위', '03', '낮음', '' FROM DUAL
+SELECT '우선순위', '03', '낮음', '' FROM DUAL
 UNION ALL
-SELECT '일정우선순위', '04', '없음', '' FROM DUAL;
+SELECT '우선순위', '04', '없음', '' FROM DUAL;
 
 -- 알림
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
@@ -703,21 +697,21 @@ SELECT '알림', '04', '예약', '' FROM DUAL;
 
 -- 알림시간
 INSERT INTO COMMON ("TYPE", CODE, CODE_NAME, DESCRIPTION)
-SELECT '일정알람시간', '01', '10분전', '' FROM DUAL
+SELECT '알람시간', '01', '10분전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '02', '30분전', '' FROM DUAL
+SELECT '알람시간', '02', '30분전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '03', '1시간전', '' FROM DUAL
+SELECT '알람시간', '03', '1시간전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '04', '2시간전', '' FROM DUAL
+SELECT '알람시간', '04', '2시간전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '05', '1일전', '' FROM DUAL
+SELECT '알람시간', '05', '1일전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '06', '2일전', '' FROM DUAL
+SELECT '알람시간', '06', '2일전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '07', '1주전', '' FROM DUAL
+SELECT '알람시간', '07', '1주전', '' FROM DUAL
 UNION ALL
-SELECT '일정알람시간', '08', '알림없음', '' FROM DUAL;	      
+SELECT '알람시간', '08', '알림없음', '' FROM DUAL;	      
 --------------------------------------------------------8.파일--------------------------------------------------------
 
 --------------------------------------------------------------------------------------------------------------------

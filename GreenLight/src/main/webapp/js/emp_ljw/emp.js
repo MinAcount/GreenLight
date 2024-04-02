@@ -1,14 +1,23 @@
-//employeeAddForm.jsp
 function profileUpload(input) {
     if (!input.files || !input.files[0]) {
         input.value = '';
+        document.getElementById('preview').src = 'assets/img/illustrations/profiles/profile-2.png';
         return;
     }
 
     console.log(input.files[0]);
     if (input.files[0].size > 500 * 1024) {
-        alert("500KB 이하의 사진만 가능합니다");
+        alert("500KB 이하의 사진만 가능합니다.");
         input.value = '';
+        document.getElementById('preview').src ='assets/img/illustrations/profiles/profile-2.png';
+        return;
+    }
+    
+    var fileExtension = input.files[0].name.split(".").pop().toLowerCase();
+    if(fileExtension != 'png' && fileExtension != 'jpeg' && fileExtension != 'jpg' && fileExtension != 'gif'){
+        input.value = '';
+        document.getElementById('preview').src ='assets/img/illustrations/profiles/profile-2.png';
+        alert("이미지 파일만 업로드 가능합니다.");
         return;
     }
 
@@ -16,10 +25,10 @@ function profileUpload(input) {
     reader.onload = function(e) {
         document.getElementById('preview').src = e.target.result;
     };
-    reader.readAsDataURL(input.files[0]);
 
-    console.log(input);
+    reader.readAsDataURL(input.files[0]);
 }
+
 
 //employeeAddForm.jsp
 function checkUploadEmployee(){
@@ -180,14 +189,18 @@ function modifyPassword(){
 } 
 
 //employeeList.jsp
-function selectByStatus(val){
+function selectByStatus(val,gubun){
 	fetch("./employeeListByEstatus.do", {
 		method:"POST",
 		body:val,
 	})
 	.then(data => data.json())
 	.then(result => {
-		updateList(result);
+		if(gubun == 'emp'){
+			updateList(result);
+		}else if(gubun == 'doc'){
+			updateDocList(result);
+		}
 	});
 }
 
@@ -197,7 +210,33 @@ function updateList(result) {
     inputTableBody.innerHTML = '';
     var count = 1;
     result.list.forEach(function (item) {
+		document.querySelector("#selectEstatus .nav-link.active").innerText = document.querySelector("#selectEstatus .nav-link.active").innerText.split("(")[0].trim() + "("+count+")";
         tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
+        tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+        tableHTML += "<td>" + item.id + "</td>";
+		result.deptList.forEach(function(deptVo) {
+		    if (deptVo.deptno == item.deptno) {
+		        tableHTML += "<td>" + deptVo.dname + "</td>";
+		    }
+		});
+        tableHTML += "<td>" + item.name + "</td>";
+        tableHTML += "<td>" + item.spot + "</td>";
+        tableHTML += "<td>" + (item.position ? item.position : '-') + "</td>";
+        tableHTML += "<td>" + (item.estatus == 'Y' ? '재직중' : '퇴사') + "</td>";
+        tableHTML += "</tr>";
+        count++;
+    });
+    inputTableBody.innerHTML = tableHTML;
+}
+
+function updateDocList(result) {
+	var inputTableBody = document.getElementById("inputTableBody");
+    var tableHTML = '';
+    inputTableBody.innerHTML = '';
+    var count = 1;
+    result.list.forEach(function (item) {
+		document.querySelector("#selectEstatus .nav-link.active").innerText = document.querySelector("#selectEstatus .nav-link.active").innerText.split("(")[0].trim() + "("+count+")";
+        tableHTML += "<tr onclick=\"openFileList('"+item.id+"', '"+item.name+"')\" data-bs-toggle='modal' data-bs-target='#fileListModal'>";
         tableHTML += "<td style='text-align: center;'>" + count + "</td>";
         tableHTML += "<td>" + item.id + "</td>";
 		result.deptList.forEach(function(deptVo) {
@@ -248,12 +287,12 @@ function searchList(result, selectEstatus){
 	var inputTableBody = document.getElementById("inputTableBody");
     var tableHTML = '';
     inputTableBody.innerHTML = '';
-    var count = 1;
+    var count = 0;
     result.forEach(function (res) {
 		res.empVo.forEach(function(item){
 			if(selectEstatus == 'A'){
 				tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
-				tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+				tableHTML += "<td style='text-align: center;'>" + (count+1) + "</td>";
 				tableHTML += "<td>" + item.id + "</td>";
 				tableHTML += "<td>" + res.dname + "</td>";
 				tableHTML += "<td>" + item.name + "</td>";
@@ -265,7 +304,7 @@ function searchList(result, selectEstatus){
 			}
 			if(item.estatus == selectEstatus){
 				tableHTML += "<tr onclick=\"location.href='./employeeOne.do?id=" + item.id + "'\">";
-				tableHTML += "<td style='text-align: center;'>" + count + "</td>";
+				tableHTML += "<td style='text-align: center;'>" + (count+1) + "</td>";
 				tableHTML += "<td>" + item.id + "</td>";
 				tableHTML += "<td>" + res.dname + "</td>";
 				tableHTML += "<td>" + item.name + "</td>";
@@ -275,8 +314,10 @@ function searchList(result, selectEstatus){
 				tableHTML += "</tr>";
 				count++;
 			}
+			
 		})
     });
+	document.querySelector("#selectEstatus .nav-link.active").innerText = document.querySelector("#selectEstatus .nav-link.active").innerText.split("(")[0].trim() + "("+count+")";
     inputTableBody.innerHTML = tableHTML;
 }
 
@@ -503,4 +544,133 @@ function passwordReset(id){
 				}
 			});
 	}
+}
+
+//employeeDocument.jsp
+function openFileList(val, name){
+	console.log(val);
+	fetch("./getOneEmpFile.do", {
+		method: 'POST',
+		headers:{"content-type":"application/json"},
+		body: JSON.stringify({
+			id:val,
+			start:'03',
+			end:'06'
+		}),
+	})
+	.then(data => data.json())
+	.then(result => {
+		document.getElementById("exampleModalLabel").innerText = name + "님의 인사서류";
+		modalOpen(result, val, name);
+	});
+}
+
+function modalOpen(result, val, name){
+	var empFileTableBody = document.getElementById("empFileTableBody");
+    var tableHTML = '';
+    empFileTableBody.innerHTML = '';
+    result.forEach(function(item){
+	    tableHTML += "<tr>";
+		tableHTML += "<td style='text-align: center;' class='code_name'>"+item.comVo.code_name+"</td>";
+	    tableHTML += "<td style='text-align: center;' class='docUpload'>" + (item.stored_name != null ? item.stored_name +" "+
+	    				'<svg onclick=\"fileDownload('+val+','+item.ftype+')\" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>' : "-") + "</td>";
+	    tableHTML += "<td style='text-align: center;' class='gubunBtn'>" + 
+             (item.stored_name != null ? 
+              "<button type='button' class='btn btn-danger' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
+              "<label for='fileInput_"+val+"_"+item.comVo.code+"' class='btn btn-primary'>등록<input id='fileInput_"+val+"_"+item.comVo.code+"' accept='image/jpeg, image/jpg, image/png, image/gif, .pdf, .hwp' type='file' style='display: none;' onchange=\"empFileUpload(this.files[0],'"+val+"','"+item.comVo.code+"')\"></label>"+
+              "<button type='button' style='display:none;' class='btn btn-info' onclick=\"empFileInsert('"+val+"','"+item.comVo.code+"','"+name+"')\">완료</button>") + 
+             "</td>";
+	    tableHTML += "</tr>";
+	    empFileTableBody.innerHTML = tableHTML;
+    });
+}
+
+function empFileDel(id, type, name){
+	console.log(id);
+	console.log(type);
+	var confirmResult = confirm("정말 삭제하시겠습니까?\n삭제하신 파일은 복구할 수 없습니다");
+	if(confirmResult){
+		fetch("./empFileDel.do",{
+			method : "POST",
+			headers : {"content-type" : "application/json"},
+			body : JSON.stringify({
+				id:id,
+				ftype:type
+			})
+		})
+		.then(data => data.json())
+		.then(result => {
+			console.log(result);
+			if(result.isc == 'fail'){
+				alert("삭제에 실패하였습니다");
+			}else{
+				alert("정상적으로 삭제되었습니다");
+				modalOpen(result, id, name);
+			}
+		})
+	}
+}
+
+function empFileUpload(file, id, type){
+	var fileExtension = file.name.split(".")[1];
+	if(fileExtension != 'png' && fileExtension != 'jpeg' && fileExtension != 'jpg' && fileExtension != 'gif' && fileExtension != 'hwp' && fileExtension != 'pdf'){
+		alert("정해진 파일이 아닙니다");
+		document.getElementById("fileInput_"+id+"_"+type).value = '';
+		return;
+	}
+	var fileInput = document.getElementById("fileInput_"+id+"_"+type).closest("tr");
+	fileInput.querySelector(".docUpload").innerText = file.name;
+	fileInput.querySelector(".btn-primary").style.display = "none";
+	fileInput.querySelector(".btn-info").style.display = "inline-block";
+	var buttons = document.querySelectorAll("input[type = file]");
+	var buttonss = document.querySelectorAll(".btn-danger");
+	for (var i = 0; i < buttons.length; i++) {
+		if (!buttons[i].classList.contains("btn-info")) {
+			buttons[i].setAttribute("disabled", "disabled");
+		}
+	}
+	for (var i = 0; i < buttonss.length; i++) {
+		if (!buttonss[i].classList.contains("btn-info")) {
+			buttonss[i].setAttribute("disabled", "disabled");
+		}
+	}
+	console.log(fileInput);
+}
+
+function empFileInsert(id, type, name){
+	console.log(id);
+	console.log(type);
+	document.getElementById("fileInput_"+id+"_"+type).removeAttribute("disabled");
+	var fileStoredName = document.getElementById("fileInput_"+id+"_"+type).closest("tr").querySelector(".code_name").innerText;
+	var fileInput = document.getElementById("fileInput_"+id+"_"+type).files[0];
+	var fileExtension = fileInput.name.split(".")[1];
+	var fileData = new FormData();
+	fileData.append("payload", fileInput);
+	fileData.append("ref_id", id);
+	fileData.append("ftype", type);
+	fileData.append("origin_name", fileInput.name);
+	fileData.append("stored_name", name+"_"+fileStoredName+"."+fileExtension);
+	fileData.append("fsize", fileInput.size);
+	
+	fetch("./empFileInsert.do", {
+		method: 'POST',
+		body: fileData,
+	})
+	.then(data => data.json())
+	.then(result => {
+		console.log(result);
+		if(result.isc == 'fail'){
+			alert("등록에 실패하였습니다");
+		}else{
+			alert("정상적으로 등록되었습니다");
+			modalOpen(result, id, name);
+		}
+	});
+}
+
+function fileDownload(val, type){
+	let ftype = String(type).padStart(2, '0');
+	console.log(val);
+	console.log(ftype);
+	location.href = "./empFileDownload.do?id="+val+"&ftype="+ftype;
 }

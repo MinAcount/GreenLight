@@ -35,33 +35,19 @@ function renderCalendar(viewmonth) {
 			var startMonth = info.start.getMonth(); // 시작 월
 			var endMonth = info.end.getMonth(); // 종료 월
 
-			// 시작 월과 종료 월의 차이를 구합니다.
 			var monthDiff = endMonth - startMonth;
-
-			// 시작 월과 종료 월의 차이가 음수인 경우, 연도를 넘어간 경우입니다.
 			if (monthDiff < 0) {
 				monthDiff += 12; // 음수를 양수로 변환하기 위해 12를 더합니다.
 			}
-
-			// 다음 달을 계산합니다. 현재 월에 차이를 더하고 12로 나눈 나머지를 구합니다.
 			var nextMonth = (startMonth + monthDiff) % 12;
-
-			// 다음 달이 0인 경우, 12월로 설정합니다.
 			if (nextMonth === 0) {
 				nextMonth = 12;
 			}
-
-			// 시작 날짜의 연도를 구합니다.
 			var year = info.start.getFullYear();
-
-			// 다음 달이 1월인 경우, 연도를 증가시킵니다.
 			if (nextMonth === 1 && monthDiff !== 0) {
 				year += 1;
 			}
-			// 다음 달의 두 자리로 만들어줍니다.
 			var formattedNextMonth = ('0' + nextMonth).slice(-2);
-
-			// 다음 달과 연도를 합쳐서 viewmonth를 만듭니다.
 			var viewmonth = year + '-' + formattedNextMonth;
 
 			console.log("전달될 값: " + viewmonth);
@@ -72,6 +58,7 @@ function renderCalendar(viewmonth) {
 					var events = [];
 					data.forEach(eventData => {
 						var addEvent = {
+							schedule_id: eventData.schedule_id,
 							title: eventData.title,
 							start: eventData.start_date,
 							end: eventData.end_date,
@@ -87,6 +74,10 @@ function renderCalendar(viewmonth) {
 					failureCallback();
 					console.error('Error occurred while fetching data from server:', error);
 				});
+		},
+		eventClick: function(info) {
+			var schedule_id = info.event.extendedProps.schedule_id;
+			oneScheduleView(schedule_id);
 		}
 
 	});
@@ -261,3 +252,88 @@ function toggleTimeSelection(checkbox) {
 		end_time_input.disabled = false;
 	}
 }
+
+
+function oneScheduleView(schedule_id) {
+    console.log("일정 상세 모달 : ", schedule_id);
+    // 이미 열려있는 모달 창이 있는지 확인
+    var existingModal = $('#oneScheduleView');
+    if (existingModal.length) {
+        // 모달 창이 이미 열려있는 경우, 내용을 업데이트하고 보여줌
+        fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('서버 응답 실패');
+                }
+                return response.json(); // JSON 형식으로 데이터 받기
+            })
+            .then(data => {
+                console.log('서버에서 받은 데이터:', data); // 데이터 확인
+                // 모달 내용 업데이트
+                existingModal.find('.modal-title').text(data.title);
+                existingModal.find('.modal-body').html(`
+                    <div class="row">
+                        <div>
+                            <p><strong style="padding-right: 6px;"></strong> ${data.start_date} ~ ${data.end_date}</p>
+                            <p><strong style="padding-right: 6px;">작성자</strong> ${data.creator}</p>
+                            <p><strong style="padding-right: 6px;">전화번호</strong> ${data.phone}</p>
+                            <p><strong style="padding-right: 6px;">캘린더명</strong> ${data.label_name}</p>
+                            <p><strong style="padding-right: 6px;">카테고리</strong> ${data.category}</p>
+                            <p><strong style="padding-right: 6px;">중요도</strong> ${data.priority}</p>
+                            <p><strong style="padding-right: 6px;">공개여부</strong> ${data.visibility}</p>
+                        </div>
+                    </div>
+                `);
+                existingModal.modal('show');
+            })
+            .catch(error => {
+                console.error('오류:', error);
+            });
+    } else {
+        // 모달 창이 열려있지 않은 경우, 새로운 모달 창 생성
+        fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('서버 응답 실패');
+                }
+                return response.json(); // JSON 형식으로 데이터 받기
+            })
+            .then(data => {
+                console.log('서버에서 받은 데이터:', data); // 데이터 확인
+                var modalContent = `
+                    <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailModalLabel">${data.title}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div>
+                                            <p><strong style="padding-right: 6px;"></strong> ${data.start_date} ~ ${data.end_date}</p>
+                                            <p><strong style="padding-right: 6px;">작성자</strong> ${data.creator}</p>
+                                            <p><strong style="padding-right: 6px;">전화번호</strong> ${data.phone}</p>
+                                            <p><strong style="padding-right: 6px;">캘린더명</strong> ${data.label_name}</p>
+                                            <p><strong style="padding-right: 6px;">카테고리</strong> ${data.category}</p>
+                                            <p><strong style="padding-right: 6px;">중요도</strong> ${data.priority}</p>
+                                            <p><strong style="padding-right: 6px;">공개여부</strong> ${data.visibility}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                $('body').append(modalContent);
+                $('#oneScheduleView').modal('show');
+            })
+            .catch(error => {
+                console.error('오류:', error);
+            });
+    }
+}
+
+
+
