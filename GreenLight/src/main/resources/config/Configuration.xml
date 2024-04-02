@@ -58,5 +58,6 @@
 		<mapper resource="sqls/FileStorageStatement.xml"/>
 		<!-- 외부 라이브러리 -->
 		<mapper resource="sqls/JsTreeStatement.xml"/>
+		<mapper resource="sqls/CronStatement.xml"/>
 	</mappers>
 </configuration>
