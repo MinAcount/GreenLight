@@ -24,4 +24,6 @@ public class FileStorageVo {
 	private String upload_date;
 	private String delflag;
 	
+	private CommonVo comVo;
+	
 }

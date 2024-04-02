@@ -146,6 +146,12 @@
         SET EXIT_DAY = #{exit_day}
         WHERE ID = #{id} AND ESTATUS = 'N'
 </update>
+<!-- 부서 발령신청서에 의한 부서 변경	updateEmployeeDept -->
+<update id="updateEmployeeDept" parameterType="java.util.Map">
+	UPDATE EMPLOYEE 
+        SET DEPTNO = #{deptno} , AUTH = (CASE WHEN #{deptno} = '09' THEN '02' ELSE '01' END)
+        WHERE ID = #{id} AND ESTATUS = 'Y'
+</update>
 <!-- 직원 입사 처리	insertEmployee -->
 <insert id="insertEmployee" parameterType="EmpVo">
 	INSERT INTO EMPLOYEE e (ID, NAME, EMAIL, PHONE, BIRTHDAY, GENDER, PASSWORD, 
