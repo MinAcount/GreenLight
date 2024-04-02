@@ -56,6 +56,12 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.getReference(docno);
 	}
 
+	@Override
+	public ApprovalVo updateApprStatus(ApprovalVo vo) {
+		log.info("ApprovalServiceImpl updateApprStatus 결재상태 업데이트");
+		return dao.updateApprStatus(vo);
+	}
+
 	
 
 

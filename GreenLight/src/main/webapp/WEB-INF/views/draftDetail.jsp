@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
 <script type="text/javascript" src="./se2/js/service/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/draft_bkh/draft.js"></script>
 </head>
 <body class="nav-fixed">
    <%@ include file='./include/mainHeader.jsp'%>
@@ -86,17 +87,12 @@
 										style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
 										<div class="toast-body"
 											style="display: flex; flex-direction: row; justify-content: space-around;">
-											
-											
-											
-											
-											
 										</div>
 										<div class="modal-footer"
 											style="margin-bottom: 20px; margin-top: 10px;">
 											<button class="btn btn-secondary " type="button"
 												data-bs-dismiss="modal">취소</button>
-											<button data-bs-dismiss="modal" onclick="refDone()"
+											<button data-bs-dismiss="modal" onclick="approve()"
 												class="btn btn-primary " type="button"
 												style="margin-left: 10px;">승인</button>
 										</div>
@@ -107,13 +103,13 @@
 						
 						<!-- 반려 모달 -->
 						<button class="btn btn-secondary " type="button"
-							data-bs-toggle="modal" data-bs-target="#reject">반려</button>
+							data-bs-toggle="modal" data-bs-target="#rejectApproval">반려</button>
 
-						<div class="modal fade" id="reject" tabindex="-1"
+						<div class="modal fade" id="rejectApproval" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
 							<div class="modal-dialog">
-								<div class="modal-content" style="width: 800px; height: 630px;">
+								<div class="modal-content" style="width: 500px; height: 430px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">반려하기</h5>
 										<button type="button" class="btn-close"
@@ -123,15 +119,18 @@
 										style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
 										<div class="toast-body"
 											style="display: flex; flex-direction: row; justify-content: space-around;">
-											
+											<div>
+												반려사유:
+												<textarea class="comment" rows="5" cols="30"></textarea>
+											</div>
 										</div>
 										<div class="modal-footer"
 											style="margin-bottom: 20px; margin-top: 10px;">
 											<button class="btn btn-secondary " type="button"
 												data-bs-dismiss="modal">취소</button>
-											<button data-bs-dismiss="modal" onclick="refDone()"
+											<button data-bs-dismiss="modal" onclick="rejectApproval()"
 												class="btn btn-primary " type="button"
-												style="margin-left: 10px;">완료</button>
+												style="margin-left: 10px;">반려</button>
 										</div>
 									</div>
 								</div>

@@ -323,3 +323,45 @@ function deleteExpenseDetail() {
 		delLastDetail.remove();
 	}
 }
+
+
+function rejectApproval(){
+	var rejectApproval = document.getElementById("rejectApproval");
+	console.log("rejectApproval",rejectApproval);
+	var rejectCommentValue = rejectApproval.getElementsByClassName("comment")[0].value;
+	console.log("rejectCommentValue",rejectCommentValue);
+	
+	var formData = new FormData();
+	formData.append("comment", rejectCommentValue);
+	
+	/*fetch post*/
+	fetch("./updateApproval.do", {
+		method: 'POST',
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('네트워크 에러..');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('data:', data);
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
