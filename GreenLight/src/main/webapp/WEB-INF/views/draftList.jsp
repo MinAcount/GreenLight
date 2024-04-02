@@ -51,36 +51,37 @@
 				<table class="datatable-table">
 					<thead>
 						<tr style="width: 100%;">
-							<th style="width: 2.5%;">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</th>
-							<th style="width: 11%;">문서번호</th>
 							<th style="width: 23.5%;">제목</th>
-							<th style="width: 6%;">긴급</th>
 							<th style="width: 9%;">작성자</th>
 							<th style="width: 10%;">기안일</th>
 							<th style="width: 14%;">문서양식유형</th>
-							<th style="width: 6%;">첨부</th>
 							<th style="width: 10%;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr class="item">
-								<td class="chkbox-td">
-									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-								</td>
-								<td class="docno">${vo.docno}</td>
-								<td class="title"><a href="#">${vo.title}</a></td>
-								<td class="urgency">
-									<c:choose>
-						                <c:when test="${vo.urgency eq 'Y'}">
-						                    긴급
-						                </c:when>
-						                <c:otherwise>
-						                    -
-						                </c:otherwise>
-						            </c:choose>
+								<td class="title">
+									<a href="./draftDetail.do?docno=${vo.docno}">
+										<c:choose>
+							                <c:when test="${vo.urgency eq 'Y'}">
+							                    <span style="margin-right: 7px;" class="badge badge-danger">긴급</span>
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+										${vo.title}  
+										<c:choose>
+							                <c:when test="${vo.file_count > 0}">
+							                    &nbsp;&nbsp;[<i data-feather="paperclip"></i>${vo.file_count}]
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+										
+									</a>
 								</td>
 								<td class="name">${vo.empVo.getName()}</td>
 								<td>
@@ -90,7 +91,6 @@
 								    </script>
 								</td>
 								<td class="tempcode">${vo.tempcode}</td>
-								<td class="file_count">${vo.file_count}</td>
 								<td class="doc_status">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>

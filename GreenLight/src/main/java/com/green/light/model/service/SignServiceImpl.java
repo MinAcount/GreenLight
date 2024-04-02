@@ -48,7 +48,7 @@ public class SignServiceImpl implements ISignService {
 		return dao.setMainSign(signVo);
 	}
 	
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = false)
 	@Override
 	public int updateMainSign(SignVo signVo) {
 		log.info("SignServiceImpl updateMainSign 전달받은 값 : {}",signVo);

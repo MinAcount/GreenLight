@@ -18,5 +18,10 @@ public interface IApprovalService {
 	// 결재자 추가
 	public int insertApproval(ApprovalVo apprVo);
 	
-
+	// 결재선 조회
+	public List<EmployeeVo> getApproval(String docno);
+	
+	// 참조자 조회
+	public List<EmployeeVo> getReference(String docno);
+	
 }

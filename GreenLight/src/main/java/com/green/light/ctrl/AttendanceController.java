@@ -212,7 +212,7 @@ public class AttendanceController {
     
     @GetMapping(value = "/employeeAttDetails.do")
     public String employeeAttDetails(String id,Model model, String in_date) {
-    	log.info("AttendanceController employeeAttDetails 직원상세");
+    	log.info("AttendanceController employeeAttDetails 직원근태상세");
     	AttendanceVo AVo = new AttendanceVo();
     	AVo.setId(id);
     	

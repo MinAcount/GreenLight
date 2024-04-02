@@ -67,4 +67,9 @@ public class DocumentDaoImpl implements IDocumentDao{
       return sqlsession.selectList(NS+"getAllRefDraftByDocStatus", map);
    }
 
+	@Override
+	public DocumentVo getDocumentDetail(String docno) {
+		return sqlsession.selectOne(NS+"getDocumentDetail", docno);
+	}
+
 }

@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>GreenLight</title>
@@ -23,12 +24,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/bootstrap-icons.svg" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/litepicker/dist/litepicker.js"></script>
 <script type="text/javascript" src="./js/document.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
 <script type="text/javascript" src="./js/jstree/jstree.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="./js/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript"
+	src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript"
+	src="./js/daterangepicker/daterangepicker.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
 <!-- DropZone -->
@@ -1381,125 +1387,110 @@
 
 </head>
 <body>
-<nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
-      
-<!-- 사이드나브바 토글 버튼-->
-      <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle">
-         <i data-feather="menu"></i>
-      </button>
+	<nav
+		class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
+		id="sidenavAccordion">
 
-<!-- 로고 -->
-      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
-      
-      
-<!-- 상단나브바 -->
-      <ul class="navbar-nav align-items-center ms-auto">
- 		<li>${loginVo.name} ${loginVo.spot} &nbsp;&nbsp;&nbsp;</li>
-<!-- 상단 나브바 알림-->
-         <li class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
-            <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" 
-            	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            	<i data-feather="bell"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
-               <h6 class="dropdown-header dropdown-notifications-header">
-                  <i class="me-2" data-feather="bell"></i> Alerts Center
-               </h6>
-               
-<!-- 알림 드롭다운 예시 1-->
-               <a class="dropdown-item dropdown-notifications-item" href="#!">
-                  <div class="dropdown-notifications-item-icon bg-warning">
-                     <i data-feather="activity"></i>
-                  </div>
-                  <div class="dropdown-notifications-item-content">
-                     <div class="dropdown-notifications-item-content-details">
-                     	December 29, 2021
-                     </div>
-                     <div class="dropdown-notifications-item-content-text">
-                     	This is an alert message. It's nothing serious, but it requires your attention.
-                     </div>
-                  </div>
-               </a>
-               
-<!-- 알림 드롭다운 예시 2-->
-               <a class="dropdown-item dropdown-notifications-item" href="#!">
-                  <div class="dropdown-notifications-item-icon bg-info">
-                     <i data-feather="bar-chart"></i>
-                  </div>
-                  <div class="dropdown-notifications-item-content">
-                     <div class="dropdown-notifications-item-content-details">
-                     	December 22, 2021
-                     </div>
-                     <div class="dropdown-notifications-item-content-text">
-                     	A new monthly report is ready. Click here to view!
-                     </div>
-                  </div>
-               </a>
-               
-<!-- 알림 드롭다운 예시 3-->
-               <a class="dropdown-item dropdown-notifications-item" href="#!">
-                  <div class="dropdown-notifications-item-icon bg-danger">
-                     <i class="fas fa-exclamation-triangle"></i>
-                  </div>
-                  <div class="dropdown-notifications-item-content">
-                     <div class="dropdown-notifications-item-content-details">
-                     	December 8, 2021
-                     </div>
-                     <div class="dropdown-notifications-item-content-text">
-                     	Critical system failure, systems shutting down.
-                     </div>
-                  </div>
-               </a>
-               
-<!-- 알림 드롭다운 예시 4-->
-               <a class="dropdown-item dropdown-notifications-item" href="#!">
-                  <div class="dropdown-notifications-item-icon bg-success">
-                     <i data-feather="user-plus"></i>
-                  </div>
-                  <div class="dropdown-notifications-item-content">
-                     <div class="dropdown-notifications-item-content-details">
-                     	December 2, 2021
-                     </div>
-                     <div class="dropdown-notifications-item-content-text">
-                     	New user request. Woody has requested access to the organization.
-                     </div>
-                  </div>
-               </a>
-               <a class="dropdown-item dropdown-notifications-footer" href="#!">View All Alerts</a>
-            </div>
-         </li>
-         
-<!-- 유저 드롭다운 -->
-         <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-            <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);"
-            	role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            	<c:if test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
-								<img class="img-fluid"
-									src="./assets/img/illustrations/profiles/profile-1.png" alt="프로필사진" />
+		<!-- 사이드나브바 토글 버튼-->
+		<button
+			class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0"
+			id="sidebarToggle">
+			<i data-feather="menu"></i>
+		</button>
+
+		<!-- 로고 -->
+		<a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
+
+
+		<!-- 상단나브바 -->
+		<ul class="navbar-nav align-items-center ms-auto">
+			<li>${loginVo.name}${loginVo.spot}&nbsp;&nbsp;&nbsp;</li>
+			<!-- 상단 나브바 알림-->
+			<li
+				class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
+				<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
+				id="navbarDropdownAlerts" href="javascript:void(0);" role="button"
+				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i data-feather="bell"></i>
+			</a>
+				<div
+					class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
+					aria-labelledby="navbarDropdownAlerts">
+					<h6 class="dropdown-header dropdown-notifications-header">
+						<i class="me-2" data-feather="bell"></i> 최근 알림
+					</h6>
+					<c:if test="${fn:length(notiList) eq 0}">
+						<a class="dropdown-item dropdown-notifications-item">
+							<div class="dropdown-notifications-item-content">알림이 없습니다</div>
+						</a>
+					</c:if>
+					<c:if test="${fn:length(notiList) ne 0}">
+						<c:forEach items="${notiList}" var="noti">
+							<c:if test="${noti.ntype eq '02'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="month.do">
+									<div class="dropdown-notifications-item-icon bg-warning">
+										<i data-feather="calendar"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text">
+											${noti.content}</div>
+									</div>
+								</a>
 							</c:if>
-							<c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
-								<img class="img-fluid"
-									src="./assets/img/illustrations/profiles/profile-2.png" alt="프로필사진" />
+							<c:if test="${noti.ntype eq '03'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="draftDetail.do?docno=" +${noti.gubun}>
+									<div class="dropdown-notifications-item-icon bg-info">
+										<i data-feather="clipboard"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text">
+											${noti.content}</div>
+									</div>
+								</a>
 							</c:if>
-							<c:if test="${loginVo.profile ne null}">
+						</c:forEach>
+					</c:if>
+
+					<!-- 유저 드롭다운 -->
+					<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+						<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
+						id="navbarDropdownUserImage" href="javascript:void(0);"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <c:if
+								test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-1.png"
+									alt="프로필사진" />
+							</c:if> <c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-2.png"
+									alt="프로필사진" />
+							</c:if> <c:if test="${loginVo.profile ne null}">
 								<img class="img-fluid"
 									src="data:image/png;base64,${loginVo.profile}" alt="프로필사진" />
 							</c:if>
-            	</a>
-            <div class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-               <a class="dropdown-item" href="./mypage.do">
-                  <div class="dropdown-item-icon">
-                     <i data-feather="settings"></i>
-                  </div> 마이페이지
-               </a>
-               <a class="dropdown-item" href="./logout.do">
-                  <div class="dropdown-item-icon">
-                     <i data-feather="log-out"></i>
-                  </div> 로그아웃
-               </a>
-            </div>
-         </li>
-      </ul>
-   </nav>
+					</a>
+						<div
+							class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
+							aria-labelledby="navbarDropdownUserImage">
+							<a class="dropdown-item" href="./mypage.do">
+								<div class="dropdown-item-icon">
+									<i data-feather="settings"></i>
+								</div> 마이페이지
+							</a> <a class="dropdown-item" href="./logout.do">
+								<div class="dropdown-item-icon">
+									<i data-feather="log-out"></i>
+								</div> 로그아웃
+							</a>
+						</div>
+					</li>
+		</ul>
+	</nav>
 </body>
 </html>

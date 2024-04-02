@@ -44,6 +44,20 @@ public class ApprovalServiceImpl implements IApprovalService {
 		return dao.insertApproval(apprVo);
 	}
 
+	@Override
+	public List<EmployeeVo> getApproval(String docno) {
+		log.info("ApprovalServiceImpl getApproval 결재선 조회 {}", docno);
+		return dao.getApproval(docno);
+	}
+
+	@Override
+	public List<EmployeeVo> getReference(String docno) {
+		log.info("ApprovalServiceImpl getReference 참조자 조회 {}", docno);
+		return dao.getReference(docno);
+	}
+
+	
+
 
 	
 }

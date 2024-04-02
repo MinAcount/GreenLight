@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.green.light.model.mapper.NotificationDaoImpl">
+<resultMap type="com.green.light.vo.NotificationVo" id="NotiVo">
+	<result property="noti_id" column="NOTI_ID"/>
+	<result property="gubun" column="GUBUN"/>
+	<result property="ntype" column="NTYPE"/>
+	<result property="alert_time" column="ALERT_TIME"/>
+	<result property="content" column="CONTENT"/>
+	<result property="receiver_id" column="RECEIVER_ID"/>
+	<result property="read" column="READ"/>
+	<collection property="comVo" resultMap="CommonVo"/>
+</resultMap>
+<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+	<result property="type" column="TYPE"/>
+	<result property="code" column="CODE"/>
+	<result property="code_name" column="CODE_NAME"/>
+</resultMap>
+<!-- 개인 알림 전체 조회 getAllNoti -->
+<select id="getAllNoti" parameterType="java.lang.String" resultType="NotificationVo">
+	SELECT n.NOTI_ID, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", GUBUN, NTYPE
+		FROM NOTIFICATION n JOIN RECEIVER r
+		ON n.NOTI_ID = r.NOTI_ID 
+		WHERE r.RECEIVER_ID = #{id}
+</select>
+<!-- 메인 화면 최신 알림 조회 getCurrNoti -->
+<select id="getCurrNoti" parameterType="java.lang.String" resultMap="NotiVo">
+	<![CDATA[
+		SELECT a.NOTI_ID, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", GUBUN, NTYPE
+			FROM (
+			    SELECT n.NOTI_ID, ALERT_TIME, CONTENT, GUBUN, NTYPE, r.RECEIVER_ID, r."READ" ,ROW_NUMBER() OVER (PARTITION BY r.RECEIVER_ID ORDER BY n.ALERT_TIME DESC) AS rn
+			    FROM NOTIFICATION n
+			    INNER JOIN RECEIVER r ON n.NOTI_ID = r.NOTI_ID
+			    WHERE r.RECEIVER_ID = #{id} AND r."READ" = 'N'
+			) a
+			WHERE a.rn < 6
+	]]>
+</select>
+<!-- 마이페이지 그룹별 알림 조회 getGroupNoti -->
+<select id="getGroupNoti" parameterType="java.util.Map">
+	SELECT n.NOTI_ID, GUBUN, NTYPE, SENDER, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", c.CODE_NAME
+		FROM NOTIFICATION n JOIN RECEIVER r
+		ON n.NOTI_ID = r.NOTI_ID JOIN COMMON c 
+		ON n.NTYPE = c.CODE AND c."TYPE" = '알림'
+		WHERE r.RECEIVER_ID = #{id}
+		AND c.CODE_NAME = #{code_name}
+</select>
+<!-- 알림 추가 (알림테이블) insertNoti -->
+<insert id="insertNoti" parameterType="java.util.Map">
+	<selectKey resultType="java.lang.String" keyProperty="noti_id" order="BEFORE">
+		SELECT NOTIFICATION_SEQ.NEXTVAL FROM DUAL
+	</selectKey>
+	INSERT INTO NOTIFICATION (NOTI_ID, GUBUN, NTYPE, SENDER, ALERT_TIME, CONTENT)
+	VALUES (#{noti_id}, #{gubun} , #{ntype} , #{sender}, CURRENT_DATE, #{content})
+</insert>
+<!-- 알림 추가 (수신자테이블) insertReceiver -->
+<insert id="insertReceiver" parameterType="java.lang.String">
+	INSERT INTO RECEIVER r (NOTI_ID, RECEIVER_ID)
+	VALUES (NOTIFICATION_SEQ.CURRVAL, #{id})
+</insert>
+<!-- 읽음 여부 변경 updateRead -->
+<update id="updateRead" parameterType="java.util.Map">
+	UPDATE RECEIVER 
+		SET "READ" = 'Y'
+		WHERE RECEIVER_ID = #{id}
+		AND NOTI_ID = #{noti_id}
+</update>
+</mapper>

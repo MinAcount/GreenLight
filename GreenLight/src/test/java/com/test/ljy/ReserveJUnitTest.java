@@ -127,7 +127,7 @@ public class ReserveJUnitTest {
 	}
 	
 //	@Test
-    public void RroInsertTest() {
+    public void ProInsertTest() {
 		Map<String, Object> parameters = new HashMap<String, Object>();
 		parameters.put("applicant", "2312120601");
 		parameters.put("phone", "010-1234-5678");

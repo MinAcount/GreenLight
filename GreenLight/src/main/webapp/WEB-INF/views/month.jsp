@@ -4,10 +4,7 @@
 <html lang="en">
 <head>
 <link rel="stylesheet" type="text/css" href="./css/cal.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-	integrity="sha512-bJQN0gRBAFlqVcFrj2k/9+JMe50VnT8i8FDEQoiR8tRckCeTV6UKGq6vtsbgndnOnvKEtLcctzN7K0s9Jko9w=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-bJQN0gRBAFlqVcFrj2k/9+JMe50VnT8i8FDEQoiR8tRckCeTV6UKGq6vtsbgndnOnvKEtLcctzN7K0s9Jko9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style type="text/css">
 .fc-toolbar-chunk {
 	
@@ -230,6 +227,7 @@
 							data-bs-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-primary"
 							onclick="addScheduleHandler()">추가</button>
+							<!-- onclick="addScheduleHandler()">추가</button> -->
 					</div>
 				</div>
 			</div>

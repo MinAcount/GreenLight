@@ -36,4 +36,7 @@ public interface IEmployeeService {
 	public List<EmployeeVo> getDeptMgrHubo(String deptno);
 //	본부장 후보 조회	getHeadMgrHubo
 	public List<EmployeeVo> getHeadMgrHubo(String headno);
+	
+	//결재선 조회 getApproval
+	public List<EmployeeVo> getApproval(String docno);
 }

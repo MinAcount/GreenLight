@@ -149,9 +149,17 @@
 	</update>
 	<!-- 예약 취소 -->
 	<delete id="deleteReserve" parameterType="java.lang.String">
-    	CALL GD.PRO_DELETE (
-		#{reserveno, mode=IN, jdbcType=VARCHAR},
-		#{v_success, mode=OUT, jdbcType=INTEGER}
-		)
+    	BEGIN
+    		SAVEPOINT START_TRANSACTION;
+    		DELETE FROM CHECKLIST
+    			WHERE RESERVENO = #{reserveno};
+    		DELETE FROM RESERVATION
+    			WHERE RESERVENO = #{reserveno};
+    	COMMIT
+		EXCEPTION
+    		WHEN OTHERS THEN
+       			ROLLBACK TO START_TRANSACTION;
+        		RAISE
+		END
 	</delete>
 </mapper>

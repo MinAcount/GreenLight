@@ -1,7 +1,10 @@
 package com.green.light.ctrl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.green.light.model.service.ICommonService;
 import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IScheduleService;
@@ -65,7 +69,7 @@ public class ScheduleController {
 		map.put("viewmonth", viewmonth);
 
 		System.out.println(map);
-		log.info("ScheduleController GET AjaxView.do 일정 조회년월 : {}", viewmonth);
+		log.info("ScheduleController GET AjaxView.do 일정 조회년도 및 월 : {}", viewmonth);
 		List<ScheduleVo> lists = service.monthSchedule(map);
 		return lists;
 	}
@@ -73,7 +77,7 @@ public class ScheduleController {
 	@GetMapping(value = "/oneSchedule.do")
 	@ResponseBody
 	public ScheduleVo OneSchedule(@RequestParam("schedule_id") String schedule_id, Model model) {
-		log.info("ScheduleController GET oneSchedule.do 일정 상세 보기 : {}", schedule_id);
+		log.info("ScheduleController GET oneSchedule.do 일정 상세조회 : {}", schedule_id);
 		ScheduleVo vo = service.daySchedule(schedule_id);
 		System.out.println(vo);
 		return vo;
@@ -95,7 +99,7 @@ public class ScheduleController {
 			vo.setCreator(loginVo.getName());
 			vo.setPhone(loginVo.getPhone());
 			vo.setLabel_name((String) map.get("label_name"));
-			vo.setCategory((String) map.get("label_name"));
+			vo.setCategory((String) map.get("category"));
 			vo.setTitle((String) map.get("title"));
 			vo.setMemo((String) map.get("memo"));
 			vo.setStart_date(start_date); // 변환된 Date 객체 설정
@@ -116,6 +120,49 @@ public class ScheduleController {
 			log.error("로그인 정보가 없습니다.");
 			throw new IllegalStateException("로그인 정보가 없습니다.");
 		}
+	}
+	
+	@PostMapping(value = "/updateSchedule.do")
+	@ResponseBody
+	public int UpdateSchedule(@RequestParam Map<String, Object> map) throws ParseException {
+		log.info("ScheduleController POST updateSchedule.do 일정수정 : {}", map);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			Date start_date = dateFormat.parse((String) map.get("start_date"));
+			Date end_date = dateFormat.parse((String) map.get("end_date"));
+
+			ScheduleVo vo = new ScheduleVo();
+			vo.setLabel_name((String) map.get("label_name"));
+			vo.setCategory((String) map.get("category"));
+			vo.setTitle((String) map.get("title"));
+			vo.setMemo((String) map.get("memo"));
+			vo.setStart_date(start_date); 
+			vo.setEnd_date(end_date);
+			vo.setLocation((String) map.get("location"));
+			vo.setPriority((String) map.get("priority"));
+			vo.setRecur((String) map.get("recur"));
+			vo.setVisibility((String) map.get("visibility"));
+			vo.setPermission((String) map.get("permission"));
+			vo.setAlarm((String) map.get("alarm"));
+			
+			List<EmployeeVo> participantList = new ArrayList<EmployeeVo>();
+			participantList.add(new EmployeeVo("2303100101", "이지원"));
+			participantList.add(new EmployeeVo("2403110901", "김태민"));
+	        Gson gson = new Gson();
+	        String json = gson.toJson(participantList);
+	        vo.setParticipants(json);
+			vo.setParticipants((String) map.get("participants"));
+
+			int isc = service.updateSchedule(vo);
+
+			return isc;
+	}
+	
+	@PostMapping(value = "/deleteSchedule.do")
+	@ResponseBody
+	public int DeleteSchedule(@RequestParam("schedule_id") String schedule_id) {
+		log.info("ScheduleController POST deleteSchedule.do 일정삭제 : {}", schedule_id);
+		int cnt = service.deleteSchedule(schedule_id);
+		return cnt;
 	}
 
 }

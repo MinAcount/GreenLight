@@ -137,4 +137,11 @@ public class EmployeeServiceImpl implements IEmployeeService {
 		return n;
 	}
 
+	@Override
+	public List<EmployeeVo> getApproval(String docno) {
+		log.info("EmployeeServiceImpl getApproval 결재선 조회 ");
+		List<EmployeeVo> vo = dao.getApproval(docno);
+		return vo;
+	}
+
 }

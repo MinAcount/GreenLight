@@ -11,15 +11,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.green.light.model.service.IConferenceService;
 import com.green.light.model.service.IReserveService;
 import com.green.light.vo.CheckListVo;
+import com.green.light.vo.ConferenceVo;
 import com.green.light.vo.EmployeeVo;
+import com.green.light.vo.ReservationVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,10 +33,13 @@ public class ReserveController {
 
 	@Autowired
 	private IReserveService service;
+	
+	@Autowired
+	private IConferenceService roomservice;
 
 	@GetMapping(value = "/myReserve.do")
 	public String MyReserve(Model model, HttpSession session) {
-		log.info("ReserveController GET myReserve.do 나의 예약 현황");
+		log.info("ReserveController GET myReserve.do 나의 예약현황");
 		EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
 		String applicant = loginVo.getId();
 		List<CheckListVo> lists = service.getMyReserve(applicant);
@@ -55,17 +62,110 @@ public class ReserveController {
 	@PostMapping(value = "/myReserve.do")
 	@ResponseBody
 	public ResponseEntity<?> MyReserveSelect(@RequestBody Map<String, Object> map) {
-		log.info("ReserveController POST myReserve.do 선택 나의 예약 현황 {}", map);
+		log.info("ReserveController POST myReserve.do 상태별 나의 예약현황 {}", map);
 		List<CheckListVo> lists = service.getMyReserve(String.valueOf(map.get("id")));
 		return ResponseEntity.ok(lists);
 	}
 
 	@GetMapping(value = "/oneReserve.do")
 	@ResponseBody
-	public CheckListVo OneReserve(@RequestParam String reserveno) {
-		log.info("ReserveController GET OneReserve.do 예약 상세 보기");
+	public CheckListVo OneReserve(@RequestParam("reserveno") String reserveno) {
+		log.info("ReserveController GET OneReserve.do 예약 상세조회 {}", reserveno);
 		CheckListVo vo = service.getOneReserve(reserveno);
 		return vo;
+	}
+
+	@GetMapping(value = "/insertReserve.do")
+	@ResponseBody
+	public int ProInsertReserve(@RequestBody Map<String, Object> parameters) {
+		log.info("ReserveController GET insertReserve.do 예약 {}", parameters);
+		parameters.put("applicant", "applicant");
+		parameters.put("phone", "phone");
+		parameters.put("reserve_date", java.sql.Timestamp.valueOf("2025-02-23 16:00:00"));
+		parameters.put("meetingtitle", "meetingtitle");
+		parameters.put("conf_id", "conf_id");
+
+		int returnStatus = service.insertReserve(parameters);
+		returnStatus = (int) parameters.get("v_count");
+
+		if (returnStatus == 1) {
+			System.out.println("INSERT가 성공적으로 이루어졌습니다.");
+		} else if (returnStatus == -1) {
+			System.out.println("중복된 예약이 있어 INSERT를 수행할 수 없습니다.");
+		} else if (returnStatus == 0) {
+			System.out.println("주어진 회의실 정보가 없습니다.");
+		} else {
+			System.out.println("문제가 발생했습니다.");
+		}
+
+		return returnStatus;
+	}
+
+	@GetMapping(value = "/updateReserve.do")
+	@ResponseBody
+	public int UpdateReserve(@RequestBody ReservationVo vo) {
+		log.info("ReserveController GET updateReserve.do 예약수정 {}", vo);
+		int cnt = service.updateReserve(vo);
+		return cnt;
+	}
+
+	@GetMapping(value = "/deleteReserve.do")
+	@ResponseBody
+	public int DeleteReserve(@RequestParam("reserveno") String reserveno) {
+		log.info("ReserveController GET deleteReserve.do 예약삭제 {}");
+		int cnt = service.deleteReserve(reserveno);
+		return cnt;
+	}
+
+	@GetMapping(value = "/reserveList.do")
+	public String AllReserve(Model model) {
+	    log.info("ReserveController GET reserveList.do 예약 전체조회");
+	    List<CheckListVo> lists = service.getAllReserve();
+	    model.addAttribute("lists", lists); 
+	    return "reserveList";
+	}
+
+	@PostMapping(value = "/reserveListView.do")
+	@ResponseBody
+	@CrossOrigin(origins = "http://allowed-origin.com")
+	public List<CheckListVo> postAllReserveList() {
+	    log.info("ReserveController POST reserveList.do 예약 전체조회 FullCalender");
+	    List<CheckListVo> lists = service.getAllReserve();
+	    log.info("예약 리스트: {}", lists);
+	    return lists;
+	}
+	
+	
+	@GetMapping(value = "/reserveAble.do")
+	public String AbleReserve(Model model) {
+	    log.info("ReserveController GET reserveAble.do 사용 가능 예약 조회");
+	    List<ConferenceVo> confLists = roomservice.getAllRoom();
+		System.out.println(confLists);
+		model.addAttribute("confLists", confLists);
+	    return "reserveAble";
+	}
+
+	@GetMapping(value = "/reserveConf.do")
+	public String ConfReserve(@RequestParam("conf_id") String conf_id) {
+		log.info("ReserveController GET reserveConf.do 회의실 선택 예약조회 {}");
+		List<CheckListVo> lists = service.confListReserve(conf_id);
+		System.out.println(lists);
+		return "reserveConf";
+	}
+
+	@GetMapping(value = "/reserveDate.do")
+	public String DateReserve(@RequestParam("reserve_day") String reserve_day) {
+		log.info("ReserveController GET dateReserve.do 날짜 선택 예약조회 {}");
+		List<CheckListVo> lists = service.dateListReserve(reserve_day);
+		System.out.println(lists);
+		return "reserveDate";
+	}
+
+	@GetMapping(value = "/reserveTime.do")
+	@ResponseBody
+	public String TimeReserve() {
+		log.info("ReserveController GET timeReserve.do 시간 선택 예약조회 {}");
+		return "JUnit 점검 후 작성";
 	}
 
 }

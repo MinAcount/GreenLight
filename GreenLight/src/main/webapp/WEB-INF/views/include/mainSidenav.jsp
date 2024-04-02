@@ -102,8 +102,8 @@
                   </a>
                   <div class="collapse" id="collapseResv" data-bs-parent="#accordionSidenav">
                      <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="multi-tenant-select.html">회의실 예약</a> 
-                        <a class="nav-link" href="multi-tenant-select.html">예약가능 회의실</a> 
+                        <a class="nav-link" href="reserveList.do">회의실 예약</a> 
+                        <a class="nav-link" href="reserveAble.do">예약 가능 회의실</a> 
                         <a class="nav-link" href="myReserve.do">나의 예약 현황</a> 
                      </nav>
                   </div>

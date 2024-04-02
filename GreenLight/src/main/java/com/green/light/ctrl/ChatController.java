@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IMessageDao;
+import com.green.light.model.service.IMessageService;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.MessageVo;
@@ -30,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatController {
 
 	@Autowired
-	private IMessageDao dao;
+	private IMessageService service;
 	
 	@GetMapping(value = "/chatGroup.do")
 	public String chatGroup() {
@@ -42,7 +43,8 @@ public class ChatController {
 	@ResponseBody
 	public ResponseEntity<?> chatList(@RequestBody Map<String, Object> map, Model model) {
 		 log.info("ChatController chatList 그룹채팅 화면 이동 후 채팅방 목록 조회 {}", map);
-		 List<MessageVo> lists = dao.getAllChat(String.valueOf(map.get("id")));
+		 List<MessageVo> lists = service.getAllChat(String.valueOf(map.get("id")));
+		 System.out.println(lists);
 		 return ResponseEntity.ok(lists);
 	 }
 	
@@ -50,7 +52,7 @@ public class ChatController {
 	@ResponseBody
 	public ResponseEntity<?> insideChat(@RequestBody Map<String, Object> map){
 		log.info("ChatController insideChat 채팅방 내부 화면 {}", map);
-		List<MessageVo> lists = dao.getViewInsideChat(String.valueOf(map.get("id")));
+		List<MessageVo> lists = service.getViewInsideChat(String.valueOf(map.get("id")));
 		System.out.println("lists" + lists);
 		return ResponseEntity.ok(lists);
 	}
@@ -73,7 +75,7 @@ public class ChatController {
 		String id = (String)map.get("id").toString();
 		String noti = (String)map.get("noti").toString();
 		log.info("ChatController updateNoti 채팅방 알림 {} {} {}", chat_id, id, noti);
-		int n = dao.updateNoti(map);
+		int n = service.updateNoti(map);
 		return ResponseEntity.ok(n);
 	}
 	
@@ -85,7 +87,7 @@ public class ChatController {
 		String id = (String)map.get("id").toString();
 		String favor = (String)map.get("favor").toString();
 		log.info("ChatController updateFavor 채팅방 즐겨찾기 {} {} {}", chat_id, id, favor);
-		int n = dao.updateFavor(map);
+		int n = service.updateFavor(map);
 		return ResponseEntity.ok(n);
 	}
 	
@@ -95,7 +97,18 @@ public class ChatController {
 		String chat_id = (String)map.get("chat_id").toString();
 		String roomname = (String)map.get("roomname").toString();
 		log.info("ChatController updateChatName 채팅방 이름수정 {} {}", chat_id, roomname);
-		int n = dao.updateChatName(map);
+		int n = service.updateChatName(map);
+		return ResponseEntity.ok(n);
+	}
+	
+	@PostMapping(value = "/insertSendMessage.do")
+	@ResponseBody
+	public ResponseEntity<?> insertSendMessage(@RequestBody MessageVo vo){
+		String chat_id = vo.getChat_id();
+		String writter = vo.getWritter();
+		String content = vo.getContent();
+		log.info("ChatController insertSendMessage 메시지 전송 {} {} {}", chat_id, writter, content);
+		int n = service.insertSendMessage(vo);
 		return ResponseEntity.ok(n);
 	}
 }
