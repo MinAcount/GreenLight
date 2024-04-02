@@ -23,6 +23,7 @@ function doGetAllChat(){
 			.then(response => response.json())
 			.then(result => {
 				console.log("result:",result);
+				chatListAll = result;
 				if(result != null){
 					getAllChat(result)
 				}else{
@@ -64,11 +65,11 @@ function getAllChat(result){
 			html += '<td>'+img+'</td>';
 		}
 		html += '</tr>                             ';
-		html += '<tr id=\"roomname'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+')">';
+		html += '<tr id=\"roomname'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
 		html += '<td class="roomnamename">'+result[i].gmvo.roomname+'</td>     ';
 		html += '<td>'+formattedSendDate+'</td>          ';
 		html += '</tr>                             ';
-		html += '<tr id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+')">';
+		html += '<tr id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
 		html += '<td>'+result[i].content+'</td>            ';
 		html += '<td class="notinoti">'+result[i].gmvo.noti+'</td>     ';
 		html += '</tr>                             ';
@@ -82,11 +83,42 @@ function getAllChat(result){
 	}
 }	
 
+var url = "";
+var checkUrl = "";
+var ws = "";
+var chat_id = "";
+var getMsgData = "";
+var id = "";
+var chatListAll = "";
+var chatListNoti = "";
 
 //채팅방 목록 클릭 시 chat_id 전달하여 해당 채팅방 오픈
-function getViewInsideChat(idx){
+function getViewInsideChat(idx, i){
 			console.log(idx);
-			var chat_id = idx;
+			chat_id = idx;
+			id = document.getElementById('id').value;
+			console.log(id);
+			chatListNoti = chatListAll[i].gmvo.noti;
+			
+			url = location.href;
+			checkUrl = "ws:" + (url.substring(url.indexOf("//"), url.lastIndexOf("/") + 1)) + "chat.do";
+			console.log(checkUrl);
+			
+			ws = new WebSocket(checkUrl);
+		//	ws = new WebSocket("ws://192.168.8.30:8080/GreenLight/chat.do");
+			console.log("생성된 웹소켓 객체", ws);
+			
+			ws.onopen = function(){
+				console.log("웹소켓 오픈");
+				ws.send("#$nick:" + id);
+				console.log(id);
+			}
+			
+			ws.onclose = function(){
+				alert("서버와 연결이 종료되었습니다");
+			}
+			
+			
 			
 			fetch('./insideChat.do', {
 				method:'POST',
@@ -102,6 +134,7 @@ function getViewInsideChat(idx){
 			.then(response => response.json())
 			.then(result => {
 				console.log("result:",result);
+				getMsgData = result;
 				if(result != null){
 					doGetViewInsideChat(result);
 					document.getElementById('chatRoom').style.display = 'block';
@@ -138,10 +171,28 @@ function getViewInsideChat(idx){
         }
         peopleModal.innerHTML = html;
     }
-    
-    
-    }
-    
+}
+
+	$("#chatInput").keydown(function(event){
+		if(event.keyCode == 13){
+			event.preventDefault();
+			sendMessage();
+		}
+	});
+	
+	$("#buttonChat").on('click', function(){
+		sendMessage();
+	});
+				
+	function sendMessage(){
+		var message = $("#chatInput").val().trim();
+		console.log(message);
+		if(message != ""){
+			ws.send(message + ":" + id + ":" + chat_id);
+			$("#chatInput").val("");
+		}
+	}
+
     
     function chatSetting(result){
     	var settingModal = document.getElementById('settingModal');
@@ -153,7 +204,7 @@ function getViewInsideChat(idx){
 		html += '<div id="settingContainer">';
 		html += '<div class="settingBtn">초대하기</div>';
 		html += '<div class="settingBtn" id="changeRoomName" onclick="changeRoomName('+result[0].chat_id+')">채팅방 수정하기</div>';
-		if(result[0].noti == 'Y'){
+		if(chatListNoti == 'Y'){
 			html += '<div class="settingBtn" id="notificationYn" onclick="toggleNotification('+result[0].chat_id+')">알림 끄기</div>';
 		} else {
 			html += '<div class="settingBtn" id="notificationYn" onclick="toggleNotification('+result[0].chat_id+')">알림 켜기</div>';
@@ -176,13 +227,14 @@ function getViewInsideChat(idx){
 function doGetViewInsideChat(result){
 	var chatRoom = document.getElementById('middleChat');
 	var html = '';
+	console.log(result);
 	console.log(result[0].gmvo.roomname);
 	document.getElementById('roomName').innerText=result[0].gmvo.roomname;
 	copyResult = result;
 	
 	function alignChatMessage(chat){
 		var chatClass = '';
-		if(chat.writter == id.value){
+		if(chat.writter == id){
 			chatClass = 'right';
 		} else {
 			chatClass = 'left';
@@ -323,6 +375,7 @@ function toggleNotification(chat_id) {
 	console.log(currentTxt);
 	console.log(chat_id);
 	console.log(id);
+	console.log(chatListInfo);
 	console.log(chatListInfoNoti);
 	
 	var noti = '';
@@ -340,7 +393,7 @@ function toggleNotification(chat_id) {
 		},
 		body: JSON.stringify({
 			chat_id:chat_id,
-			id: id.value,
+			id: id,
 			noti: noti
 		})
 	})
@@ -365,55 +418,36 @@ function toggleNotification(chat_id) {
 }
 
 
-var ws = null;
-var url = null;
-var nick = null;
-var pageClose = true;
+//var ws = null;
+//var url = null;
+//var nick = null;
+//var pageClose = true;
 
-$(document).ready(function(){
-	console.log("그룹 채팅 로딩중...");
-	var id = document.getElementById('id').value;
-	console.log(id);
+//$(document).ready(function(){
+//	console.log("그룹 채팅 로딩중...");
+//	var id = document.getElementById('id').value;
+//	console.log(id);
+
+
+
+//$(document).on('click', '[id^="roomname0"], [id^="chat0"]', function(){
+//	var chat_id = $(this).attr('id').replace('roomname', '').replace('chat', '');
+//	console.log(chat_id);
 	
-	var url = location.href;
-	var checkUrl = "ws:" + (url.substring(url.indexOf("//"), url.lastIndexOf("/") + 1)) + "chat.do";
-	console.log(checkUrl);
 	
-	var ws = new WebSocket(checkUrl);
-//	ws = new WebSocket("ws://192.168.8.30:8080/GreenLight/chat.do");
-	console.log("생성된 웹소켓 객체", ws);
-	
-	ws.onopen = function(){
-		console.log("웹소켓 오픈");
-		ws.send("#$nick:" + id);
-		console.log(id);
-	}
-	
-	ws.onclose = function(){
-		alert("서버와 연결이 종료되었습니다");
-	}
-	
-	$("#buttonChat").click(function(){
-		var message = $("#chatInput").val();
-		if(message.trim() != ""){
-			ws.send(message);
-			$("#chatInput").val("");
-		}
-	});
-	
-	ws.onmessage = function(event) {
-        var msg = event.data;
-        console.log("서버로부터 전달된 메시지 : ", msg);
-        if(msg.startWith("[나]")){
-        	msg.substring(3);
-        	$("#middleChat").append($("<div class='sendTxt'>").append($("<span class='send_img'>").text(msg))).append("<br><br>");
-        } else {
-        	$("#middleChat").append($("<div class='receiveTxt'>").append($("<span class='receive_img'>").text(msg))).append("<br><br>");
-        }
-    }
-    
-    $("#middleChat").scrollTop($("#middleChat")[0].scrollHeight);
-});
+//	ws.onmessage = function(event) {
+//        var msg = event.data;
+//        console.log("서버로부터 전달된 메시지 : ", msg);
+//        if(msg.startsWith("[나]")){
+//        	msg.substring(3).trim();
+//        	$("#middleChat").append($("<div class='sendTxt'>").append($("<span class='send_img'>").text(msg))).append("<br><br>");
+//        } else {
+//        	msg.trim();
+//        	$("#middleChat").append($("<div class='receiveTxt'>").append($("<span class='receive_img'>").text(msg))).append("<br><br>");
+//        }
+//	    $("#middleChat").scrollTop($("#middleChat")[0].scrollHeight);
+//    }
+//});
 
 
 
