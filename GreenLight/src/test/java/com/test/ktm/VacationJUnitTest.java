@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.green.light.model.service.ICronService;
 import com.green.light.model.service.IVacationService;
 import com.green.light.vo.VacationVo;
 
@@ -26,6 +27,7 @@ public class VacationJUnitTest {
 	
 	@Autowired
 	private IVacationService service;
+
 	
 	@Test
 	public void VacationJUnit() {
@@ -84,6 +86,9 @@ public class VacationJUnitTest {
 //		map.put("getsu", 5);
 //		int n  = service.updateLeave(map);
 //		assertEquals(1, n);
+		
+
+		
 		
 		
 		

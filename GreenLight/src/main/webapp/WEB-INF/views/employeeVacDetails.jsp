@@ -65,77 +65,34 @@
 											<div class="col-md-6">
 												<label class="small mb-1" for="etype">직위</label>
 												<div class="datatable-dropdown">
-													<input class="form-control" id="hidden_etype" value="${vacVo.empVo.spot}" disabled="disabled">
+													<c:forEach var="EVo" items="${elists}">
+														<c:if test="${EVo.id eq vacVo.empVo.id}">
+															<input class="form-control" id="hidden_etype" value="${EVo.spot}" disabled="disabled">
+														</c:if>
+													</c:forEach>
 												</div>
 											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+										<div class="col-md-6">
+												<label class="small mb-1" for="leave">총연차</label>
+											<div class="datatable-dropdown">
+												<input class="form-control" id="leave" name="leave" placeholder="총연차" value="${vacVo.empVo.leave}" disabled="disabled">
+											</div>
+										</div>
+										<div class="col-md-6">
+												<label class="small mb-1" for="Used_Leave">사용연차</label>
+											<div class="datatable-dropdown">
+												<input class="form-control" id="Used_Leave" name="Used_Leave" placeholder="사용연차" value="${vacVo.used_leave}" disabled="disabled">
+											</div>
+										</div>
 										</div>
 										<div class="row gx-3 mb-3">
 											<div class="col-md-12">
-												<label class="small mb-1" for="email">이메일*</label>
-												<input class="form-control" id="email" name="email" placeholder="이메일" value="${vo.email}" disabled="disabled">
+												<label class="small mb-1" for="Used_Leave">잔여연차</label>
+												<input class="form-control" id="Used_Leave" name="Used_Leave" placeholder="잔여연차" value="${vacVo.remaining_leave}" disabled="disabled">
 											</div>
 										</div>
-										<div class="row gx-3 mb-3">
-											<div class="col-md-12">
-												<label class="small mb-1" for="address">주소</label>
-												<input class="form-control" id="address" name="address" placeholder="주소" value="${vo.address}" disabled="disabled">
-											</div>
-										</div>
-										<div class="row gx-3 mb-3">
-											<div class="col-md-6">
-												<label class="small mb-1" for="phone">전화번호*</label>
-												<input class="form-control" id="phone" name="phone" placeholder="전화번호 ex)01012345678" maxlength="11" value="${vo.phone}" disabled="disabled">
-											</div>
-											<div class="col-md-6">
-												<label class="small mb-1" for="birthday">생년월일</label>
-												<fmt:parseDate value="${vo.birthday}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtBirthday"/>
-												<input class="form-control" value="<fmt:formatDate value="${fmtBirthday}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
-											</div>
-											<div class="col-md-6">
-												<label class="small mb-1" for="join_day">입사일*</label>
-												<fmt:parseDate value="${vo.join_day}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtJoinDay"/>
-												<input class="form-control" id="hidden_join_day" value="<fmt:formatDate value="${fmtJoinDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
-												<div id="join_day" style="display: none;">
-													<div class="input-group input-group-joined"
-														style="width: 14.5rem;">
-														<span class="input-group-text" id="litepickerSpan">
-															<i data-feather="calendar"></i>
-														</span> <input class="form-control ps-0"
-															id="litepickerSingleDate" name="join_day"
-															placeholder="YYYY-MM-DD" />
-													</div>
-												</div>
-											</div>
-											<div class="col-md-6">
-												<label class="small mb-1" for="join_day">퇴사일</label>
-												<fmt:parseDate value="${vo.exit_day}" pattern = "yyyy-MM-dd HH:mm:ss" var="fmtExitDay"/>
-												<input id="hidden_exit_day" class="form-control" value="<fmt:formatDate value="${fmtExitDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
-												<div id="exit_day" style="display: none;">
-													<div class="input-group input-group-joined"
-														style="width: 14.5rem;">
-														<span class="input-group-text" id="litepickerSpan">
-															<i data-feather="calendar"></i>
-														</span> <input class="form-control ps-0"
-															id="litepickerDate" name="exit_day"
-															placeholder="YYYY-MM-DD" />
-													</div>
-												</div>
-											</div>
-										</div>
-										<p style="font-size: 7px; position:absolute; right: 20px;">* 필수입력사항입니다.</p>
-										
-										<c:if test="${vo.estatus eq 'N'}">
-											<button class="btn btn-danger" type="button" id="checkExitDayBtn" onclick="checkExitEmployee('N')">퇴사일 수정</button>
-											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitDayBtn" onclick="updateExitDay('${vo.id}')">수정 완료</button>
-											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
-										</c:if>
-										<c:if test="${vo.estatus eq 'Y'}">
-											<button class="btn btn-primary" type="button" id="employeeModifyBtn" onclick="checkModifyEmployee()">수정</button>
-											<button class="btn btn-danger" type="button" id="employeeExitBtn" onclick="checkExitEmployee('Y')">퇴사</button>
-											<button class="btn btn-primary" style="display: none;" type="button" id="updateEmployeeBtn" onclick="updateEmployee('${vo.id}')">수정 완료</button>
-											<button class="btn btn-primary" style="display: none;" type="button" id="updateExitBtn" onclick="updateExit('${vo.id}')">퇴사 결정</button>
-											<button class="btn btn-secondary" style="display: none;" type="button" id="cancelBtn" onclick="btnClean()">취소</button>
-										</c:if>
 									</div>
 								</div>
 							</div>
@@ -171,7 +128,12 @@
 							        
 		 					        <td>${vlist.start_day.substring(0,10)}~${vlist.end_day.substring(0,10)}</td> 
 							        <td>${vlist.getsu}</td>
-							        <td>${vlist.bigo}</td>
+							        <td>
+							        ${vlist.bigo}
+										<c:if test="${vacVo.empVo.join_day.substring(5,10) > vlist.start_day.substring(5,10)}">
+										    (전 연차 사용분)
+										</c:if>
+							        </td>
 							    </tr>
 							</c:forEach>
 						</tbody>

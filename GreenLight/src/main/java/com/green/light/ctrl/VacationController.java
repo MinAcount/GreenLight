@@ -13,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.green.light.model.service.IDepartmentService;
+import com.green.light.model.service.IEmployeeService;
 import com.green.light.model.service.IVacationService;
+import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.VacationVo;
 
@@ -25,6 +28,11 @@ public class VacationController {
 	
 	@Autowired
 	private IVacationService service;
+	
+	@Autowired
+	private IEmployeeService eService;
+	
+	
 	
 	
 	
@@ -65,7 +73,7 @@ public class VacationController {
 		log.info("VacationController employeeVacation 직원 휴가관리 페이지 이동");
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("select_year", "2024");
-		parameterMap.put("select_day", "2024-03");
+		parameterMap.put("select_day", "2024-04");
 		List<VacationVo> lists= service.selectAllEmployeeVacation(parameterMap);
 		model.addAttribute("lists",lists);
 		return "employeeVacation";
@@ -84,10 +92,11 @@ public class VacationController {
 		parameterVo.setId(id);
 		parameterVo.setStart_day((String)parameterMap.get("select_day"));
 		List<VacationVo> vacationList = service.selectVacationHistory(parameterVo);
-		
+		List<EmployeeVo> elists = eService.getAllEmployee();
 		System.out.println(vacVo);
 		model.addAttribute("vacVo",vacVo);
 		model.addAttribute("vacationList",vacationList);
+		model.addAttribute("elists",elists);
 		return "employeeVacDetails";
 	}
 	
