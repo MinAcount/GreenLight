@@ -34,9 +34,6 @@ function oneReserveView(reserveno) {
                     </div>
                 </div>
             </div>
-
-
-    
         `;
 			$('body').append(modalContent);
 			$('#reserveModal').modal('show');

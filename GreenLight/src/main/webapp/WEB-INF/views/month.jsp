@@ -101,63 +101,76 @@
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">캘린더</span> 
-									<select id="label_name" name="label_name" class="form-control" style="flex: 3;"  value="">
+									<span style="flex: 1;">캘린더</span> <select id="label_name"
+										name="label_name" class="form-control" style="flex: 3;"
+										value="">
 										<option value="My">내 일정(기본)</option>
-										<option value="${dname}">${dname} 일정</option>
+										<option value="${dname}">${dname}일정</option>
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">제목</span> 
-									<input type="text" id="title" name="title" class="form-control" placeholder="제목" style="flex: 3;" value="">
+									<span style="flex: 1;">제목</span> <input type="text" id="title"
+										name="title" class="form-control" placeholder="제목"
+										style="flex: 3;" value="">
 								</div>
-<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
-<!-- 									<span style="flex: 1;">시작일</span>  -->
-<!-- 									<input type="date" id="start_date" name="start_date" required style="flex: 1.14; margin-bottom: 0px;">  -->
-<!-- 									<input type="time" id="start_time" name="start_time" style="flex: 1.14; margin-bottom: 0px;" required> -->
-<!-- 									<div class="form-check"> -->
-<!-- 										<input type="checkbox" id="allDay" name="allDay" value="종일" class="form-check-input" onchange="toggleTimeSelection(this)" style="margin-bottom: 0px;">  -->
-<!-- 										<label for="allDay" class="form-check-label" style="margin-bottom: 0px;">종일</label> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
-<!-- 									<span style="flex: 1;">종료일</span>  -->
-<!-- 									<input type="date" id="end_date" name="end_date" required style="flex: 1.14; margin-bottom: 0px;"  value="">  -->
-<!-- 									<input type="time" id="end_time" name="end_time" style="flex: 1.14; margin-bottom: 0px;" required  value=""> -->
-<!-- 									<div class="form-check"> -->
-<!-- 										<input type="checkbox" id="recur" name="recur" value="Y" class="form-check-input" style="margin-bottom: 0px;"> -->
-<!-- 										<span for="recur" class="form-check-label" style="margin-bottom: 0px;">반복</span> -->
-<!-- 									</div> -->
-<!-- 								</div> -->
+								<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
+								<!-- 									<span style="flex: 1;">시작일</span>  -->
+								<!-- 									<input type="date" id="start_date" name="start_date" required style="flex: 1.14; margin-bottom: 0px;">  -->
+								<!-- 									<input type="time" id="start_time" name="start_time" style="flex: 1.14; margin-bottom: 0px;" required> -->
+								<!-- 									<div class="form-check"> -->
+								<!-- 										<input type="checkbox" id="allDay" name="allDay" value="종일" class="form-check-input" onchange="toggleTimeSelection(this)" style="margin-bottom: 0px;">  -->
+								<!-- 										<label for="allDay" class="form-check-label" style="margin-bottom: 0px;">종일</label> -->
+								<!-- 									</div> -->
+								<!-- 								</div> -->
+								<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
+								<!-- 									<span style="flex: 1;">종료일</span>  -->
+								<!-- 									<input type="date" id="end_date" name="end_date" required style="flex: 1.14; margin-bottom: 0px;"  value="">  -->
+								<!-- 									<input type="time" id="end_time" name="end_time" style="flex: 1.14; margin-bottom: 0px;" required  value=""> -->
+								<!-- 									<div class="form-check"> -->
+								<!-- 										<input type="checkbox" id="recur" name="recur" value="Y" class="form-check-input" style="margin-bottom: 0px;"> -->
+								<!-- 										<span for="recur" class="form-check-label" style="margin-bottom: 0px;">반복</span> -->
+								<!-- 									</div> -->
+								<!-- 								</div> -->
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">기간</span> 
-									<input type="text" id="daterangepicker" name="daterangepicker" class="form-control" style="flex: 3;">
-									<input type="hidden" id="start_date" name="start_date" class="form-control" style="flex: 3;">
-									<input type="hidden" id="end_date" name="end_date" class="form-control" style="flex: 3;">
+									<span style="flex: 1;">기간</span> <input type="text"
+										id="daterangepicker" name="daterangepicker"
+										class="form-control" style="flex: 3;"> <input
+										type="hidden" id="start_date" name="start_date"
+										class="form-control" style="flex: 3;"> <input
+										type="hidden" id="end_date" name="end_date"
+										class="form-control" style="flex: 3;">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
 									<div class="form-check">
- 										<input type="checkbox" id="allDay" name="allDay" value="종일" class="form-check-input" onchange="toggleTimeSelection(this)" style="margin-bottom: 0px;">
-										<span for="allDay" class="form-check-label" style="margin-bottom: 0px;">종일</span>
+										<input type="checkbox" id="allDay" name="allDay" value="종일"
+											class="form-check-input" onchange="toggleTimeSelection(this)"
+											style="margin-bottom: 0px;"> <span for="allDay"
+											class="form-check-label" style="margin-bottom: 0px;">종일</span>
 									</div>
 									<div class="form-check">
-										<input type="checkbox" id="recur" name="recur" value="Y" class="form-check-input" style="margin-bottom: 0px;">
-										<span for="recur" class="form-check-label" style="margin-bottom: 0px;">반복</span>
+										<input type="checkbox" id="recur" name="recur" value="Y"
+											class="form-check-input" style="margin-bottom: 0px;">
+										<span for="recur" class="form-check-label"
+											style="margin-bottom: 0px;">반복</span>
 									</div>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">참여자</span> 
-									<input type="text" id="participants" name="participants" class="form-control" placeholder="참여자 선택" style="flex: 3;">
+									<span style="flex: 1;">참여자</span> <input type="text"
+										id="participants" name="participants" class="form-control"
+										placeholder="참여자 선택" style="flex: 3;">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">위치</span> 
-									<input type="text" id="location" name="location" class="form-control" placeholder="위치" style="flex: 1.5;" value=""> 
-									<input type="button" id="reserveRoom" name="reserveRoom" class="form-control" value="회의실 예약" style="flex: 1;">
+									<span style="flex: 1;">위치</span> <input type="text"
+										id="location" name="location" class="form-control"
+										placeholder="위치" style="flex: 1.5;" value=""> <input
+										type="button" id="reserveRoom" name="reserveRoom"
+										class="form-control" value="회의실 예약" style="flex: 1;">
 								</div>
 							</div>
 							<div class="form-group" style="padding-top: 20px;">
 								<span for="memo">메모</span>
-								<textarea class="form-control" rows="5" id="memo" name="memo" placeholder="메모를 입력하세요"></textarea>
+								<textarea class="form-control" rows="5" id="memo" name="memo"
+									placeholder="메모를 입력하세요"></textarea>
 							</div>
 							<div>
 								<a href="#" id="basicCalendarToggle">기본캘린더</a>
@@ -212,15 +225,16 @@
 							</div>
 						</form>
 					</div>
-
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary"
 							data-bs-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-primary" onclick="addScheduleHandler()">추가</button>
+						<button type="button" class="btn btn-primary"
+							onclick="addScheduleHandler()">추가</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div id="detailVieweModal"></div>
 
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
