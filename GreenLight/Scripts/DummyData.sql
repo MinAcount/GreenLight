@@ -528,50 +528,63 @@ INSERT INTO CHECKLIST(LSEQ, RESERVENO, CONF_ID)
 --------------------------------------------------------6.알림--------------------------------------------------------
 
 --알림
-INSERT INTO NOTIFICATION (NOTI_ID, GUBUN, NTYPE, SENDER, RECEIVER, ALERT_TIME, CONTENT)
+INSERT INTO NOTIFICATION (NOTI_ID, GUBUN, NTYPE, SENDER, ALERT_TIME, CONTENT)
 	SELECT '1', 'S240212001', '02','2312120601',
-	         '[{"ID":"2303100101", "READ":"N"}, 
-	         {"ID":"2403110901", "READ":"N"}, 
-	         {"ID":"2402110501", "READ":"N"}, 
-	         {"ID":"2401110301", "READ":"N"}]',
 	         TO_DATE('2024-05-02 12:00', 'YYYY-MM-DD HH24:MI'),
 	         '임주영 반차' FROM DUAL
 	UNION ALL
 	SELECT '2', 'S240220004', '02','2303100101',
-	         '[{"ID":"2312120601", "READ":"N"}]',
 	         TO_DATE('2024-03-31 14:00', 'YYYY-MM-DD HH24:MI'),
 	         '[사내 교육 세미나] 일정에 등록되었습니다.' FROM DUAL
 	UNION ALL
 	SELECT '3', '202400001', '03','2312120601',
-	         '[{"ID":"2402110501", "READ":"N"}, 
-	         {"ID":"2401110301", "READ":"N"}]',
 	         TO_DATE('2024-02-12 11:00', 'YYYY-MM-DD HH24:MI'),
 	         '[임주영 오후 반차] 문서에 참조자로 추가되었습니다.' FROM DUAL
 	UNION ALL
 	SELECT '4', '202400001', '03','2312120601',
-	         '[{"ID":"2312120601", "READ":"N"}]',
 	         TO_DATE('2024-02-12 11:00', 'YYYY-MM-DD HH24:MI'),
 	         '[임주영 오후 반차] 문서가 기안되었습니다.' FROM DUAL
 	UNION ALL
 	SELECT '5', '202400001', '03','2312120601',
-	         '[{"ID":"2403110901", "READ":"N"}]',
 	         TO_DATE('2024-02-12 11:00', 'YYYY-MM-DD HH24:MI'),
 	         '[임주영 오후 반차] 문서를 승인할 차례입니다.' FROM DUAL
 	UNION ALL
 	SELECT '6', 'S240220004', '02','2303100101',
-	         '[{"ID":"2303100101", "READ":"N"}]',
 	         TO_DATE('2024-03-31 14:00', 'YYYY-MM-DD HH24:MI'),
 	         '[사내 교육 세미나] 일정이 등록되었습니다.' FROM DUAL
 	UNION ALL
 	SELECT '7', '202400001', '03','2312120601',
-	         '[{"ID":"2312120601", "READ":"N"}]',
 	         TO_DATE('2024-05-02 16:23', 'YYYY-MM-DD HH24:MI'),
 	         '[임주영 반차] 문서가 승인되었습니다.' FROM DUAL
 	UNION ALL
 	SELECT '8', 'S240212001', '02','2312120601',
-	         '[{"ID":"2312120601", "READ":"N"}]',
 	         TO_DATE('2024-05-02 12:00', 'YYYY-MM-DD HH24:MI'),
 	         '[임주영 반차] 일정이 등록되었습니다.' FROM DUAL;
+	        
+INSERT INTO RECEIVER r (NOTI_ID , RECEIVER_ID, "READ")
+	SELECT '1', '2303100101', 'N' FROM DUAL 
+	UNION ALL
+	SELECT '1', '2403110901', 'N' FROM DUAL
+	UNION ALL
+	SELECT '1', '2402110501', 'N' FROM DUAL
+	UNION ALL
+	SELECT '1', '2401110301', 'N' FROM DUAL
+	UNION ALL
+	SELECT '2', '2312120601', 'N' FROM DUAL
+	UNION ALL
+	SELECT '3', '2402110501', 'N' FROM DUAL
+	UNION ALL
+	SELECT '3', '2401110301', 'N' FROM DUAL
+	UNION ALL
+	SELECT '4', '2312120601', 'N' FROM DUAL
+	UNION ALL
+	SELECT '5', '2403110901', 'N' FROM DUAL
+	UNION ALL
+	SELECT '6', '2303100101', 'N' FROM DUAL
+	UNION ALL
+	SELECT '7', '2312120601', 'N' FROM DUAL
+	UNION ALL
+	SELECT '8', '2312120601', 'N' FROM DUAL;
 	
 --------------------------------------------------------7.코드--------------------------------------------------------
 -- 직위

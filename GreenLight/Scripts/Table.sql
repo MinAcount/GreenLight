@@ -256,11 +256,16 @@ CREATE TABLE NOTIFICATION (
     GUBUN VARCHAR2(10), 			-- 구분ID
     NTYPE VARCHAR2(2), 				-- 분류
     SENDER VARCHAR2(10), 			-- 발신자
-    RECEIVER CLOB CONSTRAINT ENSURE_RECEIVER CHECK (RECEIVER IS JSON), -- 수신자
     ALERT_TIME DATE, 				-- 알림시간
     CONTENT VARCHAR2(2000) 			-- 알림내용
 );
 ALTER TABLE NOTIFICATION ADD CONSTRAINT PK_NOTIFICATION PRIMARY KEY (NOTI_ID); -- PK
+
+CREATE TABLE RECEIVER (
+    NOTI_ID VARCHAR2(10) NOT NULL, 	-- 알림ID
+    RECEIVER_ID VARCHAR2(10) NOT NULL, -- 수신자
+    "READ" CHAR(1) DEFAULT 'N' NOT NULL -- 읽음여부
+);
 
 --------------------------------------------------------7.코드--------------------------------------------------------
 -- 공통코드 테이블
@@ -301,6 +306,8 @@ CREATE SEQUENCE CONFERENCE_SEQ START WITH 1 INCREMENT BY 1 NOCACHE;
 CREATE SEQUENCE RESERVATION_SEQ START WITH 1 INCREMENT BY 1 NOCACHE;
 CREATE SEQUENCE CHECKLIST_SEQ START WITH 11 INCREMENT BY 1 NOCACHE NOCYCLE NOMAXVALUE;
 
+CREATE SEQUENCE NOTIFICATION_SEQ START WITH 10 INCREMENT BY 1 NOCACHE;
+
 --------------------------------------------------------------------------------------------------------------------
 COMMIT;
 --------------------------------------------------------------------------------------------------------------------
@@ -332,6 +339,7 @@ DROP TABLE CONFERENCE;
 DROP TABLE RESERVATION; 
 
 DROP TABLE NOTIFICATION;
+DROP TABLE RECEIVER;
 
 DROP TABLE COMMON;
 DROP TABLE FILESTORAGE;
