@@ -23,6 +23,8 @@
 		<!-- 채팅 -->
 		<typeAlias type="com.green.light.vo.MessageVo" alias="MessageVo"/>
 		<typeAlias type="com.green.light.vo.GroupMemberVo" alias="GroupMemberVo"/>
+		<!-- 알림 -->
+		<typeAlias type="com.green.light.vo.NotificationVo" alias="NotificationVo"/>
 		<!-- 공통 -->
 		<typeAlias type="com.green.light.vo.CommonVo" alias="CommonVo"/>
 		<typeAlias type="com.green.light.vo.FileStorageVo" alias="FileStorageVo"/>
@@ -49,6 +51,8 @@
 		<mapper resource="sqls/TemplateStatement.xml"/>
 		<!-- 채팅 -->
 		<mapper resource="sqls/MessageStatement.xml"/>
+		<!-- 알림 -->
+		<mapper resource="sqls/NotificationStatement.xml"/>
 		<!-- 공통 -->
 		<mapper resource="sqls/CommonStatement.xml"/>
 		<mapper resource="sqls/FileStorageStatement.xml"/>
