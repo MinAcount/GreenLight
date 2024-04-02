@@ -90,6 +90,24 @@ WHERE E.ID = #{id}
 GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
 ]]>
 </select>  
+
+<!-- "일 잔여 휴가갯수"	selectRemainingLeaveByDay -->
+<select id="selectOneLeave" parameterType="java.util.Map" resultMap="VacVo">
+<![CDATA[
+SELECT E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE,
+    SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                     V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM-DD') 
+                 THEN V.GETSU ELSE 0 END, 0)) AS USED_LEAVE,
+    E.LEAVE - SUM(NVL(CASE WHEN V.START_DAY >= TO_DATE(#{select_year} || '-' || TO_CHAR(E.JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') AND 
+                                V.START_DAY >= TO_DATE(#{select_day}, 'YYYY-MM-DD') 
+                            THEN V.GETSU ELSE 0 END, 0)) AS REMAINING_LEAVE 
+FROM EMPLOYEE E
+INNER JOIN DEPARTMENT D ON E.DEPTNO = D.DEPTNO
+LEFT JOIN VACATION V ON E.ID = V.ID
+WHERE E.ID = #{id}
+GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
+]]>
+</select>  
 <!-- 휴가사용등록	registerVacation -->
 <insert id="registerVacation" parameterType="VacationVo">
 <selectKey resultType="java.lang.String" keyProperty="vacno" order="BEFORE" >

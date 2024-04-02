@@ -1,14 +1,16 @@
 package com.green.light.ctrl;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -43,26 +45,60 @@ public class AttendanceController {
 	@Autowired
 	private IEmployeeService eService;
 	
+	//회사 전체 ip
+	String ip = "14.36.141.71";
+	
+	
 	@GetMapping("/in.do")
-	public String in(HttpSession session, HttpServletResponse response) {
+	public void in(HttpSession session, HttpServletResponse response) throws IOException {
 	    log.info("AttendanceController in 출근등록");
-//	    String ip = "14.36.141.71";
-//	    String ipAddress = "";
-//	    try (Scanner s = new Scanner(new URL("https://api.ipify.org").openStream(), "UTF-8")) {
-//	        ipAddress = s.useDelimiter("\\A").next();
-//	    } catch (IOException e) {
-//	        e.printStackTrace();
-//	    }
-	    EmployeeVo EVo = (EmployeeVo)session.getAttribute("loginVo");
-	    System.out.println("Employee ID: " + EVo.getId());
-	    service.insertAttendanceRecord(EVo.getId());
-	    return "redirect:/main.do";
+	    
+	    String localIp = "";
+	    try (java.util.Scanner s = new java.util.Scanner(new java.net.URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A")) {
+	    	localIp = s.next();
+	    	System.out.println("My current localIP address is " + localIp);
+	    } catch (java.io.IOException e) {
+	    	e.printStackTrace();
+	    }
+	    if(!localIp.equals(ip)) {
+			response.setContentType("text/html; charset=utf-8;");
+			PrintWriter out = response.getWriter();
+			out.print("<script>alert('유효하지 않은 ip입니다'); location.href='./main.do'</script>");
+			out.flush();
+	    } else {
+	    	EmployeeVo EVo = (EmployeeVo)session.getAttribute("loginVo");
+	    	System.out.println("Employee ID: " + EVo.getId());
+	    	service.insertAttendanceRecord(EVo.getId());
+	    	response.setContentType("text/html; charset=utf-8;");
+	    	PrintWriter out = response.getWriter();
+	    	out.print("<script>location.href='./main.do'</script>");
+	    	out.flush();
+	    }
 	}
+
+	
+
+
 	
     
     @GetMapping("/out.do")
-    public String out(HttpSession session) {
+    public void out(HttpSession session, HttpServletResponse response) throws IOException  {
         log.info("AttendanceController out 퇴근등록");
+        
+	    String localIp = "";
+	    try (java.util.Scanner s = new java.util.Scanner(new java.net.URL("https://api.ipify.org").openStream(), "UTF-8").useDelimiter("\\A")) {
+	    	localIp = s.next();
+	    	System.out.println("My current localIP address is " + localIp);
+	    } catch (java.io.IOException e) {
+	    	e.printStackTrace();
+	    }
+	    if(!localIp.equals(ip)) {
+			response.setContentType("text/html; charset=utf-8;");
+			PrintWriter out = response.getWriter();
+			out.print("<script>alert('유효하지 않은 ip입니다'); location.href='./main.do'</script>");
+			out.flush();
+	    } else {
+        
         EmployeeVo EVo = (EmployeeVo) session.getAttribute("loginVo");
         service.updateAttendanceOutTime(EVo.getId());// 아이디를 받아와서 퇴근시간을 찍어줌
         String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));//현재날짜를 String으로 저장
@@ -96,8 +132,12 @@ public class AttendanceController {
             System.out.println("updateWorkStatus resultAVo :"+resultAVo);
             service.updateWorkStatus(resultAVo);
         }
+    	response.setContentType("text/html; charset=utf-8;");
+    	PrintWriter out = response.getWriter();
+    	out.print("<script>location.href='./main.do'</script>");
+    	out.flush();
+    }
 
-        return "redirect:/main.do";
     }
 
     // 시간 비교 메서드
