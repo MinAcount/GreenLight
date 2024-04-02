@@ -31,12 +31,6 @@ $(function() {
 		});
 	});
 
-
-
-
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-
 	// Reference Tree
 	$('#refJstree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
@@ -79,9 +73,6 @@ $(function() {
 			}
 		},
 	});
-
-
-
 
 	//apprJstree
 	$("#apr_chk").sortable({
@@ -190,11 +181,9 @@ $(function() {
 			$("#ref_chk").html(htmlCode);
 		}
 
-
 		$("#refJstree").jstree('deselect_node', sel);
 		deletedRef = [];
 	});
-
 
 	// Add Employee Button Click
 	$("#addEmp").on('click', function() {
@@ -231,29 +220,19 @@ $(function() {
 			"</div>";
 		$("#apr_chk").html(htmlCode);
 		$("#apprJstree").jstree('deselect_node', sel);
-
-
 	
 		deletedAppr = [];
 	});
-
 
 	// 트리를 처음부터 열린 상태로 보여줌
 	$('#apprJstree').on('ready.jstree', function() {
 		$(this).jstree('open_all');
 	});
 
-
-
-
 	// 트리를 처음부터 열린 상태로 보여줌
 	$('#refJstree').on('ready.jstree', function() {
 		$(this).jstree('open_all');
 	});
-
-
-
-
 
 	var searchTimer3;
 	// 참조자 서치
@@ -268,7 +247,6 @@ $(function() {
 		}, 300);
 	});
 
-
 	var searchTimer;
 	// 결재자 서치
 	$('#search_input').keyup(function() {
@@ -282,7 +260,6 @@ $(function() {
 		}, 300);
 	});
 
-
 	var searchTimer2;
 	//문서양식 서치
 	$('#search').on('keyup', function() {
@@ -295,10 +272,8 @@ $(function() {
 			$('#JTSelectTemplate').jstree(true).search(v);
 		}, 300);
 	});
-
 });
 
-///////이혜원 작업시작 
 //참조자 삭제
 function delRef(event) {
 	// 클릭된 span의 parent div
@@ -316,7 +291,6 @@ function delRef(event) {
 	var deletedNode = findTreeNodeByText2(text);
 	console.log(deletedNode)
 	$("#refJstree").jstree('show_node', deletedNode.id);
-
 
 }
 
@@ -341,10 +315,6 @@ function del(event) {
 	
 }
 
-
-
-
-
 function findTreeNodeByText2(text) {
 
 	var refJstree = $("#refJstree").jstree();
@@ -361,8 +331,6 @@ function findTreeNodeByText2(text) {
 	return null;
 }
 
-
-
 function findTreeNodeByText(text) {
 
 	var apprJstree = $("#apprJstree").jstree();
@@ -378,10 +346,6 @@ function findTreeNodeByText(text) {
 	// 노드를 찾지 못한 경우
 	return null;
 }
-
-
-
-
 
 // 초기화 버튼 기능
 function cleanRef() {
@@ -423,10 +387,6 @@ function clean() {
 	deletedAppr = [];
 }
 
-
-
-
-
 var chkAppr;
 // 결재자 설정 완료 버튼
 function apprDone() {
@@ -441,10 +401,6 @@ function apprDone() {
 	delIcon.forEach(function(icon) {
 		icon.remove();
 	});
-
-
-	
-
 
 	console.log("last_apprLine", apprLine)
 
@@ -479,15 +435,10 @@ function apprDone() {
 	})
 	console.log("apr_row_text", apr_row_text)
 
-
-
-
-
 	var firstTr = document.getElementById("firstTr");
 	var secondTr = document.getElementById("secondTr");
 	var thirdTr = document.getElementById("thirdTr");
 	var apprTh = document.getElementById("apprTh");
-
 
 	var tds = firstTr.querySelectorAll("td");
 	tds.forEach(function(td) {
@@ -501,7 +452,6 @@ function apprDone() {
 	while (thirdTr.firstChild) {
 		thirdTr.removeChild(thirdTr.firstChild);
 	}
-
 
 	for (var i = 0; i < apr_rows.length; i++) {
 		var str = apr_row_text[i];
@@ -531,7 +481,6 @@ function apprDone() {
 
 	apprTh.style.display = "";
 	
-	
 	var apr_chk_apr_rows = apprLineOriginal.querySelectorAll(".apr_row");
 	apr_chk_apr_rows.forEach(function(apr_chk_apr_row){
 		apr_chk_apr_row.setAttribute('name', 'aprDone');
@@ -539,12 +488,9 @@ function apprDone() {
 	
 }
 
-
 var chkRef;
 // 참조자 추가 완료버튼
 function refDone() {
-
-
 	var refLineOriginal = document.getElementById("ref_chk")
 	var refLine = refLineOriginal.cloneNode(true)
 	console.log(refLine)
@@ -554,11 +500,7 @@ function refDone() {
 		icon.remove();
 	});
 
-
-
 	console.log("last_refLine", refLine)
-
-
 
 	var chkRefClone1 = refLine.cloneNode(true)
 
@@ -580,7 +522,6 @@ function refDone() {
 	chkAppr = document.getElementById("chkAppr");
 	chkAppr.style.display = "none";
 
-
 	var referenceLi = document.getElementById("getReference");
 	referenceLi.classList.add("active");
 
@@ -596,9 +537,6 @@ function refDone() {
 		ref_id.push(ref_find_node.id);
 	})
 	console.log(ref_id)
-
-
-
 
 	// 결재순서 담은 input태그 추가
 	var apr_rows = document.getElementById("apr_chk").querySelectorAll(".apr_row");
@@ -618,12 +556,7 @@ function refDone() {
 		ref_chk_apr_row.setAttribute('name', 'refDone');
 	})
 	
-	
-	
 }
-
-
-
 
 // 참조자 확인 클릭
 function getRefLine() {
@@ -664,7 +597,6 @@ function apprCancel() {
 	deletedAppr = [];
 }
 
-
 function refCancel() {
 	var ref_chk = document.getElementById("ref_chk");
 	var ref_rows = ref_chk.querySelectorAll(".ref_row");
@@ -690,9 +622,6 @@ function refCancel() {
 	deletedRef = [];
 }
 
-
-
-
 async function selectComplete() {
 
 	console.log("selectComplete()");
@@ -707,63 +636,9 @@ async function selectComplete() {
 			//			console.log(data.content);
 			var templateArea = document.getElementById("templateArea");
 			templateArea.innerHTML = data1.content;
-			document.getElementById("apr_chk").innerHTML = "";
-			//			console.log("tempcode:",data1.tempcode)
-			document.getElementById("tempCode").value = data1.tempcode;
-
-			// input hidden 태그에 뿌려줄 값 조회
-			var loginVo_name = document.getElementById("loginVo_name").value;
-			var deptVo_dname = document.getElementById("deptVo_dname").value;
-			var loginVo_id = document.getElementById("loginVo_id").value;
-			var loginVo_spot = document.getElementById("loginVo_spot").value;
-			console.log("loginVo_name:", loginVo_name);
-			console.log("deptVo_dname:", deptVo_dname);
-			console.log("loginVo_id:", loginVo_id);
-			console.log("loginVo_spot:", loginVo_spot);
-
-			// 값이 뿌려질 input hidden 태그 탐색
-			var name = document.getElementById("name");
-			var dname = document.getElementById("dname");
-			var writer_id = document.getElementById("writer_id");
-			console.log("name:", name);
-			console.log("dname:", dname);
-			console.log("writer_id:", writer_id);
-
-			name.value = loginVo_name;
-			dname.value = deptVo_dname;
-			writer_id.value = loginVo_id;
-
-			// 기안 뿌리기
-			var today = new Date();
-
-			// 연도, 월, 일을 문자열로 변환하여 조합
-			var year = today.getFullYear();
-			var month = ('0' + (today.getMonth() + 1)).slice(-2);
-			var day = ('0' + today.getDate()).slice(-2);
-			var dateString = year + '-' + month + '-' + day;
-			console.log(dateString)
-
-			// input 요소의 value에 할당
-			document.querySelector("#draft_date").value = dateString;
 			
-			// 기안란 직위, 이름, 기안일 textContent
-			document.querySelector("#drafter_spot").textContent = loginVo_spot;
-			document.querySelector("#drafter_name").textContent = loginVo_name;
-			document.querySelector("#drafter_draft_date").textContent = dateString;
-
-			// 상신 유효성 검사 submission validation
-
-			// 임시저장 유효성 검사 temporary validation
+			var getsu = "";
 			
-			// 공가 선택시 신청연차 초기화
-			document.querySelector("#getsuFlag").addEventListener("change", function() {
-				console.log("getsuFlag()");
-				console.log("this.value:", this.value);
-				if (this.value == 'Y') {//공가
-					document.getElementById("getsu").value = "";
-				}
-			});
-
 			// dadtarangepicker를 위한 api를 적용
 			$('#daterangepicker').daterangepicker({
 				"locale": {
@@ -791,17 +666,73 @@ async function selectComplete() {
 				var end_date = new Date(end);
 
 				var getsu_date = end_date.getTime() - start_date.getTime();
-				var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
+				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
 				document.getElementById("getsu").value = getsu;
 			});
+			
+			document.getElementById("apr_chk").innerHTML = "";
+			//			console.log("tempcode:",data1.tempcode)
+			document.getElementById("tempCode").value = data1.tempcode;
 
+			// input hidden 태그에 뿌려줄 값 조회
+			var loginVo_name = document.getElementById("loginVo_name").value;
+			var deptVo_dname = document.getElementById("deptVo_dname").value;
+			var loginVo_id = document.getElementById("loginVo_id").value;
+			var loginVo_spot = document.getElementById("loginVo_spot").value;
+			console.log("loginVo_name:", loginVo_name);
+			console.log("deptVo_dname:", deptVo_dname);
+			console.log("loginVo_id:", loginVo_id);
+			console.log("loginVo_spot:", loginVo_spot);
+
+			// 값이 뿌려질 input hidden 태그 탐색
+			var name = document.getElementById("name");
+			var dname = document.getElementById("dname");
+			var writer_id = document.getElementById("writer_id");
+			console.log("name:", name);
+			console.log("dname:", dname);
+			console.log("writer_id:", writer_id);
+
+			name.textContent = loginVo_name;
+			dname.textContent = deptVo_dname;
+			writer_id.textContent = loginVo_id;
+
+			// 기안 뿌리기
+			var today = new Date();
+
+			// 연도, 월, 일을 문자열로 변환하여 조합
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);
+			var dateString = year + '-' + month + '-' + day;
+			console.log(dateString)
+
+			// input 요소의 value에 할당
+			document.querySelector("#draft_date").textContent = dateString;
+			
+			// 기안란 직위, 이름, 기안일 textContent
+			document.querySelector("#drafter_spot").textContent = loginVo_spot;
+			document.querySelector("#drafter_name").textContent = loginVo_name;
+			document.querySelector("#drafter_draft_date").textContent = dateString;
+
+			var prev_getsu = getsu;
+			console.log("prev_getsu:",prev_getsu);
+			
+			// 공가 선택시 신청연차 초기화
+			document.querySelector("#getsuFlag").addEventListener("change", function() {
+				console.log("getsuFlag()");
+				console.log("this.value:", this.value);
+				if (this.value == 'Y') {//공가
+					document.getElementById("getsu").value = '0';
+				} else {
+					document.getElementById("getsu").value = getsu;
+				}
+			});
 
 		} catch (error) {
 			console.log("Error..", error);
 		}
 	}
-
 
 	// 로그인 세션 아이디
 	var sessionId = document.getElementById("loginVo_id").value;
@@ -859,7 +790,6 @@ async function selectComplete() {
 //			
 //		})
 
-
 		//			for (let j = i + 1; j < data2.length; j++) {
 		//				console.log(id)
 		//				console.log(data2[i].empVo[0].id)
@@ -880,9 +810,6 @@ async function selectComplete() {
 		//				}
 		//
 		//			}
-
-
-
 
 		var apprLine = document.getElementById("apr_chk");
 		var apr_rows = apprLine.querySelectorAll(".apr_row");
@@ -957,13 +884,11 @@ async function selectComplete() {
 		}
 		apprTh.style.display = "";
 
-
 		// 출력
-
+		
 
 	} catch (error) {
 		console.log("Error..", error);
 	}
-
 
 }

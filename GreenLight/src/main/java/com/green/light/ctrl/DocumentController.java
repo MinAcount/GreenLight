@@ -42,7 +42,7 @@ public class DocumentController {
 	
 	@PostMapping(value = "/insertDocument.do")
 	@ResponseBody
-	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map, MultipartFile[] files) throws Exception {
+	public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map, @RequestParam(name = "files", required = false) MultipartFile[] files) throws Exception {
 	    log.info("DocumentController insertDocument POST /insertDocument.do : {}, {}", map, files);
 	    
 	    // docVo에 값 넣어주기
@@ -73,7 +73,8 @@ public class DocumentController {
 	    											Base64.getEncoder().encodeToString(byteArr), 
 	    											(int)files[i].getSize(), 
 	    											"", 
-	    											"");
+	    											"",
+	    											null);
 	    	System.out.println("==== fileVo : " + fileVo + " ====");
 	    	fileVos.add(fileVo);
 	    }

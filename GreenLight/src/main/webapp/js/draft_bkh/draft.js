@@ -1,3 +1,48 @@
+//상신 유효성 검사
+function submissionValidation(){
+	console.log("submissionValidation()");
+	
+	//입력받는값
+	//제목
+	let title = document.querySelector("#title");
+	console.log("title:",title.value);
+	
+	//기간 및 일시
+	let daterangepicker = document.querySelector("#daterangepicker");
+	console.log("daterangepicker:",daterangepicker.value);
+	let daterpickers = daterangepicker.value.split("~");
+	let start_day = daterpickers[0];
+	console.log("start_day:",start_day)
+	let end_day = daterpickers[1];
+	console.log("end_day:",end_day);
+//	document.querySelector("#start_day").value = start_day;
+//	document.querySelector("#end_day").value = end_day;	
+
+	//반차 여부
+	
+	//신청연차
+	let getsu = document.querySelector("#getsu");
+	console.log("getsu:",getsu.value);
+	
+	//긴급 여부
+	let urgency = document.querySelector("#urgency").value;
+	console.log("urgency:",urgency);
+	
+	//null체크
+	if(title.value == ''){
+		alert("제목을 입력하세요..");
+		title.focus();
+	} else if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value){
+		alert("기간 및 일시를 선택하세요..");
+		daterangepicker.focus();
+	}
+}
+
+//임시저장 유효성 검사
+function temporaryValidation(){
+	console.log("temporaryValidation()");
+}
+
 function insertDocument() {
 	console.log("insertDocument()");
 	// 결재순서 input 만들기
@@ -10,7 +55,6 @@ function insertDocument() {
 		orderno.setAttribute("value", i + 1);
 		row.appendChild(orderno);
 	})
-
 
 	/*document table*/
 	var writer_id = document.getElementById("writer_id").value;
@@ -70,8 +114,6 @@ function insertDocument() {
 		})
 		apprLine.push(apprVo);
 	}
-
-
 
 	// 참조자 값 넘기기
 	var ref_emp_id = [];
@@ -145,30 +187,27 @@ function insertDocument() {
 			console.error('오류 발생:', error);
 		});
 
-
-
 }
-
-
 
 function radioActiveS(chk) {
 	console.log("radioActive()")
 	console.log(chk);
 
-	//      console.log("input[name='start_day']");
-	$("input[name='시작일']").prop("disabled", !chk);
+	let start_day_halfs = document.getElementsByName("start_day_half");
+	for(let i = 0; i < start_day_halfs.length; i++){
+		start_day_halfs[i].disabled = !chk;
+	}
 }
 
 function radioActiveE(chk) {
 	console.log("radioActive()")
 	console.log(chk);
 
-	//      console.log("input[name='start_day']");
-	$("input[name='종료일']").prop("disabled", !chk);
+	let end_day_halfs = document.getElementsByName("end_day_half");
+	for(let i = 0; i < end_day_halfs.length; i++){
+		end_day_halfs[i].disabled = !chk;
+	}
 }
-
-
-
 
 var lastDetail;
 function addExpenseDetail(){
@@ -225,26 +264,7 @@ function addExpenseDetail(){
 	}
 }
 
-
-
-
 function deleteExpenseDetail(){
 	console.log(deleteExpenseDetail);
 	lastDetail.remove();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

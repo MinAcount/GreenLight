@@ -174,9 +174,9 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
-							style="margin-right: 5px;">임시저장</button>
+							style="margin-right: 5px;" onclick="temporaryValidation()">임시저장</button>
 						<button class="btn btn-primary " type="button"
-							style="width: 73.6px;" onclick="insertDocument()">상신</button>
+							style="width: 73.6px;" onclick="submissionValidation()">상신</button>
 					</div>
 				</div>
 				
@@ -330,6 +330,11 @@
                            			<th style="border: 1px solid black;">파일첨부</th>
                            			<td style="border: 1px solid black;">
                            				<input type="file" id="fileInput" multiple="multiple">
+                           			</td>
+                           		</tr>
+                           		<tr>
+                           			<td>
+                           				<div id="fileDropzone" class="dropzone"></div>
                            			</td>
                            		</tr>
                            	</table>
