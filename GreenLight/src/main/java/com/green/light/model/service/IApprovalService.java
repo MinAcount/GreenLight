@@ -24,4 +24,7 @@ public interface IApprovalService {
 	// 참조자 조회
 	public List<EmployeeVo> getReference(String docno);
 	
+	// 결재상태 업데이트
+	public ApprovalVo updateApprStatus(ApprovalVo vo);
+	
 }

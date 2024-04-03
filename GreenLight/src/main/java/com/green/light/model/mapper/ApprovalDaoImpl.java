@@ -48,6 +48,11 @@ public class ApprovalDaoImpl implements IApprovalDao{
 		return sqlSession.selectList(NS+"getReference", docno);
 	}
 
+	@Override
+	public ApprovalVo updateApprStatus(ApprovalVo vo) {
+		return sqlSession.selectOne(NS+"updateApprStatus", vo);
+	}
+
 
 	
 

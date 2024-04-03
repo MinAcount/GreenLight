@@ -9,6 +9,7 @@
    <result property="spot" column="SPOT"/>
 <!--    <collection property="deptVo" resultMap="DepartmentVoMap"/> -->
    <collection property="comVo" resultMap="CommonVoMap"/>
+   <collection property="apprVo" resultMap="ApprovalVo"></collection>
 </resultMap>
 
 <resultMap type="com.green.light.vo.DepartmentVo" id="DepartmentVoMap">
@@ -87,5 +88,12 @@ SELECT e.NAME , (SELECT CODE_NAME FROM COMMON c WHERE e.SPOT = c.CODE AND c."TYP
         ON a.EMP_ID = e.ID 
         WHERE DOCNO = #{docno} AND ATYPE = '02'
 </select>
+
+<!-- 결재상태 업데이트 -->
+<update id="updateApprStatus" parameterType="ApprovalVo">
+	UPDATE APPROVAL
+		SET APPR_STATUS=#{appr_status}, APPR_DATE=SYSDATE, SIGNATURE='반려'
+		WHERE DOCNO = #{docno} AND EMP_ID = #{emp_id}
+</update>
 
 </mapper>
