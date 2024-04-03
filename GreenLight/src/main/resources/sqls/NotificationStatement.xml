@@ -65,4 +65,10 @@
 		WHERE RECEIVER_ID = #{id}
 		AND NOTI_ID = #{noti_id}
 </update>
+<!-- 전체 읽음 updateAllRead -->
+<update id="updateAllRead" parameterType="java.lang.String">
+	UPDATE RECEIVER 
+		SET "READ" = 'Y'
+		WHERE RECEIVER_ID = #{id}
+</update>
 </mapper>
