@@ -2,6 +2,7 @@ package com.green.light.ctrl;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,16 +76,16 @@ public class ReserveController {
 		return vo;
 	}
 
-	@GetMapping(value = "/insertReserve.do")
+	@PostMapping(value = "/insertReserve.do")
 	@ResponseBody
-	public int ProInsertReserve(@RequestBody Map<String, Object> parameters) {
+	public int ProInsertReserve(@RequestBody Map<String, Object> parameters, HttpSession session) {
 		log.info("ReserveController GET insertReserve.do 예약 {}", parameters);
-		parameters.put("applicant", "applicant");
-		parameters.put("phone", "phone");
-		parameters.put("reserve_date", java.sql.Timestamp.valueOf("2025-02-23 16:00:00"));
-		parameters.put("meetingtitle", "meetingtitle");
-		parameters.put("conf_id", "conf_id");
-
+		EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
+		
+		parameters.put("applicant", loginVo.getId());
+		parameters.put("phone", loginVo.getPhone());
+		parameters.put("reserve_date", java.sql.Timestamp.valueOf((String) parameters.get("reserve_date")));
+		
 		int returnStatus = service.insertReserve(parameters);
 		returnStatus = (int) parameters.get("v_count");
 
@@ -163,9 +164,20 @@ public class ReserveController {
 
 	@GetMapping(value = "/reserveTime.do")
 	@ResponseBody
-	public String TimeReserve() {
-		log.info("ReserveController GET timeReserve.do 시간 선택 예약조회 {}");
-		return "JUnit 점검 후 작성";
+	public List<CheckListVo> TimeReserve(@RequestParam("reserve_day") String reserve_day, 
+								         @RequestParam("timeslot") String timeslot, 
+								         @RequestParam("floor") String floor, 
+								         @RequestParam("capacity") int capacity) {
+		log.info("ReserveController GET timeReserve.do 시간 선택 예약조회 {} {} {} {}" , reserve_day, timeslot, floor, capacity);
+		Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("reserve_day", reserve_day);
+	    map.put("timeslot", timeslot);
+	    map.put("floor", floor);
+	    map.put("capacity", capacity);
+	    map.put("status", "예약가능");
+	    List<CheckListVo> lists = service.timeListReserve(map);
+	    System.out.println(lists);
+		return lists;
 	}
 
 }

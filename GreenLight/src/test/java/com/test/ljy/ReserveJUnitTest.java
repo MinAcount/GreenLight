@@ -31,9 +31,11 @@ import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@WebAppConfiguration
 public class ReserveJUnitTest {
 
 	@Autowired
@@ -47,7 +49,7 @@ public class ReserveJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-//	@Test
+	@Test
 	public void AllReserveTest() {
 	    List<CheckListVo> lists = service.getAllReserve();
 	    System.out.println(lists);
@@ -70,12 +72,14 @@ public class ReserveJUnitTest {
 	    assertNotNull(lists);
 	}
 	
-//	재검검 필요
 //	@Test
 	public void TimeReserveTest() {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("conf_id", "F2_002_201");
-		map.put("reserve_date", "2024-03-21");
+		map.put("reserve_day", "2024-03-21");
+		map.put("timeslot", "12");
+		map.put("floor", "2");
+		map.put("capacity", 10);
+		
 	    List<CheckListVo> lists = service.timeListReserve(map);
 	    System.out.println(lists);
 	    assertNotNull(lists);

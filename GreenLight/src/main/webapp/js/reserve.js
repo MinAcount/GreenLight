@@ -452,7 +452,7 @@ var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
 
 // 년도와 월 표시
 function displayYearMonth() {
-    currentYearMonthDiv.innerHTML = '<div style="font-size: 14px;">' + currentYear + '년</div><div style="font-size: 24px;">' + (currentMonth + 1) + '월</div>';
+	currentYearMonthDiv.innerHTML = '<div style="font-size: 14px;">' + currentYear + '년</div><div style="font-size: 24px;">' + (currentMonth + 1) + '월</div>';
 }
 displayYearMonth();
 
@@ -481,13 +481,15 @@ function generateCalendar() {
 		var cell = document.createElement('div');
 		cell.classList.add('calendar-cell');
 		cell.textContent = i;
-		cell.addEventListener('click', function() {
-			var clickedDate = this.textContent;
-			selectedDateDiv.textContent = currentYear + '년 ' + (currentMonth + 1) + '월 ' + clickedDate + '일';
+		cell.addEventListener('click', function(event) {
+			var clickedDate = event.target.textContent; // 클릭한 날짜 가져오기
+			var formattedMonth = ('0' + (currentMonth + 1)).slice(-2);
+			selectedDateDiv.textContent = currentYear + '년 ' + formattedMonth + '월 ' + clickedDate.padStart(2, '0') + '일';
 			calendarDiv.querySelectorAll('.calendar-cell').forEach(function(cell) {
 				cell.classList.remove('selected');
 			});
-			this.classList.add('selected');
+			event.target.classList.add('selected');
+			dateClicked(); // 클릭한 날짜를 전달하여 dateClicked 함수 호출
 		});
 		calendarDiv.appendChild(cell);
 	}
@@ -515,3 +517,237 @@ prevMonthBtn.addEventListener('click', function() {
 	displayYearMonth();
 	generateCalendar();
 });
+
+
+var reserve_day;
+var timeslot;
+
+function searchReserveListWithDate(reserve_day, timeslot, floor, capacity) {
+
+	window.reserve_day = reserve_day;
+	window.timeslot = timeslot;
+
+	fetch('./reserveTime.do?reserve_day=' + reserve_day + '&timeslot=' + timeslot + '&floor=' + floor + '&capacity=' + capacity)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('서버 응답 실패');
+			}
+			return response.json();
+		})
+		.then(data => displayReservationData(data))
+		.catch(error => console.error('오류:', error));
+}
+
+// 조건을 선택하여 회의실 검색 (default : currentDay)
+function searchReserveList() {
+	console.log("예약 가능 회의실 검색");
+
+	var currentDay = new Date();
+	var year = currentDay.getFullYear();
+	var month = ('0' + (currentDay.getMonth() + 1)).slice(-2);
+	var day = ('0' + currentDay.getDate()).slice(-2);
+	var reserve_day = year + '-' + month + '-' + day;
+
+	console.log("처음 검색 시 reserve_day", reserve_day);
+
+	var timeslot = document.querySelector('select[name="timeslot"]').value;
+	if (timeslot.length === 1) {
+		timeslot = '0' + timeslot;
+	}
+	var floor = document.querySelector('select[name="floor"]').value;
+	var capacity = parseInt(document.querySelector('select[name="capacity"]').value);
+
+	console.log("timeslot: ", timeslot);
+	console.log("floor: ", floor);
+	console.log("capacity: ", capacity);
+
+	searchReserveListWithDate(reserve_day, timeslot, floor, capacity);
+
+	// id가 selectedDate인 요소를 찾아 오늘 날짜로 설정
+	var selectedDateElement = document.getElementById('selectedDate');
+	if (selectedDateElement) {
+		selectedDateElement.textContent = year + '년 ' + month + '월 ' + day + '일';
+	}
+
+	// 달력의 클릭 상태 초기화
+	var calendarCells = document.querySelectorAll('.calendar-cell');
+	calendarCells.forEach(function(cell) {
+		cell.classList.remove('selected');
+	});
+}
+
+
+
+// "검색 조건은 그대로 유지"한채 날짜를 클릭시 가져오는 값이 다르다
+function dateClicked() {
+	var selectedDateElement = document.getElementById('selectedDate');
+	if (selectedDateElement) {
+		var selectedDateValue = selectedDateElement.textContent;
+		console.log("선택된 날짜: ", selectedDateValue);
+
+		var parts = selectedDateValue.split(' ');
+		if (parts.length >= 3) {
+			var year = parts[0].slice(0, 4);
+			var month = parts[1].slice(0, -1);
+			var day = parts[2].slice(0, -1);
+			var reserve_day = year + '-' + month.padStart(2, '0') + '-' + day.padStart(2, '0'); // 포맷 변경
+
+			console.log("변환된 날짜: ", reserve_day);
+
+			var floor = document.querySelector('select[name="floor"]').value;
+			var timeslot = document.querySelector('select[name="timeslot"]').value;
+			if (timeslot.length === 1) {
+				timeslot = '0' + timeslot;
+			}
+			var capacity = parseInt(document.querySelector('select[name="capacity"]').value);
+
+			searchReserveListWithDate(reserve_day, timeslot, floor, capacity);
+		} else {
+			console.error("날짜 형식이 올바르지 않습니다.");
+		}
+	} else {
+		console.error("선택된 날짜 요소를 찾을 수 없습니다.");
+	}
+
+	// 오늘 날짜를 선택되어 있도록 설정
+	var todayButton = document.getElementById('todayButton');
+	todayButton.classList.add('active');
+}
+
+function displayReservationData(data) {
+	console.log("리스트 호출 함수 진입");
+	console.log("reserveTime에서 받은 date : ", data);
+
+	var tableBody = document.getElementById('tableBody');
+	tableBody.innerHTML = ''; // 기존 테이블 내용을 비웁니다.
+
+	var availableRooms = 0; // 예약 가능 회의실 개수 초기화
+	var hasAvailableRooms = false; // 예약 가능 회의실 존재 여부 초기화
+
+	data.forEach(function(item, index) {
+		// 예약 가능한 회의실인 경우만 처리
+		if (item.conferenceVo.status === "예약가능") {
+			availableRooms++;
+			hasAvailableRooms = true; // 예약 가능한 회의실이 존재함을 표시
+
+			// 리스트에 예약 가능한 회의실 정보 추가
+			var row = document.createElement('tr');
+			row.innerHTML = `
+                <td style="text-align: center;">${availableRooms}</td> <!-- 예약 가능 회의실의 순서로 인덱스 표시 -->
+                <td style="text-align: center;">${item.conferenceVo.cname}</td>
+                <td style="text-align: center;">${item.conferenceVo.capacity}</td>
+                <td style="text-align: center;">${item.conferenceVo.ho}</td>
+                <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="reservationForm('${item.conferenceVo.conf_id}')">예약하기</button></td>
+            `;
+			tableBody.appendChild(row);
+		}
+	});
+
+	// 예약 가능 회의실이 없는 경우 메시지 출력
+	if (!hasAvailableRooms) {
+		var noResultRow = document.createElement('tr');
+		noResultRow.innerHTML = '<td colspan="5" style="text-align: center; height: 200px;">예약 가능 회의실이 없습니다</td>';
+		tableBody.appendChild(noResultRow);
+	}
+
+	// 예약 가능 회의실 수 표시
+	var roomCountElement = document.getElementById('roomCount');
+	roomCountElement.textContent = `${availableRooms}`;
+}
+
+function reservationForm(conf_id) {
+	console.log("예약클릭");
+	console.log("conf_id : ", conf_id);
+	console.log("reserve_day : ", reserve_day);
+	console.log("timeslot : ", timeslot);
+
+	// reserve_day 및 timeslot을 조합하여 필요한 형식으로 변환
+	var reserveDateTime = reserve_day + ' ' + timeslot + ':00:00'; // 초를 포함하여 형식을 변경
+	console.log("변환된 예약일시 : ", reserveDateTime);
+	// 예약 모달 창에 값 채우기
+	document.getElementById('cname').value = conf_id;
+	document.getElementById('reserve_day').value = formatDate(reserve_day);
+
+	// 날짜 형식 변환 함수
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+		const year = date.getFullYear();
+		const month = (date.getMonth() + 1).toString().padStart(2, '0');
+		const day = date.getDate().toString().padStart(2, '0');
+		return year + '년 ' + month + '월 ' + day + '일';
+	}
+	var timeslotStart = timeslot + ':00';
+	var timeslotEnd = (parseInt(timeslot) + 2).toString() + ':00';
+	document.getElementById('time').value = timeslotStart + ' - ' + timeslotEnd;
+
+	// 모달 창 열기
+	$('#reserveFormModal').modal('show');
+
+	// addReserveHandler 버튼 클릭 이벤트 처리
+	document.getElementById('addReserveHandler').addEventListener('click', function() {
+		var meetingtitle = document.getElementById('meetingtitle').value;
+		console.log("meetingtitle : ", meetingtitle);
+
+		// AJAX 요청을 통해 서버로 데이터 전송
+		fetch('./insertReserve.do', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				conf_id: conf_id,
+				reserve_date: reserveDateTime,
+				meetingtitle: meetingtitle
+			}),
+		})
+			.then(response => response.json())
+			.then(result => {
+				const returnStatus = parseInt(result);
+				console.log("회의실 예약 결과:", returnStatus);
+				if (returnStatus == 1) {
+					console.log("예약 성공");
+					document.getElementById("reserveForm").reset(); 
+					$("#reserveFormModal").modal("hide"); 
+					alertModel();
+				} else if(returnStatus == -1) {
+					console.log("예약 실패");
+					alert("중복된 예약이 있습니다");
+				}else if(returnStatus == 0) {
+					console.log("예약 실패");
+					alert("회의실 정보가 없습니다");
+				}else  {
+					console.log("예약 실패");
+					alert("관리자에게 문의하세요");
+				}
+
+			})
+			.catch(error => console.error('오류:', error));
+	});
+}
+
+function alertModel(){
+	var modalContent = `
+			            <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+			                <div class="modal-dialog modal-dialog-centered">
+			                    <div class="modal-content">
+			                        <div class="modal-header">
+			                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			                        </div>
+			                        <div class="modal-body">
+			                            <div>예약이 성공했습니다</div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        `;
+			        $('#alertModal').modal('show');
+}
+
+// 전화번호를 3-4-4 형식으로 변환하는 함수
+function formatPhoneNumber(phoneNumber) {
+	return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+}
+
+// 전화번호 입력란에서 값을 가져와서 형식을 변경하여 다시 설정
+var phoneInput = document.getElementById('phoneInput');
+phoneInput.value = formatPhoneNumber(phoneInput.value);
