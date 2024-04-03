@@ -68,19 +68,21 @@ public class DocumentController {
 	    
 		// fileVo에 값 넣어주기
 	    List<FileStorageVo> fileVos = new ArrayList<FileStorageVo>();
-	    for(int i = 0; i < files.length; i++) {
-	    	byte[] byteArr = files[i].getBytes();
-	    	FileStorageVo fileVo = new FileStorageVo(docno,
-	    											"01", 
-	    											files[i].getOriginalFilename(), 
-	    											"stored_name 준비중..", 
-	    											Base64.getEncoder().encodeToString(byteArr), 
-	    											(int)files[i].getSize(), 
-	    											"", 
-	    											"",
-	    											null);
-	    	System.out.println("==== fileVo : " + fileVo + " ====");
-	    	fileVos.add(fileVo);
+	    if(files != null) {
+	    	for(int i = 0; i < files.length; i++) {
+		    	byte[] byteArr = files[i].getBytes();
+		    	FileStorageVo fileVo = new FileStorageVo(docno,
+		    											"01", 
+		    											files[i].getOriginalFilename(), 
+		    											"stored_name 준비중..", 
+		    											Base64.getEncoder().encodeToString(byteArr), 
+		    											(int)files[i].getSize(), 
+		    											"", 
+		    											"",
+		    											null);
+		    	System.out.println("==== fileVo : " + fileVo + " ====");
+		    	fileVos.add(fileVo);
+		    }
 	    }
 	    
 	    
