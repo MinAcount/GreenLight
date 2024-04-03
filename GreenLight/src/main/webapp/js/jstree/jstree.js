@@ -30,7 +30,19 @@ $(function() {
 			$(this).jstree('open_all');
 		});
 	});
-
+	
+	function templatePreview(){
+      // 문서양식을 클릭했을 때
+      $(".jstree-anchor").on("click", function(){
+        // 해당 문서양식의 ID 가져오기
+        var documentId = $(this).parent().attr("id");
+        // 콘솔에 출력
+        console.log("문서양식 ID:", documentId);
+        // 이벤트 발생 시키기 (예: 다른 동작 수행)
+        // 여기에 추가적인 코드 작성 가능
+      });
+    }
+	
 	// Reference Tree
 	$('#refJstree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
@@ -668,7 +680,7 @@ async function selectComplete() {
 				var getsu_date = end_date.getTime() - start_date.getTime();
 				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
-				document.getElementById("getsu").value = getsu;
+				document.getElementById("getsu").textContent = getsu;
 			});
 			
 			document.getElementById("apr_chk").innerHTML = "";
@@ -715,51 +727,50 @@ async function selectComplete() {
 			document.querySelector("#drafter_name").textContent = loginVo_name;
 			document.querySelector("#drafter_draft_date").textContent = dateString;
 
-			var prev_getsu = getsu;
-			console.log("prev_getsu:",prev_getsu);
-			
 			// 공가 선택시 신청연차 초기화
 			document.querySelector("#getsuFlag").addEventListener("change", function() {
 				console.log("getsuFlag()");
 				console.log("this.value:", this.value);
 				if (this.value == 'Y') {//공가
-					document.getElementById("getsu").value = '0';
+					console.log("공가선택")
+					document.getElementById("getsu").textContent = '0';
 				} else {
-					document.getElementById("getsu").value = getsu;
+					console.log("연차선택")
+					document.getElementById("getsu").textContent = getsu;
 				}
 			});
 
-			// dadtarangepicker를 위한 api를 적용
-			$('#daterangepicker').daterangepicker({
-				"locale": {
-					"format": "YYYY-MM-DD",
-					"separator": " ~ ",
-					"applyLabel": "확인",
-					"cancelLabel": "취소",
-					"fromLabel": "From",
-					"toLabel": "To",
-					"customRangeLabel": "Custom",
-					"weekLabel": "W",
-					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-				},
-				"startDate": new Date(),
-				"endDate": new Date(),
-				"drops": "down"
-			}, function(start, end, label) {
-				$('#start_day').val(start.format('YYYY-MM-DD'));
-				$('#end_day').val(end.format('YYYY-MM-DD'));
-				console.log("============================================================== typeof start:", typeof start);
-				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-
-				var start_date = new Date(start);
-				var end_date = new Date(end);
-
-				var getsu_date = end_date.getTime() - start_date.getTime();
-				var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
-				console.log("getsu:", getsu);
-				document.getElementById("getsu").textContent = getsu;
-			});
+//			// dadtarangepicker를 위한 api를 적용
+//			$('#daterangepicker').daterangepicker({
+//				"locale": {
+//					"format": "YYYY-MM-DD",
+//					"separator": " ~ ",
+//					"applyLabel": "확인",
+//					"cancelLabel": "취소",
+//					"fromLabel": "From",
+//					"toLabel": "To",
+//					"customRangeLabel": "Custom",
+//					"weekLabel": "W",
+//					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+//					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+//				},
+//				"startDate": new Date(),
+//				"endDate": new Date(),
+//				"drops": "down"
+//			}, function(start, end, label) {
+//				$('#start_day').val(start.format('YYYY-MM-DD'));
+//				$('#end_day').val(end.format('YYYY-MM-DD'));
+//				console.log("============================================================== typeof start:", typeof start);
+//				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+//
+//				var start_date = new Date(start);
+//				var end_date = new Date(end);
+//
+//				var getsu_date = end_date.getTime() - start_date.getTime();
+//				var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
+//				console.log("getsu:", getsu);
+//				document.getElementById("getsu").textContent = getsu;
+//			});
 
 		} catch (error) {
 			console.log("Error..", error);

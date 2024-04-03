@@ -4,7 +4,8 @@ function submissionValidation(){
 	
 	//입력받는값
 	//제목
-	let title = document.querySelector("#title");
+//	let title = document.querySelector("#title");
+	let title = document.querySelector("[name='title']");
 	console.log("title:",title.value);
 	
 	//기간 및 일시
@@ -32,10 +33,12 @@ function submissionValidation(){
 	if(title.value == ''){
 		alert("제목을 입력하세요..");
 		title.focus();
-	} else if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value){
+	} else if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == ''){
 		alert("기간 및 일시를 선택하세요..");
 		daterangepicker.focus();
 	}
+	
+//	insertDocument();
 }
 
 //임시저장 유효성 검사

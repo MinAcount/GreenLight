@@ -51,7 +51,9 @@
 
 										</div>
 										<!-- 선택된 문서양식 미리보기 -->
-										<div style="width: 395px; min-height: 450px;"></div>
+										<div id="template_preview" style="width: 395px; min-height: 450px;">
+											
+										</div>
 									</div>
 									<div class="modal-footer">
 										<button class="btn btn-secondary btn-sm" type="button"
