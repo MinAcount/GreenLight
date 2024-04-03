@@ -31,18 +31,6 @@ $(function() {
 		});
 	});
 	
-	function templatePreview(){
-      // 문서양식을 클릭했을 때
-      $(".jstree-anchor").on("click", function(){
-        // 해당 문서양식의 ID 가져오기
-        var documentId = $(this).parent().attr("id");
-        // 콘솔에 출력
-        console.log("문서양식 ID:", documentId);
-        // 이벤트 발생 시키기 (예: 다른 동작 수행)
-        // 여기에 추가적인 코드 작성 가능
-      });
-    }
-	
 	// Reference Tree
 	$('#refJstree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
@@ -284,7 +272,94 @@ $(function() {
 			$('#JTSelectTemplate').jstree(true).search(v);
 		}, 300);
 	});
+	
+//    $("#JTSelectTemplate").on("click", "li.jstree-node", function(){
+//        console.log("클릭 이벤트 발생!!");
+//        
+//        	let clicked = $("#JTSelectTemplate").jstree('get_selected');
+//			let clickedNode = $("#JTSelectTemplate").jstree().get_node(clicked);
+//			let tempno = clickedNode.original.tempno;
+//			
+//			console.log("clicked:",clicked);
+//			console.log("clickedNode:",clickedNode);
+//			console.log("tempno:",tempno);
+//    });
+
+	// 문서양식선택 미리보기
+	$("#JTSelectTemplate").on("click", "li.jstree-node", function(event){
+    event.stopPropagation(); // 이벤트 버블링 중지
+    
+    console.log("클릭 이벤트 발생!!");
+        
+    let clicked = $("#JTSelectTemplate").jstree('get_selected');
+    let clickedNode = $("#JTSelectTemplate").jstree().get_node(clicked);
+    let tempno = clickedNode.original.tempno;
+    
+    console.log("clicked:",clicked);
+    console.log("clickedNode:",clickedNode);
+    console.log("tempno:",tempno);
+    
+	fetch("./selectMainTemplate.do?tempno=" + tempno)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+    		return response.json();
+		})
+		.then(data => {
+			console.log("data",data);
+			let div_before = document.createElement("div");
+			div_before.innerHTML = data.content;
+			let daterangepickerInput = document.getElementById("daterangepicker");
+			daterangepickerInput.remove();
+			console.log("div_before:",div_before);
+		})
+		.catch(error => {
+			console.error('There was a problem with the fetch operation:', error);
+		})
+	});
+
 });
+
+//$("#JTSelectTemplate").on('select_node.jstree', function(e, data){
+
+//	var clickedNodeElement = clickedNode.element;
+//	
+//	
+//	console.log("clickedNodeElement:",clickedNodeElement);
+	
+//	var clickedNode = data.node;
+//	console.log("clickedNode:",clickedNode)	
+//})
+
+//clickedNodeElement.addEventListener('click', function(){
+//	console.log("이혜원 짱짱맨");
+//})
+
+
+
+//var JTSelectTemplate = document.getElementById("JTSelectTemplate");
+//var JTSelectTemplate = document.querySelector("#JTSelectTemplate");
+//var selectedLis = JTSelectTemplate.querySelectorAll("li.jstree-node");
+//var Lis = JTSelectTemplate.querySelectorAll("li.jstree-node");
+
+// NodeList를 배열로 변환
+//var selectedLisArray = Array.from(selectedLis);
+//selectedLisArray.forEach(function (selectedLi){
+//	console.log("selectedLi",selectedLi);
+//	selectedLi.addEventListener('click',function(event){
+//		console.log("눌렸어용", event)
+//		
+//	})
+//})
+
+//var selectedLis = $("#JTSelectTemplate").find("li.jstree-node");
+//
+//selectedLis.each(function(){
+//	$(this).on("click", function(){
+//		console.log("눌렸나요!!")
+//	});
+//});
 
 //참조자 삭제
 function delRef(event) {
@@ -676,11 +751,21 @@ async function selectComplete() {
 
 				var start_date = new Date(start);
 				var end_date = new Date(end);
+				var formattedStartDate = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2);
+				var formattedEndDate = end_date.getFullYear() + "-" + ("0" + (end_date.getMonth() + 1)).slice(-2) + "-" + ("0" + end_date.getDate()).slice(-2);
 
 				var getsu_date = end_date.getTime() - start_date.getTime();
 				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
 				document.getElementById("getsu").textContent = getsu;
+				console.log("start_date:", formattedStartDate);
+				console.log("end:", end._d);
+				//사용자에 의해 선택된 시작일, 종료일이 같다면 id가 인 checkbox는 비활성화
+				if(formattedStartDate == formattedEndDate){
+					console.log("종료일 비활성화")
+					document.querySelector("#end_day_half").disabled = true;
+				}
+				
 			});
 			
 			document.getElementById("apr_chk").innerHTML = "";

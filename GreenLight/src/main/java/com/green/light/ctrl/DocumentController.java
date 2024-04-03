@@ -86,7 +86,7 @@ public class DocumentController {
 	    }
 	    
 	    
-	    // apprVo에 값 넣어주기
+	    // apprVo에 값 넣어주기 : 결재자
 	    String jsonString = (String) map.get("apprLine");
 	      ObjectMapper objectMapper = new ObjectMapper();
 	      
@@ -120,7 +120,7 @@ public class DocumentController {
 			
 			
 			
-			// refVo에 값 넣어주기
+			// refVo에 값 넣어주기 : 참조자
 		    String jsonRefString = (String) map.get("refLine");
 		      ObjectMapper objectMapper2 = new ObjectMapper();
 		      
@@ -128,7 +128,7 @@ public class DocumentController {
 		      List<Map<String, String>> jsonRefArray = objectMapper2.readValue(jsonRefString, new TypeReference<List<Map<String, String>>>() {
 			  
 		      });
-		         
+		      
 				// 각 요소를 순회하면서 JSON 배열을 출력합니다.
 				for (Map<String, String> element : jsonRefArray) { // {},{},{} =>vo
 		            System.out.println("==== jsonRefArray에 들어있는 객체 : " + element + " ====");
