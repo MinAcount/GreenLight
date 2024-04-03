@@ -27,5 +27,10 @@ public interface IApprovalDao {
 	public List<EmployeeVo> getReference(String docno);
 	
 	// 결재상태 업데이트
-	public ApprovalVo updateApprStatus(ApprovalVo vo);
+	public int updateApprStatus(Map<String, Object> map);
+	
+	// 코멘트 등록
+	public int updateComment(Map<String, Object> map);
+	
+	
 }

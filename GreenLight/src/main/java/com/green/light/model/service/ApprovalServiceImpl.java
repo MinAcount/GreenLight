@@ -57,10 +57,18 @@ public class ApprovalServiceImpl implements IApprovalService {
 	}
 
 	@Override
-	public ApprovalVo updateApprStatus(ApprovalVo vo) {
-		log.info("ApprovalServiceImpl updateApprStatus 결재상태 업데이트");
-		return dao.updateApprStatus(vo);
+	public int updateApprStatus(Map<String, Object> map) {
+		log.info("ApprovalServiceImpl updateApprStatus 결재상태 업데이트", map);
+		return dao.updateApprStatus(map);
 	}
+
+	@Override
+	public int updateComment(Map<String, Object> map) {
+		log.info("ApprovalServiceImpl updateComment 코멘트 업데이트", map);
+		return dao.updateComment(map);
+	}
+
+	
 
 	
 

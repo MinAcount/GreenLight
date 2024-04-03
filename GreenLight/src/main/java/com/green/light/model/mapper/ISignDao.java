@@ -25,4 +25,6 @@ public interface ISignDao {
 //	대표서명 지정	setMainSign
 	public int setMainSign(SignVo signVo);
 	
+// 대표 서명 조회 selectMainSign
+	public SignVo selectMainSign(String id);
 }
