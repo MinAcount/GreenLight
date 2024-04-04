@@ -192,6 +192,9 @@
          OR (a.APPR_CURRENT ='02'
                  AND a.EMP_ID=#{id} AND a.ATYPE='01'
              AND NOT d.DOC_STATUS = '04')
+         OR (a.APPR_CURRENT ='03'
+             AND a.EMP_ID=#{id} AND a.ATYPE='01'
+             AND NOT d.DOC_STATUS = '04')
    </select>
    
    <!-- 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus -->

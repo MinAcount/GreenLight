@@ -276,16 +276,21 @@ public class DocumentController {
       docMap.put("comment", map.get("comment"));
       docMap.put("appr_status", map.get("appr_status"));
       String appr_status = (String) map.get("appr_status");
+      String nextId = (String) map.get("nextId");
+      String writer_id = (String) map.get("writer_id");
       apprService.updateApprStatus(docMap);
       apprService.updateComment(docMap);
       System.out.println("orderno"+orderno);
       if(orderno == lists.size() || appr_status.equals("03")) {
          System.out.println("들어옴");
-         service.updateDocStatus(docMap);
+		service.updateDocStatus(docMap);
       }
       
       SignVo signVo = signService.selectMainSign((String)map.get("emp_id"));
       System.out.println("signVo"+signVo);
+      
+      System.out.println("nextId"+nextId);
+      System.out.println("writer_id"+writer_id);
       return ResponseEntity.ok(signVo);
    }
 	

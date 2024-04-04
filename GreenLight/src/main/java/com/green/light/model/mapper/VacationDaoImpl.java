@@ -40,9 +40,9 @@ public class VacationDaoImpl implements IVacationDao {
 	}
 	
 	@Override
-	public VacationVo selectRemainingLeaveByDay(Map<String, Object> map) {
-		log.info("VacationDaoImpl selectRemainingLeaveByDay 전달받은 값 {}",map);
-		return session.selectOne(NS+"selectRemainingLeaveByDay", map);
+	public VacationVo selectOneLeave(Map<String, Object> map) {
+		log.info("VacationDaoImpl selectOneLeave 전달받은 값 {}",map);
+		return session.selectOne(NS+"selectOneLeave", map);
 	}
 
 	@Override
