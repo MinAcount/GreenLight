@@ -725,6 +725,7 @@ async function selectComplete() {
 			templateArea.innerHTML = data1.content;
 			
 			var getsu = "";
+			var weekendCount = 0;
 			
 			// dadtarangepicker를 위한 api를 적용
 			$('#daterangepicker').daterangepicker({
@@ -754,16 +755,33 @@ async function selectComplete() {
 				var formattedStartDate = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2);
 				var formattedEndDate = end_date.getFullYear() + "-" + ("0" + (end_date.getMonth() + 1)).slice(-2) + "-" + ("0" + end_date.getDate()).slice(-2);
 
+				// 사용자에 의해 선택된 두 날짜 사이에 주말을 제외한 일수 
+				var currentDate = new Date(start);
+				while(currentDate <= end){
+					if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
+						weekendCount += 1;
+					}
+					currentDate.setDate(currentDate.getDate() + 1);
+				}
+				console.log("weekendCount:",weekendCount);
+
 				var getsu_date = end_date.getTime() - start_date.getTime();
 				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
-				document.getElementById("getsu").textContent = getsu;
-				console.log("start_date:", formattedStartDate);
-				console.log("end:", end._d);
+				document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+				console.log("start_date:", start_date);
+				console.log("end_date:", end_date);
+
 				//사용자에 의해 선택된 시작일, 종료일이 같다면 id가 인 checkbox는 비활성화
 				if(formattedStartDate == formattedEndDate){
 					console.log("종료일 비활성화")
 					document.querySelector("#end_day_half").disabled = true;
+				} else { // 시작일 - 오후만, 종료일 - 오전만 체크 가능
+					console.log("시작일 - 오후, 종료일 - 오전만 체크가능")
+					let start_day_halfss = document.getElementsByClassName("start_day_half");
+					let end_day_halfss = document.getElementsByClassName("end_day_half");
+					console.log("start_day_halfss:",start_day_halfss);
+					console.log("end_day_halfss:",end_day_halfss);
 				}
 				
 			});
@@ -821,7 +839,7 @@ async function selectComplete() {
 					document.getElementById("getsu").textContent = '0';
 				} else {
 					console.log("연차선택")
-					document.getElementById("getsu").textContent = getsu;
+					document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
 				}
 			});
 
