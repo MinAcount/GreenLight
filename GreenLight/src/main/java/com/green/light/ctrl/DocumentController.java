@@ -260,7 +260,7 @@ public class DocumentController {
 @PostMapping(value = "/updateApproval.do")
    @ResponseBody
    public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) {
-      log.info("DocumentController updateApproval POST /updateApproval.do : {}", map);
+      log.info("DocumentController updateApproval POST /updateApproval.do 결재선 업데이트: {}", map);
       List<EmployeeVo> lists = apprService.getApproval((String)map.get("docno"));
       System.out.println(lists);
       int orderno=0;

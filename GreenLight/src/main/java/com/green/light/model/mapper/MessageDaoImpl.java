@@ -64,9 +64,9 @@ public class MessageDaoImpl implements IMessageDao {
 	}
 
 	@Override
-	public int insertChat(GroupMemberVo gmvo) {
-		log.info("insertChat {}", gmvo);
-		return sqlsession.insert(NS + "insertChat", gmvo);
+	public int insertChat(Map<String, Object> map) {
+		log.info("insertChat {}", map);
+		return sqlsession.insert(NS + "insertChat", map);
 	}
 
 }

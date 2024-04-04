@@ -81,6 +81,7 @@ function temporaryValidation() {
 function insertDocument() {
 	console.log("insertDocument()");
 
+
 	//input들 value 값 저장하기
 	var templateArea = document.getElementById("templateArea");
 	var inputs = templateArea.querySelectorAll("input[type='text']");
@@ -151,7 +152,7 @@ function insertDocument() {
 
 
 
-	content = templateArea.innerHTML;
+
 
 	/*Approval table*/
 	// 결재자 값 넘기기
@@ -216,6 +217,26 @@ function insertDocument() {
 	}
 	console.log("writerVo", writerVo)
 
+
+
+	// 서명 넣기
+	var WriterArea = document.getElementById("WriterArea");
+	var tr = WriterArea.querySelectorAll("tr")[1];
+	console.log("tr", tr);
+	var td = tr.querySelectorAll("td")[0];
+	var div = td.querySelector("div");
+	var newImg = document.createElement("img");
+	var save_sign = document.getElementById("save_sign").value;
+	//	if(save_sign == null){
+	//		console.log("서명이없어용")
+	//		return;
+	//	}
+	newImg.setAttribute("src", save_sign);
+	newImg.setAttribute("style", "width:50px");
+	div.appendChild(newImg);
+
+	content = templateArea.innerHTML;
+
 	/*filestorage table */
 	var fileInput = document.getElementById("fileInput");
 	var files = fileInput.files;
@@ -260,6 +281,8 @@ function insertDocument() {
 
 	//알림
 	notify('전자결재', title + " 문서가 상신되었습니다");
+
+	window.location.href = "./draftList.do";
 }
 
 function radioActiveS(chk) {
@@ -355,229 +378,269 @@ function deleteExpenseDetail() {
 	}
 }
 
-async function rejectApproval(){
-   var rejectApproval = document.getElementById("rejectApproval");
-   console.log("rejectApproval",rejectApproval);
-   var rejectCommentValue = rejectApproval.getElementsByClassName("comment")[0].value;
-   console.log("rejectCommentValue",rejectCommentValue);
-   
-   var loginVo_id = document.getElementById("loginVo_id").value;
-   console.log("loginVo_id",loginVo_id);
-   
-   var docno = document.getElementById("docno").value;
-   console.log("docno",docno);
-   
-   
-   var appr_status = "03";
-   var doc_status = "03";
-   
-   
-   var formData = new FormData();
-   formData.append("comment", rejectCommentValue);
-   formData.append("emp_id", loginVo_id);
-   formData.append("docno",docno);
-   formData.append("doc_status", doc_status);
-   formData.append("appr_status", appr_status);
-   
-   /*fetch post*/
-   try {
-      const response1 = await fetch("./updateApproval.do", {
-         method: 'POST',
-         body: formData
-      });
+async function rejectApproval() {
+	var rejectApproval = document.getElementById("rejectApproval");
+	console.log("rejectApproval", rejectApproval);
+	var rejectCommentValue = rejectApproval.getElementsByClassName("comment")[0].value;
+	console.log("rejectCommentValue", rejectCommentValue);
 
-      if (!response1.ok) {
-         throw new Error('네트워크 에러..');
-      }
+	var loginVo_id = document.getElementById("loginVo_id").value;
+	console.log("loginVo_id", loginVo_id);
 
-      const data1 = await response1.json();
-      console.log('data1:', data1);
+	var docno = document.getElementById("docno").value;
+	console.log("docno", docno);
 
-      var loginVo_name = document.getElementById("loginVo_name");
-      var secondTr = document.getElementById("secondTr");
-      var tds = secondTr.querySelectorAll("td");
-      var thirdTr = document.getElementById("thirdTr");
-      var tdss = thirdTr.querySelectorAll("td");
-      tds.forEach(function(td, i) {
-         console.log("td.textContent", td.textContent)
-         console.log("loginVo_name", loginVo_name)
-         if (td.textContent == loginVo_name.value) {
-            var newImg = document.createElement("img");
-            newImg.setAttribute("src", data1.save_sign);
-            newImg.setAttribute("style", "width:50px");
-            td.appendChild(newImg);
-            var today = new Date();
-            var year = today.getFullYear();
-            var month = String(today.getMonth() + 1).padStart(2, '0');
-            var day = String(today.getDate()).padStart(2, '0');
 
-            var formattedDate = year + '-' + month + '-' + day;
-            console.log(formattedDate);
+	var appr_status = "03";
+	var doc_status = "03";
+	var writer_id = document.getElementById("writer_id").value;
 
-            tdss[i].innerHTML = formattedDate;
-            console.log("바뀌었어요")
-         }
+	var formData = new FormData();
+	formData.append("comment", rejectCommentValue);
+	formData.append("emp_id", loginVo_id);
+	formData.append("docno", docno);
+	formData.append("doc_status", doc_status);
+	formData.append("appr_status", appr_status);
+	formData.append("writer_id", writer_id)
+	/*fetch post*/
+	try {
+		const response1 = await fetch("./updateApproval.do", {
+			method: 'POST',
+			body: formData
+		});
 
-      })
-      var content = document.getElementById("templateArea").innerHTML;
-      console.log("content",content)
-      formData.append("content", content);
-      formData.append("docno", docno);
+		if (!response1.ok) {
+			throw new Error('네트워크 에러..');
+		}
 
-      const response2 = await fetch("./updateContent.do", {
-         method: 'POST',
-         body: formData
-      });
+		const data1 = await response1.json();
+		console.log('data1:', data1);
 
-      if (!response2.ok) {
-         throw new Error('네트워크 에러..');
-      }
+		var loginVo_name = document.getElementById("loginVo_name");
+		var secondTr = document.getElementById("secondTr");
+		var tds = secondTr.querySelectorAll("td");
+		var thirdTr = document.getElementById("thirdTr");
+		var tdss = thirdTr.querySelectorAll("td");
+		tds.forEach(function(td, i) {
+			console.log("td.textContent", td.textContent)
+			console.log("loginVo_name", loginVo_name)
+			if (td.textContent == loginVo_name.value) {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", data1.save_sign);
+				newImg.setAttribute("style", "width:50px");
+				td.appendChild(newImg);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = String(today.getMonth() + 1).padStart(2, '0');
+				var day = String(today.getDate()).padStart(2, '0');
 
-      const data2 = await response2.json();
-      console.log('data2:', data2);
-   } catch (error) {
-      console.error('오류 발생:', error);
-   }
+				var formattedDate = year + '-' + month + '-' + day;
+				console.log(formattedDate);
+
+				tdss[i].innerHTML = formattedDate;
+				console.log("바뀌었어요")
+			}
+
+		})
+		var content = document.getElementById("templateArea").innerHTML;
+		console.log("content", content)
+		formData.append("content", content);
+		formData.append("docno", docno);
+
+		const response2 = await fetch("./updateContent.do", {
+			method: 'POST',
+			body: formData
+		});
+
+		if (!response2.ok) {
+			throw new Error('네트워크 에러..');
+		}
+
+		const data2 = await response2.json();
+		console.log('data2:', data2);
+	} catch (error) {
+		console.error('오류 발생:', error);
+	}
+
+	window.location.href = "./getAllPendingApprovalDraft.do"
 }
 
 //알림
 function notify(title, content, url) {
-   if(Notification.permission == "default" ||Notification.permission == "denied"){
-      alert("알림을 허용해주세요");
-      Notification.requestPermission(); // default일때만 가능
-      return;
-   }else{
-      let notification = new Notification(
-         title, // 제목 
-         {
-         body: content, // 메세지
-         icon: "./assets/img/grn.png", // 아이콘
-         image: "./assets/img/logo_grn.png", // 배경이미지
-         requireInteraction: true, //닫기버튼 [닫기]를 누르기 전까지 사라지지 않음
-         silent:true, //소리설정 (true:무음)
-         }
-      );
-      
-      // 3초뒤 알람 닫기 / 닫기버튼이 활성화 되어있어도 알람이 닫힘
-      setTimeout(function() {
-         notification.close();
-      }, 3*1000);
-      
-      //알림 클릭 시 이벤트
-      notification.addEventListener("click", () => {
-         location.href = url;
-      });
-   }
+	if (Notification.permission == "default" || Notification.permission == "denied") {
+		alert("알림을 허용해주세요");
+		Notification.requestPermission(); // default일때만 가능
+		return;
+	} else {
+		let notification = new Notification(
+			title, // 제목 
+			{
+				body: content, // 메세지
+				icon: "./assets/img/grn.png", // 아이콘
+				image: "./assets/img/logo_grn.png", // 배경이미지
+				requireInteraction: true, //닫기버튼 [닫기]를 누르기 전까지 사라지지 않음
+				silent: true, //소리설정 (true:무음)
+			}
+		);
+
+		// 3초뒤 알람 닫기 / 닫기버튼이 활성화 되어있어도 알람이 닫힘
+		setTimeout(function() {
+			notification.close();
+		}, 3 * 1000);
+
+		//알림 클릭 시 이벤트
+		notification.addEventListener("click", () => {
+			location.href = url;
+		});
+	}
 }
 
-async function approve(){
-   var approve = document.getElementById("approve");
-   console.log("approve",approve);
-   var approveCommentValue = approve.getElementsByClassName("comment")[0].value;
-   console.log("approveCommentValue",approveCommentValue);
-   
-   var loginVo_id = document.getElementById("loginVo_id").value;
-   console.log("loginVo_id",loginVo_id);
-   
-   var docno = document.getElementById("docno").value;
-   console.log("docno",docno);
-   
-   var appr_status = "02";
-   var doc_status = "02";
+async function approve() {
+	var approve = document.getElementById("approve");
+	console.log("approve", approve);
+	var approveCommentValue = approve.getElementsByClassName("comment")[0].value;
+	console.log("approveCommentValue", approveCommentValue);
+
+	var loginVo_id = document.getElementById("loginVo_id").value;
+	console.log("loginVo_id", loginVo_id);
+
+	var docno = document.getElementById("docno").value;
+	console.log("docno", docno);
+
+	var appr_status = "02";
+	var doc_status = "02";
 
 	var writer_id = document.getElementById("writer_id").value;
-	   console.log("writer_id",writer_id)
-	   
-	   var chkAppr = document.getElementById("chkAppr");
-	   var ids = chkAppr.querySelectorAll("[name='id']");
-	   var nextId;
-	   ids.forEach(function(id){
+	console.log("writer_id", writer_id)
+
+	var chkAppr = document.getElementById("chkAppr");
+	var ids = chkAppr.querySelectorAll("[name='id']");
+	var nextId;
+	ids.forEach(function(id) {
 		console.log(id)
-		if(id.value == loginVo_id){
+		if (id.value == loginVo_id) {
 			var parent = id.parentElement;
-			console.log("parent",parent);
+			console.log("parent", parent);
 			var orderno = parent.querySelector("[name='orderno']").value;
-			console.log("orderno",orderno, typeof orderno);
-			
-			var nextOrderno = parseInt(orderno)+1;
-			console.log("nextOrderno",nextOrderno, typeof nextOrderno);
+			console.log("orderno", orderno, typeof orderno);
+
+			var nextOrderno = parseInt(orderno) + 1;
+			console.log("nextOrderno", nextOrderno, typeof nextOrderno);
 			var ordernos = chkAppr.querySelectorAll("[name='orderno']");
-			ordernos.forEach(function(orderno){
-				if(nextOrderno == parseInt(orderno.value)){
+			ordernos.forEach(function(orderno) {
+				if (nextOrderno == parseInt(orderno.value)) {
 					console.log("찾음")
 					var oParent = orderno.parentElement;
 					nextId = oParent.querySelector("[name='id']").value;
-					console.log("nextId",nextId)
+					console.log("nextId", nextId)
 				}
 			})
 		}
 	})
-   var formData = new FormData();
-   formData.append("comment", approveCommentValue);
-   formData.append("emp_id", loginVo_id);
-   formData.append("docno",docno);
-   formData.append("doc_status", doc_status);
-   formData.append("appr_status", appr_status);
-   formData.append("nextId", nextId);
-   formData.append("writer_id", writer_id);
-   
-   try {
-      const response1 = await fetch("./updateApproval.do", {
-         method: 'POST',
-         body: formData
-      });
+	var formData = new FormData();
+	formData.append("comment", approveCommentValue);
+	formData.append("emp_id", loginVo_id);
+	formData.append("docno", docno);
+	formData.append("doc_status", doc_status);
+	formData.append("appr_status", appr_status);
+	formData.append("nextId", nextId);
+	formData.append("writer_id", writer_id);
 
-      if (!response1.ok) {
-         throw new Error('네트워크 에러..');
-      }
+	try {
+		const response1 = await fetch("./updateApproval.do", {
+			method: 'POST',
+			body: formData
+		});
 
-      const data1 = await response1.json();
-      console.log('data1:', data1);
+		if (!response1.ok) {
+			throw new Error('네트워크 에러..');
+		}
 
-      var loginVo_name = document.getElementById("loginVo_name");
-      var secondTr = document.getElementById("secondTr");
-      var tds = secondTr.querySelectorAll("td");
-      var thirdTr = document.getElementById("thirdTr");
-      var tdss = thirdTr.querySelectorAll("td");
-      tds.forEach(function(td, i) {
-         console.log("td.textContent", td.textContent)
-         console.log("loginVo_name", loginVo_name)
-         if (td.textContent == loginVo_name.value) {
-            var newImg = document.createElement("img");
-            newImg.setAttribute("src", data1.save_sign);
-            newImg.setAttribute("style", "width:50px");
-            td.appendChild(newImg);
-            var today = new Date();
-            var year = today.getFullYear();
-            var month = String(today.getMonth() + 1).padStart(2, '0');
-            var day = String(today.getDate()).padStart(2, '0');
+		const data1 = await response1.json();
+		console.log('data1:', data1);
 
-            var formattedDate = year + '-' + month + '-' + day;
-            console.log(formattedDate);
+		var loginVo_name = document.getElementById("loginVo_name");
+		var secondTr = document.getElementById("secondTr");
+		var tds = secondTr.querySelectorAll("td");
+		var thirdTr = document.getElementById("thirdTr");
+		var tdss = thirdTr.querySelectorAll("td");
+		tds.forEach(function(td, i) {
+			console.log("td.textContent", td.textContent)
+			console.log("loginVo_name", loginVo_name)
+			if (td.textContent == loginVo_name.value) {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", data1.save_sign);
+				newImg.setAttribute("style", "width:50px");
+				td.appendChild(newImg);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = String(today.getMonth() + 1).padStart(2, '0');
+				var day = String(today.getDate()).padStart(2, '0');
 
-            tdss[i].innerHTML = formattedDate;
-            console.log("바뀌었어요")
-         }
+				var formattedDate = year + '-' + month + '-' + day;
+				console.log(formattedDate);
 
-      })
-      var content = document.getElementById("templateArea").innerHTML;
-      console.log("content",content)
-      formData.append("content", content);
-      formData.append("docno", docno);
+				tdss[i].innerHTML = formattedDate;
+				console.log("바뀌었어요")
+			}
 
-      const response2 = await fetch("./updateContent.do", {
-         method: 'POST',
-         body: formData
-      });
+		})
+		var content = document.getElementById("templateArea").innerHTML;
+		console.log("content", content)
+		formData.append("content", content);
+		formData.append("docno", docno);
 
-      if (!response2.ok) {
-         throw new Error('네트워크 에러..');
-      }
-      
+		const response2 = await fetch("./updateContent.do", {
+			method: 'POST',
+			body: formData
+		});
 
-      const data2 = await response2.json();
-      console.log('data2:', data2);
-   } catch (error) {
-      console.error('오류 발생:', error);
-   }
+		if (!response2.ok) {
+			throw new Error('네트워크 에러..');
+		}
+
+
+		const data2 = await response2.json();
+		console.log('data2:', data2);
+	} catch (error) {
+		console.error('오류 발생:', error);
+	}
+
+	window.location.href = "./getAllPendingApprovalDraft.do"
+}
+
+
+function checkSign() {
+	fetch('./checkSign.do', {
+		method: 'POST'
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('Success:', data);
+			var save_sign = data.save_sign;
+			console.log(save_sign)
+			if (save_sign === null) {
+				console.log("서명없음")
+				var dangerAlert = document.getElementById("dangerAlert");
+				dangerAlert.setAttribute("style", "display:block");
+				document.getElementById("modalTitle").innerHTML = "등록된 서명 없음!"
+				document.getElementById("modalContent").innerHTML = "기안서 작성을 위해서는 서명이 필요합니다.<br>서명 등록 페이지로 이동하시겠습니까?"
+			} else {
+				window.location.href = './draftWriteForm.do';
+			}
+		})
+		.catch(error => {
+			console.error('Error:', error); // 오류 처리
+			// 오류가 발생했을 때 추가 작업을 수행할 수 있습니다.
+		});
+}
+
+function closeDangerAlert() {
+	var dangerAlert = document.getElementById("dangerAlert");
+	dangerAlert.setAttribute("style", "display:none");
 }

@@ -204,7 +204,7 @@
 								<div class="modal-content" style="width: 800px; height: 630px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="chatModalLabel">채팅방 생성</h5>
-										<input type="text" placeholder="이름을 입력하세요">
+										<input type="text" id="createChatName" placeholder="이름을 입력하세요">
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>

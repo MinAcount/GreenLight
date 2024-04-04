@@ -43,13 +43,15 @@ $(function() {
 		},
 	});
 
+
+
 	// Add Reference Button Click
 	$("#addPeople").on('click', function() {
 		// Selected node id
 		var sel = $("#chatTree").jstree('get_selected');
-		console.log("sel----------", sel)
-//		selectedId.push(sel);
-		selectedId += sel;
+		console.log("sel----------", sel);
+		selectedIds.push(sel);
+		console.log(selectedIds);
 		var selectedNode = $("#chatTree").jstree().get_node(sel);
 				console.log(selectedNode)
 		var children = $("#chatTree").jstree().get_children_dom(selectedNode);
@@ -129,8 +131,8 @@ $(function() {
 	});
 });
 
-var selectedId = [];
 
+var selectedIds = [];
 
 //참조자 삭제
 function delChat(event) {
@@ -191,8 +193,31 @@ var chkChat;
 
 // 참조자 추가 완료버튼
 function chatDone() {
-//    console.log(selectedId[0]);
-    console.log(selectedId);
+
+    console.log(selectedIds);
+    
+    fetch("./insertChat.do", {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+            'Accept': 'application/json'
+		},
+		body: JSON.stringify({
+			id:selectedIds.join(',')
+		})
+	})
+	.then(response => {
+		if(!response.ok){
+			throw new Error('Network response was not ok');
+		}
+		return response.json();
+	})
+	.then(data => {
+		console.log("data : ", data);
+	})
+	.catch(error => {
+		console.error("네트워크 오류:", error);
+	});
 }
 
 // 참조자 확인 클릭
