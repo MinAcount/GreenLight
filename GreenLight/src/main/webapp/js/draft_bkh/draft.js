@@ -68,7 +68,8 @@ function submissionValidation(){
       daterangepicker.focus();
    }
    
-   insertDocument();
+//   insertDocument();
+
 }
 
 //임시저장 유효성 검사
@@ -110,7 +111,7 @@ function insertDocument() {
    })
 
    /*document table*/
-   var writer_id = document.getElementById("writer_id").value;
+   var writer_id = document.getElementById("writer_id").textContent;
    var templateArea = document.getElementById("templateArea");
    var content = templateArea.innerHTML;
    var titleTd = document.getElementById("title");
@@ -240,22 +241,22 @@ function insertDocument() {
    }
 
    /*fetch post*/
-   fetch("./insertDocument.do", {
-      method: 'POST',
-      body: formData
-   })
-      .then(response => {
-         if (!response.ok) {
-            throw new Error('네트워크 에러..');
-         }
-         return response.json();
-      })
-      .then(data => {
-         console.log('data:', data);
-      })
-      .catch(error => {
-         console.error('오류 발생:', error);
-      });
+//   fetch("./insertDocument.do", {
+//      method: 'POST',
+//      body: formData
+//   })
+//      .then(response => {
+//         if (!response.ok) {
+//            throw new Error('네트워크 에러..');
+//         }
+//         return response.json();
+//      })
+//      .then(data => {
+//         console.log('data:', data);
+//      })
+//      .catch(error => {
+//         console.error('오류 발생:', error);
+//      });
 
 	//알림
 	notify('전자결재', title + " 문서가 상신되었습니다");
@@ -354,7 +355,6 @@ function deleteExpenseDetail() {
    }
 }
 
-
 async function rejectApproval(){
 	var rejectApproval = document.getElementById("rejectApproval");
 	console.log("rejectApproval",rejectApproval);
@@ -416,7 +416,6 @@ async function rejectApproval(){
 				console.log("바뀌었어요")
 			}
 
-
 		})
 		var content = document.getElementById("templateArea").innerHTML;
 		console.log("content",content)
@@ -431,7 +430,6 @@ async function rejectApproval(){
 		if (!response2.ok) {
 			throw new Error('네트워크 에러..');
 		}
-		
 
 		const data2 = await response2.json();
 		console.log('data2:', data2);
@@ -439,7 +437,6 @@ async function rejectApproval(){
 		console.error('오류 발생:', error);
 	}
 }
-
 
 //알림
 function notify(title, content, url) {
@@ -471,7 +468,6 @@ function notify(title, content, url) {
 	}
 }
 
-
 async function approve(){
 	var approve = document.getElementById("approve");
 	console.log("approve",approve);
@@ -486,8 +482,6 @@ async function approve(){
 	
 	var appr_status = "02";
 	var doc_status = "02";
-	
-	
 
 	var formData = new FormData();
 	formData.append("comment", approveCommentValue);
@@ -534,7 +528,6 @@ async function approve(){
 				console.log("바뀌었어요")
 			}
 
-
 		})
 		var content = document.getElementById("templateArea").innerHTML;
 		console.log("content",content)
@@ -557,9 +550,3 @@ async function approve(){
 		console.error('오류 발생:', error);
 	}
 }
-
-
-
-
-
-

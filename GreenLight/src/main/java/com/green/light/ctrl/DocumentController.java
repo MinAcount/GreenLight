@@ -52,6 +52,7 @@ public class DocumentController {
 	private ISignService signService;
   @Autowired
 	private INotificationService notiService;
+  
 	@PostMapping(value = "/insertDocument.do")
    @ResponseBody
    public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map,
@@ -211,16 +212,6 @@ public class DocumentController {
 //                  vo.setComment("");
                   System.out.println("==== writerVo : " + vo + " ====");
                   apprVos.add(vo);
-         
-         
-         
-         
-         
-         
-         
-         
-         
-         
 //            int n = apprService.insertApproval(approval);
 //            System.out.println("몇개나 성공했니?:"+n);
 
@@ -266,39 +257,37 @@ public class DocumentController {
 	      return "draftDetail";
 	   }
 	
-	@PostMapping(value = "/updateApproval.do")
-	@ResponseBody
-	public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) {
-		log.info("DocumentController updateApproval POST /updateApproval.do : {}", map);
-		List<EmployeeVo> lists = apprService.getApproval((String)map.get("docno"));
-		System.out.println(lists);
-		int orderno=0;
-		for(int i = 0; i<lists.size(); i++) {
-			if(map.get("emp_id").equals(lists.get(i).getApprVo().getEmp_id())) {
-				orderno = lists.get(i).getApprVo().getOrderno();
-			}
-		}
-		Map<String, Object> docMap = new HashedMap<String, Object>();
-		docMap.put("doc_status", map.get("doc_status"));
-		docMap.put("docno", map.get("docno"));
-		docMap.put("emp_id", map.get("emp_id"));
-		docMap.put("comment", map.get("comment"));
-		docMap.put("appr_status", map.get("appr_status"));
-		String appr_status = (String) map.get("appr_status");
-		apprService.updateApprStatus(docMap);
-		apprService.updateComment(docMap);
-		System.out.println("orderno"+orderno);
-		if(orderno == lists.size() || appr_status.equals("03")) {
-			System.out.println("들어옴");
-			service.updateDocStatus(docMap);
-		}
-		
-		SignVo signVo = signService.selectMainSign((String)map.get("emp_id"));
-		System.out.println("signVo"+signVo);
-		return ResponseEntity.ok(signVo);
-  }
-
-	
+@PostMapping(value = "/updateApproval.do")
+   @ResponseBody
+   public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) {
+      log.info("DocumentController updateApproval POST /updateApproval.do : {}", map);
+      List<EmployeeVo> lists = apprService.getApproval((String)map.get("docno"));
+      System.out.println(lists);
+      int orderno=0;
+      for(int i = 0; i<lists.size(); i++) {
+         if(map.get("emp_id").equals(lists.get(i).getApprVo().getEmp_id())) {
+            orderno = lists.get(i).getApprVo().getOrderno();
+         }
+      }
+      Map<String, Object> docMap = new HashedMap<String, Object>();
+      docMap.put("doc_status", map.get("doc_status"));
+      docMap.put("docno", map.get("docno"));
+      docMap.put("emp_id", map.get("emp_id"));
+      docMap.put("comment", map.get("comment"));
+      docMap.put("appr_status", map.get("appr_status"));
+      String appr_status = (String) map.get("appr_status");
+      apprService.updateApprStatus(docMap);
+      apprService.updateComment(docMap);
+      System.out.println("orderno"+orderno);
+      if(orderno == lists.size() || appr_status.equals("03")) {
+         System.out.println("들어옴");
+         service.updateDocStatus(docMap);
+      }
+      
+      SignVo signVo = signService.selectMainSign((String)map.get("emp_id"));
+      System.out.println("signVo"+signVo);
+      return ResponseEntity.ok(signVo);
+   }
 	
 	@PostMapping(value = "/updateContent.do")
 	@ResponseBody
