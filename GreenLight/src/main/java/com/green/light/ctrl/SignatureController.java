@@ -1,6 +1,5 @@
 package com.green.light.ctrl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
 import com.green.light.model.service.ISignService;
+import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.SignVo;
 
@@ -115,4 +113,21 @@ public class SignatureController {
 	    return ResponseEntity.ok("\"isc\":\"true\"");
 	}
 
+	
+	@PostMapping(value = "/checkSign.do")
+	@ResponseBody
+	public SignVo checkSign(HttpSession session, Model model) {
+		log.info("SignatureController POST /checkSign.do 대표서명 체크");
+		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
+		SignVo sVo = service.selectMainSign(empVo.getId());
+		model.addAttribute("sVo",sVo);
+		SignVo nVo = new SignVo();
+		System.out.println("======================"+sVo);
+		if(sVo != null) {
+			return sVo;
+		} else {
+			sVo = nVo;
+			return sVo;
+		}
+	}
 }

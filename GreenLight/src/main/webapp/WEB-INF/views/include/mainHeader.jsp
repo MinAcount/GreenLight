@@ -51,6 +51,7 @@
 
 </head>
 <body>
+<%@ include file="./signModal.jsp" %>
 	<input type="hidden" value="${loginVo.id}" id="loginVoId">
 	<nav
 		class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"

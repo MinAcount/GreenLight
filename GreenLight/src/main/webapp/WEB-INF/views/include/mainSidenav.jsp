@@ -41,9 +41,30 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   </c:if>
 <!-- 전자결재 -->
-                  <a class="nav-link collapsed" href="draftWriteForm.do"><div class="nav-link-icon">
+                  <a class="nav-link collapsed" onclick="checkSign()"><div class="nav-link-icon">
                   	<i data-feather="file"></i></div>
                     새 기안서 작성
+                    <div class="modal " data-bs-backdrop="static" id="signSetting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			        		<div class="modal-content">
+			            		<div class="modal-header text-danger">
+			                		<div class="modal-title" id="exampleModalLabel">
+			                			<i data-feather="check-circle" id="toastFeather"></i>
+					        			<strong class="me-auto">서명을 등록하세요!</strong>
+			                		</div>
+			                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			            		</div>
+			            		<div class="modal-body">기안서 작성을 위한 등록된 서명이 없습니다. 서명 등록을 먼저 해주세요.<br>
+			            			서명을 등록하러 가시겠습니까?
+			            			<br><br>
+			            			<div class="modal-footer">
+										<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+									    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Save changes</button>
+								    </div>
+			            		</div>
+				        	</div>
+				    	</div>
+					</div>
                   </a>
                   
                   
@@ -64,7 +85,8 @@
                         <a class="nav-link" href="draftList.do">기안문서함</a>
                         <a class="nav-link" href="approvalList.do">결재문서함</a>
                         <a class="nav-link" href="referenceList.do">참조문서함</a>
-                        <a class="nav-link" href="tempDraftList.do">임시저장함</a> 
+                        <a class="nav-link" href="tempDraftList.do">임시저장함</a>
+                        
                      </nav>
                   </div>
                   
@@ -149,5 +171,6 @@
 			 </div>    
          </nav>
       </div>
+      <script type="text/javascript" src="./js/draft_bkh/draft.js"></script>
 </body>
 </html>
