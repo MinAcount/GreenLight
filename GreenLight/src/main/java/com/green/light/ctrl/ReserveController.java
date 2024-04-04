@@ -106,15 +106,15 @@ public class ReserveController {
 			notiRoomReserve.put("gubun", (String)parameters.get("conf_id"));
 			notiRoomReserve.put("ntype", "04");
 			notiRoomReserve.put("sender", loginVo.getId());
-			notiRoomReserve.put("content", "["+parameters.get("cname")+"] 회의실이 예약되었습니다.");
+			notiRoomReserve.put("content", "["+parameters.get("cname")+" "+parameters.get("reserve_date")+"] 회의실이 예약되었습니다.");
 			List<EmployeeVo> employees = empService.getAllEmployeeByStatus("Y");
 			List<String> ids = new ArrayList<String>();
-			if(employees != null) {
+			if(employees.size() != 0) {
 				for(EmployeeVo employee : employees) {
 					ids.add((String)employee.getId());
 				}
 			}
-			notiService.insertNoti(parameters, ids);
+			notiService.insertNoti(notiRoomReserve, ids);
 		} else if (returnStatus == -1) {
 			System.out.println("중복된 예약이 있어 INSERT를 수행할 수 없습니다.");
 		} else if (returnStatus == 0) {

@@ -10,8 +10,6 @@ public interface INotificationDao {
 	public List<NotificationVo> getAllNoti(String id);
 //	메인 화면 최신 알림 조회 getCurrNoti
 	public List<NotificationVo> getCurrNoti(String id);
-//	마이페이지 그룹별 알림 조회 getGroupNoti
-	public List<NotificationVo> getGroupNoti(String id);
 //	알림 추가 (알림테이블) insertNoti
 	public int insertNoti(Map<String, Object> map);
 //	알림 추가 (수신자테이블) insertReceiver

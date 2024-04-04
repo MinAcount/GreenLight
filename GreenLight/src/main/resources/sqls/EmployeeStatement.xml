@@ -137,7 +137,7 @@
         WHERE ID = #{id} AND ESTATUS = 'Y'
 </update>
 <!-- 직원 퇴사 처리	updateExitEmployee -->
-<update id="updateExitEmployee" parameterType="java.lang.String">
+<update id="updateExitEmployee" parameterType="java.util.Map">
 	UPDATE EMPLOYEE SET ESTATUS = 'N' , EXIT_DAY = #{exit_day}
         WHERE ID = #{id}
 </update>

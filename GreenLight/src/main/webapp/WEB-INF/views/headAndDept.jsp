@@ -38,8 +38,8 @@
 				<div id="headAndDeptInfo">
 					<table class="datatable-table" style="width: 30%; float: left;">
 						<tbody id="inputTableBody">
-							<tr style='width: 24%;'  onclick="selectHead('${headVo.headno}')">
-								<th style='border-right: 1px solid #ccc;' rowspan='${fn:length(headVo.deptVo)}' id='hname'>${headVo.hname}</th>
+							<tr style='width: 24%; background-color: #EFF5F2'  onclick="selectHead('${headVo.headno}')">
+								<th style='border-right: 1px solid #ccc;' rowspan='${fn:length(headVo.deptVo)+1}' id='hname'>${headVo.hname}</th>
 							</tr>
 							<c:forEach items="${headVo.deptVo}" var="headDeptVo">
 								<tr style='width: 25%' onclick="selectDept('${headDeptVo.deptno}')">
@@ -48,16 +48,47 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<div id="infoZone" style="width: 67%; float: right; display: none;">
-						<div id="nameZone" style="padding: 13.5px; font-size: 15px;"></div>
-						<div id="managerZone" style="padding: 13.5px; font-size: 15px;"></div>
+					<div id="infoZone" style="width: 67%; float: right; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
+						<div id="nameZone" style="padding: 13.5px; font-size: 15px;">
+							${headVo.hname}(${fn:length(headVo.deptVo)})
+						</div>
+						<div id="managerZone" style="padding: 13.5px; font-size: 15px;">
+							<c:if test="${headVo.head_mgr ne null}">
+								본부장 : ${headVo.empVo.name} ${headVo.empVo.spot}
+							</c:if>
+							<c:if test="${headVo.head_mgr eq null}">
+								본부장 : -
+							</c:if>
+						</div>
 						<div style="height: 30vh; overflow: auto;">
 							<table class="datatable-table">
-								<thead id="inputListTableHead"></thead>
-								<tbody id="inputListTableBody"></tbody>
+								<thead id="inputListTableHead">
+									<tr><th>부서번호</th><th>부서명</th><th>소속본부</th><th>부서장명</th></tr>
+								</thead>
+								<tbody id="inputListTableBody">
+									<c:forEach items="${headVo.deptVo}" var="headDept">
+										<tr>
+											<td>${headDept.deptno}</td>
+											<td>${headDept.dname}</td>
+											<td>${headVo.hname}</td>
+											<c:forEach items="${headDept.empVo}" var="deptEmp">
+												<c:if test="${headDept.dept_mgr eq deptEmp.id}">
+													<td>${deptEmp.name}</td>
+												</c:if>
+											</c:forEach>
+										</tr>
+									</c:forEach>
+								</tbody>
 							</table>
 						</div>
-						<div id="buttonZone" style="margin: 20px;"></div>
+						<div id="buttonZone" style="margin: 20px;">
+							<c:if test="${headVo.head_mgr ne null}">
+								<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick="modifyManager('${headVo.headno}')">본부장 수정</button>
+							</c:if>
+							<c:if test="${headVo.head_mgr eq null}">
+								<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick="modifyManager('${headVo.headno}')">본부장 등록</button>
+							</c:if>
+						</div>
 					</div>
 				</div>
 			</div>

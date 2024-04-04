@@ -7,6 +7,7 @@
 	<result property="ntype" column="NTYPE"/>
 	<result property="alert_time" column="ALERT_TIME"/>
 	<result property="content" column="CONTENT"/>
+	<result property="sender" column="SENDER"/>
 	<result property="receiver_id" column="RECEIVER_ID"/>
 	<result property="read" column="READ"/>
 	<collection property="comVo" resultMap="CommonVo"/>
@@ -16,12 +17,22 @@
 	<result property="code" column="CODE"/>
 	<result property="code_name" column="CODE_NAME"/>
 </resultMap>
+   <resultMap type="com.green.light.vo.EmployeeVo" id="EmployeeVo">
+      <result property="id" column="ID"/>
+      <result property="name" column="NAME"/>
+      <result property="deptno" column="DEPTNO"/>
+      <result property="spot" column="SPOT"/>
+      <result property="position" column="POSITION"/>
+   </resultMap>  
 <!-- 개인 알림 전체 조회 getAllNoti -->
-<select id="getAllNoti" parameterType="java.lang.String" resultType="NotificationVo">
-	SELECT n.NOTI_ID, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", GUBUN, NTYPE
+<select id="getAllNoti" parameterType="java.lang.String" resultMap="NotiVo">
+	SELECT n.NOTI_ID, GUBUN, NTYPE, e.NAME AS SENDER, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", c.CODE_NAME
 		FROM NOTIFICATION n JOIN RECEIVER r
-		ON n.NOTI_ID = r.NOTI_ID 
+		ON n.NOTI_ID = r.NOTI_ID JOIN COMMON c 
+		ON n.NTYPE = c.CODE AND c."TYPE" = '알림' JOIN EMPLOYEE e
+		ON n.SENDER = e.ID
 		WHERE r.RECEIVER_ID = #{id}
+		ORDER BY ALERT_TIME DESC
 </select>
 <!-- 메인 화면 최신 알림 조회 getCurrNoti -->
 <select id="getCurrNoti" parameterType="java.lang.String" resultMap="NotiVo">
@@ -35,15 +46,6 @@
 			) a
 			WHERE a.rn < 6
 	]]>
-</select>
-<!-- 마이페이지 그룹별 알림 조회 getGroupNoti -->
-<select id="getGroupNoti" parameterType="java.util.Map">
-	SELECT n.NOTI_ID, GUBUN, NTYPE, SENDER, ALERT_TIME, CONTENT, RECEIVER_ID, "READ", c.CODE_NAME
-		FROM NOTIFICATION n JOIN RECEIVER r
-		ON n.NOTI_ID = r.NOTI_ID JOIN COMMON c 
-		ON n.NTYPE = c.CODE AND c."TYPE" = '알림'
-		WHERE r.RECEIVER_ID = #{id}
-		AND c.CODE_NAME = #{code_name}
 </select>
 <!-- 알림 추가 (알림테이블) insertNoti -->
 <insert id="insertNoti" parameterType="java.util.Map">

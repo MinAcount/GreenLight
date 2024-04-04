@@ -278,12 +278,32 @@ public class DocumentController {
       String appr_status = (String) map.get("appr_status");
       String nextId = (String) map.get("nextId");
       String writer_id = (String) map.get("writer_id");
+      String title = (String) map.get("title");
       apprService.updateApprStatus(docMap);
       apprService.updateComment(docMap);
       System.out.println("orderno"+orderno);
+    //알림 추가 : 상신자
+	Map<String, Object> notiMap = new HashMap<String, Object>();
+	notiMap.put("noti_id", "");
+	notiMap.put("gubun", map.get("docno"));
+	notiMap.put("ntype", "03");
+	notiMap.put("sender", writer_id);
+	List<String> writerId = new ArrayList<String>();
       if(orderno == lists.size() || appr_status.equals("03")) {
          System.out.println("들어옴");
 		service.updateDocStatus(docMap);
+		writerId.add(writer_id);
+		if(appr_status.equals("03") && orderno == lists.size() || appr_status.equals("03") && orderno != lists.size()) {
+			notiMap.put("content", "[" + title + "] 문서가 반려("+map.get("comment")+")되었습니다.");
+		}else if(!appr_status.equals("03") && orderno == lists.size()){
+			notiMap.put("content", "[" + title + "] 문서가 승인되었습니다.");
+		}
+		notiService.insertNoti(notiMap, writerId);
+      }
+      if(nextId != null) {
+    	  writerId.add(nextId);
+    	  notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
+    	  notiService.insertNoti(notiMap, writerId);
       }
       
       SignVo signVo = signService.selectMainSign((String)map.get("emp_id"));
