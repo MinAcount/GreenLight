@@ -1,5 +1,6 @@
 package com.green.light.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +66,23 @@ public class MessageServiceImpl implements IMessageService {
 	}
 
 	@Override
-	public int insertChat(GroupMemberVo gmvo) {
+	public boolean insertChat(Map<String, Object> map) {
 		log.info("MessageServiceImpl insertChat 채팅방 생성");
-		int n = dao.insertChat(gmvo);
-		return n;
+		
+		String[] idArray = (String[])map.get("id");
+		String roomname = (String)map.get("roomname");
+		System.out.println(idArray);
+		System.out.println(roomname);
+		
+		boolean m = true;
+		
+		for(String id : idArray) {
+			Map<String, Object> chatMap = new HashMap<>();
+			chatMap.put(id, "id");
+			chatMap.put(roomname, "roomname");
+			
+			int n = dao.insertChat(chatMap);
+		}
+		return m;
 	}
 }
