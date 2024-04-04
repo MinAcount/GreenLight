@@ -1,3 +1,20 @@
+window.onload = function(){
+	changeBG();
+}
+
+function changeBG(){
+	var allTr = document.querySelectorAll('tr');
+	
+	allTr.forEach(function(clickTr){
+		clickTr.addEventListener("click", function(){
+			allTr.forEach(function(tr) {
+                tr.style.backgroundColor = 'white';
+            });
+            clickTr.style.backgroundColor = '#EFF5F2';
+		})
+	})
+}
+
 //headAndDept.jsp
 function selectHeadList(){
 	var selectedHeadNo = document.getElementById("headno").value;
@@ -14,6 +31,8 @@ function selectHeadList(){
 	.then(data => data.json())
 	.then(result => {
 		addDeptList(result);
+		selectHead(selectedHeadNo);
+		changeBG();
 	});
 }
 
@@ -25,7 +44,7 @@ function addDeptList(result){
 	var inputTableBody = document.getElementById("inputTableBody");
     var tableHTML = '';
     inputTableBody.innerHTML = '';
-    tableHTML += "<tr style='width: 24%;'  onclick='selectHead("+headNo+")'><th style='border-right: 1px solid #ccc;' rowspan='"+(result.list.length+1)+"' id='hname'>"+headName+"</th></tr>";
+    tableHTML += "<tr style='width: 24%; background-color: #EFF5F2'  onclick='selectHead("+headNo+")'><th style='border-right: 1px solid #ccc;' rowspan='"+(result.list.length+1)+"' id='hname'>"+headName+"</th></tr>";
     result.list.forEach(function (item) {
 		tableHTML += "<tr style='width: 25%' onclick='selectDept("+item.deptno+")'>";
 		tableHTML += "<th class='dname'>"+item.dname+"</th>";
@@ -67,24 +86,19 @@ function selectDept(val){
 	})
 	.then(data => data.json())
 	.then(result => {
-		if(result == ""){
-			console.log("선택을 선택함")
-		}else{
-			getDept(result);
-		};
+		getDept(result);
+		changeBG();
 	});
 }
 
 //headAndDept.jsp
 function getDept(result){
 	console.log(result)
-	document.getElementById("nameZone").innerHTML = result.dname+"("+(result.empVo != null ? result.empVo.length : 0)+")";
+	document.getElementById("nameZone").innerHTML = result.dname+" ("+(result.empVo != null ? result.empVo.length : 0)+")";
 	var inputTableHead = document.getElementById("inputListTableHead");
 	var inputTableBody = document.getElementById("inputListTableBody");
     var tableHTML = '';
-    inputTableHead.innerHTML = '';
     inputTableHead.innerHTML = "<tr><th></th><th>사원번호</th><th>이름</th><th>소속부서</th><th>직위</th><th>부서장</th></tr>";
-    inputTableBody.innerHTML = '';
     if(result.empVo != null){
 	    result.empVo.forEach(function (item) {
 			if(result.dept_mgr != null){
@@ -158,24 +172,24 @@ function getDeptList(result){
 	var inputTableHead = document.getElementById("inputListTableHead");
 	var inputTableBody = document.getElementById("inputListTableBody");
     var tableHTML = '';
-    inputTableHead.innerHTML = '';
     inputTableHead.innerHTML = "<tr><th>부서번호</th><th>부서명</th><th>소속본부</th><th>부서장명</th></tr>";
-    inputTableBody.innerHTML = '';
     result.deptVo.forEach(function (item) {
-		tableHTML += "<tr>";
-		tableHTML += "<td>"+item.deptno+"</td>";
-		tableHTML += "<td>"+item.dname+"</td>";
-		tableHTML += "<td>"+headName+"</td>";
-		if(item.dept_mgr != null){
-			item.empVo.forEach(function (emp){
-				if(item.dept_mgr == emp.id){
-					tableHTML += "<td>"+emp.name+"</td>";
-				}
-			})
-		}else{
-			tableHTML += "<td>-</td>";
+		if(item.delflag != 'Y'){
+			tableHTML += "<tr>";
+			tableHTML += "<td>"+item.deptno+"</td>";
+			tableHTML += "<td>"+item.dname+"</td>";
+			tableHTML += "<td>"+headName+"</td>";
+			if(item.dept_mgr != null){
+				item.empVo.forEach(function (emp){
+					if(item.dept_mgr == emp.id){
+						tableHTML += "<td>"+emp.name+"</td>";
+					}
+				})
+			}else{
+				tableHTML += "<td>-</td>";
+			}
+			tableHTML += "</tr>";
 		}
-		tableHTML += "</tr>";
     });
     inputTableBody.innerHTML = tableHTML;
     
@@ -188,6 +202,7 @@ function getDeptList(result){
 	    buttonHTML += "<button class='btn btn-primary' type='button' style='margin-right:10px;' data-bs-toggle='modal' data-bs-target='#headManagerModal' onclick='modifyManager("+result.headno+")'>본부장 등록</button>"
 	}
 	buttonZone.innerHTML = buttonHTML;
+	
 }
 
 //headAndDept.jsp

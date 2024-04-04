@@ -65,7 +65,7 @@
 </select>
 <!-- 본부별 부서 조회	getDeptByHead -->
 <select id="getDeptByHead" parameterType="java.lang.String" resultType="DeptVo">
-	SELECT d.DEPTNO , DNAME, HEADNO
+	SELECT d.DEPTNO , DNAME, HEADNO, DEPT_MGR
         FROM DEPARTMENT d
         WHERE HEADNO = #{headno}
         AND d.DELFLAG = 'N'

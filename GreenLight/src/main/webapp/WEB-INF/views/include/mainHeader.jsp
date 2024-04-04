@@ -48,7 +48,44 @@
 
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/jstree/jstree.js"></script>
-
+<style type="text/css">
+#bellIcon {
+	transform-origin: 50% 0%;
+	animation-name: shake;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+	animation-delay: 0.5s;
+}
+@keyframes shake{
+    	0%{
+        	transform: rotate(0deg);
+        }
+        10%{
+        	transform: rotate(45deg);
+        }
+        20%{
+        	transform: rotate(-45deg);
+        }
+        30%{
+        	transform: rotate(30deg);
+        }
+        40%{
+        	transform: rotate(-30deg);
+        }
+        50%{
+        	transform: rotate(10deg);
+        }
+        60%{
+        	transform: rotate(-10deg);
+        }
+        70%{
+        	transform: rotate(0deg);
+        }
+        100%{
+        	transform: rotate(0deg);
+        }
+    }
+</style>
 </head>
 <body>
 <%@ include file="./signModal.jsp" %>
@@ -77,7 +114,12 @@
 				<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
 				id="navbarDropdownAlerts" href="javascript:void(0);" role="button"
 				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i data-feather="bell"></i>
+				<c:if test="${fn:length(notiList) ne 0}">
+					<i data-feather="bell" id="bellIcon" style="color: #428A46; width: 20px; height: 20px;"></i>
+				</c:if>
+				<c:if test="${fn:length(notiList) eq 0}">
+					<i data-feather="bell" style=" width:20px; height: 20px;"></i>
+				</c:if>
 			</a>
 				<div
 					class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
@@ -89,15 +131,15 @@
 						</c:if>
 					</h6>
 					<c:if test="${fn:length(notiList) eq 0}">
-						<a class="dropdown-item dropdown-notifications-item">
+						<div class="dropdown-item dropdown-notifications-item">
 							<div class="dropdown-notifications-item-content" style="font-size: 12px;">최근 알림이 없습니다</div>
-						</a>
+						</div>
 					</c:if>
 					<c:if test="${fn:length(notiList) ne 0}">
 						<c:forEach items="${notiList}" var="noti" varStatus="vs">
 							<c:if test="${noti.ntype eq '02'}">
 								<a class="dropdown-item dropdown-notifications-item"
-									href="month.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									href="month.do" onclick="readNoti('${noti.noti_id}')">
 									<div class="dropdown-notifications-item-icon bg-warning">
 										<i data-feather="calendar"></i>
 									</div>
@@ -111,7 +153,7 @@
 							</c:if>
 							<c:if test="${noti.ntype eq '03'}">
 								<a class="dropdown-item dropdown-notifications-item"
-									href="draftDetail.do?docno=${noti.gubun}" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									href="draftDetail.do?docno=${noti.gubun}" onclick="readNoti('${noti.noti_id}')">
 									<div class="dropdown-notifications-item-icon bg-info">
 										<i data-feather="clipboard"></i>
 									</div>
@@ -125,8 +167,8 @@
 							</c:if>
 							<c:if test="${noti.ntype eq '04'}">
 								<a class="dropdown-item dropdown-notifications-item"
-									href="myReserve.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
-									<div class="dropdown-notifications-item-icon bg-info">
+									href="reserveList.do" onclick="readNoti('${noti.noti_id}')">
+									<div class="dropdown-notifications-item-icon bg-purple">
 										<i data-feather="clock"></i>
 									</div>
 									<div class="dropdown-notifications-item-content">
@@ -139,9 +181,6 @@
 							</c:if>
 						</c:forEach>
 					</c:if>
-					<a class="dropdown-item dropdown-notifications-item" href='allNoti.do'>
-						<div class="dropdown-notifications-item-content" style="font-size: 12px;">알림 전체보기</div>
-					</a>
 				</a>
 
 					<!-- 유저 드롭다운 -->
@@ -166,11 +205,17 @@
 						<div
 							class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
 							aria-labelledby="navbarDropdownUserImage">
-							<a class="dropdown-item" href="./mypage.do">
+							<a class="dropdown-item" href="mypage.do">
 								<div class="dropdown-item-icon">
 									<i data-feather="settings"></i>
 								</div> 마이페이지
-							</a> <a class="dropdown-item" href="./logout.do">
+							</a>
+							<a class="dropdown-item" href="allNoti.do">
+								<div class="dropdown-item-icon">
+									<i data-feather="server"></i>
+								</div> 알림센터
+							</a>
+							 <a class="dropdown-item" href="logout.do">
 								<div class="dropdown-item-icon">
 									<i data-feather="log-out"></i>
 								</div> 로그아웃

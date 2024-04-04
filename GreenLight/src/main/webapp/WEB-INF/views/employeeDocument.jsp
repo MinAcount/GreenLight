@@ -18,33 +18,12 @@
 	<div id="layoutSidenav">
 		<%@ include file="./include/mainSidenav.jsp"%>
 
-		<c:set var="count" value="0" />
-		<c:forEach items="${empList}" var="list">
-			<c:if test="${list.estatus eq 'Y'}">
-				<c:set var="count" value="${count + 1}" />
-			</c:if>
-		</c:forEach>
-
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">인사 서류 관리</h1>
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
-					<div>
-						<nav class="nav nav-borders">
-							<ul id="selectEstatus"
-								style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-								<li class="nav-link active ms-0"
-									onclick="selectByStatus('A','doc'); setActive(this)" value="A">전체(${fn:length(empList)})</li>
-								<li class="nav-link"
-									onclick="selectByStatus('Y','doc'); setActive(this)" value="Y">재직중(${count})</li>
-								<li class="nav-link"
-									onclick="selectByStatus('N','doc'); setActive(this)" value="N">퇴사자(${fn:length(empList) - count})</li>
-							</ul>
-						</nav>
-
-					</div>
 					<div style="display: flex; flex-direction: row;">
 						<div class="datatable-dropdown" style="margin-right: 10px;">
 							<select class="datatable-selector" id="searchOpt">
@@ -71,42 +50,31 @@
 				</div>
 				<hr class="mt-0 mb-4">
 				<div>
-					<table class="datatable-table" id="datatablesSimple">
+					<table class="datatable-table" id="datatablesSimple" >
 						<thead>
 							<tr style="width: 100%;">
 								<th style="width: 5%;"></th>
-								<th style="width: 9%;">사원번호</th>
+								<th style="width: 13%;">사원번호</th>
 								<th style="width: 20%;">부서</th>
-								<th style="width: 15%;">이름</th>
-								<th style="width: 10%;">직위</th>
-								<th style="width: 10%;">직책</th>
-								<th style="width: 15%;">재직상태</th>
+								<th style="width: 20%;">이름</th>
+								<th style="width: 42%;" colspan="4">입사서류</th>
 							</tr>
 						</thead>
 						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${empList}" varStatus="vs">
-								<tr onclick="openFileList('${vo.id}', '${vo.name}')" data-bs-toggle='modal' data-bs-target='#fileListModal'>
+								<tr onclick="openFileList('${vo.id}', '${vo.name}')" data-bs-toggle='modal' class='empFileList' data-bs-target='#fileListModal'>
 									<td style="text-align: center;">${vs.count}</td>
-									<td>${vo.id}</td>
+									<td class="empId">${vo.id}</td>
 									<c:forEach var="deptVo" items="${deptList}">
 										<c:if test="${deptVo.deptno eq vo.deptno}">
 											<td>${deptVo.dname}</td>
 										</c:if>
 									</c:forEach>
 									<td>${vo.name}</td>
-									<td>${vo.spot}</td>
-									<c:if test="${vo.position != null}">
-										<td>${vo.position}</td>
-									</c:if>
-									<c:if test="${vo.position == null}">
-										<td>-</td>
-									</c:if>
-									<c:if test="${vo.estatus eq 'Y'}">
-										<td>재직중</td>
-									</c:if>
-									<c:if test="${vo.estatus eq 'N'}">
-										<td>퇴사</td>
-									</c:if>
+									<td style="font-size: 12px;" class="file">근로계약서</td>
+									<td style="font-size: 12px;" class="file">신분증사본</td>
+									<td style="font-size: 12px;" class="file">이력서</td>
+									<td style="font-size: 12px;" class="file">통장사본</td>
 								</tr>
 							</c:forEach>
 						</tbody>

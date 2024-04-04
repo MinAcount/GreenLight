@@ -100,20 +100,21 @@ public class ReserveController {
 		if (returnStatus == 1) {
 			System.out.println("INSERT가 성공적으로 이루어졌습니다.");
 			//알림 추가 : 회의실 예약(ESTATUS = 'Y'인 모든 사람)
-	         Map<String, Object> notiRoomReserve = new HashMap<String, Object>();
-	         notiRoomReserve.put("noti_id", "");
-	         notiRoomReserve.put("gubun", (String)parameters.get("conf_id"));
-	         notiRoomReserve.put("ntype", "04");
-	         notiRoomReserve.put("sender", loginVo.getId());
-	         notiRoomReserve.put("content", "["+parameters.get("cname")+" "+parameters.get("reserve_date")+"] 회의실이 예약되었습니다.");
-	         List<EmployeeVo> employees = empService.getAllEmployeeByStatus("Y");
-	         List<String> ids = new ArrayList<String>();
-	         if(employees.size() != 0) {
-	            for(EmployeeVo employee : employees) {
-	               ids.add((String)employee.getId());
-	            }
-	         }
-	         notiService.insertNoti(notiRoomReserve, ids);
+			Map<String, Object> notiRoomReserve = new HashMap<String, Object>();
+			notiRoomReserve.put("noti_id", "");
+			notiRoomReserve.put("gubun", (String)parameters.get("conf_id"));
+			notiRoomReserve.put("ntype", "04");
+			notiRoomReserve.put("sender", loginVo.getId());
+			notiRoomReserve.put("content", "["+parameters.get("cname")+" "+parameters.get("reserve_date")+"] 회의실이 예약되었습니다.");
+			List<EmployeeVo> employees = empService.getAllEmployeeByStatus("Y");
+			List<String> ids = new ArrayList<String>();
+			if(employees.size() != 0) {
+				for(EmployeeVo employee : employees) {
+					ids.add((String)employee.getId());
+				}
+			}
+			notiService.insertNoti(notiRoomReserve, ids);
+
 		} else if (returnStatus == -1) {
 			System.out.println("중복된 예약이 있어 INSERT를 수행할 수 없습니다.");
 		} else if (returnStatus == 0) {
