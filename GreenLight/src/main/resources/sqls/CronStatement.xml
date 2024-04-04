@@ -45,6 +45,7 @@ SET
             ELSE '정상' END WHERE OUT_DATE IS NULL AND ATT_STATUS IS NULL
 </update>
 
+<!-- 마이너스 연차	getOverVacation -->
 <select id="getOverVacation" resultMap="VacVo">
 <![CDATA[
 SELECT E.ID, E.NAME, E.JOIN_DAY,
@@ -61,18 +62,70 @@ HAVING E.LEAVE - SUM(NVL(CASE WHEN V.START_DAY >= ADD_MONTHS(CURRENT_TIMESTAMP, 
                             THEN V.GETSU ELSE 0 END, 0)) < 0
 ]]>
 </select>
-
+<!-- 휴가조정	insertOverVacation -->
 <insert id="insertOverVacation" parameterType="java.util.Map">
 	<selectKey keyProperty="seq" resultType="java.lang.String" order="BEFORE">
-		SELECT VACATION_SEQ.NEXTVAL FROM dual	
+		SELECT VACATION_SEQ.NEXTVAL FROM DUAL	
 	</selectKey>
 INSERT INTO VACATION (VACNO, ID, START_DAY, END_DAY,  GETSU, BIGO)
 VALUES (#{seq}, #{id}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, #{getsu}, '조정')
 </insert>
 
 
+<!-- 신입직원 연차부여	updateLeaveNewEmployee -->
+<update id="updateLeaveNewEmployee">
+UPDATE EMPLOYEE
+SET LEAVE = LEAVE + 1
+WHERE ID IN (
+    SELECT ID
+    FROM EMPLOYEE
+    WHERE TRUNC(EXTRACT(DAY FROM (CURRENT_TIMESTAMP - JOIN_DAY))) BETWEEN 30 AND 330
+    AND MOD(TRUNC(EXTRACT(DAY FROM (CURRENT_TIMESTAMP - JOIN_DAY))), 30) = 0)
+</update>
 
+<!-- 신입직원 외 연차부여	updateLeaveEmployee -->
+<update id="updateLeaveEmployee">
+<![CDATA[
+UPDATE EMPLOYEE
+SET LEAVE = 
+    CASE
+        WHEN TRUNC(MONTHS_BETWEEN(CURRENT_TIMESTAMP, JOIN_DAY)) <= 12 THEN 16
+        WHEN TRUNC(MONTHS_BETWEEN(CURRENT_TIMESTAMP, JOIN_DAY)) <= 36 THEN
+            LEAST(25, 15 + FLOOR(TRUNC(MONTHS_BETWEEN(SYSDATE, JOIN_DAY)) / 24))
+        ELSE LEAVE 
+    END
+WHERE TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(JOIN_DAY, 'MM-DD'), 'YYYY-MM-DD') = TRUNC(CURRENT_TIMESTAMP)
+]]>
+</update>
 
+<!-- 작일 직원휴가상태조회	getEmpVacationStatus -->
+<select id="getEmpVacationStatus" resultType="VacationVo">
+SELECT ID, START_DAY , END_DAY ,NVL(HALF, 'N') HALF  ,GETSU ,BIGO 
+	FROM VACATION
+	WHERE TRUNC(CURRENT_TIMESTAMP - 1) BETWEEN TRUNC(START_DAY) AND TRUNC(END_DAY)
+</select>
+<!-- "작일 출근현황조회"	getEmpAttendanceStatus -->
+<select id="getEmpAttendanceStatus" resultType="AttendanceVo" parameterType="java.lang.String">
+SELECT ID, IN_DATE, OUT_DATE, ATT_STATUS 
+	FROM ATTENDANCE a 
+	WHERE ID = #{id} AND TRUNC(IN_DATE) = TRUNC(CURRENT_TIMESTAMP - 1)
+</select>
+
+<!-- "작일 휴가자 근태등록"	insertVacationAttendance -->
+<insert id="insertVacationAttendance" parameterType="AttendanceVo">
+INSERT INTO ATTENDANCE (ID, IN_DATE, OUT_DATE, ATT_STATUS)
+    VALUES (#{id}, TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') || #{in_date}, 'YYYY-MM-DD HH24:MI:SS'),TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') ||#{out_date}, 'YYYY-MM-DD HH24:MI:SS'), #{att_status})
+</insert>
+
+<!-- "작일 휴가자 근태수정"	updateVacationAttendance -->
+<update id="updateVacationAttendance" parameterType="AttendanceVo">
+UPDATE ATTENDANCE
+SET  IN_DATE = TRUNC(SYSDATE - 1) + INTERVAL #{in_date} HOUR TO MINUTE, 
+	 OUT_DATE = TRUNC(CURRENT_TIMESTAMP - 1) + INTERVAL #{out_date} HOUR TO MINUTE,
+     ATT_STATUS = #{att_status}
+WHERE ID = #{id}
+AND TRUNC(IN_DATE) = TRUNC(CURRENT_TIMESTAMP - 1)
+</update>
 
 
 </mapper>
