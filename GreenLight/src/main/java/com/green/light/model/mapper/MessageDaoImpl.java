@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.green.light.vo.GroupMemberVo;
 import com.green.light.vo.MessageVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +61,12 @@ public class MessageDaoImpl implements IMessageDao {
 	public int updateSendMessage(String chat_id) {
 		log.info("updateSendMessage {}", chat_id);
 		return sqlsession.update(NS + "updateSendMessage", chat_id);
+	}
+
+	@Override
+	public int insertChat(GroupMemberVo gmvo) {
+		log.info("insertChat {}", gmvo);
+		return sqlsession.insert(NS + "insertChat", gmvo);
 	}
 
 }

@@ -38,27 +38,20 @@
 			height: 60px;
 		}
 		
-		.table-container-div-first {
-			display: flex;
-			justify-content: center;
-			width: 100%;
-			padding-top: 45px;
-		}
 		
-		.table-container-div {
+		#table-container-div {
 			display: flex;
 			justify-content: center;
-			width: 120vw;
+			width: 22vw;
 			height:20vh;
-			padding-top: 20px;
 		}
 		
-		
-		.table-container {
+		#table-container-list {
 			text-align: center;
 			width: 90%;
 			border: 1px solid gray;
 		}
+		
 		
 		.create-btn {
 			text-align: right;
@@ -179,12 +172,13 @@
 </head>
 <body class="nav-fixed">
 	<%@ include file="./include/mainHeader.jsp" %>
-	
+<script type="text/javascript" src="./js/jstree/chat_jstree.js"></script>
 <!-- 사이드나브바 & 콘텐트 영역 -->
 	<div id="layoutSidenav">
 		<%@ include file="./include/mainSidenav.jsp" %>
 <input type="hidden" value="${loginVo.id}" id="id">
 <input type="hidden" value="${loginVo.name}" id="name">
+<input type="hidden" value="${loginVo.spot}" id="spot">
 <!-- 콘텐트 영역 -->
 	<div id="layoutSidenav_content">
 		<div id="main_content">
@@ -196,10 +190,62 @@
 					<br/>
 					<ul id="chatList">											
 					</ul>
+					
 					<div class="create-btn">
-						<button class="btn btn-primary btn-sm" type="button">생성</button>
+						<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+							data-bs-target="#chatModal">생성</button>
+					</div>
+					
+					<div style="display: flex; flex-direction: row; justify-content: space-between;">
+						<div class="modal fade" id="chatModal" tabindex="-1"
+							aria-labelledby="chatModalLabel" aria-hidden="true"
+							data-bs-backdrop="static">
+							<div class="modal-dialog">
+								<div class="modal-content" style="width: 800px; height: 630px;">
+									<div class="modal-header">
+										<h5 class="modal-title" id="chatModalLabel">채팅방 생성</h5>
+										<input type="text" placeholder="이름을 입력하세요">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body"
+										style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
+										<div class="toast-body"
+											style="display: flex; flex-direction: row; justify-content: space-around;">
+											<!-- 참조자들(js tree) -->
+											<div id="chat_sel"
+												style="width: 300px; min-height: 450px; border: 1px solid black; padding: 10px;">
+												<div id="search_box">
+													<input id="search_input2" type="text">
+												</div>
+												<div id="chatTree"
+													style="margin-top: 10px; border: 1px solid black; width: 100%; max-height: 390px; overflow-y: scroll;"></div>
+											</div>
+											<div style="width: 50px; text-align: center;">
+												<button id="addPeople" class="btn btn-primary"
+													style="width: 30px; height: 100px; margin-top: 180px">></button>
+											</div>
+											<!-- 선택된 참조자들 -->
+											<div id="people_chk"
+												style="width: 300px; min-height: 450px; border: 1px solid black; padding-top: 30px;"></div>
+										</div>
+										<div class="modal-footer"
+											style="margin-bottom: 20px; margin-top: 10px;">
+											<input type="button" class="btn btn-danger" value="초기화"
+												onclick="cleanChat()">
+											<button class="btn btn-secondary " type="button"
+												data-bs-dismiss="modal" onclick="chatCancel()">취소</button>
+											<button data-bs-dismiss="modal" onclick="chatDone()"
+												class="btn btn-primary " type="button"
+												style="margin-left: 10px;">완료</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+				
 				<div style="justify-content: space-between; width: 3%;"></div>
 				<div id="chatRoom">
 				<!-- 상단 -->
@@ -231,5 +277,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <script src="js/scripts.js"></script>
 <script src="js/chatFn.js"></script>
+
 </body>
 </html>
