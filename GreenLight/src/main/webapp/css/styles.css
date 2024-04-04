@@ -18323,10 +18323,10 @@ body {
 }
 .dropdown-notifications .dropdown-menu .dropdown-notifications-item .dropdown-notifications-item-icon,
 .dropdown-notifications .dropdown-menu .dropdown-notifications-item .dropdown-notifications-item-img {
-  height: 2.5rem;
-  width: 2.5rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 100%;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
   flex-shrink: 0;
 }
 .dropdown-notifications .dropdown-menu .dropdown-notifications-item .dropdown-notifications-item-icon {
@@ -18383,7 +18383,7 @@ body {
     right: 0;
   }
   .dropdown-notifications .dropdown-menu .dropdown-notifications-item .dropdown-notifications-item-content .dropdown-notifications-item-content-text {
-    max-width: 13rem;
+    max-width: 16rem;
   }
 }
 

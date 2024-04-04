@@ -32,8 +32,6 @@
 <!-- 	 	<task:scheduled ref="cronDaoImpl" method="autoCompleteWorkTime" cron="0/6 * * * * ?"/> -->
 <!-- 	</task:scheduled-tasks> -->
 
-	
-
 
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -22,4 +22,6 @@ public class ConferenceVo {
 	private String ho;
 	private String roominfo;
 	
+	private String status;
+	
 }

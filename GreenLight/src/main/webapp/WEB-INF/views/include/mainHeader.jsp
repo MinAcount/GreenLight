@@ -28,7 +28,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
-<script type="text/javascript" src="./js/jstree/jstree.js"></script>
 <script type="text/javascript"
 	src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript"
@@ -39,6 +38,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
 <!-- DropZone -->
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+<!-- 알림 -->
+<script src="js/notification_ljw/noti.js" type="module"></script>
+<script src="js/notification_ljw/header_noti.js"></script>
 <style>
 .jstree-node, .jstree-children, .jstree-container-ul {
 	display: block;
@@ -1387,6 +1389,7 @@
 
 </head>
 <body>
+	<input type="hidden" value="${loginVo.id}" id="loginVoId">
 	<nav
 		class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
 		id="sidenavAccordion">
@@ -1404,7 +1407,7 @@
 
 		<!-- 상단나브바 -->
 		<ul class="navbar-nav align-items-center ms-auto">
-			<li>${loginVo.name}${loginVo.spot}&nbsp;&nbsp;&nbsp;</li>
+			<li>${loginVo.name} ${loginVo.spot}&nbsp;&nbsp;&nbsp;</li>
 			<!-- 상단 나브바 알림-->
 			<li
 				class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
@@ -1415,47 +1418,68 @@
 			</a>
 				<div
 					class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-					aria-labelledby="navbarDropdownAlerts">
+					aria-labelledby="navbarDropdownAlerts" id ="notiZone" style="min-width: 18rem;">
 					<h6 class="dropdown-header dropdown-notifications-header">
 						<i class="me-2" data-feather="bell"></i> 최근 알림
+						<c:if test="${fn:length(notiList) ne 0}">
+							<a style="margin-left: 11rem; border: 2px solid white; padding: 5px;" onclick="allReadNoti()">전체읽기</a>
+						</c:if>
 					</h6>
 					<c:if test="${fn:length(notiList) eq 0}">
 						<a class="dropdown-item dropdown-notifications-item">
-							<div class="dropdown-notifications-item-content">알림이 없습니다</div>
+							<div class="dropdown-notifications-item-content" style="font-size: 12px;">최근 알림이 없습니다</div>
 						</a>
 					</c:if>
 					<c:if test="${fn:length(notiList) ne 0}">
-						<c:forEach items="${notiList}" var="noti">
+						<c:forEach items="${notiList}" var="noti" varStatus="vs">
 							<c:if test="${noti.ntype eq '02'}">
 								<a class="dropdown-item dropdown-notifications-item"
-									href="month.do">
+									href="month.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
 									<div class="dropdown-notifications-item-icon bg-warning">
 										<i data-feather="calendar"></i>
 									</div>
 									<div class="dropdown-notifications-item-content">
 										<div class="dropdown-notifications-item-content-details">
 											${noti.alert_time}</div>
-										<div class="dropdown-notifications-item-content-text">
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
 											${noti.content}</div>
 									</div>
 								</a>
 							</c:if>
 							<c:if test="${noti.ntype eq '03'}">
 								<a class="dropdown-item dropdown-notifications-item"
-									href="draftDetail.do?docno=" +${noti.gubun}>
+									href="draftDetail.do?docno=${noti.gubun}" onclick="readNoti('${noti.noti_id}', '${vs}')">
 									<div class="dropdown-notifications-item-icon bg-info">
 										<i data-feather="clipboard"></i>
 									</div>
 									<div class="dropdown-notifications-item-content">
 										<div class="dropdown-notifications-item-content-details">
 											${noti.alert_time}</div>
-										<div class="dropdown-notifications-item-content-text">
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+											${noti.content}</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${noti.ntype eq '04'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="myReserve.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									<div class="dropdown-notifications-item-icon bg-info">
+										<i data-feather="clock"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
 											${noti.content}</div>
 									</div>
 								</a>
 							</c:if>
 						</c:forEach>
 					</c:if>
+					<a class="dropdown-item dropdown-notifications-item" href='allNoti.do'>
+						<div class="dropdown-notifications-item-content" style="font-size: 12px;">알림 전체보기</div>
+					</a>
+				</a>
 
 					<!-- 유저 드롭다운 -->
 					<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">

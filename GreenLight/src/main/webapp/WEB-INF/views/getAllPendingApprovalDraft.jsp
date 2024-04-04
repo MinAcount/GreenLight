@@ -38,7 +38,7 @@
 						<tbody id="tableBody">
 							<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr class="item">
-								<td>${vo.title}</td>
+								<td><a href="./draftDetail.do?docno=${vo.docno}">${vo.title}</a></td>
 								<td>${vo.draft_date}</td>
 								<td>
 									<c:choose>

@@ -90,10 +90,21 @@ SELECT e.NAME , (SELECT CODE_NAME FROM COMMON c WHERE e.SPOT = c.CODE AND c."TYP
 </select>
 
 <!-- 결재상태 업데이트 -->
-<update id="updateApprStatus" parameterType="ApprovalVo">
+<update id="updateApprStatus" parameterType="java.util.Map">
 	UPDATE APPROVAL
-		SET APPR_STATUS=#{appr_status}, APPR_DATE=SYSDATE, SIGNATURE='반려'
-		WHERE DOCNO = #{docno} AND EMP_ID = #{emp_id}
+		SET APPR_STATUS=#{appr_status}, APPR_DATE=SYSDATE, SIGNATURE=(SELECT SAVE_SIGN
+													FROM SIGNLIST
+													WHERE ID = #{emp_id} AND MAIN = 'Y')
+		WHERE DOCNO = #{docno} AND (EMP_ID = #{emp_id} AND ATYPE = '01')
+		
 </update>
+
+<!-- 코멘트 업데이트 -->
+<update id="updateComment" parameterType="java.util.Map">
+UPDATE APPROVAL
+SET "COMMENT"=#{comment}
+WHERE APPRNO = (SELECT APPRNO FROM APPROVAL a WHERE EMP_ID = #{emp_id} AND ATYPE ='01' AND DOCNO = #{docno})
+</update>
+
 
 </mapper>

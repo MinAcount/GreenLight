@@ -49,9 +49,16 @@ public class ApprovalDaoImpl implements IApprovalDao{
 	}
 
 	@Override
-	public ApprovalVo updateApprStatus(ApprovalVo vo) {
-		return sqlSession.selectOne(NS+"updateApprStatus", vo);
+	public int updateApprStatus(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateApprStatus", map);
 	}
+
+	@Override
+	public int updateComment(Map<String, Object> map) {
+		return sqlSession.update(NS+"updateComment", map);
+	}
+
+	
 
 
 	

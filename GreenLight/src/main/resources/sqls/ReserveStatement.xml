@@ -16,11 +16,12 @@
 		<result property="meetingtitle" column="MEETINGTITLE" />
 	</resultMap>
 	<resultMap type="com.green.light.vo.ConferenceVo" id="ConferenceVoMap">
-		<result property="conf_id" column="conf_id" />
-		<result property="cname" column="cname" />
-		<result property="capacity" column="capacity" />
-		<result property="ho" column="ho" />
-		<result property="roominfo" column="roominfo" />
+		<result property="conf_id" column="CONF_ID" />
+		<result property="cname" column="CNAME" />
+		<result property="capacity" column="CAPACITY" />
+		<result property="ho" column="HO" />
+		<result property="roominfo" column="ROOMINFO" />
+		<result property="status" column="STATUS" />
 	</resultMap>
 	<!-- 전체 예약 조회 -->
 	<select id="getAllReserve" resultMap="CheckListVoMap">
@@ -69,26 +70,32 @@
 	<!-- 선택 회의실 및 선택 날짜의예약 가능 시간 조회 -->
 	<select id="timeListReserve" parameterType="java.util.Map" resultMap="CheckListVoMap">
     <![CDATA[
-        WITH TimeSlots AS (
-            SELECT LPAD(LEVEL + 8, 2, '00') AS TimeSlot
-            FROM DUAL
-            CONNECT BY LEVEL <= 10
-        ), Reservations AS (
-            SELECT TO_CHAR(RESERVE_DATE, 'HH24') AS TT, CONF_ID
-            FROM CHECKLIST l
-            JOIN RESERVATION r USING(RESERVENO)
-            WHERE CONF_ID = #{conf_id}
-            AND TRUNC(RESERVE_DATE) = TO_DATE(#{reserve_date}, 'YYYY-MM-DD')
-        )
-        SELECT COALESCE(r.CONF_ID, #{conf_id}) AS CONF_ID, t.TimeSlot,
-            CASE 
-                WHEN r.TT IS NULL THEN '예약가능'
-                WHEN t.TimeSlot = r.TT OR LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00') = r.TT THEN '사용중'
-                ELSE '점검중'
-            END AS STATUS
-        FROM TimeSlots t
-        LEFT JOIN Reservations r ON t.TimeSlot = r.TT OR LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00') = r.TT
-        ORDER BY t.TimeSlot ASC
+    	WITH TimeSlots AS (
+		    SELECT LPAD(LEVEL + 8, 2, '00') AS TimeSlot
+		    FROM DUAL
+		    CONNECT BY LEVEL <= 10
+		), AllConference AS (
+		    SELECT DISTINCT CONF_ID
+		    FROM CHECKLIST
+		)
+		SELECT COALESCE(r.CONF_ID, ac.CONF_ID) AS CONF_ID, t.TimeSlot, 
+		       CASE 
+		           WHEN r.TT IS NULL THEN '예약가능'
+		           WHEN t.TimeSlot = r.TT OR TO_CHAR(LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00')) = r.TT THEN '사용중'
+		           ELSE '점검중' 
+		       END AS STATUS,
+		       c.CNAME, c.CAPACITY, c.AVAILABILITY, c.HO, c.ROOMINFO
+		FROM TimeSlots t
+		CROSS JOIN AllConference ac
+		LEFT JOIN (
+		    SELECT TO_CHAR(RESERVE_DATE, 'HH24') AS TT, CONF_ID
+		    FROM CHECKLIST l
+		    JOIN RESERVATION r USING(RESERVENO)
+		    WHERE TRUNC(RESERVE_DATE) = TO_DATE(#{reserve_day}, 'YYYY-MM-DD')
+		) r ON ac.CONF_ID = r.CONF_ID AND (t.TimeSlot = r.TT OR TO_CHAR(LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00')) = r.TT)
+		LEFT JOIN CONFERENCE c ON ac.CONF_ID = c.CONF_ID
+		WHERE t.TimeSlot = #{timeslot} AND SUBSTR(c.HO, 1, 1) = #{floor} AND c.CAPACITY > #{capacity}
+		ORDER BY CONF_ID ASC, t.TimeSlot ASC
     ]]>
 	</select>
 	<sql id="orderByDesc">

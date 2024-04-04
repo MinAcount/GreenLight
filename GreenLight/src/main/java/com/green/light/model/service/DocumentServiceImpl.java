@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.green.light.model.mapper.IApprovalDao;
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IFileStorageDao;
+import com.green.light.model.mapper.ISignDao;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
@@ -28,6 +29,8 @@ public class DocumentServiceImpl implements IDocumentService{
 	private IFileStorageDao fDao;
 	@Autowired
 	private IApprovalDao aDao;
+	@Autowired
+	private ISignDao sDao;
 	
 	@Override
 	@Transactional
@@ -129,6 +132,20 @@ public class DocumentServiceImpl implements IDocumentService{
 	public DocumentVo getDocumentDetail(String docno) {
 		log.info("DocumentServiceImpl getDocumentDetail 기안문서 상세조회 : {}", docno);
 		return dao.getDocumentDetail(docno);
+	}
+
+
+	@Override
+	public int updateDocStatus(Map<String, Object> map) {
+		log.info("DocumentServiceImpl updateDocStatus 기안서 상태 업데이트 : {}", map);
+		return dao.updateDocStatus(map);
+	}
+
+
+	@Override
+	public int updateContent(Map<String, Object> map) {
+		log.info("DocumentServiceImpl updateContent 기안서 내용 업데이트 : {}", map);
+		return dao.updateContent(map);
 	}
 
 

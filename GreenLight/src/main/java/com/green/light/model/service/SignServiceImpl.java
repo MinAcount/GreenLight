@@ -56,5 +56,11 @@ public class SignServiceImpl implements ISignService {
 		int m = dao.setMainSign(signVo);
 		return (n+m)>0 ? 1 : 0;
 	}
+
+	@Override
+	public SignVo selectMainSign(String id) {
+		log.info("SignServiceImpl SignServiceImpl 전달받은 값 : {}", id);
+		return dao.selectMainSign(id);
+	}
 }
  

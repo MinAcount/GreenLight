@@ -62,4 +62,12 @@ public class SignDaoImpl implements ISignDao {
 	}
 
 
+
+	@Override
+	public SignVo selectMainSign(String id) {
+		log.info("SignDaoImpl selectMainSign");
+		return session.selectOne(NS+"selectMainSign", id);
+	}
+
+
 }

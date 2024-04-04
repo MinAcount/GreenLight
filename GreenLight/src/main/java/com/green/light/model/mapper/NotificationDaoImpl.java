@@ -47,4 +47,9 @@ public class NotificationDaoImpl implements INotificationDao {
 		return sqlSession.update(NS+"updateRead",map);
 	}
 
+	@Override
+	public int updateAllRead(String id) {
+		return sqlSession.update(NS+"updateAllRead",id);
+	}
+
 }

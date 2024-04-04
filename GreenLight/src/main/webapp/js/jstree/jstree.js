@@ -151,7 +151,7 @@ $(function() {
 					"<line x1='14' y1='11' x2='14' y2='17'></line>" +
 					"</svg>" +
 					"</div>" +
-					"<input type='hidden' name='id' value='" + sel + "'>" +
+					"<input type='hidden' name='id' value='" + childNode.id + "'>" +
 					"</div>" +
 					"</div>";
 				$("#ref_chk").html(htmlCode);
@@ -792,7 +792,7 @@ async function selectComplete() {
 
 			name.textContent = loginVo_name;
 			dname.textContent = deptVo_dname;
-			writer_id.textContent = loginVo_id;
+			writer_id.value = loginVo_id;
 
 			// 기안 뿌리기
 			var today = new Date();

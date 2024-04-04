@@ -69,6 +69,7 @@ function submissionValidation(){
    }
    
 //   insertDocument();
+
 }
 
 //임시저장 유효성 검사
@@ -257,6 +258,8 @@ function insertDocument() {
 //         console.error('오류 발생:', error);
 //      });
 
+	//알림
+	notify('전자결재', title + " 문서가 상신되었습니다");
 }
 
 function radioActiveS(chk) {
@@ -352,31 +355,198 @@ function deleteExpenseDetail() {
    }
 }
 
+async function rejectApproval(){
+	var rejectApproval = document.getElementById("rejectApproval");
+	console.log("rejectApproval",rejectApproval);
+	var rejectCommentValue = rejectApproval.getElementsByClassName("comment")[0].value;
+	console.log("rejectCommentValue",rejectCommentValue);
+	
+	var loginVo_id = document.getElementById("loginVo_id").value;
+	console.log("loginVo_id",loginVo_id);
+	
+	var docno = document.getElementById("docno").value;
+	console.log("docno",docno);
+	
+	var appr_status = "03";
+	var doc_status = "03";
+	
+	var formData = new FormData();
+	formData.append("comment", rejectCommentValue);
+	formData.append("emp_id", loginVo_id);
+	formData.append("docno",docno);
+	formData.append("doc_status", doc_status);
+	formData.append("appr_status", appr_status);
+	
+	/*fetch post*/
+	try {
+		const response1 = await fetch("./updateApproval.do", {
+			method: 'POST',
+			body: formData
+		});
 
-function rejectApproval(){
-   var rejectApproval = document.getElementById("rejectApproval");
-   console.log("rejectApproval",rejectApproval);
-   var rejectCommentValue = rejectApproval.getElementsByClassName("comment")[0].value;
-   console.log("rejectCommentValue",rejectCommentValue);
-   
-   var formData = new FormData();
-   formData.append("comment", rejectCommentValue);
-   
-   /*fetch post*/
-   fetch("./updateApproval.do", {
-      method: 'POST',
-      body: formData
-   })
-      .then(response => {
-         if (!response.ok) {
-            throw new Error('네트워크 에러..');
-         }
-         return response.json();
-      })
-      .then(data => {
-         console.log('data:', data);
-      })
-      .catch(error => {
-         console.error('오류 발생:', error);
-      });
+		if (!response1.ok) {
+			throw new Error('네트워크 에러..');
+		}
+
+		const data1 = await response1.json();
+		console.log('data1:', data1);
+
+		var loginVo_name = document.getElementById("loginVo_name");
+		var secondTr = document.getElementById("secondTr");
+		var tds = secondTr.querySelectorAll("td");
+		var thirdTr = document.getElementById("thirdTr");
+		var tdss = thirdTr.querySelectorAll("td");
+		tds.forEach(function(td, i) {
+			console.log("td.textContent", td.textContent)
+			console.log("loginVo_name", loginVo_name)
+			if (td.textContent == loginVo_name.value) {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", data1.save_sign);
+				newImg.setAttribute("style", "width:50px");
+				td.appendChild(newImg);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = String(today.getMonth() + 1).padStart(2, '0');
+				var day = String(today.getDate()).padStart(2, '0');
+
+				var formattedDate = year + '-' + month + '-' + day;
+				console.log(formattedDate);
+
+				tdss[i].innerHTML = formattedDate;
+				console.log("바뀌었어요")
+			}
+
+		})
+		var content = document.getElementById("templateArea").innerHTML;
+		console.log("content",content)
+		formData.append("content", content);
+		formData.append("docno", docno);
+
+		const response2 = await fetch("./updateContent.do", {
+			method: 'POST',
+			body: formData
+		});
+
+		if (!response2.ok) {
+			throw new Error('네트워크 에러..');
+		}
+
+		const data2 = await response2.json();
+		console.log('data2:', data2);
+	} catch (error) {
+		console.error('오류 발생:', error);
+	}
+}
+
+//알림
+function notify(title, content, url) {
+	if(Notification.permission == "default" ||Notification.permission == "denied"){
+		alert("알림을 허용해주세요");
+		Notification.requestPermission(); // default일때만 가능
+		return;
+	}else{
+		let notification = new Notification(
+			title, // 제목 
+			{
+			body: content, // 메세지
+			icon: "./assets/img/grn.png", // 아이콘
+			image: "./assets/img/logo_grn.png", // 배경이미지
+			requireInteraction: true, //닫기버튼 [닫기]를 누르기 전까지 사라지지 않음
+			silent:true, //소리설정 (true:무음)
+			}
+		);
+		
+		// 3초뒤 알람 닫기 / 닫기버튼이 활성화 되어있어도 알람이 닫힘
+		setTimeout(function() {
+			notification.close();
+		}, 3*1000);
+		
+		//알림 클릭 시 이벤트
+		notification.addEventListener("click", () => {
+			location.href = url;
+		});
+	}
+}
+
+async function approve(){
+	var approve = document.getElementById("approve");
+	console.log("approve",approve);
+	var approveCommentValue = approve.getElementsByClassName("comment")[0].value;
+	console.log("approveCommentValue",approveCommentValue);
+	
+	var loginVo_id = document.getElementById("loginVo_id").value;
+	console.log("loginVo_id",loginVo_id);
+	
+	var docno = document.getElementById("docno").value;
+	console.log("docno",docno);
+	
+	var appr_status = "02";
+	var doc_status = "02";
+
+	var formData = new FormData();
+	formData.append("comment", approveCommentValue);
+	formData.append("emp_id", loginVo_id);
+	formData.append("docno",docno);
+	formData.append("doc_status", doc_status);
+	formData.append("appr_status", appr_status);
+	
+	try {
+		const response1 = await fetch("./updateApproval.do", {
+			method: 'POST',
+			body: formData
+		});
+
+		if (!response1.ok) {
+			throw new Error('네트워크 에러..');
+		}
+
+		const data1 = await response1.json();
+		console.log('data1:', data1);
+
+		var loginVo_name = document.getElementById("loginVo_name");
+		var secondTr = document.getElementById("secondTr");
+		var tds = secondTr.querySelectorAll("td");
+		var thirdTr = document.getElementById("thirdTr");
+		var tdss = thirdTr.querySelectorAll("td");
+		tds.forEach(function(td, i) {
+			console.log("td.textContent", td.textContent)
+			console.log("loginVo_name", loginVo_name)
+			if (td.textContent == loginVo_name.value) {
+				var newImg = document.createElement("img");
+				newImg.setAttribute("src", data1.save_sign);
+				newImg.setAttribute("style", "width:50px");
+				td.appendChild(newImg);
+				var today = new Date();
+				var year = today.getFullYear();
+				var month = String(today.getMonth() + 1).padStart(2, '0');
+				var day = String(today.getDate()).padStart(2, '0');
+
+				var formattedDate = year + '-' + month + '-' + day;
+				console.log(formattedDate);
+
+				tdss[i].innerHTML = formattedDate;
+				console.log("바뀌었어요")
+			}
+
+		})
+		var content = document.getElementById("templateArea").innerHTML;
+		console.log("content",content)
+		formData.append("content", content);
+		formData.append("docno", docno);
+
+		const response2 = await fetch("./updateContent.do", {
+			method: 'POST',
+			body: formData
+		});
+
+		if (!response2.ok) {
+			throw new Error('네트워크 에러..');
+		}
+		
+
+		const data2 = await response2.json();
+		console.log('data2:', data2);
+	} catch (error) {
+		console.error('오류 발생:', error);
+	}
 }
