@@ -4,13 +4,13 @@
 
 	<!-- 회의실 전체조회 -->
 	<select id="getAllRoom" resultType="ConferenceVo">
-		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO
+		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, LOCALITY, HO, ROOMINFO
         	FROM CONFERENCE
-        	ORDER BY CNAME ASC
+        	ORDER BY LOCALITY ASC, HO ASC
 	</select>
 	<!-- 회의실 상세조회 -->
 	<select id="getOenRoom" parameterType="java.lang.String" resultType="ConferenceVo">
-		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO
+		SELECT CONF_ID, CNAME, CAPACITY, AVAILABILITY, LOCALITY, HO, ROOMINFO
         FROM CONFERENCE
         WHERE CONF_ID = #{conf_id}
 	</select>
@@ -18,8 +18,8 @@
 	<insert id="insertRoom" parameterType="ConferenceVo">
     <![CDATA[
         BEGIN
-            INSERT INTO CONFERENCE (CONF_ID, CNAME, CAPACITY, AVAILABILITY, HO, ROOMINFO)
-            VALUES ('NEW', #{cname}, #{capacity}, 'Y', #{ho}, #{roominfo});
+            INSERT INTO CONFERENCE (CONF_ID, CNAME, CAPACITY, AVAILABILITY, LOCALITY, HO, ROOMINFO)
+            VALUES ('NEW', #{cname}, #{capacity}, 'Y', #{locality}, #{ho}, #{roominfo});
 
             UPDATE CONFERENCE
             SET CONF_ID = 'F' || SUBSTR(#{ho}, 1, 1) || '_' || LPAD(CONFERENCE_SEQ.NEXTVAL, 3, '0') || '_' || SUBSTR(#{ho}, 1, INSTR(#{ho}, '호') - 1) 

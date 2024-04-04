@@ -1,35 +1,35 @@
 function formatReserveDate(reserveDate) {
-    // 날짜 객체로부터 연도, 월, 일, 시간, 분을 추출
-    const year = reserveDate.getFullYear();
-    const month = reserveDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
-    const date = reserveDate.getDate();
-    let hour = reserveDate.getHours();
+	// 날짜 객체로부터 연도, 월, 일, 시간, 분을 추출
+	const year = reserveDate.getFullYear();
+	const month = reserveDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+	const date = reserveDate.getDate();
+	let hour = reserveDate.getHours();
 
-    // 오전/오후 구분
-    const ampm = hour < 12 ? '오전' : '오후';
+	// 오전/오후 구분
+	const ampm = hour < 12 ? '오전' : '오후';
 
-    // 시간을 12시간 형식으로 변환
-    if (hour > 12) {
-        hour -= 12;
-    }
+	// 시간을 12시간 형식으로 변환
+	if (hour > 12) {
+		hour -= 12;
+	}
 
-    // 시간을 오전/오후와 함께 반환
-    return `${year}년 ${month}월 ${date}일 ${ampm} ${hour}시`;
+	// 시간을 오전/오후와 함께 반환
+	return `${year}년 ${month}월 ${date}일 ${ampm} ${hour}시`;
 }
 
 function oneReserveView(reserveno) {
-    console.log("예약 상세 조회 모달창");
-    fetch('./oneReserve.do?reserveno=' + reserveno)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
-            }
-            return response.json();
-        })
-        .then(data => {
+	console.log("예약 상세 조회 모달창");
+	fetch('./oneReserve.do?reserveno=' + reserveno)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('서버 응답 실패');
+			}
+			return response.json();
+		})
+		.then(data => {
 			const reserveDate = new Date(data.reservationVo.reserve_date);
-            const formattedDate = formatReserveDate(reserveDate);
-            var modalContent = `
+			const formattedDate = formatReserveDate(reserveDate);
+			var modalContent = `
                 <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -46,7 +46,7 @@ function oneReserveView(reserveno) {
                                             <button type="button" class="btn btn-sm btn-secondary" id="viewRoomBtn">회의실보기</button></p>
                                         <p><strong style="padding-right: 20px;">이용일</strong> ${formattedDate}</p>
                                         <p><strong style="padding-right: 6px;">사용목적</strong> 
-                                        	${data.reservationVo.meetingtitle}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-pen-to-square"></i>
+                                        	<span>${data.reservationVo.meetingtitle}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-pen-to-square" onclick="updateReserveTitle('${data.reserveno}')"></span></i>
                                         	<input type="hidden" value="${data.reservationVo.meetingtitle}">
                                         </p>
                                         
@@ -54,7 +54,7 @@ function oneReserveView(reserveno) {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">저장</button>
+                                <button type="button" class="btn btn-secondary">확인</button>
                             </div>
                         </div>
                     </div>
@@ -70,13 +70,68 @@ function oneReserveView(reserveno) {
                     });
                 </script>
             `;
-            $('body').append(modalContent);
-            $('#reserveModal').modal('show');
+			$('body').append(modalContent);
+			$('#reserveModal').modal('show');
+		})
+		.catch(error => {
+			console.error('오류:', error);
+		});
+}
+
+function updateReserveTitle(reserveno) {
+	console.log("예약수정 : ", reserveno)
+    var iconSpan = document.querySelector('#reserveModal .modal-body span');
+    iconSpan.textContent = '';
+    
+    var inputField = document.querySelector('#reserveModal input[type="hidden"]');
+    
+    inputField.style.display = 'inline';
+    inputField.removeAttribute('type'); 
+    
+    var saveButton = document.createElement('button');
+    saveButton.textContent = '저장하기';
+    saveButton.className = 'btn btn-primary';
+    
+    // 저장 버튼의 클릭 이벤트 리스너를 추가합니다.
+    saveButton.addEventListener('click', function() {
+        // 수정된 목적을 가져옵니다.
+        var updatedMeetingTitle = inputField.value;
+        
+        // AJAX 요청을 보냅니다.
+        fetch('./updateReserve.do?reserveno=' + reserveno, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                reserveno: reserveno,
+                meetingtitle: updatedMeetingTitle
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 서버로부터 응답을 받은 후의 처리 작업을 여기에 추가합니다.
+            console.log('예약 수정 완료:', data);
+            // 모달을 닫습니다.
+            $('#reserveModal').modal('hide');
         })
         .catch(error => {
             console.error('오류:', error);
         });
+    });
+    
+    // 저장 버튼을 삽입합니다.
+    var container = document.querySelector('#reserveModal .modal-footer');
+    container.innerHTML = ''; // 기존 내용을 비웁니다.
+    container.appendChild(saveButton);
 }
+
+
 
 // 나의 예약 전체조회
 function allReserveList(val) {
@@ -551,12 +606,12 @@ prevMonthBtn.addEventListener('click', function() {
 var reserve_day;
 var timeslot;
 
-function searchReserveListWithDate(reserve_day, timeslot, floor, capacity) {
+function searchReserveListWithDate(reserve_day, timeslot, locality, floor, capacity) {
 
 	window.reserve_day = reserve_day;
 	window.timeslot = timeslot;
 
-	fetch('./reserveTime.do?reserve_day=' + reserve_day + '&timeslot=' + timeslot + '&floor=' + floor + '&capacity=' + capacity)
+	fetch('./reserveTime.do?reserve_day=' + reserve_day + '&timeslot=' + timeslot + '&locality=' + locality + '&floor=' + floor + '&capacity=' + capacity)
 		.then(response => {
 			if (!response.ok) {
 				throw new Error('서버 응답 실패');
@@ -583,14 +638,16 @@ function searchReserveList() {
 	if (timeslot.length === 1) {
 		timeslot = '0' + timeslot;
 	}
+	var locality = document.querySelector('select[name="locality"]').value;
 	var floor = document.querySelector('select[name="floor"]').value;
 	var capacity = parseInt(document.querySelector('select[name="capacity"]').value);
 
 	console.log("timeslot: ", timeslot);
+	console.log("locality: ", locality);
 	console.log("floor: ", floor);
 	console.log("capacity: ", capacity);
 
-	searchReserveListWithDate(reserve_day, timeslot, floor, capacity);
+	searchReserveListWithDate(reserve_day, timeslot, locality, floor, capacity);
 
 	// id가 selectedDate인 요소를 찾아 오늘 날짜로 설정
 	var selectedDateElement = document.getElementById('selectedDate');
@@ -623,6 +680,7 @@ function dateClicked() {
 
 			console.log("변환된 날짜: ", reserve_day);
 
+			var locality = document.querySelector('select[name="locality"]').value;
 			var floor = document.querySelector('select[name="floor"]').value;
 			var timeslot = document.querySelector('select[name="timeslot"]').value;
 			if (timeslot.length === 1) {
@@ -630,7 +688,7 @@ function dateClicked() {
 			}
 			var capacity = parseInt(document.querySelector('select[name="capacity"]').value);
 
-			searchReserveListWithDate(reserve_day, timeslot, floor, capacity);
+			searchReserveListWithDate(reserve_day, timeslot, locality, floor, capacity);
 		} else {
 			console.error("날짜 형식이 올바르지 않습니다.");
 		}
@@ -665,6 +723,7 @@ function displayReservationData(data) {
                 <td style="text-align: center;">${availableRooms}</td> <!-- 예약 가능 회의실의 순서로 인덱스 표시 -->
                 <td style="text-align: center;">${item.conferenceVo.cname}</td>
                 <td style="text-align: center;">${item.conferenceVo.capacity}</td>
+                <td style="text-align: center;">${item.conferenceVo.locality}</td>
                 <td style="text-align: center;">${item.conferenceVo.ho}</td>
                 <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="reservationForm('${item.conferenceVo.conf_id}','${item.conferenceVo.cname}')">예약하기</button></td>
             `;
@@ -737,16 +796,16 @@ function reservationForm(conf_id, cname) {
 				console.log("회의실 예약 결과:", returnStatus);
 				if (returnStatus == 1) {
 					console.log("예약 성공");
-					document.getElementById("reserveForm").reset(); 
-					$("#reserveFormModal").modal("hide"); 
+					document.getElementById("reserveForm").reset();
+					$("#reserveFormModal").modal("hide");
 					alertModel();
-				} else if(returnStatus == -1) {
+				} else if (returnStatus == -1) {
 					console.log("예약 실패");
 					alert("중복된 예약이 있습니다");
-				}else if(returnStatus == 0) {
+				} else if (returnStatus == 0) {
 					console.log("예약 실패");
 					alert("회의실 정보가 없습니다");
-				}else  {
+				} else {
 					console.log("예약 실패");
 					alert("관리자에게 문의하세요");
 				}
@@ -757,24 +816,37 @@ function reservationForm(conf_id, cname) {
 }
 
 function alertModel() {
-	var modalContent = `
+    var modalContent = `
         <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div>예약이 성공했습니다</div>
+                <div class="modal-content" style="max-width: 300px;">
+                    <div class="modal-body" style="padding: 30px">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 10px; right: 10px;"></button>
+                        <p class="text-center" style="margin-top: 30px; margin-bottom: 30px;">예약되었습니다</p>
                     </div>
                 </div>
             </div>
         </div>
     `;
 
-	var modalElement = $(modalContent);
-	modalElement.modal('show');
+    var modalElement = $(modalContent);
+    modalElement.on('shown.bs.modal', function () {
+        // 모달이 표시된 후에 실행되는 코드
+        var modalDialog = modalElement.find('.modal-dialog');
+        var windowHeight = $(window).height();
+        var modalHeight = modalDialog.height();
+        var topMargin = (windowHeight - modalHeight) / 2;
+        modalDialog.css('margin-top', topMargin);
+    });
+    modalElement.modal('show');
+    modalElement.find('.btn-close').on('click', function() {
+        // 모달 닫기 버튼 클릭 시 실행되는 코드
+        window.location.href = './reserveAble.do';
+    });
 }
+
+alertModel();
+
 
 
 function showConfirmationModal(reserveno) {

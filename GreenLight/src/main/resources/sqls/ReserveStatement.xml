@@ -11,7 +11,6 @@
 	<resultMap type="com.green.light.vo.ReservationVo" id="ReservationVoMap">
 		<result property="reserveno" column="RESERVENO" />
 		<result property="applicant" column="APPLICANT" />
-		<result property="phone" column="PHONE" />
 		<result property="reserve_date" column="RESERVE_DATE" />
 		<result property="meetingtitle" column="MEETINGTITLE" />
 	</resultMap>
@@ -19,6 +18,7 @@
 		<result property="conf_id" column="CONF_ID" />
 		<result property="cname" column="CNAME" />
 		<result property="capacity" column="CAPACITY" />
+		<result property="locality" column="LOCALITY" />
 		<result property="ho" column="HO" />
 		<result property="roominfo" column="ROOMINFO" />
 		<result property="status" column="STATUS" />
@@ -26,10 +26,9 @@
 	<!-- 전체 예약 조회 -->
 	<select id="getAllReserve" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO ,
-		CONF_ID ,
-		CNAME , CAPACITY, AVAILABILITY , HO ,
-		APPLICANT , PHONE ,
-		RESERVE_DATE , MEETINGTITLE
+		CONF_ID , CNAME , CAPACITY, 
+		AVAILABILITY , LOCALITY, HO ,
+		APPLICANT , RESERVE_DATE , MEETINGTITLE
 		FROM CONFERENCE c
 		JOIN CHECKLIST l USING
 		(CONF_ID)
@@ -38,10 +37,10 @@
 	</select>
 	<!-- 선택 회의실 예약 조회 -->
 	<select id="confListReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
-		SELECT LSEQ , RESERVENO , CONF_ID ,
-		CNAME , CAPACITY,
-		AVAILABILITY , HO ,
-		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE
+		SELECT LSEQ , RESERVENO ,
+		CONF_ID , CNAME , CAPACITY, 
+		AVAILABILITY , LOCALITY, HO ,
+		APPLICANT , RESERVE_DATE , MEETINGTITLE
 		FROM CONFERENCE c
 		JOIN CHECKLIST l USING (CONF_ID)
 		JOIN RESERVATION r
@@ -76,7 +75,7 @@
 		    CONNECT BY LEVEL <= 10
 		), AllConference AS (
 		    SELECT DISTINCT CONF_ID
-		    FROM CHECKLIST
+		    FROM CONFERENCE
 		)
 		SELECT COALESCE(r.CONF_ID, ac.CONF_ID) AS CONF_ID, t.TimeSlot, 
 		       CASE 
@@ -84,7 +83,7 @@
 		           WHEN t.TimeSlot = r.TT OR TO_CHAR(LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00')) = r.TT THEN '사용중'
 		           ELSE '점검중' 
 		       END AS STATUS,
-		       c.CNAME, c.CAPACITY, c.AVAILABILITY, c.HO, c.ROOMINFO
+		       c.CNAME, c.CAPACITY, c.AVAILABILITY, c.LOCALITY, c.HO, c.ROOMINFO
 		FROM TimeSlots t
 		CROSS JOIN AllConference ac
 		LEFT JOIN (
@@ -94,8 +93,8 @@
 		    WHERE TRUNC(RESERVE_DATE) = TO_DATE(#{reserve_day}, 'YYYY-MM-DD')
 		) r ON ac.CONF_ID = r.CONF_ID AND (t.TimeSlot = r.TT OR TO_CHAR(LPAD(TO_NUMBER(t.TimeSlot) - 1, 2, '00')) = r.TT)
 		LEFT JOIN CONFERENCE c ON ac.CONF_ID = c.CONF_ID
-		WHERE t.TimeSlot = #{timeslot} AND SUBSTR(c.HO, 1, 1) = #{floor} AND c.CAPACITY > #{capacity}
-		ORDER BY CONF_ID ASC, t.TimeSlot ASC
+		WHERE t.TimeSlot = #{timeslot} AND SUBSTR(c.HO, 1, 1) = #{floor} AND c.CAPACITY > #{capacity} AND c.LOCALITY = #{locality}
+		ORDER BY CONF_ID ASC
     ]]>
 	</select>
 	<sql id="orderByDesc">
@@ -110,9 +109,8 @@
 	<!-- 나의 예약 조회 -->
 	<select id="getMyReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID ,
-		CNAME , CAPACITY, AVAILABILITY , HO
-		,
-		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE
+		CNAME , CAPACITY, AVAILABILITY , LOCALITY, HO,
+		APPLICANT , RESERVE_DATE , MEETINGTITLE
 		FROM CONFERENCE c
 		JOIN
 		CHECKLIST l USING (CONF_ID)
@@ -126,8 +124,8 @@
 	<select id="getOneReserve" parameterType="java.lang.String" resultMap="CheckListVoMap">
 		SELECT LSEQ , RESERVENO , CONF_ID ,
 		CNAME , CAPACITY,
-		AVAILABILITY , HO ,
-		APPLICANT , PHONE , RESERVE_DATE , MEETINGTITLE
+		AVAILABILITY , LOCALITY, HO ,
+		APPLICANT , RESERVE_DATE , MEETINGTITLE
 		FROM CONFERENCE c
 		JOIN CHECKLIST l USING (CONF_ID)
 		JOIN RESERVATION r
@@ -140,7 +138,6 @@
 		#{v_count, mode=OUT, jdbcType=INTEGER},
 		#{v_reserveno, mode=OUT, jdbcType=VARCHAR},
 		#{applicant, mode=IN, jdbcType=VARCHAR},
-		#{phone, mode=IN, jdbcType=VARCHAR},
 		#{reserve_date, mode=IN, jdbcType=DATE},
 		#{meetingtitle, mode=IN, jdbcType=VARCHAR},
 		#{conf_id, mode=IN, jdbcType=VARCHAR}
@@ -149,8 +146,7 @@
 
 	<!-- 예약 수정 -->
 	<update id="updateReserve" parameterType="ReservationVo">
-		UPDATE RESERVATION SET
-		PHONE=#{phone}, MEETINGTITLE=#{meetingtitle}
+		UPDATE RESERVATION SET MEETINGTITLE=#{meetingtitle}
 		WHERE
 		RESERVENO=#{reserveno}
 	</update>

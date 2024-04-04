@@ -66,28 +66,26 @@ th, td {
 						<div style="width: 80%;">
 							<table style="width: 100%;">
 								<tr>
-									<th style="width: 20%;">장소</th>
-									<td style="width: 30%;"><select name="conferenceRoom"
-										class="form-control" style="width: 100%;">
-											<option value="">-- 선택 안함 --</option>
-											<!-- Default option -->
-											<c:forEach var="conf" items="${confLists}">
-												<option value="${conf.cname}">${conf.cname}</option>
-											</c:forEach>
-									</select></td>
+									<th style="width: 20%;"><span style="color: red;">*&nbsp;</span>장소</th>
+									<td style="width: 30%;">
+										<select name="locality" class="form-control" style="width: 100%;">
+											<option value="본관">본관</option>
+											<option value="신관">신관</option>
+										</select>
+									</td>
 									<th style="width: 20%;"><span style="color: red;">*&nbsp;</span>층</th>
-									<td style="width: 30%;"><select name="floor"
-										class="form-control" style="width: 100%;">
-											<fmt:parseNumber var="maxHo" type="number"
-												value="${confLists[0].ho.substring(0, 1)}" />
-											<c:forEach var="i" begin="1" end="${maxHo}">
+									<td style="width: 30%;">
+										<select name="floor" class="form-control" style="width: 100%;">
+											<c:forEach var="i" begin="1" end="5">
 												<option value="${i}">${i}</option>
 											</c:forEach>
-									</select></td>
+										</select>
+								 	</td>
 								</tr>
 								<tr>
 									<th style="width: 20%;"><span style="color: red;">*&nbsp;</span>사용시간</th>
-									<td style="width: 30%;"><select name="timeslot" class="form-control" style="width: 100%;">
+									<td style="width: 30%;"><select name="timeslot"
+										class="form-control" style="width: 100%;">
 											<c:forEach var="hour" begin="9" end="19" step="2">
 												<option value="${hour}">
 													<c:out value='${hour}' />:00 -
@@ -101,30 +99,42 @@ th, td {
 										class="form-control" style="width: 100%;">
 											<c:set var="maxCapacity" value="0" />
 											<c:forEach var="conf" items="${confLists}">
-												<fmt:parseNumber var="currentCapacity" type="number" value="${conf.capacity}" />
+												<fmt:parseNumber var="currentCapacity" type="number"
+													value="${conf.capacity}" />
 												<c:if test="${currentCapacity > maxCapacity}">
 													<c:set var="maxCapacity" value="${currentCapacity}" />
 												</c:if>
 											</c:forEach>
 											<c:set var="step" value="5" />
-											<c:forEach var="i" begin="10" end="${maxCapacity}" step="${step}">
+											<c:forEach var="i" begin="10" end="${maxCapacity}"
+												step="${step}">
 												<option value="${i}">${i}명</option>
 											</c:forEach>
 									</select></td>
 								</tr>
 							</table>
 						</div>
-						<div style="width: 20%; display: flex; justify-content: center; align-items: center;">
+						<div
+							style="width: 20%; display: flex; justify-content: center; align-items: center;">
 							<button class="btn btn-primary" onclick="searchReserveList()">검색</button>
 						</div>
 					</div>
-					<div style="display: flex; align-items: center; justify-content: center;">
-					    <div id="navigation" style="width: 1000px; height: 300px;">
-					        <button class="btn btn-outline-primary" id="prevMonthBtn" style="padding: 10px;"><i class="fa-solid fa-chevron-left"></i></button>
-					        <div id="currentYearMonth" style="text-align: center; padding: 30px;"></div>
-					        <div id="calendar" class="calendar" style="text-align: center; width: 700px;"></div>
-					        <button class="btn btn-outline-primary" id="nextMonthBtn" style="padding: 10px;"><i class="fa-solid fa-chevron-right"></i></button>
-					    </div>
+					<div
+						style="display: flex; align-items: center; justify-content: center;">
+						<div id="navigation" style="width: 1000px; height: 300px;">
+							<button class="btn btn-outline-primary" id="prevMonthBtn"
+								style="padding: 10px;">
+								<i class="fa-solid fa-chevron-left"></i>
+							</button>
+							<div id="currentYearMonth"
+								style="text-align: center; padding: 30px;"></div>
+							<div id="calendar" class="calendar"
+								style="text-align: center; width: 700px;"></div>
+							<button class="btn btn-outline-primary" id="nextMonthBtn"
+								style="padding: 10px;">
+								<i class="fa-solid fa-chevron-right"></i>
+							</button>
+						</div>
 					</div>
 
 					<div>
@@ -141,15 +151,17 @@ th, td {
 							<thead>
 								<tr style="background-color: #f6f6f6; width: 100%;">
 									<th style="width: 10%; text-align: center;">번호</th>
-									<th style="width: 30%; text-align: center;">회의실명</th>
+									<th style="width: 25%; text-align: center;">자산명</th>
 									<th style="width: 20%; text-align: center;">최대수용인원</th>
-									<th style="width: 20%; text-align: center;">호수</th>
-									<th style="width: 20%; text-align: center;"></th>
+									<th style="width: 15%; text-align: center;">장소</th>
+									<th style="width: 15%; text-align: center;">호수</th>
+									<th style="width: 15%; text-align: center;"></th>
 								</tr>
 							</thead>
 							<tbody id="tableBody">
 								<tr style="height: 200px;">
-									<td colspan="5" style="text-align: center" onmouseover="return false">조건 및 날짜를 선택해주세요</td>
+									<td colspan="5" style="text-align: center"
+										onmouseover="return false">조건 및 날짜를 선택해주세요</td>
 								</tr>
 							</tbody>
 						</table>
@@ -161,57 +173,66 @@ th, td {
 	</div>
 
 	<!-- 예약 모달 -->
-<div class="modal fade" id="reserveFormModal" tabindex="-1" aria-labelledby="reserveFormModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-md">
-        <div class="modal-content border-0" style="padding: 20px; overflow-y: hidden;">
-            <div class="modal-header">
-                <h5 class="modal-title" id="reserveFormModalLabel">예약하기</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="./insertReserve.do" method="post" id="reserveForm">
-                    <div style="display: flex; flex-direction: column; gap: 10px;">
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">회의실</span> <input type="text" id="cname" name="cname" class="form-control" style="flex: 3; border: none;" readonly>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">예약일</span> <input type="text" id="reserve_day" name="reserve_day" class="form-control" style="flex: 3; border: none;" readonly>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">예약시간</span> <input type="text" id="time" class="form-control" style="flex: 3; border: none;" readonly>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">예약자</span> <input type="text" class="form-control" style="flex: 3; border: none;" value="${loginVo.name}" readonly>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">전화번호</span> 
-                                <input id="phoneInput" type="text" class="form-control" style="flex: 3; border: none;" value="${loginVo.phone}" readonly>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px; align-items: center;">
-                                <span style="flex: 1;">회의목적</span> <input type="text" id="meetingtitle" name="meetingtitle" class="form-control" placeholder="회의 목적" style="flex: 3;" value="">
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="addReserveHandler">예약하기</button>
-            </div>
-        </div>
-    </div>
-</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+	<div class="modal fade" id="reserveFormModal" tabindex="-1"
+		aria-labelledby="reserveFormModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-md">
+			<div class="modal-content border-0"
+				style="padding: 20px; overflow-y: hidden;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reserveFormModalLabel">예약하기</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form action="./insertReserve.do" method="post" id="reserveForm">
+						<div style="display: flex; flex-direction: column; gap: 10px;">
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">회의실</span> <input type="text" id="cname"
+										name="cname" class="form-control"
+										style="flex: 3; border: none;" readonly>
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">예약일</span> <input type="text"
+										id="reserve_day" name="reserve_day" class="form-control"
+										style="flex: 3; border: none;" readonly>
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">예약시간</span> <input type="text" id="time"
+										class="form-control" style="flex: 3; border: none;" readonly>
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">예약자</span> <input type="text"
+										class="form-control" style="flex: 3; border: none;"
+										value="${loginVo.name}" readonly>
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">회의목적</span> <input type="text"
+										id="meetingtitle" name="meetingtitle" class="form-control"
+										placeholder="회의 목적" style="flex: 3;" value="">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="addReserveHandler">예약하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
 	<script src="js/reserve.js"></script>
 </body>
