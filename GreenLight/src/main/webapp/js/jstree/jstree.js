@@ -765,6 +765,7 @@ async function selectComplete() {
 				console.log("weekendCount:",weekendCount);
 
 				var getsu_date = end_date.getTime() - start_date.getTime();
+				console.log("getsu_date",getsu_date);
 				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
 				document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;

@@ -6,22 +6,14 @@ function selectHeadList(){
 	console.log(document.getElementById("hname"));
 	document.getElementById("hname").innerHTML = selectedHeadName;
 	document.getElementById("infoZone").style = "display: none;";
-	if(selectedHeadNo == "No"){
-		document.getElementById("headAndDeptInfo").style = "display:none";
-	}else{
-		document.getElementById("headAndDeptInfo").style = "display:block";
-	}
+	document.getElementById("headAndDeptInfo").style = "display:block";
 	fetch("./selectdeptList.do",{
 		method:"POST",
 		body:selectedHeadNo
 	})
 	.then(data => data.json())
 	.then(result => {
-		if(result == ""){
-			console.log("선택을 선택함")
-		}else{
-			addDeptList(result);
-		};
+		addDeptList(result);
 	});
 }
 

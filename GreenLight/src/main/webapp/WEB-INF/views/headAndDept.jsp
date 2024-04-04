@@ -26,7 +26,6 @@
 				<div class="datatable-dropdown" style="margin-bottom: 20px;">
 					<select class="datatable-selector" name="headno" id="headno"
 						onchange="selectHeadList()">
-						<option value="No">선택</option>
 						<c:forEach var="head" items="${headList}" varStatus="vs">
 							<c:if test="${head.delflag ne 'Y'}">
 								<option value="${head.headno}">${head.hname}</option>
@@ -36,12 +35,17 @@
 					<button class='btn btn-primary' type='button' style='float: right;' onclick="location.href='./headAndDeptManage.do'">본부/부서 관리</button>
 				</div>
 				<hr/>
-				<div style="display: none;" id="headAndDeptInfo">
+				<div id="headAndDeptInfo">
 					<table class="datatable-table" style="width: 30%; float: left;">
 						<tbody id="inputTableBody">
-							<tr style="width: 50%;">
-								<th id="hname"></th>
+							<tr style='width: 24%;'  onclick="selectHead('${headVo.headno}')">
+								<th style='border-right: 1px solid #ccc;' rowspan='${fn:length(headVo.deptVo)}' id='hname'>${headVo.hname}</th>
 							</tr>
+							<c:forEach items="${headVo.deptVo}" var="headDeptVo">
+								<tr style='width: 25%' onclick="selectDept('${headDeptVo.deptno}')">
+									<th class='dname'>${headDeptVo.dname}</th>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 					<div id="infoZone" style="width: 67%; float: right; display: none;">

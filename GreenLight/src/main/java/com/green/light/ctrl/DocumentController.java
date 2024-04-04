@@ -283,7 +283,7 @@ public class DocumentController {
       System.out.println("orderno"+orderno);
       if(orderno == lists.size() || appr_status.equals("03")) {
          System.out.println("들어옴");
-         service.updateDocStatus(docMap);
+		service.updateDocStatus(docMap);
       }
       
       SignVo signVo = signService.selectMainSign((String)map.get("emp_id"));
