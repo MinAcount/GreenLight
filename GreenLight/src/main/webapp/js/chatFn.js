@@ -157,6 +157,8 @@ function getViewInsideChat(idx, i){
 				
 				document.getElementById('roomname'+chat_id).children[1].innerText = formatSendDate(send_date);
 				document.getElementById('chat'+chat_id).children[0].innerText = msg;
+				
+				
 			};
 			
 			
@@ -512,6 +514,37 @@ function notify(title, content, url) {
 
 
 
+
+
+//알림
+function notify(title, content, url) {
+	if(Notification.permission == "default" ||Notification.permission == "denied"){
+		alert("알림을 허용해주세요");
+		Notification.requestPermission(); // default일때만 가능
+		return;
+	}else{
+		let notification = new Notification(
+			title, // 제목 
+			{
+			body: content, // 메세지
+			icon: "./assets/img/grn.png", // 아이콘
+			image: "./assets/img/logo_grn.png", // 배경이미지
+			requireInteraction: true, //닫기버튼 [닫기]를 누르기 전까지 사라지지 않음
+			silent:true, //소리설정 (true:무음)
+			}
+		);
+		
+		// 3초뒤 알람 닫기 / 닫기버튼이 활성화 되어있어도 알람이 닫힘
+		setTimeout(function() {
+			notification.close();
+		}, 3*1000);
+		
+		//알림 클릭 시 이벤트
+		notification.addEventListener("click", () => {
+			location.href = url;
+		});
+	}
+}
 
 
 //var ws = null;

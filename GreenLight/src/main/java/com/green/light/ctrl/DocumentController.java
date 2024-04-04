@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.light.model.mapper.IDocumentDao;
+import com.green.light.model.mapper.INotificationDao;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDocumentService;
 import com.green.light.model.service.IEmployeeService;
+import com.green.light.model.service.INotificationService;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
@@ -42,6 +45,8 @@ public class DocumentController {
 	private IApprovalService apprService;
 	@Autowired
 	private IDocumentDao dao;
+	@Autowired
+	private INotificationService notiService;
 	
 	@PostMapping(value = "/insertDocument.do")
 	@ResponseBody
@@ -95,6 +100,14 @@ public class DocumentController {
 	      List<Map<String, String>> jsonArray = objectMapper.readValue(jsonString, new TypeReference<List<Map<String, String>>>() {
 		  
 	      });
+	      
+	    //알림 추가 : 결재자
+		    Map<String, Object> notiMapApprover = new HashMap<String, Object>();
+		    notiMapApprover.put("noti_id", "");
+		    notiMapApprover.put("gubun", docno);
+		    notiMapApprover.put("ntype", "03");
+		    notiMapApprover.put("sender", (String) map.get("writer_id"));
+		    notiMapApprover.put("content", "["+(String)map.get("title")+"] 문서를 결재할 순서입니다.");
 	         
 			// 각 요소를 순회하면서 JSON 배열을 출력합니다.
 			for (Map<String, String> element : jsonArray) { // {},{},{} =>vo
@@ -113,6 +126,12 @@ public class DocumentController {
 //	            apprService.insertApproval(apprVo);
 				System.out.println("==== apprVo : " + apprVo + " ====");
 				apprVos.add(apprVo);
+				//알림 추가 : 결재 순서가 1번인 사람
+				if(((String) element.get("orderno")).equals("1")) {
+					List<String> approverId = new ArrayList<String>();
+					approverId.add((String)element.get("emp_id"));
+					notiService.insertNoti(notiMapApprover, approverId);
+				}
 			}
 			
 			
@@ -128,6 +147,15 @@ public class DocumentController {
 		      List<Map<String, String>> jsonRefArray = objectMapper2.readValue(jsonRefString, new TypeReference<List<Map<String, String>>>() {
 			  
 		      });
+		      
+		    //알림 추가 : 참조자
+			    Map<String, Object> notiMapReferrer = new HashMap<String, Object>();
+			    notiMapReferrer.put("noti_id", "");
+			    notiMapReferrer.put("gubun", docno);
+			    notiMapReferrer.put("ntype", "03");
+			    notiMapReferrer.put("sender", (String) map.get("writer_id"));
+			    notiMapReferrer.put("content", "["+(String)map.get("title")+"] 문서에 참조되었습니다.");
+			    List<String> referrerIds = new ArrayList<String>();
 		         
 				// 각 요소를 순회하면서 JSON 배열을 출력합니다.
 				for (Map<String, String> element : jsonRefArray) { // {},{},{} =>vo
@@ -145,7 +173,10 @@ public class DocumentController {
 					refVo.setComment("");
 					System.out.println("==== apprVo : " + refVo + " ====");
 					apprVos.add(refVo);
+					//알림 참조자 추가
+					referrerIds.add(element.get("emp_id"));
 				}
+				notiService.insertNoti(notiMapReferrer, referrerIds);
 			
 			
 			
@@ -192,6 +223,17 @@ public class DocumentController {
 		// 기안서 상신 + 파일 등록 + 결재선 등록	
 	    int n =service.insertDraft(docVo, fileVos, apprVos);
 	    System.out.println("==== 성공한 쿼리문의 갯수 : " + n + "개 ====");
+	    
+	    //알림 추가 : 상신자
+	    Map<String, Object> notiMapWriter = new HashMap<String, Object>();
+	    notiMapWriter.put("noti_id", "");
+	    notiMapWriter.put("gubun", docno);
+	    notiMapWriter.put("ntype", "03");
+	    notiMapWriter.put("sender", (String) map.get("writer_id"));
+	    notiMapWriter.put("content", "["+(String)map.get("title")+"] 문서가 상신되었습니다.");
+	    List<String> writerId = new ArrayList<String>();
+	    writerId.add((String) map.get("writer_id"));
+	    notiService.insertNoti(notiMapWriter, writerId);
 	    
 //	    return ResponseEntity.ok().build();
 //	    return ResponseEntity.ok("{\"isc\":\"true\"}");
