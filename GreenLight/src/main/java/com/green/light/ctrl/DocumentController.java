@@ -57,7 +57,7 @@ public class DocumentController {
    @ResponseBody
    public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map,
          /* @RequestParam(name = "files", required = false) */ MultipartFile[] files) throws Exception {
-       log.info("DocumentController insertDocument POST /insertDocument.do : {}, {}", map, files);
+       log.info("DocumentController insertDocument POST /insertDocument.do 기안서를 상신/임시저장하는 기능 : {}, {}", map, files);
        
        // docVo에 값 넣어주기
        DocumentVo docVo = new DocumentVo("",

@@ -725,7 +725,7 @@ async function selectComplete() {
 			var templateArea = document.getElementById("templateArea");
 			templateArea.innerHTML = data1.vo.content;
 			
-			var getsu = "";
+			var getsu = 0;
 			var weekendCount = 0;
 			
 			// dadtarangepicker를 위한 api를 적용
@@ -779,14 +779,45 @@ async function selectComplete() {
 					console.log("종료일 비활성화")
 					document.querySelector("#end_day_half").disabled = true;
 				} else { // 시작일 - 오후만, 종료일 - 오전만 체크 가능
+					document.querySelector("#end_day_half").disabled = false;
 					console.log("시작일 - 오후, 종료일 - 오전만 체크가능")
-					let start_day_halfss = document.getElementsByClassName("start_day_half");
-					let end_day_halfss = document.getElementsByClassName("end_day_half");
-					console.log("start_day_halfss:",start_day_halfss);
-					console.log("end_day_halfss:",end_day_halfss);
+					// 시작일
+					let start_day_half_div = document.querySelector("#start_day_half").parentElement;
+//					console.log("start_day_half_div:",start_day_half_div);
+					let start_day_half_checkbox = start_day_half_div.querySelector("input[type='checkbox']");
+//					console.log("start_day_half_checkbox:",start_day_half_checkbox);
+					start_day_half_checkbox.addEventListener("change",function(){
+						if(this.checked){
+							let start_day_half_radios = start_day_half_div.querySelectorAll("input[type='radio']");
+//							console.log("start_day_half_radios:",start_day_half_radios);
+							start_day_half_radios[0].disabled = true;
+						}
+					})
+					
+					// 종료일
+					let end_day_half_div = document.querySelector("#end_day_half").parentElement;
+					let end_day_half_checkbox = end_day_half_div.querySelector("input[type='checkbox']");
+					end_day_half_checkbox.addEventListener("change",function(){
+						if(this.checked){
+							let end_day_half_radios = end_day_half_div.querySelectorAll("input[type='radio']");
+							end_day_half_radios[1].disabled = true;
+						}
+					})
 				}
 				
 			});
+			//radio버튼이 체크/체크해제 될 때마다 신청연차란에 +- 0.5
+//			var half_radios = document.querySelectorAll("input[type='radio']");
+//			for(let i = 0; i < half_radios.length; i++){
+//				half_radios[i].addEventListener("change",function(){
+//					console.log("radio 버튼 체크됨:",this);
+//					if(half_radios[i].checked){
+//						document.querySelector("#getsu").textContent = getsu - weekendCount + 0.5;
+//					} else {
+//						document.querySelector("#getsu").textContent = getsu - weekendCount - 0.5;
+//					}
+//				});
+//			}
 			
 			document.getElementById("apr_chk").innerHTML = "";
 			//			console.log("tempcode:",data1.tempcode)
@@ -844,7 +875,11 @@ async function selectComplete() {
 					document.getElementById("getsu").textContent = '0';
 				} else {
 					console.log("연차선택")
-					document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+					if(isNaN(parseInt(getsu))){
+						document.getElementById("getsu").textContent = 0;
+					} else { // NaN - weekendCount는 NaN 이기 때문에 else문으로 처리한다
+						document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+					}
 				}
 			});
 
