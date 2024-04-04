@@ -1,52 +1,81 @@
+function formatReserveDate(reserveDate) {
+    // 날짜 객체로부터 연도, 월, 일, 시간, 분을 추출
+    const year = reserveDate.getFullYear();
+    const month = reserveDate.getMonth() + 1; // 월은 0부터 시작하므로 1을 더함
+    const date = reserveDate.getDate();
+    let hour = reserveDate.getHours();
+
+    // 오전/오후 구분
+    const ampm = hour < 12 ? '오전' : '오후';
+
+    // 시간을 12시간 형식으로 변환
+    if (hour > 12) {
+        hour -= 12;
+    }
+
+    // 시간을 오전/오후와 함께 반환
+    return `${year}년 ${month}월 ${date}일 ${ampm} ${hour}시`;
+}
+
 function oneReserveView(reserveno) {
-	console.log("예약 상세 조회 모달창");
-	fetch('./oneReserve.do?reserveno=' + reserveno)
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('서버 응답 실패');
-			}
-			return response.json();
-		})
-		.then(data => {
-			var modalContent = `
-             <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reserveModalLabel">예약상세</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="row">
-                                <div>
-                                	<p><strong style="padding-right: 6px;">예약번호</strong> ${data.reserveno}</p>
-                                	<p><strong style="padding-right: 20px;">예약자</strong> 임주영</p>
-                                	<p><strong style="padding-right: 34px;">장소</strong> ${data.conferenceVo.cname} &nbsp;
-                                	<button type="button" class="btn btn-sm btn-secondary" id="viewRoomBtn">회의실보기</button></p>
-                                    <p><strong style="padding-right: 20px;">이용일</strong> ${new Date(data.reservationVo.reserve_date).toLocaleString()}</p>
-                                    <p><strong style="padding-right: 6px;">사용목적</strong> ${data.reservationVo.meetingtitle}</p>
+    console.log("예약 상세 조회 모달창");
+    fetch('./oneReserve.do?reserveno=' + reserveno)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');
+            }
+            return response.json();
+        })
+        .then(data => {
+			const reserveDate = new Date(data.reservationVo.reserve_date);
+            const formattedDate = formatReserveDate(reserveDate);
+            var modalContent = `
+                <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="reserveModalLabel">예약상세</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div>
+                                        <p><strong style="padding-right: 6px;">예약번호</strong> ${data.reserveno}</p>
+                                        <p><strong style="padding-right: 20px;">예약자</strong> 임주영</p>
+                                        <p><strong style="padding-right: 34px;">장소</strong> ${data.conferenceVo.cname} &nbsp;
+                                            <button type="button" class="btn btn-sm btn-secondary" id="viewRoomBtn">회의실보기</button></p>
+                                        <p><strong style="padding-right: 20px;">이용일</strong> ${formattedDate}</p>
+                                        <p><strong style="padding-right: 6px;">사용목적</strong> 
+                                        	${data.reservationVo.meetingtitle}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-pen-to-square"></i>
+                                        	<input type="hidden" value="${data.reservationVo.meetingtitle}">
+                                        </p>
+                                        
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary">저장</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">저장</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <script>
-				document.getElementById("viewRoomBtn").addEventListener("click", function() {
-    			window.location.href = "./roomOne.do?conf_id=${data.conf_id}";
-				});
-			</script>
-        `;
-			$('body').append(modalContent);
-			$('#reserveModal').modal('show');
-		})
-		.catch(error => {
-			console.error('오류:', error);
-		});
+                
+                <script>
+                    document.getElementById("viewRoomBtn").addEventListener("click", function() {
+                        window.location.href = "./roomOne.do?conf_id=${data.conf_id}";
+                    });
+
+                    $('#reserveModal').on('hidden.bs.modal', function () {
+                        $(this).remove();
+                    });
+                </script>
+            `;
+            $('body').append(modalContent);
+            $('#reserveModal').modal('show');
+        })
+        .catch(error => {
+            console.error('오류:', error);
+        });
 }
 
 // 나의 예약 전체조회
@@ -637,7 +666,7 @@ function displayReservationData(data) {
                 <td style="text-align: center;">${item.conferenceVo.cname}</td>
                 <td style="text-align: center;">${item.conferenceVo.capacity}</td>
                 <td style="text-align: center;">${item.conferenceVo.ho}</td>
-                <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="reservationForm('${item.conferenceVo.conf_id}')">예약하기</button></td>
+                <td style="text-align: center;"><button class="btn btn-outline-primary" onclick="reservationForm('${item.conferenceVo.conf_id}','${item.conferenceVo.cname}')">예약하기</button></td>
             `;
 			tableBody.appendChild(row);
 		}
@@ -655,9 +684,10 @@ function displayReservationData(data) {
 	roomCountElement.textContent = `${availableRooms}`;
 }
 
-function reservationForm(conf_id) {
+function reservationForm(conf_id, cname) {
 	console.log("예약클릭");
 	console.log("conf_id : ", conf_id);
+	console.log("cname : ", cname);
 	console.log("reserve_day : ", reserve_day);
 	console.log("timeslot : ", timeslot);
 
@@ -665,7 +695,7 @@ function reservationForm(conf_id) {
 	var reserveDateTime = reserve_day + ' ' + timeslot + ':00:00'; // 초를 포함하여 형식을 변경
 	console.log("변환된 예약일시 : ", reserveDateTime);
 	// 예약 모달 창에 값 채우기
-	document.getElementById('cname').value = conf_id;
+	document.getElementById('cname').value = cname;
 	document.getElementById('reserve_day').value = formatDate(reserve_day);
 
 	// 날짜 형식 변환 함수
@@ -696,6 +726,7 @@ function reservationForm(conf_id) {
 			},
 			body: JSON.stringify({
 				conf_id: conf_id,
+				cname: cname,
 				reserve_date: reserveDateTime,
 				meetingtitle: meetingtitle
 			}),
@@ -725,29 +756,50 @@ function reservationForm(conf_id) {
 	});
 }
 
-function alertModel(){
+function alertModel() {
 	var modalContent = `
-			            <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-			                <div class="modal-dialog modal-dialog-centered">
-			                    <div class="modal-content">
-			                        <div class="modal-header">
-			                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			                        </div>
-			                        <div class="modal-body">
-			                            <div>예약이 성공했습니다</div>
-			                        </div>
-			                    </div>
-			                </div>
-			            </div>
-			        `;
-			        $('#alertModal').modal('show');
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>예약이 성공했습니다</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+	var modalElement = $(modalContent);
+	modalElement.modal('show');
 }
 
-// 전화번호를 3-4-4 형식으로 변환하는 함수
-function formatPhoneNumber(phoneNumber) {
-	return phoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
+function showConfirmationModal(reserveno) {
+	// 모달창에 예약번호를 전달
+	document.getElementById('confirmationModal').dataset.reserveno = reserveno;
+	// 모달창 띄우기
+	$('#confirmationModal').modal('show');
 }
 
-// 전화번호 입력란에서 값을 가져와서 형식을 변경하여 다시 설정
-var phoneInput = document.getElementById('phoneInput');
-phoneInput.value = formatPhoneNumber(phoneInput.value);
+function deleteReserve() {
+	var reserveno = document.getElementById('confirmationModal').dataset.reserveno;
+	fetch('./deleteReserve.do?reserveno=' + reserveno)
+		.then(response => response.json())
+		.then(data => {
+			if (data === 1) {
+				console.error('예약 삭제에 실패했습니다.');
+
+			} else {
+				console.log('예약이 성공적으로 삭제되었습니다.');
+				$('#confirmationModal').modal('hide');
+				$('#alertModal').modal('show');
+				window.location.reload();
+			}
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
+}
