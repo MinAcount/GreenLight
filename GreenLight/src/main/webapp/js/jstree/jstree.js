@@ -725,6 +725,7 @@ async function selectComplete() {
 			templateArea.innerHTML = data1.content;
 			
 			var getsu = "";
+			var weekendCount = 0;
 			
 			// dadtarangepicker를 위한 api를 적용
 			$('#daterangepicker').daterangepicker({
@@ -754,10 +755,24 @@ async function selectComplete() {
 				var formattedStartDate = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2);
 				var formattedEndDate = end_date.getFullYear() + "-" + ("0" + (end_date.getMonth() + 1)).slice(-2) + "-" + ("0" + end_date.getDate()).slice(-2);
 
+				// 사용자에 의해 선택된 두 날짜 사이에 주말을 제외한 일수 
+	            var currentDate = new Date(start);
+	            while(currentDate <= end){
+	               if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
+	                  weekendCount += 1;
+	               }
+	               currentDate.setDate(currentDate.getDate() + 1);
+	            }
+	            console.log("weekendCount:",weekendCount);
+
+
+
 				var getsu_date = end_date.getTime() - start_date.getTime();
+				console.log("getsu_date",getsu_date);
 				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
 				console.log("getsu:", getsu);
-				document.getElementById("getsu").textContent = getsu;
+				console.log("getsu type", typeof getsu);
+				document.getElementById("getsu").textContent = getsu - weekendCount;
 				console.log("start_date:", formattedStartDate);
 				console.log("end:", end._d);
 				//사용자에 의해 선택된 시작일, 종료일이 같다면 id가 인 checkbox는 비활성화

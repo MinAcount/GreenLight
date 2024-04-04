@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.IConferenceService;
+import com.green.light.model.service.IEmployeeService;
+import com.green.light.model.service.INotificationService;
 import com.green.light.model.service.IReserveService;
 import com.green.light.vo.CheckListVo;
 import com.green.light.vo.ConferenceVo;
@@ -37,6 +40,12 @@ public class ReserveController {
 	
 	@Autowired
 	private IConferenceService roomservice;
+	
+	@Autowired
+	private INotificationService notiService;
+	
+	@Autowired
+	private IEmployeeService empService;
 
 	@GetMapping(value = "/myReserve.do")
 	public String MyReserve(Model model, HttpSession session) {
@@ -91,6 +100,21 @@ public class ReserveController {
 
 		if (returnStatus == 1) {
 			System.out.println("INSERT가 성공적으로 이루어졌습니다.");
+			//알림 추가 : 회의실 예약(ESTATUS = 'Y'인 모든 사람)
+			Map<String, Object> notiRoomReserve = new HashMap<String, Object>();
+			notiRoomReserve.put("noti_id", "");
+			notiRoomReserve.put("gubun", (String)parameters.get("conf_id"));
+			notiRoomReserve.put("ntype", "04");
+			notiRoomReserve.put("sender", loginVo.getId());
+			notiRoomReserve.put("content", "["+parameters.get("cname")+"] 회의실이 예약되었습니다.");
+			List<EmployeeVo> employees = empService.getAllEmployeeByStatus("Y");
+			List<String> ids = new ArrayList<String>();
+			if(employees != null) {
+				for(EmployeeVo employee : employees) {
+					ids.add((String)employee.getId());
+				}
+			}
+			notiService.insertNoti(parameters, ids);
 		} else if (returnStatus == -1) {
 			System.out.println("중복된 예약이 있어 INSERT를 수행할 수 없습니다.");
 		} else if (returnStatus == 0) {

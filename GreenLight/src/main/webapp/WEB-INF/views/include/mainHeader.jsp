@@ -39,8 +39,9 @@
 <!-- DropZone -->
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 <!-- 알림 -->
-<script src="js/notification_ljw/noti.js" type="module"></script>
 <script src="js/notification_ljw/header_noti.js"></script>
+<!-- jstree -->
+<script src="js/jstree/jstree.js"></script>
 <style>
 .jstree-node, .jstree-children, .jstree-container-ul {
 	display: block;

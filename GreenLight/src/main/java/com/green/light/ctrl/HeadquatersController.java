@@ -43,6 +43,14 @@ public class HeadquatersController {
 		log.info("HeadquatersController GET headAndDept.do 본부 및 부서 첫페이지로 이동");
 		List<HeadquartersVo> headList = headService.getAllHead();
 		model.addAttribute("headList",headList);
+		HeadquartersVo headVo = null;
+		for(HeadquartersVo head :  headList) {
+			if(head.getDelflag().equals("N")) {
+				headVo = head;
+				break;
+			}
+		}
+		model.addAttribute("headVo",headVo);
 		return "headAndDept";
 	}
 	
