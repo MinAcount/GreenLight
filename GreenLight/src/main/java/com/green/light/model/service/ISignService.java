@@ -27,4 +27,6 @@ public interface ISignService {
 //  대표서명 변경 및 지정 updateMainSign
 	public int updateMainSign(SignVo signVo);
 	
+// 대표서명 조회
+	public SignVo selectMainSign(String id);
 }

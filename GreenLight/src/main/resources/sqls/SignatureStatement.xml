@@ -38,4 +38,12 @@
 			WHERE ID = #{id} AND SIGNNO = #{signno}
 	</update>
 
+<!-- 대표서명 조회 selectMainSign-->
+<select id="selectMainSign" resultType="SignVo"
+		parameterType="java.lang.String">
+    SELECT SAVE_SIGN
+    FROM SIGNLIST s
+    WHERE ID = #{id} 
+    AND MAIN = 'Y'
+	</select>
 </mapper>

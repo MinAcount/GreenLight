@@ -18,7 +18,12 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">기안서 상세페이지</h1>
-
+				<input type="hidden" id="loginVo_name" value="${sessionScope.loginVo.name}">
+                  <input type="hidden" id="deptVo_dname" value="${deptVo.dname}">
+                  <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
+                  <input type="hidden" id="tempCode" value="">
+                  <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
+					<input type="hidden" id="docno" value="${docVo.docno}">
 				<hr class="mt-0 mb-5">
 
 				<div
@@ -68,16 +73,23 @@
 							</div>
 						</div>
 					</div>
+					
 					<div>
 						<!-- 결재 모달 -->
-						<button class="btn btn-primary " type="button"
-							data-bs-toggle="modal" data-bs-target="#approve">결재</button>
+						<c:forEach var="item" items="${apprVo}">
+							<c:if test="${item.apprVo.emp_id eq loginVo.id && item.apprVo.appr_status eq '01'}">
+								<button class="btn btn-primary " type="button"
+									data-bs-toggle="modal" data-bs-target="#approve">결재</button>
+								<button class="btn btn-secondary " type="button"
+								data-bs-toggle="modal" data-bs-target="#rejectApproval">반려</button>
+							</c:if>
+						</c:forEach>
 
 						<div class="modal fade" id="approve" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
 							<div class="modal-dialog">
-								<div class="modal-content" style="width: 800px; height: 630px;">
+								<div class="modal-content" style="width: 500px; height: 430px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">결재하기</h5>
 										<button type="button" class="btn-close"
@@ -87,6 +99,10 @@
 										style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
 										<div class="toast-body"
 											style="display: flex; flex-direction: row; justify-content: space-around;">
+											<div>
+												코멘트:
+												<textarea class="comment" rows="5" cols="30"></textarea>
+											</div>
 										</div>
 										<div class="modal-footer"
 											style="margin-bottom: 20px; margin-top: 10px;">
@@ -102,8 +118,7 @@
 						</div>
 						
 						<!-- 반려 모달 -->
-						<button class="btn btn-secondary " type="button"
-							data-bs-toggle="modal" data-bs-target="#rejectApproval">반려</button>
+						
 
 						<div class="modal fade" id="rejectApproval" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
@@ -165,16 +180,19 @@
 								<div class="apr_row"
 									style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px;">
 									${vo.name} ${vo.spot}
-									<input type="hidden" name="id" value="${vo.id}">
+									<input type="hidden" name="id" value="${vo.apprVo.emp_id}">
+									<input type="hidden" name="orderno" value="${vo.apprVo.orderno}">
 								</div>
 							</c:forEach>
+							
 						</div>
+
 						<div id="chkRef" style="display: none;">
 							<c:forEach var="vo" items="${refVo}">
 								<div class="apr_row"
 									style="display: flex; flex-direction: row; justify-content: center; margin-top: 10px;">
 									${vo.name} ${vo.spot}
-									<input type="hidden" name="id" value="${vo.id}">
+									<input type="hidden" name="id" value="">
 								</div>
 							</c:forEach>
 						</div>

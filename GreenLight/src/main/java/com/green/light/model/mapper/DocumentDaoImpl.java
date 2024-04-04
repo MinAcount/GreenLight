@@ -1,6 +1,5 @@
 package com.green.light.model.mapper;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,4 +71,14 @@ public class DocumentDaoImpl implements IDocumentDao{
 		return sqlsession.selectOne(NS+"getDocumentDetail", docno);
 	}
 
+	@Override
+	public int updateDocStatus(Map<String, Object> map) {
+		return sqlsession.update(NS+"updateDocStatus",map);
+	}
+
+	@Override
+	public int updateContent(Map<String, Object> map) {
+		return sqlsession.update(NS+"updateContent",map);
+	}
+	
 }

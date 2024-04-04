@@ -251,4 +251,18 @@
    WHERE a.ATYPE = '02' AND a.EMP_ID = #{id}
    AND d.DOC_STATUS = #{doc_status}
    </select>
+   
+   <!-- 기안서 상태 업데이트 -->
+<update id="updateDocStatus" parameterType="java.util.Map">
+UPDATE DOCUMENT 
+SET DOC_STATUS = #{doc_status}
+WHERE DOCNO = #{docno}
+</update>
+
+<!-- 기안서 내용 업데이트 -->
+<update id="updateContent" parameterType="java.util.Map">
+UPDATE DOCUMENT
+	SET CONTENT=#{content}
+	WHERE DOCNO=#{docno}
+</update>
 </mapper>

@@ -38,5 +38,11 @@ public interface IDocumentService {
 	
 	// 기안문서 상세조회 getDocumentDetail
 	public DocumentVo getDocumentDetail(String docno);
+	
+	// 기안서 상태 업데이트
+	public int updateDocStatus(Map<String, Object> map);
+	
+	// 기안서 내용 업데이트
+	public int updateContent(Map<String, Object> map);
 
 }
