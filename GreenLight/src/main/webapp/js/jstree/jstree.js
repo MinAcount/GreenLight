@@ -710,143 +710,160 @@ function refCancel() {
 }
 
 async function selectComplete() {
+	console.log("selectComplete()");
+	var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
+	if (selectedNodes.length > 0) {
+		var tempno = selectedNodes[0].original.tempno;
+		console.log(tempno);
 
-   console.log("selectComplete()");
-   var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
-   if (selectedNodes.length > 0) {
-      var tempno = selectedNodes[0].original.tempno;
-      console.log(tempno);
+		try {
+			const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno);
+			const data1 = await response1.json();
+			//			console.log(data.content);
+			var templateArea = document.getElementById("templateArea");
+			templateArea.innerHTML = data1.content;
+			
+			var getsu = "";
+			var weekendCount = 0;
+			
+			// dadtarangepicker를 위한 api를 적용
+			$('#daterangepicker').daterangepicker({
+				"locale": {
+					"format": "YYYY-MM-DD",
+					"separator": " ~ ",
+					"applyLabel": "확인",
+					"cancelLabel": "취소",
+					"fromLabel": "From",
+					"toLabel": "To",
+					"customRangeLabel": "Custom",
+					"weekLabel": "W",
+					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+				},
+				"startDate": new Date(),
+				"endDate": new Date(),
+				"drops": "down"
+			}, function(start, end, label) {
+				$('#start_day').val(start.format('YYYY-MM-DD'));
+				$('#end_day').val(end.format('YYYY-MM-DD'));
+				console.log("============================================================== typeof start:", typeof start);
+				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 
-      try {
-         const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno);
-         const data1 = await response1.json();
-         //         console.log(data.content);
-         var templateArea = document.getElementById("templateArea");
-         templateArea.innerHTML = data1.content;
-         
-         var getsu = "";
-         
-         // dadtarangepicker를 위한 api를 적용
-         $('#daterangepicker').daterangepicker({
-            "locale": {
-               "format": "YYYY-MM-DD",
-               "separator": " ~ ",
-               "applyLabel": "확인",
-               "cancelLabel": "취소",
-               "fromLabel": "From",
-               "toLabel": "To",
-               "customRangeLabel": "Custom",
-               "weekLabel": "W",
-               "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-               "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-            },
-            "startDate": new Date(),
-            "endDate": new Date(),
-            "drops": "down"
-         }, function(start, end, label) {
-            $('#start_day').val(start.format('YYYY-MM-DD'));
-            $('#end_day').val(end.format('YYYY-MM-DD'));
-            console.log("============================================================== typeof start:", typeof start);
-            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+				var start_date = new Date(start);
+				var end_date = new Date(end);
+				var formattedStartDate = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2);
+				var formattedEndDate = end_date.getFullYear() + "-" + ("0" + (end_date.getMonth() + 1)).slice(-2) + "-" + ("0" + end_date.getDate()).slice(-2);
 
-            var start_date = new Date(start);
-            var end_date = new Date(end);
-            var formattedStartDate = start_date.getFullYear() + "-" + ("0" + (start_date.getMonth() + 1)).slice(-2) + "-" + ("0" + start_date.getDate()).slice(-2);
-            var formattedEndDate = end_date.getFullYear() + "-" + ("0" + (end_date.getMonth() + 1)).slice(-2) + "-" + ("0" + end_date.getDate()).slice(-2);
+				// 사용자에 의해 선택된 두 날짜 사이에 주말을 제외한 일수 
+				var currentDate = new Date(start);
+				while(currentDate <= end){
+					if(currentDate.getDay() === 0 || currentDate.getDay() === 6){
+						weekendCount += 1;
+					}
+					currentDate.setDate(currentDate.getDate() + 1);
+				}
+				console.log("weekendCount:",weekendCount);
 
-            var getsu_date = end_date.getTime() - start_date.getTime();
-            getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
-            console.log("getsu:", getsu);
-            document.getElementById("getsu").textContent = getsu;
-            console.log("start_date:", formattedStartDate);
-            console.log("end:", end._d);
-            //사용자에 의해 선택된 시작일, 종료일이 같다면 id가 인 checkbox는 비활성화
-            if(formattedStartDate == formattedEndDate){
-               console.log("종료일 비활성화")
-               document.querySelector("#end_day_half").disabled = true;
-            }
-            
-         });
-         
-         document.getElementById("apr_chk").innerHTML = "";
-         //         console.log("tempcode:",data1.tempcode)
-         document.getElementById("tempCode").value = data1.tempcode;
+				var getsu_date = end_date.getTime() - start_date.getTime();
+				getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24)) + 1;
+				console.log("getsu:", getsu);
+				document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+				console.log("start_date:", start_date);
+				console.log("end_date:", end_date);
 
-         // input hidden 태그에 뿌려줄 값 조회
-         var loginVo_name = document.getElementById("loginVo_name").value;
-         var deptVo_dname = document.getElementById("deptVo_dname").value;
-         var loginVo_id = document.getElementById("loginVo_id").value;
-         var loginVo_spot = document.getElementById("loginVo_spot").value;
-         console.log("loginVo_name:", loginVo_name);
-         console.log("deptVo_dname:", deptVo_dname);
-         console.log("loginVo_id:", loginVo_id);
-         console.log("loginVo_spot:", loginVo_spot);
+				//사용자에 의해 선택된 시작일, 종료일이 같다면 id가 인 checkbox는 비활성화
+				if(formattedStartDate == formattedEndDate){
+					console.log("종료일 비활성화")
+					document.querySelector("#end_day_half").disabled = true;
+				} else { // 시작일 - 오후만, 종료일 - 오전만 체크 가능
+					console.log("시작일 - 오후, 종료일 - 오전만 체크가능")
+					let start_day_halfss = document.getElementsByClassName("start_day_half");
+					let end_day_halfss = document.getElementsByClassName("end_day_half");
+					console.log("start_day_halfss:",start_day_halfss);
+					console.log("end_day_halfss:",end_day_halfss);
+				}
+				
+			});
+			
+			document.getElementById("apr_chk").innerHTML = "";
+			//			console.log("tempcode:",data1.tempcode)
+			document.getElementById("tempCode").value = data1.tempcode;
 
-         // 값이 뿌려질 input hidden 태그 탐색
-         var name = document.getElementById("name");
-         var dname = document.getElementById("dname");
-         var writer_id = document.getElementById("writer_id");
-         console.log("name:", name);
-         console.log("dname:", dname);
-         console.log("writer_id:", writer_id);
+			// input hidden 태그에 뿌려줄 값 조회
+			var loginVo_name = document.getElementById("loginVo_name").value;
+			var deptVo_dname = document.getElementById("deptVo_dname").value;
+			var loginVo_id = document.getElementById("loginVo_id").value;
+			var loginVo_spot = document.getElementById("loginVo_spot").value;
+			console.log("loginVo_name:", loginVo_name);
+			console.log("deptVo_dname:", deptVo_dname);
+			console.log("loginVo_id:", loginVo_id);
+			console.log("loginVo_spot:", loginVo_spot);
 
-         name.textContent = loginVo_name;
-         dname.textContent = deptVo_dname;
-         writer_id.value = loginVo_id;
+			// 값이 뿌려질 input hidden 태그 탐색
+			var name = document.getElementById("name");
+			var dname = document.getElementById("dname");
+			var writer_id = document.getElementById("writer_id");
+			console.log("name:", name);
+			console.log("dname:", dname);
+			console.log("writer_id:", writer_id);
 
-         // 기안 뿌리기
-         var today = new Date();
+			name.textContent = loginVo_name;
+			dname.textContent = deptVo_dname;
+			writer_id.value = loginVo_id;
 
-         // 연도, 월, 일을 문자열로 변환하여 조합
-         var year = today.getFullYear();
-         var month = ('0' + (today.getMonth() + 1)).slice(-2);
-         var day = ('0' + today.getDate()).slice(-2);
-         var dateString = year + '-' + month + '-' + day;
-         console.log(dateString)
+			// 기안 뿌리기
+			var today = new Date();
 
-         // input 요소의 value에 할당
-         document.querySelector("#draft_date").textContent = dateString;
-         
-         // 기안란 직위, 이름, 기안일 textContent
-         document.querySelector("#drafter_spot").textContent = loginVo_spot;
-         document.querySelector("#drafter_name").textContent = loginVo_name;
-         document.querySelector("#drafter_draft_date").textContent = dateString;
+			// 연도, 월, 일을 문자열로 변환하여 조합
+			var year = today.getFullYear();
+			var month = ('0' + (today.getMonth() + 1)).slice(-2);
+			var day = ('0' + today.getDate()).slice(-2);
+			var dateString = year + '-' + month + '-' + day;
+			console.log(dateString)
 
-         // 공가 선택시 신청연차 초기화
-         document.querySelector("#getsuFlag").addEventListener("change", function() {
-            console.log("getsuFlag()");
-            console.log("this.value:", this.value);
-            if (this.value == 'Y') {//공가
-               console.log("공가선택")
-               document.getElementById("getsu").textContent = '0';
-            } else {
-               console.log("연차선택")
-               document.getElementById("getsu").textContent = getsu;
-            }
-         });
+			// input 요소의 value에 할당
+			document.querySelector("#draft_date").textContent = dateString;
+			
+			// 기안란 직위, 이름, 기안일 textContent
+			document.querySelector("#drafter_spot").textContent = loginVo_spot;
+			document.querySelector("#drafter_name").textContent = loginVo_name;
+			document.querySelector("#drafter_draft_date").textContent = dateString;
 
-//         // dadtarangepicker를 위한 api를 적용
-//         $('#daterangepicker').daterangepicker({
-//            "locale": {
-//               "format": "YYYY-MM-DD",
-//               "separator": " ~ ",
-//               "applyLabel": "확인",
-//               "cancelLabel": "취소",
-//               "fromLabel": "From",
-//               "toLabel": "To",
-//               "customRangeLabel": "Custom",
-//               "weekLabel": "W",
-//               "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-//               "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-//            },
-//            "startDate": new Date(),
-//            "endDate": new Date(),
-//            "drops": "down"
-//         }, function(start, end, label) {
-//            $('#start_day').val(start.format('YYYY-MM-DD'));
-//            $('#end_day').val(end.format('YYYY-MM-DD'));
-//            console.log("============================================================== typeof start:", typeof start);
-//            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+			// 공가 선택시 신청연차 초기화
+			document.querySelector("#getsuFlag").addEventListener("change", function() {
+				console.log("getsuFlag()");
+				console.log("this.value:", this.value);
+				if (this.value == 'Y') {//공가
+					console.log("공가선택")
+					document.getElementById("getsu").textContent = '0';
+				} else {
+					console.log("연차선택")
+					document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+				}
+			});
+
+//			// dadtarangepicker를 위한 api를 적용
+//			$('#daterangepicker').daterangepicker({
+//				"locale": {
+//					"format": "YYYY-MM-DD",
+//					"separator": " ~ ",
+//					"applyLabel": "확인",
+//					"cancelLabel": "취소",
+//					"fromLabel": "From",
+//					"toLabel": "To",
+//					"customRangeLabel": "Custom",
+//					"weekLabel": "W",
+//					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+//					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+//				},
+//				"startDate": new Date(),
+//				"endDate": new Date(),
+//				"drops": "down"
+//			}, function(start, end, label) {
+//				$('#start_day').val(start.format('YYYY-MM-DD'));
+//				$('#end_day').val(end.format('YYYY-MM-DD'));
+//				console.log("============================================================== typeof start:", typeof start);
+//				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
 //
 //            var start_date = new Date(start);
 //            var end_date = new Date(end);
