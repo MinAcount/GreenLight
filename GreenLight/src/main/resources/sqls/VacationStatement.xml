@@ -91,7 +91,7 @@ GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
 ]]>
 </select>  
 
-<!-- "일 잔여 휴가갯수"	selectRemainingLeaveByDay -->
+<!-- "일 잔여 휴가갯수"	selectOneLeave -->
 <select id="selectOneLeave" parameterType="java.util.Map" resultMap="VacVo">
 <![CDATA[
 SELECT E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE,
