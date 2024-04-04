@@ -114,14 +114,14 @@ SELECT ID, IN_DATE, OUT_DATE, ATT_STATUS
 <!-- "작일 휴가자 근태등록"	insertVacationAttendance -->
 <insert id="insertVacationAttendance" parameterType="AttendanceVo">
 INSERT INTO ATTENDANCE (ID, IN_DATE, OUT_DATE, ATT_STATUS)
-    VALUES (#{id}, TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') || #{in_date}, 'YYYY-MM-DD HH24:MI:SS'),TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') ||#{out_date}, 'YYYY-MM-DD HH24:MI:SS'), #{att_status})
+    VALUES (#{id}, TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') || #{in_date}, 'YYYY-MM-DD HH24:MI'),TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') ||#{out_date}, 'YYYY-MM-DD HH24:MI'), #{att_status})
 </insert>
 
 <!-- "작일 휴가자 근태수정"	updateVacationAttendance -->
 <update id="updateVacationAttendance" parameterType="AttendanceVo">
 UPDATE ATTENDANCE
-SET  IN_DATE = TRUNC(SYSDATE - 1) + INTERVAL #{in_date} HOUR TO MINUTE, 
-	 OUT_DATE = TRUNC(CURRENT_TIMESTAMP - 1) + INTERVAL #{out_date} HOUR TO MINUTE,
+SET  IN_DATE = TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') || #{in_date}, 'YYYY-MM-DD HH24:MI'), 
+	 OUT_DATE = TO_DATE(TO_CHAR(CURRENT_DATE-1,'YYYY-MM-DD') ||#{out_date}, 'YYYY-MM-DD HH24:MI'),
      ATT_STATUS = #{att_status}
 WHERE ID = #{id}
 AND TRUNC(IN_DATE) = TRUNC(CURRENT_TIMESTAMP - 1)

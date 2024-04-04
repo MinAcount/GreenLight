@@ -3,6 +3,8 @@ package com.test.ktm;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -55,8 +57,8 @@ public class CronJUnitTest {
 //		assertEquals(2, m);
 		
 		// 오늘 휴가인 사람을 불러와
-		List<VacationVo> list = cronService.getEmpVacationStatus();
-		System.out.println(list);
+//		List<VacationVo> list = cronService.getEmpVacationStatus();
+//		System.out.println(list);
 //		for(VacationVo vacationVo : list) {
 //			System.out.println("-----"+vacationVo);
 //			AttendanceVo aVo = cronService.getEmpAttendanceStatus(vacationVo.getId()); // 
@@ -67,16 +69,35 @@ public class CronJUnitTest {
 //		System.out.println(vo);
 //		assertEquals(null, vo);
 		
-		AttendanceVo vo = new AttendanceVo();
-		vo.setId(list.get(0).getId());
-		vo.setIn_date(" 09:00:00");
-		vo.setOut_date(" 18:00:00");
-		vo.setAtt_status("연차");
-		System.out.println(vo);
-		int n = cronService.insertVacationAttendance(vo);
-		System.out.println(n);
-		assertEquals(1, n);
+//		AttendanceVo vo = new AttendanceVo();
+//		vo.setId(list.get(0).getId());
+//		vo.setIn_date(" 09:00");
+//		vo.setOut_date(" 12:00");
+//		vo.setAtt_status("반차");
+//		System.out.println(vo);
+////		int n = cronService.insertVacationAttendance(vo);
+//		int n = cronService.updateVacationAttendance(vo);
+//		System.out.println(n);
+//		assertEquals(1, n);
 		
+		LocalDate yesterDay = LocalDate.now().minusDays(1);
+		LocalDate Day = LocalDate.now().plusDays(2);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String yesterdayString = Day.format(formatter);
+		System.out.println(Day);
+		
+		List<VacationVo> list = cronService.getEmpVacationStatus();
+		System.out.println("list==" +list);
+		for(VacationVo vacationVo : list) {
+			System.out.println("vacationVo==" +vacationVo);
+			System.out.println("vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
+			
+			if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {
+				System.out.println("if 문 성공한 쿼리vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
+			}else {
+				System.out.println("실패실패");
+			}
+		}
 		
 	}
 
