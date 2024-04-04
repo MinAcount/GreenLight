@@ -6,6 +6,7 @@
 <script type="text/javascript" src="./se2/js/service/HuskyEZCreator.js"
 	charset="utf-8"></script>
 <script type="text/javascript" src="./js/draft_bkh/draft.js"></script>
+
 </head>
 <body class="nav-fixed">
 	<%@ include file='./include/mainHeader.jsp'%>

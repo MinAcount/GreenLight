@@ -48,134 +48,135 @@
 
 </head>
 <body>
-   <input type="hidden" value="${loginVo.id}" id="loginVoId">
-   <nav
-      class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
-      id="sidenavAccordion">
+	<input type="hidden" value="${loginVo.id}" id="loginVoId">
+	<nav
+		class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white"
+		id="sidenavAccordion">
 
-      <!-- 사이드나브바 토글 버튼-->
-      <button
-         class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0"
-         id="sidebarToggle">
-         <i data-feather="menu"></i>
-      </button>
+		<!-- 사이드나브바 토글 버튼-->
+		<button
+			class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0"
+			id="sidebarToggle">
+			<i data-feather="menu"></i>
+		</button>
 
-      <!-- 로고 -->
-      <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
+		<!-- 로고 -->
+		<a class="navbar-brand pe-3 ps-4 ps-lg-2" href="./main.do">GreenLight</a>
 
 
-      <!-- 상단나브바 -->
-      <ul class="navbar-nav align-items-center ms-auto">
-         <li>${loginVo.name} ${loginVo.spot}&nbsp;&nbsp;&nbsp;</li>
-         <!-- 상단 나브바 알림-->
-         <li
-            class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
-            <a class="btn btn-icon btn-transparent-dark dropdown-toggle"
-            id="navbarDropdownAlerts" href="javascript:void(0);" role="button"
-            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-               <i data-feather="bell"></i>
-         </a>
-            <div
-               class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-               aria-labelledby="navbarDropdownAlerts" id ="notiZone" style="min-width: 18rem;">
-               <h6 class="dropdown-header dropdown-notifications-header">
-                  <i class="me-2" data-feather="bell"></i> 최근 알림
-                  <c:if test="${fn:length(notiList) ne 0}">
-                     <a style="margin-left: 11rem; border: 2px solid white; padding: 5px;" onclick="allReadNoti()">전체읽기</a>
-                  </c:if>
-               </h6>
-               <c:if test="${fn:length(notiList) eq 0}">
-                  <a class="dropdown-item dropdown-notifications-item">
-                     <div class="dropdown-notifications-item-content" style="font-size: 12px;">최근 알림이 없습니다</div>
-                  </a>
-               </c:if>
-               <c:if test="${fn:length(notiList) ne 0}">
-                  <c:forEach items="${notiList}" var="noti" varStatus="vs">
-                     <c:if test="${noti.ntype eq '02'}">
-                        <a class="dropdown-item dropdown-notifications-item"
-                           href="month.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
-                           <div class="dropdown-notifications-item-icon bg-warning">
-                              <i data-feather="calendar"></i>
-                           </div>
-                           <div class="dropdown-notifications-item-content">
-                              <div class="dropdown-notifications-item-content-details">
-                                 ${noti.alert_time}</div>
-                              <div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
-                                 ${noti.content}</div>
-                           </div>
-                        </a>
-                     </c:if>
-                     <c:if test="${noti.ntype eq '03'}">
-                        <a class="dropdown-item dropdown-notifications-item"
-                           href="draftDetail.do?docno=${noti.gubun}" onclick="readNoti('${noti.noti_id}', '${vs}')">
-                           <div class="dropdown-notifications-item-icon bg-info">
-                              <i data-feather="clipboard"></i>
-                           </div>
-                           <div class="dropdown-notifications-item-content">
-                              <div class="dropdown-notifications-item-content-details">
-                                 ${noti.alert_time}</div>
-                              <div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
-                                 ${noti.content}</div>
-                           </div>
-                        </a>
-                     </c:if>
-                     <c:if test="${noti.ntype eq '04'}">
-                        <a class="dropdown-item dropdown-notifications-item"
-                           href="myReserve.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
-                           <div class="dropdown-notifications-item-icon bg-info">
-                              <i data-feather="clock"></i>
-                           </div>
-                           <div class="dropdown-notifications-item-content">
-                              <div class="dropdown-notifications-item-content-details">
-                                 ${noti.alert_time}</div>
-                              <div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
-                                 ${noti.content}</div>
-                           </div>
-                        </a>
-                     </c:if>
-                  </c:forEach>
-               </c:if>
-               <a class="dropdown-item dropdown-notifications-item" href='allNoti.do'>
-                  <div class="dropdown-notifications-item-content" style="font-size: 12px;">알림 전체보기</div>
-               </a>
-            </a>
+		<!-- 상단나브바 -->
+		<ul class="navbar-nav align-items-center ms-auto">
+			<li>${loginVo.name} ${loginVo.spot}&nbsp;&nbsp;&nbsp;</li>
+			<!-- 상단 나브바 알림-->
+			<li
+				class="nav-item dropdown no-caret d-none d-sm-block me-3 dropdown-notifications">
+				<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
+				id="navbarDropdownAlerts" href="javascript:void(0);" role="button"
+				data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i data-feather="bell"></i>
+			</a>
+				<div
+					class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
+					aria-labelledby="navbarDropdownAlerts" id ="notiZone" style="min-width: 18rem;">
+					<h6 class="dropdown-header dropdown-notifications-header">
+						<i class="me-2" data-feather="bell"></i> 최근 알림
+						<c:if test="${fn:length(notiList) ne 0}">
+							<a style="margin-left: 11rem; border: 2px solid white; padding: 5px;" onclick="allReadNoti()">전체읽기</a>
+						</c:if>
+					</h6>
+					<c:if test="${fn:length(notiList) eq 0}">
+						<a class="dropdown-item dropdown-notifications-item">
+							<div class="dropdown-notifications-item-content" style="font-size: 12px;">최근 알림이 없습니다</div>
+						</a>
+					</c:if>
+					<c:if test="${fn:length(notiList) ne 0}">
+						<c:forEach items="${notiList}" var="noti" varStatus="vs">
+							<c:if test="${noti.ntype eq '02'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="month.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									<div class="dropdown-notifications-item-icon bg-warning">
+										<i data-feather="calendar"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+											${noti.content}</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${noti.ntype eq '03'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="draftDetail.do?docno=${noti.gubun}" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									<div class="dropdown-notifications-item-icon bg-info">
+										<i data-feather="clipboard"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+											${noti.content}</div>
+									</div>
+								</a>
+							</c:if>
+							<c:if test="${noti.ntype eq '04'}">
+								<a class="dropdown-item dropdown-notifications-item"
+									href="myReserve.do" onclick="readNoti('${noti.noti_id}', '${vs}')">
+									<div class="dropdown-notifications-item-icon bg-info">
+										<i data-feather="clock"></i>
+									</div>
+									<div class="dropdown-notifications-item-content">
+										<div class="dropdown-notifications-item-content-details">
+											${noti.alert_time}</div>
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+											${noti.content}</div>
+									</div>
+								</a>
+							</c:if>
+						</c:forEach>
+					</c:if>
+					<a class="dropdown-item dropdown-notifications-item" href='allNoti.do'>
+						<div class="dropdown-notifications-item-content" style="font-size: 12px;">알림 전체보기</div>
+					</a>
+				</a>
 
-               <!-- 유저 드롭다운 -->
-               <li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
-                  <a class="btn btn-icon btn-transparent-dark dropdown-toggle"
-                  id="navbarDropdownUserImage" href="javascript:void(0);"
-                  role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                  aria-expanded="false"> <c:if
-                        test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
-                        <img class="img-fluid"
-                           src="./assets/img/illustrations/profiles/profile-1.png"
-                           alt="프로필사진" />
-                     </c:if> <c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
-                        <img class="img-fluid"
-                           src="./assets/img/illustrations/profiles/profile-2.png"
-                           alt="프로필사진" />
-                     </c:if> <c:if test="${loginVo.profile ne null}">
-                        <img class="img-fluid"
-                           src="data:image/png;base64,${loginVo.profile}" alt="프로필사진" />
-                     </c:if>
-               </a>
-                  <div
-                     class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
-                     aria-labelledby="navbarDropdownUserImage">
-                     <a class="dropdown-item" href="./mypage.do">
-                        <div class="dropdown-item-icon">
-                           <i data-feather="settings"></i>
-                        </div> 마이페이지
-                     </a> <a class="dropdown-item" href="./logout.do">
-                        <div class="dropdown-item-icon">
-                           <i data-feather="log-out"></i>
-                        </div> 로그아웃
-                     </a>
-                  </div>
-               </li>
-      </ul>
-   </nav>
-   
+					<!-- 유저 드롭다운 -->
+					<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
+						<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
+						id="navbarDropdownUserImage" href="javascript:void(0);"
+						role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> <c:if
+								test="${loginVo.profile eq null && loginVo.gender eq 'F'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-1.png"
+									alt="프로필사진" />
+							</c:if> <c:if test="${loginVo.profile eq null && loginVo.gender eq 'M'}">
+								<img class="img-fluid"
+									src="./assets/img/illustrations/profiles/profile-2.png"
+									alt="프로필사진" />
+							</c:if> <c:if test="${loginVo.profile ne null}">
+								<img class="img-fluid"
+									src="data:image/png;base64,${loginVo.profile}" alt="프로필사진" />
+							</c:if>
+					</a>
+						<div
+							class="dropdown-menu dropdown-menu-end border-0 shadow animated--fade-in-up"
+							aria-labelledby="navbarDropdownUserImage">
+							<a class="dropdown-item" href="./mypage.do">
+								<div class="dropdown-item-icon">
+									<i data-feather="settings"></i>
+								</div> 마이페이지
+							</a> <a class="dropdown-item" href="./logout.do">
+								<div class="dropdown-item-icon">
+									<i data-feather="log-out"></i>
+								</div> 로그아웃
+							</a>
+						</div>
+					</li>
+		</ul>
+	</nav>
+	
+
 </body>
 <style>
 .jstree-node, .jstree-children, .jstree-container-ul {
