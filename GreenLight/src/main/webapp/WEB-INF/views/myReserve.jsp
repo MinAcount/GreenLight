@@ -30,9 +30,7 @@ td.red-text {
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">나의 예약 현황</h1>
 				<hr class="mt-0 mb-5">
-
 				<div>
-					<h3 style="margin: 20px;">전체 예약</h3>
 					<div>
 						<table class="datatable-table">
 							<thead>
@@ -55,8 +53,9 @@ td.red-text {
 								<c:if test="${not empty lists}">
 									<c:forEach var="vo" items="${lists}" varStatus="vs">
 										<tr>
-											<td style="text-align: center;">
-											<a onclick="oneReserveView('${vo.reservationVo.reserveno}')" onmouseover="this.style.cursor='pointer'">${vo.reservationVo.reserveno}</a></td>
+											<td style="text-align: center;"><a
+												onclick="oneReserveView('${vo.reservationVo.reserveno}')"
+												onmouseover="this.style.cursor='pointer'">${vo.reservationVo.reserveno}</a></td>
 											<td style="text-align: center;">${vo.conferenceVo.cname}</td>
 											<td style="text-align: center;"><fmt:formatDate
 													value="${vo.reservationVo.reserve_date}"
@@ -205,7 +204,7 @@ td.red-text {
 							<thead>
 								<tr style="background-color: #f6f6f6; width: 100%;">
 									<th style="width: 20%; text-align: center;">예약번호</th>
-									<th style="width: 20%; text-align: center;">장소</th>
+									<th style="width: 20%; text-align: center;">자산</th>
 									<th style="width: 15%; text-align: center;">이용일</th>
 									<th style="width: 20%; text-align: center;">이용시간</th>
 									<th style="width: 10%; text-align: center;">상태</th>
@@ -287,21 +286,15 @@ td.red-text {
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content" style="width: 400px;">
 				<div class="modal-body" style="padding: 30px">
-					<p class="text-center"
-						style="margin-top: 40px; margin-bottom: 40px;">정말 취소하시겠습니까?</p>
-					<div class="text-center"
-						style="margin-top: 20px; margin-bottom: 20px;">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal" style="width: 100px;">닫기</button>
-						<button type="button" class="btn btn-danger"
-							onclick="deleteReserve()" style="width: 100px;">예약취소</button>
+					<p class="text-center" style="margin-top: 40px; margin-bottom: 40px;">정말 취소하시겠습니까?</p>
+					<div class="text-center" style="margin-top: 20px; margin-bottom: 20px;">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px;">닫기</button>
+						<button type="button" class="btn btn-danger" onclick="deleteReserve()" style="width: 100px;">예약취소</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-
-
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>

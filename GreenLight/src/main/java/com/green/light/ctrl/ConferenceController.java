@@ -47,6 +47,7 @@ public class ConferenceController {
 		log.info("ConferenceController GET insertRoom.do [관리자] 회의실 등록 {}", vo);
 		vo.getCname();
 		vo.getCapacity();
+		vo.getLocality();
 		vo.getHo();
 		vo.getRoominfo();
 		int cnt = service.insertRoom(vo);

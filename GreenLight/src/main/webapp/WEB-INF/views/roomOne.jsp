@@ -49,7 +49,7 @@
 					<div style="padding:30px; display: flex; justify-content: center; align-items: center;">
 					<table border="1">
 						<tr>
-							<th>회의실 이름</th>
+							<th>자산</th>
 							<td>${vo.cname}</td>
 						</tr>
 						<tr>
@@ -59,6 +59,10 @@
 						<tr>
 							<th>가용 여부</th>
 							<td>${vo.availability}</td>
+						</tr>
+						<tr>
+							<th>장소</th>
+							<td>${vo.locality}</td>
 						</tr>
 						<tr>
 							<th>호수</th>
