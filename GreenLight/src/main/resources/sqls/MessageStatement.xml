@@ -11,6 +11,7 @@
 	<result property="file_yn" column="FILE_YN"/>
 	<collection property="gmvo" resultMap="GroupMemberVo"/>
 	<collection property="empVo" resultMap="EmployeeVo"/>
+	<collection property="comVo" resultMap="CommonVo"/>
 </resultMap>
 <resultMap type="com.green.light.vo.GroupMemberVo" id="GroupMemberVo">
 	<result property="groupno" column="GROUPNO"/>
@@ -43,6 +44,11 @@
 <!-- 		<result property="auth" column="AUTH"/> -->
 <!-- 		<result property="profile" column="PROFILE"/> -->
 	</resultMap>                    
+<resultMap type="com.green.light.vo.CommonVo" id="CommonVo">
+	<result property="type" column="TYPE"/>
+	<result property="code" column="CODE"/>
+	<result property="code_name" column="CODE_NAME"/>
+</resultMap>
 
 <!-- 	 채팅방 목록 조회 getAllChat -->
 <select id="getAllChat" resultMap="MessageVo">
@@ -75,22 +81,27 @@ SELECT G.GROUPNO , G.CHAT_ID , ROOMNAME ,
 </select>
 <!-- 	 채팅방 생성 insertChat -->
 <insert id="insertChat" parameterType="java.util.Map" >
-INSERT INTO GROUPMEMBER (GROUPNO, CHAT_ID, ROOMNAME, ID)
-       VALUES (GROUPMEMBER_SEQ.NEXTVAL, (SELECT (SELECT MAX(CHAT_ID)
+<selectKey resultType="java.lang.String" keyProperty="groupno" order="BEFORE">
+	SELECT GROUPMEMBER_SEQ.NEXTVAL FROM DUAL
+</selectKey>
+	INSERT INTO GROUPMEMBER (GROUPNO, CHAT_ID, ROOMNAME, ID)
+       VALUES (#{groupno}, (SELECT (SELECT MAX(CHAT_ID)
        FROM GROUPMEMBER g)+1 AS MAX FROM DUAL), #{roomname}, #{id})
 </insert>
 <!--      채팅방 세부 조회 getViewInsideChat -->
 <select id="getViewInsideChat" resultMap="MessageVo">
 SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
        G.FAVOR, G.NOTI, M.WRITTER,
-       G.ID, E.NAME, M.CONTENT,
-       M.SEND_DATE, M.FILE_YN
+       G.ID, E.NAME, C.CODE_NAME,
+       M.CONTENT, M.SEND_DATE, M.FILE_YN 
        FROM GROUPMEMBER G
        JOIN MESSAGE M ON g.CHAT_ID = M.CHAT_ID
        JOIN EMPLOYEE e ON E.ID = G.ID 
+       JOIN COMMON c ON c.CODE = e.SPOT 
        WHERE G.CHAT_ID = #{chat_id} AND M.WRITTER = G.ID
+       AND "TYPE" = '직위'
        AND GROUP_OUT = 'N'
-       ORDER BY SEND_DATE ASC
+       ORDER BY M.SEND_DATE ASC
 </select>
 <!-- 	 채팅방 이름 수정 updateChatName -->
 <update id="updateChatName" parameterType="java.util.Map">

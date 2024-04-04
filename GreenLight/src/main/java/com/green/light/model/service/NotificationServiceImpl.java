@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.green.light.model.mapper.INotificationDao;
 import com.green.light.vo.NotificationVo;
@@ -39,11 +40,15 @@ public class NotificationServiceImpl implements INotificationService{
 		return list;
 	}
 
+	@Transactional
 	@Override
-	public boolean insertNoti(Map<String, Object> map, String id) {
+	public boolean insertNoti(Map<String, Object> map, List<String> ids) {
 		log.info("NotificationServiceImpl insertNoti 알림 추가(알림테이블, 수신자테이블)");
 		int n = dao.insertNoti(map);
-		int m = dao.insertReceiver(id);
+		int m = 0;
+		for(int i=0; i<ids.size(); i++) {
+			m += dao.insertReceiver(ids.get(i));
+		}
 		return (n+m)>0 ? true : false;
 	}
 
@@ -51,6 +56,13 @@ public class NotificationServiceImpl implements INotificationService{
 	public int updateRead(Map<String, Object> map) {
 		log.info("NotificationServiceImpl updateRead 읽음 여부 변경");
 		int n = dao.updateRead(map);
+		return n;
+	}
+
+	@Override
+	public int updateAllRead(String id) {
+		log.info("NotificationServiceImpl updateAllRead 전체 읽음");
+		int n = dao.updateAllRead(id);
 		return n;
 	}
 

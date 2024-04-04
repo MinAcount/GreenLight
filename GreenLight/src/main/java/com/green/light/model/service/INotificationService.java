@@ -13,7 +13,9 @@ public interface INotificationService {
 //	마이페이지 그룹별 알림 조회 getGroupNoti
 	public List<NotificationVo> getGroupNoti(String id);
 //	알림 추가 (알림테이블,수신자테이블) insertNoti
-	public boolean insertNoti(Map<String, Object> map, String id);
+	public boolean insertNoti(Map<String, Object> map, List<String> ids);
 //	읽음 여부 변경 updateRead
 	public int updateRead(Map<String, Object> map);
+//	전체 읽음 updateAllRead
+	public int updateAllRead(String id);
 }

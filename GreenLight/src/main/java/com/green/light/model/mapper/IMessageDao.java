@@ -3,6 +3,7 @@ package com.green.light.model.mapper;
 import java.util.List;
 import java.util.Map;
 
+import com.green.light.vo.GroupMemberVo;
 import com.green.light.vo.MessageVo;
 
 public interface IMessageDao {
@@ -12,7 +13,7 @@ public interface IMessageDao {
 	// 채팅방 목록 검색 getSearchChat
 	
 	// 채팅방 생성 insertChat
-	
+	public int insertChat(GroupMemberVo gmvo);
 	// 채팅방 세부 조회 getViewInsideChat
 	public List<MessageVo> getViewInsideChat(String chat_id);
 	// 채팅방 이름 수정 updateChatName

@@ -18,4 +18,7 @@ public interface INotificationDao {
 	public int insertReceiver(String id);
 //	읽음 여부 변경 updateRead
 	public int updateRead(Map<String, Object> map);
+//	전체 읽음 updateAllRead
+	public int updateAllRead(String id);
+
 }

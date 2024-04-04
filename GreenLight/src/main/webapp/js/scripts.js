@@ -78,6 +78,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
+	//사이드나브바
 	var currentURL = location.pathname.substring(12);
 	if(currentURL.includes("employeeOne.do")){
 		currentURL = "employeeList.do";
