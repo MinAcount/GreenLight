@@ -94,8 +94,6 @@ document.addEventListener("DOMContentLoaded", function() {
 document.getElementById("insertSchedule").addEventListener("click", function() {
 	$("#scheduelModal").modal("show");
 	console.log("일정 등록 모달");
-	// addSchedule 버튼 클릭 이벤트 리스너 등록
-	//    document.getElementById("addSchedule").addEventListener("click", addScheduleHandler);
 });
 
 // addSchedule 이벤트 핸들러 함수 정의
@@ -183,6 +181,7 @@ function addScheduleHandler() {
 				console.log("일정 등록 성공");
 				document.getElementById("scheduelForm").reset(); // 폼 초기화
 				$("#scheduelModal").modal("hide"); // 모달 닫기
+				window.location.reload();
 			} else {
 				console.log("일정 등록 실패");
 				alert("일정을 등록할 수 없습니다");

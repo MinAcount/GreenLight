@@ -60,13 +60,13 @@ public class ReserveController {
 		return "myReserve";
 	}
 
-	@PostMapping(value = "/myReserve.do")
-	@ResponseBody
-	public ResponseEntity<?> MyReserveSelect(@RequestBody Map<String, Object> map) {
-		log.info("ReserveController POST myReserve.do 상태별 나의 예약현황 {}", map);
-		List<CheckListVo> lists = service.getMyReserve(String.valueOf(map.get("id")));
-		return ResponseEntity.ok(lists);
-	}
+//	@PostMapping(value = "/myReserve.do")
+//	@ResponseBody
+//	public ResponseEntity<?> MyReserveSelect(@RequestBody Map<String, Object> map) {
+//		log.info("ReserveController POST myReserve.do 상태별 나의 예약현황 {}", map);
+//		List<CheckListVo> lists = service.getMyReserve(String.valueOf(map.get("id")));
+//		return ResponseEntity.ok(lists);
+//	}
 
 	@GetMapping(value = "/oneReserve.do")
 	@ResponseBody
@@ -98,7 +98,6 @@ public class ReserveController {
 		} else {
 			System.out.println("문제가 발생했습니다.");
 		}
-
 		return returnStatus;
 	}
 
@@ -113,7 +112,7 @@ public class ReserveController {
 	@GetMapping(value = "/deleteReserve.do")
 	@ResponseBody
 	public int DeleteReserve(@RequestParam("reserveno") String reserveno) {
-		log.info("ReserveController GET deleteReserve.do 예약삭제 {}");
+		log.info("ReserveController GET deleteReserve.do 예약삭제 {}", reserveno);
 		int cnt = service.deleteReserve(reserveno);
 		return cnt;
 	}

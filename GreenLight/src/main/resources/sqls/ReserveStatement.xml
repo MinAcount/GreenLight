@@ -156,17 +156,18 @@
 	</update>
 	<!-- 예약 취소 -->
 	<delete id="deleteReserve" parameterType="java.lang.String">
-    	BEGIN
-    		SAVEPOINT START_TRANSACTION;
-    		DELETE FROM CHECKLIST
-    			WHERE RESERVENO = #{reserveno};
-    		DELETE FROM RESERVATION
-    			WHERE RESERVENO = #{reserveno};
-    	COMMIT
+    <![CDATA[
+		BEGIN
+		    SAVEPOINT START_TRANSACTION;
+		    DELETE FROM CHECKLIST WHERE RESERVENO = #{reserveno};
+		    DELETE FROM RESERVATION WHERE RESERVENO = #{reserveno};
+		COMMIT;
 		EXCEPTION
-    		WHEN OTHERS THEN
-       			ROLLBACK TO START_TRANSACTION;
-        		RAISE
-		END
+		    WHEN OTHERS THEN
+		        ROLLBACK TO START_TRANSACTION;
+		        RAISE;
+		END;
+	    ]]>
 	</delete>
+	
 </mapper>
