@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -113,16 +114,17 @@ public class ChatController {
 		return ResponseEntity.ok(n);
 	}
 	
-	@PostMapping(value = "/insertChat.do")
-	@ResponseBody
-	public ResponseEntity<?> insertChat(@RequestBody GroupMemberVo gmvo){
-		String groupno = gmvo.getGroupno();
-		String roomname = gmvo.getRoomname();
-		String id = gmvo.getId();
-		log.info("ChatController insertChat 채팅방 생성 {} {} {}", groupno, roomname, id);
-		int n = service.insertChat(gmvo);
-		return ResponseEntity.ok(n);
-	}
+//	@PostMapping(value = "/insertChat.do")
+//	@ResponseBody
+//	public ResponseEntity<?> insertChat(@RequestBody Map<String, Object> map){
+//		System.out.println("map : " + map);
+//		String groupno = (String)map.get("groupno");
+//		String roomname = (String)map.get("roomname");
+//		String id = (String)map.get("id");
+//		log.info("ChatController insertChat 채팅방 생성 group:{} roomname:{} id:{}", groupno, roomname, id);
+//		boolean n = service.insertChat(map);
+//		return ResponseEntity.ok(n);
+//	}
 }
 
 
