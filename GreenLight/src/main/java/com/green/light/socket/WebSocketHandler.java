@@ -96,12 +96,12 @@ public class WebSocketHandler extends TextWebSocketHandler{
 				System.out.println("if1 : ");
 				if(msg[1].equals(otherIdSession)) {
 					System.out.println("if2 : ");
-					String newMsg = msg[0] + ":" + sendName + ":" + msg[2];
+					String newMsg = msg[0] + ":" + sendName + ":" + msg[2] + ":" + msg[3];
 					txt = newMsg;
 					System.out.println(txt);
 				} else {
 					System.out.println("if3 : ");
-					String newMsgPart1 = msg[0] + ":" + sendName + ":" + msg[2];
+					String newMsgPart1 = msg[0] + ":" + sendName + ":" + msg[2] + ":" + msg[3];
 					txt = newMsgPart1;
 					System.out.println(txt);
 				}

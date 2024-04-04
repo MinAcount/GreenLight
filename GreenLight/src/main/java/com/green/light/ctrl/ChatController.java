@@ -22,6 +22,7 @@ import com.green.light.model.mapper.IMessageDao;
 import com.green.light.model.service.IMessageService;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
+import com.green.light.vo.GroupMemberVo;
 import com.green.light.vo.MessageVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -109,6 +110,17 @@ public class ChatController {
 		String content = vo.getContent();
 		log.info("ChatController insertSendMessage 메시지 전송 {} {} {}", chat_id, writter, content);
 		int n = service.insertSendMessage(vo);
+		return ResponseEntity.ok(n);
+	}
+	
+	@PostMapping(value = "/insertChat.do")
+	@ResponseBody
+	public ResponseEntity<?> insertChat(@RequestBody GroupMemberVo gmvo){
+		String groupno = gmvo.getGroupno();
+		String roomname = gmvo.getRoomname();
+		String id = gmvo.getId();
+		log.info("ChatController insertChat 채팅방 생성 {} {} {}", groupno, roomname, id);
+		int n = service.insertChat(gmvo);
 		return ResponseEntity.ok(n);
 	}
 }

@@ -51,11 +51,11 @@ function getAllChat(result){
 		var formattedSendDate = formatSendDate(result[i].send_date);
 		var img = "";	
 		
-		html += '<li>';
-		html += '<div class="tavle-container-div">';
-		html += '<table class="table-container">   ';
-		html += '<thead>                           ';
-		html += '<tr>';
+		html += '<li id="chatListLi">';
+		html += '<div id="table-container-div">';
+		html += '<table id="table-container-list">   ';
+		html += '<thead>';
+		html += '<tr id="favorTr">';
 		if(result[i].gmvo.favor=="Y"){
 			img="★";
 			//html += '<td>'+result[i].gmvo.favor+'</td>    ';
@@ -92,6 +92,7 @@ var id = "";
 var chatListAll = "";
 var chatListNoti = "";
 var name = "";
+var spot = "";
 
 //채팅방 목록 클릭 시 chat_id 전달하여 해당 채팅방 오픈
 function getViewInsideChat(idx, i){
@@ -99,6 +100,8 @@ function getViewInsideChat(idx, i){
 			chat_id = idx;
 			id = document.getElementById('id').value;
 			console.log(id);
+			spot = document.getElementById('spot').value;
+			console.log(spot);
 			chatListNoti = chatListAll[i].gmvo.noti;
 			
 			url = location.href;
@@ -131,19 +134,24 @@ function getViewInsideChat(idx, i){
 				var msg = event.data.split(":")[0];
 				var sendName = event.data.split(":")[1];
 				var chat_id = event.data.split(":")[2];
+				var spot = event.data.split(":")[3];
 				var send_date = new Date();
 				var formattedSendDate = formatSendDate(send_date);
 				name = document.getElementById("name").value;
+//				spot = document.getElementById("spot").value;
 				console.log("서버로부터 전달된 메시지 : ", msg);
 				console.log(msg);
 				console.log(sendName);
 				console.log(chat_id);
+				console.log(spot);
 				if(sendName.startsWith(name)){
 					console.log("확인1");
-					$("#middleChat").append($("<div>").css("float", "right").append($("<div>").text(sendName).css("text-align", "right")).append($("<span>").text(formattedSendDate).css("text-align", "right")).append($("<span id='textbox'>").text(msg).css("text-align", "right"))).append("<br><br><br>");
+					$("#middleChat").append($("<div>").css("float", "right").append($("<div>").text(sendName + " " + spot).css("text-align", "right")).append($("<span>").text(formattedSendDate).css("text-align", "right")).append($("<span id='textbox'>").text(msg).css("text-align", "right"))).append("<br><br><br>");
 				} else {
 					console.log("확인2");
-					$("#middleChat").append($("<div>").css("float", "left").append($("<div>").text(sendName).css("text-align", "left")).append($("<span id='textbox'>").text(msg).css("text-align", "left")).append($("<span>").text(formattedSendDate).css("text-align", "left"))).append("<br><br><br>");
+					$("#middleChat").append($("<div>").css("float", "left").append($("<div>").text(sendName + " " +spot).css("text-align", "left")).append($("<span id='textbox'>").text(msg).css("text-align", "left")).append($("<span>").text(formattedSendDate).css("text-align", "left"))).append("<br><br><br>");
+					//알림
+              		notify(sendName, msg, './chatGroup.do');
 				}
 				$("#middleChat").scrollTop($("#middleChat")[0].scrollHeight);
 				
@@ -219,7 +227,7 @@ function getViewInsideChat(idx, i){
 		var message = $("#chatInput").val().trim();
 		console.log(message);
 		if(message != ""){
-			ws.send(message + ":" + id + ":" + chat_id);
+			ws.send(message + ":" + id + ":" + chat_id + ":" + spot);
 			$("#chatInput").val("");
 			fetch('./insertSendMessage.do', {
 					method: 'POST',
@@ -229,7 +237,8 @@ function getViewInsideChat(idx, i){
 					body: JSON.stringify({
 						chat_id:chat_id,
 						writter:id,
-						content:message
+						content:message,
+						spot:spot
 					})
 				})
 				.then(response => {
@@ -298,7 +307,7 @@ function doGetViewInsideChat(result){
 		var formattedSendDate = formatSendDate(result[i].send_date);
 		var chatClass = alignChatMessage(result[i]);	
 		html += '<div class="'+chatClass+'">';
-		html += '<div>'+result[i].empVo.name+'</div>';
+		html += '<div>'+result[i].empVo.name + " " + result[i].comVo.code_name+'</div>';
 		if(chatClass == 'left'){
 			html += '<span id="textbox">'+result[i].content+'</span>';
 			html += '<span>'+formattedSendDate+'</span>';
@@ -468,6 +477,41 @@ function toggleNotification(chat_id) {
 		console.error("네트워크 오류:", error);
 	});
 }
+
+//알림
+function notify(title, content, url) {
+   if(Notification.permission == "default" ||Notification.permission == "denied"){
+      alert("알림을 허용해주세요");
+      Notification.requestPermission(); // default일때만 가능
+      return;
+   }else{
+      let notification = new Notification(
+         title, // 제목 
+         {
+         body: content, // 메세지
+         icon: "./assets/img/grn.png", // 아이콘
+         image: "./assets/img/logo_grn.png", // 배경이미지
+         requireInteraction: true, //닫기버튼 [닫기]를 누르기 전까지 사라지지 않음
+         silent:true, //소리설정 (true:무음)
+         }
+      );
+      
+      // 3초뒤 알람 닫기 / 닫기버튼이 활성화 되어있어도 알람이 닫힘
+      setTimeout(function() {
+         notification.close();
+      }, 3*1000);
+      
+      //알림 클릭 시 이벤트
+      notification.addEventListener("click", () => {
+         location.href = url;
+      });
+   }
+}
+
+
+
+
+
 
 
 //var ws = null;

@@ -24,4 +24,5 @@ public class MessageVo {
 	
 	private GroupMemberVo gmvo;
 	private EmployeeVo empVo;
+	private CommonVo comVo;
 }

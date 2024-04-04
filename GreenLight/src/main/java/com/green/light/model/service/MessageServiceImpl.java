@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.green.light.model.mapper.IMessageDao;
+import com.green.light.vo.GroupMemberVo;
 import com.green.light.vo.MessageVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +62,12 @@ public class MessageServiceImpl implements IMessageService {
 		int n = dao.insertSendMessage(vo);
 		int m = dao.updateSendMessage(vo.getChat_id());
 		return n + m > 0 ? 1 : 0;
+	}
+
+	@Override
+	public int insertChat(GroupMemberVo gmvo) {
+		log.info("MessageServiceImpl insertChat 채팅방 생성");
+		int n = dao.insertChat(gmvo);
+		return n;
 	}
 }
