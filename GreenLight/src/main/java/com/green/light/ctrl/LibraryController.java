@@ -69,6 +69,7 @@ public class LibraryController {
 	 public ResponseEntity<?> draftListByDocStatus(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST draftListByDocStatus.do 기안문서함 기안서상태별 전체조회{}",map);
 		 List<DocumentVo> lists = service.getAllDraftByDocStatus(map);
+		 System.out.println("==================================lists:"+lists);
 		 return ResponseEntity.ok(lists);
 	 }	 
 	 

@@ -22,10 +22,12 @@ import com.google.gson.GsonBuilder;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IEmployeeService;
+import com.green.light.model.service.ISignService;
 import com.green.light.vo.ApprJstreeVo;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
+import com.green.light.vo.SignVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,15 +42,21 @@ public class DraftController {
 	@Autowired
 	private IDepartmentService DeptService;
 	
+	@Autowired
+	private ISignService signService;
+	
+	
+	
 	@GetMapping(value = "/draftWriteForm.do")
 	public String draftWriteForm(HttpSession session, Model model) {
-		log.info("DraftController GET /draftWriteForm.do 기안서 작성 Form");
+		log.info("DraftController POST /draftWriteForm.do 기안서 작성 Form");
 		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
 		String deptno = empVo.getDeptno();
 		DepartmentVo deptVo = DeptService.getOneDept(deptno);
 		model.addAttribute("deptVo", deptVo);
-
-    return "draftWriteForm";
+		SignVo sVo = signService.selectMainSign(empVo.getId());
+		model.addAttribute("sVo",sVo);
+		return "draftWriteForm";
 	}
   
   @GetMapping(value = "/draftForm.do")

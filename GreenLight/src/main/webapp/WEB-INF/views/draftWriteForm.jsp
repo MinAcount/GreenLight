@@ -174,6 +174,29 @@
 								</div>
 							</div>
 						</div>
+						
+						
+						<!-- 서명 유효성처리 모달 -->
+						<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+			        		<div class="modal-content">
+			            		<div class="modal-header text-danger">
+			                		<div class="modal-title" id="exampleModalLabel">
+			                			<i data-feather="check-circle" id="toastFeather"></i>
+					        			<strong class="me-auto">Primary Text Toast</strong>
+			                		</div>
+			                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			            		</div>
+			            		<div class="modal-body">This toast uses the primary text utility on the toast header.
+			            			<br><br>
+			            			<div class="modal-footer">
+										<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+									    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Save changes</button>
+								    </div>
+			            		</div>
+				        	</div>
+				    	</div>
+				</div>
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
@@ -188,6 +211,7 @@
                   <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
                   <input type="hidden" id="tempCode" value="">
                   <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
+                  <input type="hidden" id="save_sign" value="">
 				<div
 					style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
 					<div id="templateArea">
