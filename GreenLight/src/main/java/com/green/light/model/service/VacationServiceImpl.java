@@ -38,9 +38,9 @@ public class VacationServiceImpl implements IVacationService {
 	}
 	
 	@Override
-	public VacationVo selectRemainingLeaveByDay(Map<String, Object> map) {
-		log.info("VacationServiceImpl selectRemainingLeaveByDay 전달받은 값 : {}",map);
-		return dao.selectRemainingLeaveByDay(map);
+	public VacationVo selectOneLeave(Map<String, Object> map) {
+		log.info("VacationServiceImpl selectOneLeave 전달받은 값 : {}",map);
+		return dao.selectOneLeave(map);
 	}
 
 	@Override
