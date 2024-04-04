@@ -102,7 +102,7 @@
 						</tbody>
 					</table>
 				</div>
-
+				
 				<div style="margin-top: 50px;">
 					<c:if test="${lists.size() > 10}">
 						<!-- 페이징바 -->
