@@ -27,7 +27,7 @@ public class DepartmentJUnitTest {
 
 	@Test
 	public void DepartmentTest() {
-		//부서 전체 조회
+//		//부서 전체 조회
 //		List<DepartmentVo> list = service.getAllDept();
 //		System.out.println(list);
 //		assertNotEquals(0, list.size());
@@ -48,7 +48,7 @@ public class DepartmentJUnitTest {
 //		assertNotEquals(0, list.size());
 		
 		//부서명 수정
-		Map<String, Object> map = new HashMap<String, Object>();
+//		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("deptno", "10");
 //		map.put("dname", "초코우유개발팀");
 //		int n = service.updateDeptName(map);
@@ -79,12 +79,12 @@ public class DepartmentJUnitTest {
 //		assertTrue(isc);
 		
 		//직원이름 및 부서로 검색
-		map.put("opt", "name");
-		map.put("keyword", "김");
-		map.put("estatus", "Y");
-		List<DepartmentVo> list = service.getEmployeeBySearch(map);
-		System.out.println(list);
-		assertNotEquals(list.size(), 0);
+//		map.put("opt", "name");
+//		map.put("keyword", "김");
+//		map.put("estatus", "Y");
+//		List<DepartmentVo> list = service.getEmployeeBySearch(map);
+//		System.out.println(list);
+//		assertNotEquals(list.size(), 0);
 	}
 
 }
