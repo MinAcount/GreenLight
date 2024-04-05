@@ -279,10 +279,118 @@ function insertDocument() {
 
 	dateRange.innerHTML = "";
 	dateRange.appendChild(newP);
+	
+	//휴가종류
+	var getsuFlagTd = document.querySelector("#getsuFlagTd");
+	// 선택된 값을 가져오기 위해 select 요소를 가져옴
+	var selectElement = document.getElementById("getsuFlag");
+	// 선택된 옵션의 인덱스
+	var selectedIndex = selectElement.selectedIndex;
+	// 선택된 옵션 요소
+	var selectedOption = selectElement.options[selectedIndex];
+	// 선택된 값
+	var selectedValue = selectedOption.value;
+	console.log("selectedValue:",selectedValue);
+	
+	var getsuFlagP = document.createElement("p");
+	if(selectedValue == 'N'){
+		getsuFlagP.textContent = "연차";
+	} else if(selectedValue == 'Y') {
+		getsuFlagP.textContent = "공차";
+	}
+	
+	getsuFlagTd.innerHTML = "";
+	getsuFlagTd.appendChild(getsuFlagP);
+	
+//	// 반차여부
+//	var halfStatus = document.querySelector("#halfStatus");
+//	var halfStatusP = document.createElement("P");
+//	halfStatusP.textContent = "";
+//	// 시작일
+//	var start_day_half_checkbox = document.querySelector("#start_day_half");
+//	var start_day_half_div = start_day_half_checkbox.parentElement;
+//	var start_day_half_radios = start_day_half_div.querySelector("input[type=radio]");
+//	if(start_day_half_checkbox.checked){
+//		console.log("start_day_half_checkbox.value:",start_day_half_checkbox.value)
+//		halfStatusP.textContent = start_day_half_checkbox.value;
+//		console.log("halfStatusP.textContent:",halfStatusP.textContent)
+//		for(let i = 0; i < start_day_half_radios.length; i++){
+//			if(start_day_half_radios[i].checked){
+//				console.log("start_day_half_radios[i].value:",start_day_half_radios[i].value);
+//				halfStatusP.textContent += start_day_half_radios[i].value; 
+//				console.log("halfStatusP.textContent:",halfStatusP.textContent)
+//			}
+//		}
+//	}
+//	
+//	// 종료일
+//	var end_day_half_checkbox = document.querySelector("#end_day_half");
+//	var end_day_half_div = end_day_half_checkbox.parentElement;
+//	var end_day_half_radios = end_day_half_div.querySelector("input[type=radio]");
+//	if(end_day_half_checkbox.checked){
+//		halfStatusP.textContent = end_day_half_checkbox.value;
+//		for(let i = 0; i < end_day_half_radios.length; i++){
+//			if(end_day_half_radios[i].checked){
+//				halfStatusP.textContent += end_day_half_radios[i].value; 
+//			}
+//		}
+//	}
+//	
+//	halfStatus.innerHTML = "";
+//	halfStatus.appendChild(halfStatusP);
 
+	// 반차여부
+	var halfStatus = document.querySelector("#halfStatus");
+	var halfStatusP = document.createElement("p");
+	halfStatusP.textContent = "";
+	
+	// 시작일
+	var start_day_half_checkbox = document.querySelector("#start_day_half");
+	var start_day_half_div = start_day_half_checkbox.parentElement;
+	var start_day_half_radios = start_day_half_div.querySelectorAll("input[type=radio]");
+	if (start_day_half_checkbox.checked) {
+	    halfStatusP.textContent += start_day_half_checkbox.value;
+	    for (let i = 0; i < start_day_half_radios.length; i++) {
+	        if (start_day_half_radios[i].checked) {
+	            halfStatusP.textContent += " - " + start_day_half_radios[i].value;
+	        }
+	    }
+	}
+	
+	// 종료일
+	var end_day_half_checkbox = document.querySelector("#end_day_half");
+	var end_day_half_div = end_day_half_checkbox.parentElement;
+	var end_day_half_radios = end_day_half_div.querySelectorAll("input[type=radio]");
+	if (end_day_half_checkbox.checked) {
+	    if (halfStatusP.textContent !== "") {
+	        halfStatusP.textContent += ", "; // 시작일과 종료일 사이에 쉼표 추가
+	    }
+	    halfStatusP.textContent += end_day_half_checkbox.value;
+	    for (let i = 0; i < end_day_half_radios.length; i++) {
+	        if (end_day_half_radios[i].checked) {
+	            halfStatusP.textContent += " - " + end_day_half_radios[i].value;
+	        }
+	    }
+	}
+	
+	// 선택된 값들을 화면에 출력
+	halfStatus.innerHTML = ""; // 이전에 있던 내용을 지우고 다시 출력
+	halfStatus.appendChild(halfStatusP); // halfStatusP 요소를 halfStatus에 추가
 
-
-
+	// 긴급 여부
+	var urgencyTd = document.querySelector("#urgencyTd");
+	var urgencyTdP = document.createElement("P");
+	urgencyTdP.textContent = "";
+	
+	var urgency_checkbox = document.querySelector("#urgency");
+	if(urgency_checkbox.checked){
+		urgencyTdP.textContent += "긴급!!";
+	} else {
+		urgencyTdP.textContent += " - ";
+	}
+	
+	urgencyTd.innerHTML = "";
+	urgencyTd.appendChild(urgencyTdP);
 
 	/*Approval table*/
 	// 결재자 값 넘기기
@@ -395,32 +503,32 @@ function insertDocument() {
 	}
 
 	/*fetch post*/
-	fetch("./insertDocument.do", {
-		method: 'POST',
-		body: formData
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('네트워크 에러..');
-			}
-			return response.json();
-		})
-		.then(data => {
-			console.log('data:', data);
-			var docno = document.getElementById("docno");
-			docno.textContent = data;
-			content = templateArea.innerHTML;
-			
-			updateContent(data, content);
-		})
-		.catch(error => {
-			console.error('오류 발생:', error);
-		});
+//	fetch("./insertDocument.do", {
+//		method: 'POST',
+//		body: formData
+//	})
+//		.then(response => {
+//			if (!response.ok) {
+//				throw new Error('네트워크 에러..');
+//			}
+//			return response.json();
+//		})
+//		.then(data => {
+//			console.log('data:', data);
+//			var docno = document.getElementById("docno");
+//			docno.textContent = data;
+//			content = templateArea.innerHTML;
+//			
+//			updateContent(data, content);
+//		})
+//		.catch(error => {
+//			console.error('오류 발생:', error);
+//		});
 
 	//알림
 //	notify('전자결재', title + " 문서가 상신되었습니다");
 
-	window.location.href = "./draftList.do";
+//	window.location.href = "./draftList.do";
 }
 
 function radioActiveS(chk) {
