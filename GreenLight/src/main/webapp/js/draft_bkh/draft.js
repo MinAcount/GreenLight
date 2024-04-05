@@ -72,10 +72,140 @@ function submissionValidation() {
 
 }
 
-//임시저장 유효성 검사
-function temporaryValidation() {
-	console.log("temporaryValidation()");
+//임시저장
+function insertTempDocument() {
+	console.log("insertTempDocument()");
+	
+	//input들 value 값 저장하기
+	var templateArea = document.getElementById("templateArea");
+	var inputs = templateArea.querySelectorAll("input[type='text']");
+	console.log("inputs", inputs)
+	inputs.forEach(function(input) {
+		console.log(input.value);
+		var newPTag = document.createElement("P");
+		input.parentElement.appendChild(newPTag);
+		console.log("input", input.parentElement);
+		if (input.value != null) {
+			newPTag.textContent = input.value;
+			console.log("newPTag", newPTag.textContent);
+		}
+		input.remove();
+		//      input.setAttribute("value",input.value);
+		//      input.setAttribute("readonly", "readonly");
+	})
+
+	
+
+	/*document table*/
+	var writer_id = document.getElementById("writer_id").value;
+	var templateArea = document.getElementById("templateArea");
+	var content = templateArea.innerHTML;
+	var titleTd = document.getElementById("title");
+	var titleP = titleTd.getElementsByTagName("p")[0];
+	var title = titleP.textContent;
+	var draft_date = document.getElementById("draft_date").textContent;
+	var urgencyChecked = document.getElementById("urgency");
+	var urgency = urgencyChecked.checked ? 'Y' : 'N';
+	var tempcode = document.getElementById("tempCode").value;
+	console.log("writer_id:", writer_id);
+	console.log("content:", content);
+	console.log("title:", title);
+	console.log("draft_date:", draft_date);
+	console.log("urgency:", urgency);
+	console.log("tempcode:", tempcode);
+
+
+	/*vacation table*/
+	/*var writer_id = document.getElementById("writer_id").value;*/
+	var start_day = document.getElementById("start_day").value;
+	var end_day = document.getElementById("end_day").value;
+	var getsu = document.getElementById("getsu").textContent;
+
+	console.log("start_day:", start_day);
+	console.log("end_day:", end_day);
+	console.log("getsu:", getsu);
+
+
+
+	
+
+	var formData = new FormData();
+	formData.append("writer_id", writer_id);
+	formData.append("content", content);
+	formData.append("title", title);
+	formData.append("draft_date", draft_date);
+	formData.append("urgency", urgency);
+	formData.append("tempcode", tempcode);
+	formData.append("start_day", start_day);
+	formData.append("end_day", end_day);
+	formData.append("getsu", getsu);
+	formData.append("doc_status", "04");
+
+
+	/*fetch post*/
+	fetch("./insertTempDocument.do", {
+		method: 'POST',
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('네트워크 에러..');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('data:', data);
+			var docno = document.getElementById("docno");
+			docno.textContent = data;
+			console.log("data",data)
+			
+			content = templateArea.innerHTML;
+			
+			updateContent(data, content);
+			
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
+
+	//알림
+//	notify('전자결재', title + " 문서가 상신되었습니다");
+
+	window.location.href = "./tempDraftList.do";
 }
+
+
+
+function updateContent(docno, content) {
+	
+	var formData = new FormData();
+	
+	formData.append("content", content);
+	formData.append("docno", docno);
+
+	fetch("./updateContent.do", {
+		method: 'POST',
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('네트워크 에러..');
+			}
+			return response.json();
+		})
+		.then(data2 => {
+			console.log('data2:', data2);
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
+}
+
+
+
+
+
+
 
 //기안서 상신을 위해 Controller에 넘겨줄 값 탐색
 function insertDocument() {
@@ -114,7 +244,7 @@ function insertDocument() {
 	/*document table*/
 	var writer_id = document.getElementById("writer_id").value;
 	var templateArea = document.getElementById("templateArea");
-	var content = templateArea.innerHTML;
+	var content ;
 	var titleTd = document.getElementById("title");
 	var titleP = titleTd.getElementsByTagName("p")[0];
 	var title = titleP.textContent;
@@ -235,12 +365,14 @@ function insertDocument() {
 	newImg.setAttribute("style", "width:50px");
 	div.appendChild(newImg);
 
-	content = templateArea.innerHTML;
+	
 
 	/*filestorage table */
 	var fileInput = document.getElementById("fileInput");
 	var files = fileInput.files;
-
+	
+	content = templateArea.innerHTML;
+	
 	var formData = new FormData();
 	formData.append("writer_id", writer_id);
 	formData.append("content", content);
@@ -254,6 +386,7 @@ function insertDocument() {
 	formData.append("apprLine", JSON.stringify(apprLine));
 	formData.append("refLine", JSON.stringify(refLine));
 	formData.append("writerVo", JSON.stringify(writerVo));
+	formData.append("doc_status","01");
 
 
 	for (let i = 0; i < files.length; i++) {
@@ -274,13 +407,18 @@ function insertDocument() {
 		})
 		.then(data => {
 			console.log('data:', data);
+			var docno = document.getElementById("docno");
+			docno.textContent = data;
+			content = templateArea.innerHTML;
+			
+			updateContent(data, content);
 		})
 		.catch(error => {
 			console.error('오류 발생:', error);
 		});
 
 	//알림
-	notify('전자결재', title + " 문서가 상신되었습니다");
+//	notify('전자결재', title + " 문서가 상신되었습니다");
 
 	window.location.href = "./draftList.do";
 }
@@ -400,13 +538,18 @@ async function rejectApproval() {
 	var doc_status = "03";
 	var writer_id = document.getElementById("writer_id").value;
 
+	var titleTd = document.getElementById("title");
+	var titleP = titleTd.querySelector("p");
+	var title = titleP.textContent;
+	
 	var formData = new FormData();
 	formData.append("comment", rejectCommentValue);
 	formData.append("emp_id", loginVo_id);
 	formData.append("docno", docno);
 	formData.append("doc_status", doc_status);
 	formData.append("appr_status", appr_status);
-	formData.append("writer_id", writer_id)
+	formData.append("writer_id", writer_id);
+	formData.append("title", title);
 	/*fetch post*/
 	try {
 		const response1 = await fetch("./updateApproval.do", {
@@ -542,6 +685,10 @@ async function approve() {
 			})
 		}
 	})
+	var titleTd = document.getElementById("title");
+	var titleP = titleTd.querySelector("p");
+	var title = titleP.textContent;
+	
 	var formData = new FormData();
 	formData.append("comment", approveCommentValue);
 	formData.append("emp_id", loginVo_id);
@@ -550,6 +697,7 @@ async function approve() {
 	formData.append("appr_status", appr_status);
 	formData.append("nextId", nextId);
 	formData.append("writer_id", writer_id);
+	formData.append("title",title);
 
 	try {
 		const response1 = await fetch("./updateApproval.do", {
@@ -649,3 +797,4 @@ function closeDangerAlert() {
 	var dangerAlert = document.getElementById("dangerAlert");
 	dangerAlert.setAttribute("style", "display:none");
 }
+

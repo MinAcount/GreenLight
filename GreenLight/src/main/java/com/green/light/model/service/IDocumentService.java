@@ -44,5 +44,8 @@ public interface IDocumentService {
 	
 	// 기안서 내용 업데이트
 	public int updateContent(Map<String, Object> map);
+	
+	// 임시저장
+	public int insertTempDraft(DocumentVo dVo);
 
 }
