@@ -200,7 +200,7 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
-							style="margin-right: 5px;" onclick="temporaryValidation()">임시저장</button>
+							style="margin-right: 5px;" onclick="insertTempDocument()">임시저장</button>
 						<button class="btn btn-primary " type="button"
 							style="width: 73.6px;" onclick="submissionValidation()">상신</button>
 					</div>
@@ -215,7 +215,135 @@
 				<div
 					style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
 					<div id="templateArea">
-						
+						<div style="width: 100%; text-align: center;" id="templateAreaLeft">
+                     <div class="top"
+                     style="text-align: center; margin-bottom: 70px; padding-top: 30px;">
+                     <h2>지출결의서</h2>
+                  </div>
+                   <div class="header1"
+                        style="display: flex; flex-direction: row; justify-content: flex-end; margin-bottom: 20px;">
+                        <div style="display: flex; flex-direction: row;">
+                           <table id="WriterArea" class="template" style="height: 160px;">
+                              <tr>
+                                 <th rowspan="3" class="width30">신청</th>
+                                 <td id="drafter_spot" class="fontSize14" style="width: 90px; height: 20px;"></td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <div id="drafter_name" class="fontSize14"></div>
+                                 </td>
+                              </tr>
+                              <tr>
+
+                                 <td id="drafter_draft_date" class="fontSize14" style="height: 20px;"></td>
+                              </tr>
+                           </table>
+                           <table id="approvalArea" class="template"
+                              style="margin-left: 10px; height: 160px;">
+                              <tr id="firstTr">
+                                 <th id="apprTh" rowspan="3" class="width30" style="display: none;">승인</th>
+                                 
+                              </tr>
+                              <tr id="secondTr">
+                                 
+                              </tr>
+                              <tr id="thirdTr">
+                                 
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="header2"
+                        style="display: flex; flex-direction: row; justify-content: flex-start;">
+                        <div style="width: 100%;">
+                           <table class="template" style="width: 69%;">
+                              <tr>
+                                 <th style="width: 80px;">기안자</th>
+                                 <td id="draftWriter" style="width: 180px;" class="paddingL10">
+                                    <p id="name"></p>
+                                    <input type="hidden" id="writer_id" name="writer_id" value="">
+                                 </td>
+                              </tr>
+                               <tr>
+                                 <th>소속부서</th>
+                                 <td class="paddingL10">
+                                    <p id="dname"></p>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th>기안일</th>
+                                 <td class="paddingL10">
+                                    <p id="draft_date"></p>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th>문서번호</th>
+                                 <td class="paddingL10">
+                                 	<p id="docno"></p>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+
+                  <div class="content" style="width: 100%; margin-top: 20px;">
+                     <table class="template" style="width: 100%;">
+                     
+                        <tr>
+                           <th style="width: 20%;">제목</th>
+                           <td colspan="3" class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                           <th style="width: 20%;">작성일자</th>
+                           <td style="width: 30%;" class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                          <th style="width: 20%;">금액</th>
+                           <td style="width: 30%;" class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                           <th>지출사유</th>
+                           <td colspan="3"></td>
+                        </tr>
+                     </table>
+                  </div>
+                  <div class="AddDetails"
+                     style="margin-top: 30px; margin-bottom: 10px; text-align: right;">
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1" onclick="addExpenseDetail()">추가</button>
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1" onclick="deleteExpenseDetail()">삭제</button>
+                  </div>
+                  <div class="bottom" style="width: 100%;">
+                     <table class="template" id="expenseDetail" style="width: 100%;">
+                     <tbody>
+                        <tr>
+                           <th style="width: 20%;">일자</th>
+                           <th style="width: 20%; text-align: center;">분류</th>
+                           <th style="width: 40%;">사용내역</th>
+                           <th style="width: 20%;">금액</th>
+                        </tr>
+                        <tr class="details">
+                           <td class="pdl10 pdr10"></td>
+							<td class="pdl10 pdr10">
+								<select class="datatable-selector" name="deptno" id="deptno">
+										<option value="물품구입비">물품구입비</option>
+										<option value="잡비">잡비</option>
+										<option value="회식비">회식비</option>
+										<option value="식비">식비</option>
+										<option value="교통비">교통비</option>
+										<option value="기타">기타</option>
+								</select>
+							</td>
+							<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                           <td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                           <th colspan="2">합계</th>
+                           <td colspan="3"></td>
+                        </tr>
+                        </tbody>
+                     </table>
+                  </div>
+                  </div>
 					</div>
 					<div
 						style="margin-left: 30px; width: 25%; border: 1px solid black; padding: 10px; border-color: #B0B5B1;">
