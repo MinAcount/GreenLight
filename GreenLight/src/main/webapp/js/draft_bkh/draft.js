@@ -265,16 +265,12 @@ function insertDocument() {
 function radioActiveS(chk) {
 	console.log("radioActive 시작일()")
 	console.log(chk);
+	
+	let start_day_halfs = document.getElementsByName("start_day_half");
+	for (let i = 0; i < start_day_halfs.length; i++) {
+		start_day_halfs[i].disabled = !chk;
+	}
 
-	let start_day_half_div = document.querySelector("#start_day_half").parentElement;
-	console.log("start_day_half_div:",start_day_half_div);
-	// radio버튼이 한번 눌리면 체크해제가 안됨
-	// checkbox가 체크되고, radio도 체크되면 신청연차 + 0.5
-	let start_day_half_checkbox = start_day_half_div.querySelector("#start_day_half");
-	start_day_half_checkbox.addEventListener("change", function(){
-		
-	})
-	// checkbox가 체크해제되면 신청연차 -0.5
 }
 
 function radioActiveE(chk) {

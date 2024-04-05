@@ -776,6 +776,24 @@ async function selectComplete() {
 				if(formattedStartDate == formattedEndDate){
 					console.log("종료일 비활성화")
 					document.querySelector("#end_day_half").disabled = true;
+					let start_day_half_div = document.querySelector("#start_day_half").parentElement;
+					let start_day_half_checkbox = start_day_half_div.querySelector("input[type='checkbox']");
+					start_day_half_checkbox.addEventListener("change",function(){
+						if(start_day_half_checkbox.checked){
+							let start_day_half_radios = start_day_half_div.querySelectorAll("input[type='radio']");
+							for(let i = 0; i < start_day_half_radios.length; i++){
+								start_day_half_radios[i].addEventListener("change",function(){
+									if(start_day_half_radios[i].checked){
+										getsu -= 0.5;
+										document.getElementById("getsu").textContent = getsu - weekendCount;
+									}
+								})
+							}
+						} else {
+							getsu += 0.5;
+							document.getElementById("getsu").textContent = getsu - weekendCount;
+						}
+					})
 				} else { // 시작일 - 오후만, 종료일 - 오전만 체크 가능
 					document.querySelector("#end_day_half").disabled = false;
 					console.log("시작일 - 오후, 종료일 - 오전만 체크가능")
@@ -785,10 +803,22 @@ async function selectComplete() {
 					let start_day_half_checkbox = start_day_half_div.querySelector("input[type='checkbox']");
 //					console.log("start_day_half_checkbox:",start_day_half_checkbox);
 					start_day_half_checkbox.addEventListener("change",function(){
-						if(this.checked){
+						if(start_day_half_checkbox.checked){
 							let start_day_half_radios = start_day_half_div.querySelectorAll("input[type='radio']");
 //							console.log("start_day_half_radios:",start_day_half_radios);
 							start_day_half_radios[0].disabled = true;
+							start_day_half_radios[1].addEventListener("change",function(){
+								if(start_day_half_radios[1].checked){
+									getsu -= 0.5;
+									console.log("getsu:",getsu)
+									document.getElementById("getsu").textContent = getsu - weekendCount;
+								}
+							});
+						} else {
+							console.log("start checkbox 체크해제됨")
+							getsu += 0.5;
+							console.log("getsu:",getsu)
+							document.getElementById("getsu").textContent = getsu - weekendCount;
 						}
 					})
 					
@@ -799,6 +829,16 @@ async function selectComplete() {
 						if(this.checked){
 							let end_day_half_radios = end_day_half_div.querySelectorAll("input[type='radio']");
 							end_day_half_radios[1].disabled = true;
+							end_day_half_radios[0].addEventListener("change",function(){
+								if(end_day_half_radios[0].checked){
+									getsu -= 0.5;
+									document.getElementById("getsu").textContent = getsu - weekendCount;
+								}
+							});
+						} else {
+							console.log("end checkbox 체크해제됨")
+							getsu += 0.5;
+							document.getElementById("getsu").textContent = getsu - weekendCount;
 						}
 					})
 				}
@@ -835,14 +875,17 @@ async function selectComplete() {
 			var name = document.getElementById("name");
 			var dname = document.getElementById("dname");
 			var writer_id = document.getElementById("writer_id");
+			var vacVo_remaining_leave = document.getElementById("vacVo_remaining_leave");
 			console.log("name:", name);
 			console.log("dname:", dname);
 			console.log("writer_id:", writer_id);
+			console.log("vacVo_remaining_leave:",vacVo_remaining_leave.value);
 
 			name.textContent = loginVo_name;
 			dname.textContent = deptVo_dname;
 			writer_id.value = loginVo_id;
-
+			document.querySelector("#remaining_leave").textContent = vacVo_remaining_leave.value;
+			
 			// 기안 뿌리기
 			var today = new Date();
 
