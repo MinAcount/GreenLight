@@ -69,7 +69,7 @@
 									<input class="form-check-input" type="checkbox">
 								</td>
 								<td>${vo.docno}</td>
-								<td><a>${vo.title}</a></td>
+								<td><a href="draftDetail.do?docno=${vo.docno}">${vo.title}</a></td>
 								<td>
 									<c:choose>
 						                <c:when test="${vo.urgency eq 'Y'}">

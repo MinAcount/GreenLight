@@ -21,7 +21,7 @@
 				<input type="hidden" id="loginVo_name" value="${sessionScope.loginVo.name}">
                   <input type="hidden" id="deptVo_dname" value="${deptVo.dname}">
                   <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
-                  <input type="hidden" id="tempCode" value="">
+                  
                   <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
 					<input type="hidden" id="docno" value="${docVo.docno}">
 				<hr class="mt-0 mb-5">
@@ -157,8 +157,9 @@
 				<div 
 					style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: calc((80vw * 0.64) * 1.414);">
 					<div id="templateArea" style="">
+						<input type="hidden" id="tempCode" value="">
 						${docVo.content}
-
+						
 							
 					</div>
 					<div

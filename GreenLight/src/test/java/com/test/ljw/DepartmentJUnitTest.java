@@ -27,10 +27,10 @@ public class DepartmentJUnitTest {
 
 	@Test
 	public void DepartmentTest() {
-//		//부서 전체 조회
-//		List<DepartmentVo> list = service.getAllDept();
-//		System.out.println(list);
-//		assertNotEquals(0, list.size());
+		//부서 전체 조회
+		List<DepartmentVo> list = service.getAllDept();
+		System.out.println(list);
+		assertNotEquals(0, list.size());
 		
 		//부서 상세 조회
 //		DepartmentVo vo = service.getOneDept("04");
