@@ -12,8 +12,10 @@ public interface IMessageService {
 		public List<MessageVo> getAllChat(String id);
 		// 채팅방 목록 검색 getSearchChat
 		
-		// 채팅방 생성 insertChat
-		public boolean insertChat(Map<String, Object> map);
+		// 채팅방 생성 (Message 테이블 추가) insertChat
+		public int insertChat(Map<String, Object> groupMap);
+		// 채팅방 아이디 찾기 getChatIdFound
+		public String getChatIdFound();
 		// 채팅방 세부 조회 getViewInsideChat
 		public List<MessageVo> getViewInsideChat(String chat_id);
 		// 채팅방 이름 수정 updateChatName

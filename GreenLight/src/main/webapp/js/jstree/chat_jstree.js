@@ -1,5 +1,18 @@
 $(function() {
 	
+	function hideLoginUser(){
+		var loginId = document.getElementById("id").value;
+		var loginNode = $("#chatTree").jstree("get_node", loginId);
+		if(loginNode){
+			$("#chatTree").jstree("hide_node", loginNode);
+		}
+	}
+	
+	$("#chatModal").on("shown.bs.modal", function(e){
+		hideLoginUser();
+	});
+	
+	
 	// Reference Tree
 	$('#chatTree').jstree({
 		//types : 각 노드의 유형을 정의, search : 검색, dnd : 드래그 앤 드롭
@@ -43,6 +56,7 @@ $(function() {
 		},
 	});
 
+	
 
 
 	// Add Reference Button Click
@@ -196,21 +210,28 @@ function chatDone() {
 
     console.log(selectedIds);
     
+    var chatName = document.getElementById("createChatName").value;
+    var loginId = document.getElementById("id").value;
+    console.log(loginId);
+    
+    selectedIds.push(loginId);
+    
     fetch("./insertChat.do", {
 		method: 'POST',
 		headers: {
-			'Content-Type': 'application/json',
-            'Accept': 'application/json'
+			'Content-Type': 'application/json'
 		},
 		body: JSON.stringify({
-			id:selectedIds.join(',')
+			id:selectedIds.join(','),
+			roomname:chatName,
+			groupno:''
 		})
 	})
 	.then(response => {
 		if(!response.ok){
 			throw new Error('Network response was not ok');
 		}
-		return response.json();
+		return response.text();
 	})
 	.then(data => {
 		console.log("data : ", data);

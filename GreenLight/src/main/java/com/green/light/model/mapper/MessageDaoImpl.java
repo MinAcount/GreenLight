@@ -69,4 +69,9 @@ public class MessageDaoImpl implements IMessageDao {
 		return sqlsession.insert(NS + "insertChat", map);
 	}
 
+	@Override
+	public String getChatIdFound() {
+		return sqlsession.selectOne(NS + "getChatIdFound");
+	}
+
 }
