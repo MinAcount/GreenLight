@@ -17,6 +17,7 @@ public class NotificationVo {
 	private String noti_id;
 	private String gubun;
 	private String ntype;
+	private String sender;
 	private String alert_time;
 	private String content;
 	
@@ -24,4 +25,5 @@ public class NotificationVo {
 	private String read;
 	
 	private CommonVo comVo;
+	private EmployeeVo empVo;
 }

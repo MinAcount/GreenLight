@@ -8,12 +8,15 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.green.light.model.service.INotificationService;
+import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.NotificationVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -51,5 +54,14 @@ public class NotificationController {
 		}else {
 			return ResponseEntity.ok("fail");
 		}
+	}
+	
+	@GetMapping("allNoti.do")
+	public String allNoti(Model model, HttpSession session) {
+		log.info("NotificationController POST allNoti.do 알림 센터로 이동(알림 전체 보기)");
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		List<NotificationVo> notiList = notiService.getAllNoti(loginVo.getId());
+		model.addAttribute("allNoti", notiList);
+		return "notiCenter";
 	}
 }

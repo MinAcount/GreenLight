@@ -71,6 +71,25 @@ public class DocumentServiceImpl implements IDocumentService{
 		return cnt;
 	}
   
+	@Override
+	public int insertTempDraft(DocumentVo dVo) {
+		log.info("DocumentServiceImpl insertTempDraft 게시글 : {}", dVo);
+		
+		// 성공한 쿼리문의 갯수
+		int cnt = 0;
+		
+		try {
+			// 기안서 상신
+			System.out.println("==== insertTempDocument() ====");
+			System.out.println("==== dVo : " + dVo + " ====");
+			cnt += dao.insertDocument(dVo);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return cnt;
+	}
+	
 	
 	@Override
 	public List<DocumentVo> getAllPendingApprovalDraft(String id) {

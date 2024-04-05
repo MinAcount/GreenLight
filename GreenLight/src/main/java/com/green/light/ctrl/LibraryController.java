@@ -46,10 +46,11 @@ public class LibraryController {
 	}
 	
 	 @GetMapping(value = "/draftList.do")
-	 public String draftList(Model model, HttpSession session) {
+	 public String draftList(Model model, HttpSession session) throws InterruptedException {
 		 log.info("LibraryController GET draftList.do 기안문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
+		 Thread.sleep(1000);
 		 List<DocumentVo> lists = service.getAllDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
@@ -69,15 +70,17 @@ public class LibraryController {
 	 public ResponseEntity<?> draftListByDocStatus(@RequestBody Map<String, Object> map) {
 		 log.info("LibraryController POST draftListByDocStatus.do 기안문서함 기안서상태별 전체조회{}",map);
 		 List<DocumentVo> lists = service.getAllDraftByDocStatus(map);
+		 System.out.println("==================================lists:"+lists);
 		 return ResponseEntity.ok(lists);
 	 }	 
 	 
 	 
 	 @GetMapping(value = "/tempDraftList.do")
-	 public String tempDraftList(Model model, HttpSession session) {
+	 public String tempDraftList(Model model, HttpSession session) throws InterruptedException {
 		 log.info("LibraryController GET tempDraftList.do 임시보관함 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
+		 Thread.sleep(1000);
 		 List<DocumentVo> lists = service.getAllTempDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);

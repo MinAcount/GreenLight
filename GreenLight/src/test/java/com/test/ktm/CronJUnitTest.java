@@ -75,29 +75,33 @@ public class CronJUnitTest {
 //		vo.setOut_date(" 12:00");
 //		vo.setAtt_status("반차");
 //		System.out.println(vo);
-////		int n = cronService.insertVacationAttendance(vo);
+//		int n = cronService.insertVacationAttendance(vo);
 //		int n = cronService.updateVacationAttendance(vo);
 //		System.out.println(n);
 //		assertEquals(1, n);
 		
-		LocalDate yesterDay = LocalDate.now().minusDays(1);
-		LocalDate Day = LocalDate.now().plusDays(2);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String yesterdayString = Day.format(formatter);
-		System.out.println(Day);
+//		LocalDate yesterDay = LocalDate.now().minusDays(1);
+//		LocalDate Day = LocalDate.now().plusDays(2);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String yesterdayString = Day.format(formatter);
+//		System.out.println(Day);
 		
 		List<VacationVo> list = cronService.getEmpVacationStatus();
 		System.out.println("list==" +list);
 		for(VacationVo vacationVo : list) {
-			System.out.println("vacationVo==" +vacationVo);
+			AttendanceVo attendanceVo = cronService.getEmpAttendanceStatus(vacationVo.getId());
 			System.out.println("vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
-			
-			if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {
-				System.out.println("if 문 성공한 쿼리vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
-			}else {
-				System.out.println("실패실패");
-			}
+			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date().substring(10,16));
+			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date());
+			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date().substring(10,16));
+			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date());
+//			if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {
+//				System.out.println("if 문 성공한 쿼리vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
+//			}
 		}
+		assertNotNull(list);
+		
+		
 		
 	}
 

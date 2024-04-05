@@ -24,11 +24,13 @@ import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.model.service.IVacationService;
+import com.green.light.model.service.ISignService;
 import com.green.light.vo.ApprJstreeVo;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.VacationVo;
+import com.green.light.vo.SignVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,10 +47,13 @@ public class DraftController {
 	
 	@Autowired
 	private IVacationService VacService;
+  
+  @Autowired
+  private ISignService signService;
 	
 	@GetMapping(value = "/draftWriteForm.do")
 	public String draftWriteForm(HttpSession session, Model model) {
-		log.info("DraftController GET /draftWriteForm.do 기안서 작성 Form");
+		log.info("DraftController POST /draftWriteForm.do 기안서 작성 Form");
 		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
 		String deptno = empVo.getDeptno();
 		DepartmentVo deptVo = DeptService.getOneDept(deptno);
@@ -57,10 +62,12 @@ public class DraftController {
 		selectOneLeaveMap.put("select_day", "2024-03-05");
 		selectOneLeaveMap.put("id", empVo.getId());
 		VacationVo vacVo = VacService.selectOneLeave(selectOneLeaveMap);
+    SignVo sVo = signService.selectMainSign(empVo.getId());
 		
 		model.addAttribute("deptVo", deptVo);
 		model.addAttribute("vacVo", vacVo);
-		return "draftWriteForm";
+		model.addAttribute("sVo",sVo);
+    return "draftWriteForm";
 	}
   
   @GetMapping(value = "/draftForm.do")

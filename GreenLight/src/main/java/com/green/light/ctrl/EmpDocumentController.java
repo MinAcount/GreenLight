@@ -2,6 +2,7 @@ package com.green.light.ctrl;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.model.service.IFileStorageService;
@@ -121,6 +124,26 @@ public class EmpDocumentController {
 	    response.getOutputStream().write(fileByte);
 	    response.getOutputStream().flush();
 	    response.getOutputStream().close();
+	}
+	
+	@PostMapping("/getAllEmpFile.do")
+	@ResponseBody
+	public ResponseEntity<?> getAllEmpFile(@RequestBody Map<String, Object> map) throws Exception{
+		log.info("EmpDocumentController POST getAllEmpFile.do 개별 인사서류 조회(화면확인용) {}", map);
+		String jsonString = (String)map.get("ids");
+		System.out.println(jsonString);
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, List<String>> jsonArray = objectMapper.readValue(jsonString, new TypeReference<Map<String, List<String>>>() {});
+        List<String> idList = jsonArray.get("empIdList");
+        List<List<FileStorageVo>> list = new ArrayList<List<FileStorageVo>>();
+        for(String id : idList) {
+        	Map<String, Object> mapId = new HashMap<String, Object>();
+        	mapId.put("id", id);
+        	mapId.put("start", "03");
+        	mapId.put("end", "06");
+        	list.add(fileService.getOneFile(mapId));
+        }
+		return ResponseEntity.ok(list);
 	}
 
 }

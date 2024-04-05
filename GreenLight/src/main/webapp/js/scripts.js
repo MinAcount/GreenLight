@@ -106,6 +106,9 @@ document.addEventListener("DOMContentLoaded", function() {
 	var layoutSidenav_nav = document.querySelectorAll("#layoutSidenav_nav a");
 	for(let navLink of layoutSidenav_nav){
 		var linkURL = navLink.getAttribute("href");
+		if(currentURL.includes("draftWriteForm.do")){
+			layoutSidenav_nav[7].classList.add("active");
+		}
 		if(currentURL == linkURL){
 			navLink.classList.add("active");
 		}else{

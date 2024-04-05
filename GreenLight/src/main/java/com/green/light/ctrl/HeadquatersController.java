@@ -47,6 +47,14 @@ public class HeadquatersController {
 		for(HeadquartersVo head :  headList) {
 			if(head.getDelflag().equals("N")) {
 				headVo = head;
+				List<DepartmentVo> deptList = deptService.getDeptByHead(headVo.getHeadno());
+				List<DepartmentVo> list = new ArrayList<DepartmentVo>();
+				for(DepartmentVo dept : deptList) {
+					list.add(deptService.getOneDept(dept.getDeptno()));
+				}
+				EmployeeVo empVo = empService.getOneEmployee(headVo.getHead_mgr());
+				headVo.setDeptVo(list);
+				headVo.setEmpVo(empVo);
 				break;
 			}
 		}

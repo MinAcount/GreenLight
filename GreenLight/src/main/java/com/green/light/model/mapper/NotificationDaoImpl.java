@@ -28,11 +28,6 @@ public class NotificationDaoImpl implements INotificationDao {
 	}
 
 	@Override
-	public List<NotificationVo> getGroupNoti(String id) {
-		return sqlSession.selectList(NS+"getGroupNoti",id);
-	}
-
-	@Override
 	public int insertNoti(Map<String, Object> map) {
 		return sqlSession.insert(NS+"insertNoti", map);
 	}

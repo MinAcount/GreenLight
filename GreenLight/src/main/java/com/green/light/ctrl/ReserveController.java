@@ -92,7 +92,6 @@ public class ReserveController {
 		EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
 		
 		parameters.put("applicant", loginVo.getId());
-		parameters.put("phone", loginVo.getPhone());
 		parameters.put("reserve_date", java.sql.Timestamp.valueOf((String) parameters.get("reserve_date")));
 		
 		int returnStatus = service.insertReserve(parameters);
@@ -106,15 +105,16 @@ public class ReserveController {
 			notiRoomReserve.put("gubun", (String)parameters.get("conf_id"));
 			notiRoomReserve.put("ntype", "04");
 			notiRoomReserve.put("sender", loginVo.getId());
-			notiRoomReserve.put("content", "["+parameters.get("cname")+"] 회의실이 예약되었습니다.");
+			notiRoomReserve.put("content", "["+parameters.get("cname")+" "+parameters.get("reserve_date")+"] 회의실이 예약되었습니다.");
 			List<EmployeeVo> employees = empService.getAllEmployeeByStatus("Y");
 			List<String> ids = new ArrayList<String>();
-			if(employees != null) {
+			if(employees.size() != 0) {
 				for(EmployeeVo employee : employees) {
 					ids.add((String)employee.getId());
 				}
 			}
-			notiService.insertNoti(parameters, ids);
+			notiService.insertNoti(notiRoomReserve, ids);
+
 		} else if (returnStatus == -1) {
 			System.out.println("중복된 예약이 있어 INSERT를 수행할 수 없습니다.");
 		} else if (returnStatus == 0) {
@@ -125,7 +125,7 @@ public class ReserveController {
 		return returnStatus;
 	}
 
-	@GetMapping(value = "/updateReserve.do")
+	@PostMapping(value = "/updateReserve.do")
 	@ResponseBody
 	public int UpdateReserve(@RequestBody ReservationVo vo) {
 		log.info("ReserveController GET updateReserve.do 예약수정 {}", vo);
@@ -189,12 +189,14 @@ public class ReserveController {
 	@ResponseBody
 	public List<CheckListVo> TimeReserve(@RequestParam("reserve_day") String reserve_day, 
 								         @RequestParam("timeslot") String timeslot, 
+								         @RequestParam("locality") String locality, 
 								         @RequestParam("floor") String floor, 
 								         @RequestParam("capacity") int capacity) {
-		log.info("ReserveController GET timeReserve.do 시간 선택 예약조회 {} {} {} {}" , reserve_day, timeslot, floor, capacity);
+		log.info("ReserveController GET timeReserve.do 시간 선택 예약조회 {} {} {} {} {}" , reserve_day, timeslot, locality, floor, capacity);
 		Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("reserve_day", reserve_day);
 	    map.put("timeslot", timeslot);
+	    map.put("locality", locality);
 	    map.put("floor", floor);
 	    map.put("capacity", capacity);
 	    map.put("status", "예약가능");

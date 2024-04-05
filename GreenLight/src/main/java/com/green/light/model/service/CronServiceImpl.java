@@ -1,6 +1,7 @@
 package com.green.light.model.service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -119,9 +120,9 @@ public class CronServiceImpl implements ICronService {
 		System.out.println("-----"+vacationVo);
 		AttendanceVo attendanceVo = dao.getEmpAttendanceStatus(vacationVo.getId()); //전날 출근을 했는지 확인
 		System.out.println("+++++"+attendanceVo);
+		AttendanceVo parameterAttendanceVo = new AttendanceVo();
+		parameterAttendanceVo.setId(vacationVo.getId());
 		if(attendanceVo == null) {//전날 근태기록이 없으면 근태 insert 연차인사람
-			AttendanceVo parameterAttendanceVo = new AttendanceVo();
-			parameterAttendanceVo.setId(vacationVo.getId());
 			if(vacationVo.getHalf().equals("N")) { // 반차가 아닌 연차인 직원 
 				parameterAttendanceVo.setIn_date(" 09:00");
 				parameterAttendanceVo.setOut_date(" 18:00");
@@ -162,13 +163,53 @@ public class CronServiceImpl implements ICronService {
 				}
 				
 			}
+			System.out.println("parameterAttendanceVo insertVacationAttendance 실행전 Vo 상태 확인"+parameterAttendanceVo);
+			int n = dao.insertVacationAttendance(parameterAttendanceVo);
+		
+		}else if(attendanceVo != null) {//휴가인데 회사나온 사람들(아마도 반차 겠지?)
+//			if(vacationVo.getStart_day().substring(0, 10).equals(attendanceVo.getIn_date().substring(0,10))) {
+//				parameterAttendanceVo.setIn_date(" 09:00");
+//				parameterAttendanceVo.setOut_date(" 18:00");
+//				parameterAttendanceVo.setAtt_status("연차");
+//			}
 			
-			parameterAttendanceVo.setIn_date(" 09:00");
-			parameterAttendanceVo.setOut_date(" 18:00");
-			parameterAttendanceVo.setAtt_status("연차");
-		}else if(attendanceVo != null) {
+//			if(vacationVo.getHalf().equals("M")) {//반차인데 오전 오후인 사람을 했는데 status를 못넣네
+//				if(vacationVo.getStart_day().substring(0,10).equals(yesterdayString)) {
+//					parameterAttendanceVo.setIn_date(attendanceVo.getIn_date().substring(10,16));
+//					parameterAttendanceVo.setOut_date(" 18:00");
+//					parameterAttendanceVo.setAtt_status("");//status를 넣기가 너무 어려워 스트링 끼리 출근시간을 비교해야해서 비교가 되지 않아
+//				}
+			String in_time_date = attendanceVo.getIn_date().substring(11,16);
+			String out_time_date = attendanceVo.getOut_date().substring(11,16);
+			String standardInTime = "09:10";
+			String standardOutTime = "17:50";
+			LocalTime in_time = LocalTime.parse(in_time_date);
+			LocalTime out_time = LocalTime.parse(out_time_date);
+			LocalTime workingTime = LocalTime.parse(standardInTime);//출근시간
+			LocalTime afterWorkTime = LocalTime.parse(standardOutTime);//퇴근시간
 			
-		}
+			if(vacationVo.getHalf().equals("M")) {//시작날짜와 종료일에 반차 반차 앞뒤로 쓴 사람
+				if(vacationVo.getStart_day().substring(0,10).equals(yesterdayString)) {//휴가 시작일이 반차 사람
+					parameterAttendanceVo.setIn_date(attendanceVo.getIn_date().substring(10,16));
+					parameterAttendanceVo.setOut_date(" 18:00");
+					if(in_time.isBefore(workingTime)) {//실제출근시간이 회사출근시간보다 이른 시간일 경우
+						parameterAttendanceVo.setAtt_status("정상/반차");
+					}else if(in_time.isAfter(workingTime)) {//실제출근시간이 회사출근시간보다 늦은 시간일 경우
+						parameterAttendanceVo.setAtt_status("지각/반차");
+					}else {// 출근시간과 회사출근시간 같을 경우
+						parameterAttendanceVo.setAtt_status("정상/반차");
+					}
+			}else if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {//휴가 종료일이 반차 사람		
+//				if() {
+//					
+//				}
+			
+			}		
+			System.out.println("parameterAttendanceVo insertVacationAttendance 실행전 Vo 상태 확인"+parameterAttendanceVo);
+			int n = dao.updateVacationAttendance(parameterAttendanceVo);
+			
+			}
+		}//휴가인데 회사 출근산 직원 닫는괄호
 		
 		
 		
@@ -189,3 +230,4 @@ public class CronServiceImpl implements ICronService {
 	
 
 }
+	

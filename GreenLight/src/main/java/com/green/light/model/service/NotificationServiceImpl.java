@@ -33,13 +33,6 @@ public class NotificationServiceImpl implements INotificationService{
 		return list;
 	}
 
-	@Override
-	public List<NotificationVo> getGroupNoti(String id) {
-		log.info("NotificationServiceImpl getGroupNoti 마이페이지 그룹별 알림 조회");
-		List<NotificationVo> list = dao.getGroupNoti(id);
-		return list;
-	}
-
 	@Transactional
 	@Override
 	public boolean insertNoti(Map<String, Object> map, List<String> ids) {

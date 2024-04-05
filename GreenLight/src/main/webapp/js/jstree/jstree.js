@@ -716,12 +716,14 @@ async function selectComplete() {
 		var tempno = selectedNodes[0].original.tempno;
 		console.log(tempno);
 
+	var loginVo_id = document.getElementById("loginVo_id").value;
+	console.log("loginVo_id",loginVo_id)
 		try {
-			const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno);
+			const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno + "&id=" + loginVo_id);
 			const data1 = await response1.json();
 			//			console.log(data.content);
 			var templateArea = document.getElementById("templateArea");
-			templateArea.innerHTML = data1.content;
+			templateArea.innerHTML = data1.vo.content;
 			
 			var getsu = 0;
 			var weekendCount = 0;
@@ -859,13 +861,16 @@ async function selectComplete() {
 			
 			document.getElementById("apr_chk").innerHTML = "";
 			//			console.log("tempcode:",data1.tempcode)
-			document.getElementById("tempCode").value = data1.tempcode;
+			document.getElementById("tempCode").value = data1.vo.tempcode;
 
 			// input hidden 태그에 뿌려줄 값 조회
 			var loginVo_name = document.getElementById("loginVo_name").value;
 			var deptVo_dname = document.getElementById("deptVo_dname").value;
 			var loginVo_id = document.getElementById("loginVo_id").value;
 			var loginVo_spot = document.getElementById("loginVo_spot").value;
+			var save_sign = data1.sVo.save_sign;
+			document.getElementById("save_sign").value = save_sign;
+			console.log("save_sign",save_sign)
 			console.log("loginVo_name:", loginVo_name);
 			console.log("deptVo_dname:", deptVo_dname);
 			console.log("loginVo_id:", loginVo_id);
