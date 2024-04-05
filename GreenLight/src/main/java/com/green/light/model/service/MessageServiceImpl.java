@@ -66,23 +66,16 @@ public class MessageServiceImpl implements IMessageService {
 	}
 
 	@Override
-	public boolean insertChat(Map<String, Object> map) {
+	public int insertChat(Map<String, Object> groupMap) {
 		log.info("MessageServiceImpl insertChat 채팅방 생성");
-		
-		String[] idArray = (String[])map.get("id");
-		String roomname = (String)map.get("roomname");
-		System.out.println(idArray);
-		System.out.println(roomname);
-		
-		boolean m = true;
-		
-		for(String id : idArray) {
-			Map<String, Object> chatMap = new HashMap<>();
-			chatMap.put(id, "id");
-			chatMap.put(roomname, "roomname");
-			
-			int n = dao.insertChat(chatMap);
-		}
-		return m;
+		int n = dao.insertChat(groupMap); 
+		return n;
+	}
+
+	@Override
+	public String getChatIdFound() {
+		log.info("MessageServiceImpl getChatIdFound 채팅방 아이디 찾기");
+		String chat_id = dao.getChatIdFound();
+		return chat_id;
 	}
 }

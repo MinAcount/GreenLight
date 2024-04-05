@@ -85,9 +85,13 @@ SELECT G.GROUPNO , G.CHAT_ID , ROOMNAME ,
 	SELECT GROUPMEMBER_SEQ.NEXTVAL FROM DUAL
 </selectKey>
 	INSERT INTO GROUPMEMBER (GROUPNO, CHAT_ID, ROOMNAME, ID)
-       VALUES (#{groupno}, (SELECT (SELECT MAX(CHAT_ID)
-       FROM GROUPMEMBER g)+1 AS MAX FROM DUAL), #{roomname}, #{id})
+       VALUES (#{groupno}, #{chat_id}, #{roomname}, #{id})
 </insert>
+<!-- 채팅방 아이디 찾기 getChatIdFound -->
+<select id="getChatIdFound" resultType="java.lang.String">
+	SELECT NVL(MAX(CHAT_ID),0) + 1
+		FROM GROUPMEMBER g 
+</select>
 <!--      채팅방 세부 조회 getViewInsideChat -->
 <select id="getViewInsideChat" resultMap="MessageVo">
 SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
