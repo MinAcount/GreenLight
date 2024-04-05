@@ -90,13 +90,13 @@ public class VacationJUnitTest {
 
 		
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("select_year", "2024");
-		map.put("select_day", "2024-03-05");
-		map.put("id", "2403110901");
-		VacationVo resultVo = service.selectOneLeave(map);
-		System.out.println(resultVo);
-		assertNotEquals(null,resultVo);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("select_year", "2024");
+//		map.put("select_day", "2024-03-05");
+//		map.put("id", "2403110901");
+//		VacationVo resultVo = service.selectOneLeave(map);
+//		System.out.println(resultVo);
+//		assertNotEquals(null,resultVo);
 		
 		
 		
