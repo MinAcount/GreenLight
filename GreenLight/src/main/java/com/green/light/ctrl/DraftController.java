@@ -1,6 +1,7 @@
 package com.green.light.ctrl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +23,13 @@ import com.google.gson.GsonBuilder;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDepartmentService;
 import com.green.light.model.service.IEmployeeService;
+import com.green.light.model.service.IVacationService;
 import com.green.light.model.service.ISignService;
 import com.green.light.vo.ApprJstreeVo;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.EmployeeVo;
+import com.green.light.vo.VacationVo;
 import com.green.light.vo.SignVo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +46,10 @@ public class DraftController {
 	private IDepartmentService DeptService;
 	
 	@Autowired
-	private ISignService signService;
-	
-	
+	private IVacationService VacService;
+  
+  @Autowired
+  private ISignService signService;
 	
 	@GetMapping(value = "/draftWriteForm.do")
 	public String draftWriteForm(HttpSession session, Model model) {
@@ -53,10 +57,17 @@ public class DraftController {
 		EmployeeVo empVo = (EmployeeVo)session.getAttribute("loginVo");
 		String deptno = empVo.getDeptno();
 		DepartmentVo deptVo = DeptService.getOneDept(deptno);
+		Map<String, Object> selectOneLeaveMap = new HashMap<String, Object>();
+		selectOneLeaveMap.put("select_year", "2024");
+		selectOneLeaveMap.put("select_day", "2024-03-05");
+		selectOneLeaveMap.put("id", empVo.getId());
+		VacationVo vacVo = VacService.selectOneLeave(selectOneLeaveMap);
+    SignVo sVo = signService.selectMainSign(empVo.getId());
+		
 		model.addAttribute("deptVo", deptVo);
-		SignVo sVo = signService.selectMainSign(empVo.getId());
+		model.addAttribute("vacVo", vacVo);
 		model.addAttribute("sVo",sVo);
-		return "draftWriteForm";
+    return "draftWriteForm";
 	}
   
   @GetMapping(value = "/draftForm.do")
