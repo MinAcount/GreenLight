@@ -294,7 +294,7 @@ public class DocumentController {
 		service.updateDocStatus(docMap);
 		writerId.add(writer_id);
 		if(appr_status.equals("03") && orderno == lists.size() || appr_status.equals("03") && orderno != lists.size()) {
-			notiMap.put("content", "[" + title + "] 문서가 반려("+map.get("comment")+")되었습니다.");
+			notiMap.put("content", "[" + title + "] 문서가 반려(반려사유:"+map.get("comment")+")되었습니다.");
 		}else if(!appr_status.equals("03") && orderno == lists.size()){
 			notiMap.put("content", "[" + title + "] 문서가 승인되었습니다.");
 		}
