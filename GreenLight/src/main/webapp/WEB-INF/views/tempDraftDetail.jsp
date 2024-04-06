@@ -201,21 +201,18 @@
 						<button class="btn btn-secondary " type="button"
 							style="margin-right: 5px;" onclick="insertTempDocument()">임시저장</button>
 						<button class="btn btn-primary " type="button"
-							style="width: 73.6px;" onclick="submissionValidation()">상신</button>
+							style="width: 73.6px;" onclick="submissionValidation2()">상신</button>
 					</div>
 				</div>
 				
 				<input type="hidden" id="loginVo_name" value="${sessionScope.loginVo.name}">
                   <input type="hidden" id="deptVo_dname" value="${deptVo.dname}">
                   <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
-                  
                   <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
-                  <input type="hidden" id="save_sign" value="">
                   <input type="hidden" id="vacVo_remaining_leave" value = "${vacVo.remaining_leave}">
             <div
                style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
                <div id="templateArea">
-               
                   ${docVo.content}
 
                </div>
@@ -249,5 +246,6 @@
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"></script>
    <script src="js/scripts.js"></script>
+   <script type="text/javascript" src="./js/tempDraftDetail.js"></script>
 </body>
 </html>

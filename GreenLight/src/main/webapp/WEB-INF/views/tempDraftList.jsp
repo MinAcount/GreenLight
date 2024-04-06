@@ -52,7 +52,10 @@
 								<td class="chkbox-td">
 									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 								</td>
-								<td><a href="./tempDraftDetail.do?docno=${vo.docno}">${vo.title}</a></td>
+								<td>
+									<a href="./tempDraftDetail.do?docno=${vo.docno}">${vo.title}</a>
+									<input id="docno" type="hidden" value="${vo.docno}">
+									</td>
 								<td>
 									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
 									<fmt:formatDate value="${dDate}"/>
