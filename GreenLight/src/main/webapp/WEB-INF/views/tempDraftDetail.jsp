@@ -216,7 +216,7 @@
                style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
                <div id="templateArea">
                
-                  <input type="hidden" id="tempCode" value="">
+                  ${docVo.content}
 
                </div>
                <div

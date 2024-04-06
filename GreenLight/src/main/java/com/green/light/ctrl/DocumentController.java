@@ -275,10 +275,9 @@ public class DocumentController {
 		String currentYear = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy"));
 		String docno = currentYear + String.format("%05d", seq);
 		System.out.println("==== docno : " + docno + " ====");
-		
+		String tempcode = (String)map.get("tempcode");
 		
 		int nn = dao.insertDocument(docVo);
-		
 		
 		
 //       return ResponseEntity.ok().build();
@@ -310,6 +309,17 @@ public class DocumentController {
 	      model.addAttribute("refVo", refVo);
 	      System.out.println("refVo"+refVo);
 	      return "draftDetail";
+	   }
+	   
+	   @GetMapping(value = "/tempDraftDetail.do")
+	   public String tempDraftDetail(Model model, @RequestParam("docno") String docno) {
+		   System.out.println("docno:"+ docno);
+		   DocumentVo docVo = service.getDocumentDetail(docno);
+		   model.addAttribute("docVo",docVo);
+		   System.out.println("docVo:"+docVo);
+		   
+		  
+		   return "tempDraftDetail";
 	   }
 	
 @PostMapping(value = "/updateApproval.do")

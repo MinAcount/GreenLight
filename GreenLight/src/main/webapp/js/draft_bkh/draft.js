@@ -82,16 +82,9 @@ function insertTempDocument() {
 	console.log("inputs", inputs)
 	inputs.forEach(function(input) {
 		console.log(input.value);
-		var newPTag = document.createElement("P");
-		input.parentElement.appendChild(newPTag);
-		console.log("input", input.parentElement);
 		if (input.value != null) {
-			newPTag.textContent = input.value;
-			console.log("newPTag", newPTag.textContent);
+			input.setAttribute("value",input.value);
 		}
-		input.remove();
-		//      input.setAttribute("value",input.value);
-		//      input.setAttribute("readonly", "readonly");
 	})
 
 	
@@ -101,8 +94,8 @@ function insertTempDocument() {
 	var templateArea = document.getElementById("templateArea");
 	var content = templateArea.innerHTML;
 	var titleTd = document.getElementById("title");
-	var titleP = titleTd.getElementsByTagName("p")[0];
-	var title = titleP.textContent;
+	var titleInput = titleTd.getElementsByTagName("input")[0];
+	var title = titleInput.value;
 	var draft_date = document.getElementById("draft_date").textContent;
 	var urgencyChecked = document.getElementById("urgency");
 	var urgency = urgencyChecked.checked ? 'Y' : 'N';
@@ -159,9 +152,10 @@ function insertTempDocument() {
 			docno.textContent = data;
 			console.log("data",data)
 			
-			content = templateArea.innerHTML;
 			
 			updateContent(data, content);
+			
+			
 			
 		})
 		.catch(error => {
@@ -171,8 +165,57 @@ function insertTempDocument() {
 	//알림
 //	notify('전자결재', title + " 문서가 상신되었습니다");
 
-	window.location.href = "./tempDraftList.do";
+//	window.location.href = "./tempDraftList.do";
 }
+
+async function tempDraftDetail() {
+    try {
+		const response1 = await fetch("./tempDraftDetail.do");
+        const data1 = await response1.json();
+        console.log("data1", data1);
+        
+	
+	
+		var sessionId = document.getElementById("loginVo_id").value;
+		var tempcode = document.getElementById("tempCode").value;
+        const response2 = await fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + tempcode);
+        const data2 = await response2.json();
+        console.log("data2", data2);
+        console.log("tempcode", tempcode);
+        
+        var autoApprHtml = $("#apr_chk").html();
+        
+        console.log("--------------------------")
+        var ids = new Array();
+        ids.push(data2[0].empVo[0].id)
+        autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
+                "<input type='hidden' class='autoAppr' name='id' value='" + data2[0].empVo[0].id + "'>" +
+                "</div>";
+                
+        $("#apprJstree").jstree().hide_node(data2[0].empVo[0].id);
+        
+        data2.forEach(function(list){
+            console.log("data2 foreach")
+            ids.forEach(function(id){
+                console.log("ids", ids)
+                if (list.empVo[0].id != id || id == null) {
+                    console.log("list.empVo.id", list.empVo[0].id)
+                    ids.push(list.empVo[0].id);
+                    autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + list.empVo[0].name + " " + list.comVo.code_name +
+                        "<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
+                        "</div>";
+                    $("#apprJstree").jstree().hide_node(list.empVo[0].id);
+                }
+            })
+        })
+        $("#apr_chk").html(autoApprHtml);
+    } catch (error) {
+        console.error('오류 발생:', error);
+    }
+}
+
+
+
 
 
 
