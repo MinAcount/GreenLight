@@ -153,11 +153,7 @@ function insertTempDocument() {
 			docno.textContent = data;
 			console.log("data",data)
 			
-			
 			updateContent(data, content);
-			
-			
-			
 		})
 		.catch(error => {
 			console.error('오류 발생:', error);
@@ -547,27 +543,27 @@ function insertDocument() {
 	}
 
 	/*fetch post*/
-//	fetch("./insertDocument.do", {
-//		method: 'POST',
-//		body: formData
-//	})
-//		.then(response => {
-//			if (!response.ok) {
-//				throw new Error('네트워크 에러..');
-//			}
-//			return response.json();
-//		})
-//		.then(data => {
-//			console.log('data:', data);
-//			var docno = document.getElementById("docno");
-//			docno.textContent = data;
-//			content = templateArea.innerHTML;
-//			
-//			updateContent(data, content);
-//		})
-//		.catch(error => {
-//			console.error('오류 발생:', error);
-//		});
+	fetch("./insertDocument.do", {
+		method: 'POST',
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('네트워크 에러..');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('data:', data);
+			var docno = document.getElementById("docno");
+			docno.textContent = data;
+			content = templateArea.innerHTML;
+			
+			updateContent(data, content);
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
 
 	//알림
 //	notify('전자결재', title + " 문서가 상신되었습니다");

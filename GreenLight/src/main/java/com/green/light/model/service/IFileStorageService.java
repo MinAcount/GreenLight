@@ -6,6 +6,7 @@ import java.util.Map;
 import com.green.light.vo.FileStorageVo;
 
 public interface IFileStorageService {
+	public FileStorageVo selectTemplateImg(String tempno);
 	public int insertFile(FileStorageVo fileVo);
 //	파일 상세 조회 getOneFile
 	public List<FileStorageVo> getOneFile(Map<String, Object> map);
