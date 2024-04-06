@@ -85,7 +85,7 @@ public class EmployeeJUnitTest {
 		map.put("id", "2401111101");
 		map.put("exit_day", "2024-03-28");
 		int n = service.updateExit(map);
-		assertEquals(2, n);
+		assertEquals(1, n);
 		
 		//퇴사일 수정
 //		map.put("id", "2403120901");

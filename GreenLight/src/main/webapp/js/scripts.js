@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function() {
 		currentURL = "approvalList.do";
 	}else if(currentURL.includes("ref.do")){
 		currentURL = "referenceList.do";
-	}else if(currentURL.includes("temp.do")){
-		currentURL = "tempDraftList.do";
+	}else if(currentURL.includes("draftDetail.do")){
+		currentURL = "getAllPendingApprovalDraft.do";
 	}else if(currentURL.includes("res.do")){
 		currentURL = "회의실예약.do";
 	}else if(currentURL.includes("possible.do")){
@@ -102,12 +102,18 @@ document.addEventListener("DOMContentLoaded", function() {
 		currentURL = "myReserve.do";
 	}
 	
+	var loginVoAuth = document.getElementById("loginVoAuth").value;
 	
 	var layoutSidenav_nav = document.querySelectorAll("#layoutSidenav_nav a");
 	for(let navLink of layoutSidenav_nav){
 		var linkURL = navLink.getAttribute("href");
 		if(currentURL.includes("draftWriteForm.do")){
-			layoutSidenav_nav[7].classList.add("active");
+			if(loginVoAuth == '02'){
+				layoutSidenav_nav[7].classList.add("active");
+			}else{
+				layoutSidenav_nav[0].classList.add("active");
+			}
+			
 		}
 		if(currentURL == linkURL){
 			navLink.classList.add("active");

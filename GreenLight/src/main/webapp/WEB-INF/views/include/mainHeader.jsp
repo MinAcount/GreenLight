@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <!-- DropZone -->
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+<link href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css" rel="stylesheet">
 
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.js" crossorigin="anonymous"></script>
@@ -43,9 +44,8 @@
 <!-- <script src="js/notification_ljw/header_noti.js"></script> -->
 <script src="js/notification_ljw/header_noti.js"></script>
 <!-- jstree -->
-<script src="js/jstree/jstree.js"></script>
-
-
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+<script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/jstree/jstree.js"></script>
 <style type="text/css">
@@ -146,7 +146,7 @@
 									<div class="dropdown-notifications-item-content">
 										<div class="dropdown-notifications-item-content-details">
 											${noti.alert_time}</div>
-										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;" data-bs-toggle="tooltip" data-bs-placement="right" title="${noti.content}">
 											${noti.content}</div>
 									</div>
 								</a>
@@ -160,7 +160,7 @@
 									<div class="dropdown-notifications-item-content">
 										<div class="dropdown-notifications-item-content-details">
 											${noti.alert_time}</div>
-										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;" data-bs-toggle="tooltip" data-bs-placement="right" title="${noti.content}">
 											${noti.content}</div>
 									</div>
 								</a>
@@ -174,7 +174,7 @@
 									<div class="dropdown-notifications-item-content">
 										<div class="dropdown-notifications-item-content-details">
 											${noti.alert_time}</div>
-										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;">
+										<div class="dropdown-notifications-item-content-text" style="font-size: 12px;" data-bs-toggle="tooltip" data-bs-placement="right" title="${noti.content}">
 											${noti.content}</div>
 									</div>
 								</a>

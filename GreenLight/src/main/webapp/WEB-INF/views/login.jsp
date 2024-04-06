@@ -28,14 +28,6 @@
 					<p id="capsLockChk" style="display: none;">CapsLock 켜짐</p>
 				</div>
 
-				<!-- 비밀번호 저장-->
-				<div class="mb-3">
-					<div class="form-check">
-						<input class="form-check-input" id="remember" type="checkbox"
-							name="remember-me"> <label class="form-check-label"
-							for="remember">자동 로그인</label>
-					</div>
-				</div>
 
 				<!-- 로그인 박스-->
 				<div
