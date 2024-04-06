@@ -8,6 +8,7 @@ function submissionValidation() {
 	let title = document.querySelector("[name='title']");
 	console.log("title:", title.value);
 
+
 	//기간 및 일시
 	let daterangepicker = document.querySelector("#daterangepicker");
 	console.log("daterangepicker:", daterangepicker.value);
