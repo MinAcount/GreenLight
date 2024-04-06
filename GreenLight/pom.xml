@@ -257,11 +257,7 @@
 		</dependency>
 		
 		
-		<dependency>
-			<groupId>org.apache.tomcat.embed</groupId>
-			<artifactId>tomcat-embed-websocket</artifactId>
-			<version>9.0.16</version>
-		</dependency>
+		
 
 
 	</dependencies>
