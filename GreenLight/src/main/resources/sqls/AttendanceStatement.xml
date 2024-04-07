@@ -80,6 +80,7 @@ SELECT e.ID, e.DEPTNO, e.SPOT, e."POSITION", e.NAME, ROUND(SUM((a.OUT_DATE - a.I
 	LEFT JOIN ATTENDANCE a ON e.ID = a.ID
 	WHERE TO_CHAR(a.IN_DATE, 'YYYY-MM') = #{in_date}
 	GROUP BY e.ID, e.NAME, e.DEPTNO, e.SPOT, e."POSITION"
+	ORDER BY e.NAME
 </select>
 
 <!-- 상세조회 getEmployeeDetails() -->

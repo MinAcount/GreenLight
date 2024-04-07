@@ -86,21 +86,24 @@ public class CronJUnitTest {
 //        String yesterdayString = Day.format(formatter);
 //		System.out.println(Day);
 		
-		List<VacationVo> list = cronService.getEmpVacationStatus();
-		System.out.println("list==" +list);
-		for(VacationVo vacationVo : list) {
-			AttendanceVo attendanceVo = cronService.getEmpAttendanceStatus(vacationVo.getId());
-			System.out.println("vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
-			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date().substring(10,16));
-			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date());
-			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date().substring(10,16));
-			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date());
-//			if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {
-//				System.out.println("if 문 성공한 쿼리vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
-//			}
-		}
-		assertNotNull(list);
-		
+//		List<VacationVo> list = cronService.getEmpVacationStatus();
+//		System.out.println("list==" +list);
+//		for(VacationVo vacationVo : list) {
+//			AttendanceVo attendanceVo = cronService.getEmpAttendanceStatus(vacationVo.getId());
+//			System.out.println("vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
+//			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date().substring(10,16));
+//			System.out.println("attendanceVo.getIn_date==" +attendanceVo.getIn_date());
+//			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date().substring(10,16));
+//			System.out.println("attendanceVo.getOut_date==" +attendanceVo.getOut_date());
+////			if(vacationVo.getEnd_day().substring(0,10).equals(yesterdayString)) {
+////				System.out.println("if 문 성공한 쿼리vacationVo.getEnd==" +vacationVo.getEnd_day().substring(0,10));
+////			}
+//		}
+//		assertNotNull(list);
+		 
+		int n = cronService.setVacationAndAttendance();
+		System.out.println(n);
+		assertNotNull(n);
 		
 		
 	}
