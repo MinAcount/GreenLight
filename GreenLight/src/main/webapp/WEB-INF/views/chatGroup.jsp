@@ -200,7 +200,7 @@
 						<div class="modal fade" id="chatModal" tabindex="-1"
 							aria-labelledby="chatModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
-							<div class="modal-dialog">
+							<div class="modal-dialog jstreeModal">
 								<div class="modal-content" style="width: 800px; height: 630px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="chatModalLabel">채팅방 생성</h5>

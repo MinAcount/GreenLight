@@ -42,7 +42,6 @@
 							<th style="width: 35%;">제목</th>
 							<th style="width: 17.5%;">생성일</th>
 							<th style="width: 20%;">문서양식유형</th>
-							<th style="width: 10%;">첨부</th>
 							<th style="width: 15%;">기안서상태</th>
 						</tr>
 					</thead>
@@ -53,15 +52,34 @@
 									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 								</td>
 								<td>
-									<a href="./tempDraftDetail.do?docno=${vo.docno}">${vo.title}</a>
+									<a href="./tempDraftDetail.do?docno=${vo.docno}">
+										<c:choose>
+							                <c:when test="${vo.urgency eq 'Y'}">
+							                    <span style="margin-right: 7px;" class="badge badge-danger">긴급</span>
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+										${vo.title}  
+										<c:choose>
+							                <c:when test="${vo.file_count > 0}">
+							                    &nbsp;&nbsp;[<i data-feather="paperclip"></i>${vo.file_count}]
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+									</a>
 									<input id="docno" type="hidden" value="${vo.docno}">
 									</td>
 								<td>
-									<fmt:parseDate var="dDate" value="${vo.draft_date}" pattern="yyyy-MM-dd"/>
-									<fmt:formatDate value="${dDate}"/>
+									<script>
+								        var dDate = formatDate("${vo.draft_date}" );
+								        document.write(dDate);
+								    </script>
 								</td>
 								<td>${vo.tempcode}</td>
-								<td>${vo.file_count}</td>
 								<td>${vo.doc_status}</td>
 							</tr>
 						</c:forEach>

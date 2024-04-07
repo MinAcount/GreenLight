@@ -12,9 +12,6 @@ public interface IDocumentDao {
 	// 기안서 상신 insertDocument
 	public int insertDocument(DocumentVo docVo);
 	
-	// 임시저장 상신 updateDocument
-	public int updateDocument(DocumentVo docVo);
-
 	// 결재대기문서함 전체조회 getAllPendingApprovalDraft
 	public List<DocumentVo> getAllPendingApprovalDraft(String id);
 
