@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style type="text/css">
+	#inputTableBody tr:hover{
+		cursor: pointer;
+	}
+</style>
 </head>
 <body class="nav-fixed">
 

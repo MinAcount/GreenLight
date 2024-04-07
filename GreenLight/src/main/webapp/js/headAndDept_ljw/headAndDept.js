@@ -3,7 +3,7 @@ window.onload = function(){
 }
 
 function changeBG(){
-	var allTr = document.querySelectorAll('#main_content tr');
+	var allTr = document.querySelectorAll('#inputTableBody tr');
 	
 	allTr.forEach(function(clickTr){
 		clickTr.addEventListener("click", function(){
