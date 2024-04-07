@@ -238,7 +238,7 @@ function insertTempDocument() {
 		});
 
 	//알림
-//	notify('전자결재', title + " 문서가 상신되었습니다");
+	notify('전자결재', title + " 문서가 상신되었습니다");
 
 	window.location.href = "./tempDraftList.do";
 }
@@ -369,7 +369,7 @@ function insertDocument() {
 	if(selectedValue == 'N'){
 		getsuFlagP.textContent = "연차";
 	} else if(selectedValue == 'Y') {
-		getsuFlagP.textContent = "공차";
+		getsuFlagP.textContent = "공가";
 	}
 	
 	getsuFlagTd.innerHTML = "";
@@ -571,13 +571,49 @@ function insertDocument() {
 	formData.append("refLine", JSON.stringify(refLine));
 	formData.append("writerVo", JSON.stringify(writerVo));
 	formData.append("doc_status","01");
-
-
-	for (let i = 0; i < files.length; i++) {
-		formData.append('files', files[i]);
-		console.log("file:", files[i]);
+	
+	//p, div 태그를 붙혀줄 id가 fileTd 인 td태그 탐색
+	var fileTd = document.querySelector("#fileTd");
+	//p태그 생성
+	var fileP = document.createElement("P");
+	
+	var fileSizeSum = 0;
+	for(let i = 0; i < files.length; i++){
+		fileSizeSum += files[i].size;
 	}
-
+	//p태그에 첨부파일 n개(파일 사이즈 총 합) 내용 추가
+	fileP.textContent = "첨부파일 " + files.length +"개(" + fileSizeSum + "KB)";
+	
+	//div태그 생성
+	var fileDiv = document.createElement("DIV");
+	
+	//div태그에 사용자가 업로드한 파일의 갯수만큼 미리보기 img태그 appendChild
+	//file의 갯수만큼 for문 돌고 그 안에서 onload 이벤트를 발생시키고 img태그에 src, alt 속성 부여
+	for(let i = 0; i < files.length; i++){
+		let fileImg = document.createElement("IMG");
+		
+		fileImg.alt = files[i].name;
+		fileImg.style.width = "80px";
+		fileImg.style.height = "80px";
+		
+		let reader = new FileReader();
+		reader.readAsDataURL(files[i]);
+		reader.onload = function(){
+//			fileImg.src = "data:image/png;base64," + reader.result;
+			fileImg.src = reader.result;
+			fileDiv.appendChild(fileImg);
+		};
+		reader.onerror = function(error){
+			console.log("Error발생..", error);
+		};
+		
+	}
+	
+	fileTd.innerHTML = "";
+	fileTd.appendChild(fileP);
+	fileTd.appendChild(fileDiv);
+	console.log("fileTd",fileTd);
+	
 	/*fetch post*/
 	fetch("./insertDocument.do", {
 		method: 'POST',
@@ -602,7 +638,7 @@ function insertDocument() {
 		});
 
 	//알림
-//	notify('전자결재', title + " 문서가 상신되었습니다");
+	notify('전자결재', title + " 문서가 상신되었습니다");
 
 	window.location.href = "./draftList.do";
 }
@@ -763,6 +799,8 @@ function updateDocument() {
 	
 	urgencyTd.innerHTML = "";
 	urgencyTd.appendChild(urgencyTdP);
+	
+	// 첨부 파일
 
 	/*Approval table*/
 	// 결재자 값 넘기기

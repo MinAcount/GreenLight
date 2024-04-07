@@ -16,8 +16,6 @@
 <link href="css/styles.css" rel="stylesheet" />
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<!-- DropZone -->
-<link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 <link href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css" rel="stylesheet">
 
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
@@ -37,8 +35,7 @@
    src="./js/daterangepicker/daterangepicker.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
-<!-- DropZone -->
-<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+
 <!-- 알림 -->
 <!-- <script src="js/notification_ljw/noti.js" type="module"></script> -->
 <!-- <script src="js/notification_ljw/header_noti.js"></script> -->

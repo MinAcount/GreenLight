@@ -89,7 +89,7 @@ public class DocumentController {
              for(int i = 0; i < files.length; i++) {
                 byte[] byteArr = files[i].getBytes();
                 FileStorageVo fileVo = new FileStorageVo(docno,
-                                              "07", 
+                                              "01", 
                                               files[i].getOriginalFilename(), 
                                               "stored_name 준비중..", 
                                               Base64.getEncoder().encodeToString(byteArr), 
@@ -505,6 +505,10 @@ public class DocumentController {
 	      List<EmployeeVo> refVo = apprService.getReference(docno);
 	      model.addAttribute("refVo", refVo);
 	      System.out.println("refVo"+refVo);
+	      
+	      // 파일 조회
+	      String ftype = "01";
+	      
 	      return "draftDetail";
 	   }
 
