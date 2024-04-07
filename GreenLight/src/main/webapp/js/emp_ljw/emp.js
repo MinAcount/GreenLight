@@ -53,7 +53,7 @@ function checkUploadEmployee(){
 		alert("전화번호는 숫자만 가능합니다");
 	}else if(!emailREX.test(email)){
 		alert("이메일 형식에 맞게 입력해주세요");
-	}else if(new Date(join_day)>new Date() || new Date(birthday)>new Date()){
+	}else if(new Date(join_day)>new Date()+1 || new Date(birthday)>new Date()){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
 	}else{
 		var formData = new FormData();
@@ -374,7 +374,7 @@ function btnClean(){
 function updateExitDay(id){
 	var exit_day = document.getElementById("litepickerDate").value;
 	var join_day = document.getElementById("hidden_join_day").value;
-	if(new Date(exit_day)>new Date()){
+	if(new Date(exit_day)>new Date()+1){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
 	}else if(new Date(exit_day)<new Date(join_day)){
 		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
@@ -390,7 +390,7 @@ function updateExit(id){
 	var join_day = document.getElementById("hidden_join_day").value;
 	if(exit_day == ""){
 		alert("퇴사일을 입력해주세요")
-	}else if(new Date(exit_day)>new Date()){
+	}else if(new Date(exit_day)>new Date()+1){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
 	}else if(new Date(exit_day)<new Date(join_day)){
 		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
@@ -491,7 +491,7 @@ function updateEmployee(id){
 		alert("전화번호는 숫자만 가능합니다");
 	}else if(!emailREX.test(email)){
 		alert("이메일 형식에 맞게 입력해주세요");
-	}else if(new Date(join_day)>new Date()){
+	}else if(new Date(join_day)>new Date()+1){
 		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
 	}else{
 		var formData = new FormData();

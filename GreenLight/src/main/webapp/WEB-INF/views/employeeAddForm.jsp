@@ -57,7 +57,9 @@
 												<div class="datatable-dropdown">
 													<select class="datatable-selector" name="deptno" id="deptno">
 														<c:forEach var="dept" items="${deptList}" varStatus="vs">
-															<option value="${dept.deptno}">${dept.dname}</option>
+															<c:if test="${dept.delflag eq 'N'}">
+																<option value="${dept.deptno}">${dept.dname}</option>
+															</c:if>
 														</c:forEach>
 													</select>
 												</div>

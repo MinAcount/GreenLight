@@ -14,10 +14,12 @@
 			justify-content: space-between;
 			width: 40%;
 			border: 1px solid gray;
+			max-height: 95%;
 		}
 		
 		#chatList{
 			list-style:none;
+			overflow-y: auto;
 		}
 		
 		#chatRoom {
@@ -25,19 +27,8 @@
 			justify-content: space-between;
 			width: 53%;
 			border: 1px solid gray;
+			max-height: 95%;
 		}
-		
-		#searchChat {
-			width: 100%;
-			text-align: center;
-			padding-top: 20px;
-		}
-		
-		#searchChatRoom {
-			width: 90%;
-			height: 60px;
-		}
-		
 		
 		#table-container-div {
 			display: flex;
@@ -46,17 +37,19 @@
 			height:20vh;
 		}
 		
-		#table-container-list {
-			text-align: center;
-			width: 90%;
-			border: 1px solid gray;
+		#chatListName {
+			text-align: left;
+			width: 22vh;
+			float: left;
+			padding-top: 1vh;
+			padding-left: 7vh;
+			font-size: large;
 		}
-		
 		
 		.create-btn {
 			text-align: right;
-			padding-right: 25px;
-			padding-top: 15px;
+			padding-right: 28px;
+			padding-top: 17px;
 		}
 		
 		#topChat {
@@ -103,6 +96,12 @@
 		.left {
 			text-align: left;
 			height: 9vh;
+		}
+		
+		.center {
+			text-align: center;
+			height: 9vh;
+			padding-top: 3vh;
 		}
 		
 		#textbox {
@@ -168,6 +167,14 @@
 			text-align: center;
 			padding-top: 15px;
 		}
+		
+		#chatListLi {
+			
+		}
+		
+		#table-container-list thead {
+			
+		}
 	</style>
 </head>
 <body class="nav-fixed">
@@ -183,19 +190,15 @@
 	<div id="layoutSidenav_content">
 		<div id="main_content">
 			<div class="container">
-				<div id="allChatDiv">
-					<form id="searchChat">
-						<input type="text" id="searchChatRoom" name="searchChatRoom" placeholder="대화방 이름 검색">
-					</form>
-					<br/>
-					<ul id="chatList">											
-					</ul>
-					
-					<div class="create-btn">
-						<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-							data-bs-target="#chatModal">생성</button>
+				<div id="allChatDiv" class="card">
+					<div class="create-btn card-header">
+					<div id="chatListName">채팅방 목록</div>
+					<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
+						data-bs-target="#chatModal">생성</button>
 					</div>
-					
+					<br/>
+					<div id="chatList">											
+					</div>
 					<div style="display: flex; flex-direction: row; justify-content: space-between;">
 						<div class="modal fade" id="chatModal" tabindex="-1"
 							aria-labelledby="chatModalLabel" aria-hidden="true"
@@ -247,7 +250,7 @@
 				</div>
 				
 				<div style="justify-content: space-between; width: 3%;"></div>
-				<div id="chatRoom">
+				<div id="chatRoom" class="card">
 				<!-- 상단 -->
 					<div id="topChat">
 						<div id="roomName"></div>

@@ -76,7 +76,8 @@
 		UPDATE HEADQUARTERS SET DELFLAG ='Y'
         WHERE (SELECT COUNT(*)
                		FROM DEPARTMENT d  
-                    WHERE HEADNO = #{headno}) < 1 AND HEADNO = #{headno}
+                    WHERE HEADNO = #{headno}
+                    AND DELFLAG = 'N') < 1 AND HEADNO = #{headno}
         AND HEAD_MGR IS NULL
 	]]>
 </update>

@@ -19843,3 +19843,8 @@ th, td {
 	top:200px;
 	vertical-align: middle;
 }
+.table-container-list-thead{
+	text-align: center;
+	width: 90%;
+	border: 1px solid gray;
+}
