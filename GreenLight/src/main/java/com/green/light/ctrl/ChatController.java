@@ -125,6 +125,7 @@ public class ChatController {
 		String groupno = "";
 		String roomname = (String)map.get("roomname");
 		String id = (String)map.get("id");
+		String name = (String)map.get("name");
 		log.info("ChatController insertChat 채팅방 생성 group:{} roomname:{} id:{}", groupno, roomname, id);
 		
 		String[] ids = id.split(",");
@@ -137,8 +138,23 @@ public class ChatController {
 			System.out.println("id : " + idString);
 			n += service.insertChat(map);
 			
-//			MessageVo vo = new MessageVo("", "", "", "", "", "");
+			EmployeeVo vo = new EmployeeVo();
+			System.out.println(vo);
+			vo.setId(id);
+			vo.getName();
 		}
+		
+		GroupMemberVo gmvo = new GroupMemberVo();
+		gmvo.setRoomname(roomname);
+		
+		MessageVo mesgVo = new MessageVo();
+		String message = name + "님이 입장하였습니다.";
+		mesgVo.setContent(message);
+		mesgVo.setChat_id(chat_id);
+		mesgVo.setWritter(ids[0]);
+		System.out.println(message);
+		System.out.println(mesgVo);
+		service.insertSendMessage(mesgVo);
 		
 		
 		
