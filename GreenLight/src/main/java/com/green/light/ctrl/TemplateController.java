@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.green.light.model.service.IFileStorageService;
 import com.green.light.model.service.ISignService;
 import com.green.light.model.service.ITemplateService;
+import com.green.light.vo.FileStorageVo;
 import com.green.light.vo.SignVo;
 import com.green.light.vo.TemplateVo;
 
@@ -27,6 +29,8 @@ public class TemplateController {
 	private ITemplateService service;
 	@Autowired
 	private ISignService signService;
+	@Autowired
+	private IFileStorageService fileService;
 	
 	@GetMapping(value = "/templateAdd.do")
 	public String templateAdd() {
@@ -42,14 +46,19 @@ public class TemplateController {
 	
 	@GetMapping(value = "/selectMainTemplate.do")
 	@ResponseBody
-	public ResponseEntity<?> selectMainTemplate(@RequestParam String tempno, @RequestParam String id) {
+	public ResponseEntity<?> selectMainTemplate(@RequestParam String tempno, @RequestParam(required = false) String id) {
 		log.info("JsTreeControllerv selectMainTemplate /selectMainTemplate.do 대표 문서양식 조회 : {}, {}", tempno, id);
-		TemplateVo vo = service.selectMainTemplate(tempno);
-		SignVo sVo = signService.selectMainSign(id);
 		
 		Map<String, Object> map = new HashedMap<String, Object>();
+		TemplateVo vo = service.selectMainTemplate(tempno);
+		FileStorageVo fVo = fileService.selectTemplateImg(tempno);
+		if(id != null) {
+			SignVo sVo = signService.selectMainSign(id);
+			map.put("sVo", sVo);
+		}
+		
 		map.put("vo", vo);
-		map.put("sVo", sVo);
+		map.put("fVo", fVo);
 		System.out.println(map);
 		return ResponseEntity.ok(map);
 	}

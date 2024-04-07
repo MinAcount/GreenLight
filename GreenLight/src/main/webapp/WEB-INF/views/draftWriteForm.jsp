@@ -215,9 +215,8 @@
             <div
                style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
                <div id="templateArea">
-               
-                  <input type="hidden" id="tempCode" value="">
-
+                    <input type="hidden" id="tempCode" value="">
+					
                </div>
                <div
                   style="margin-left: 30px; width: 25%; border: 1px solid black; padding: 10px; border-color: #B0B5B1;">

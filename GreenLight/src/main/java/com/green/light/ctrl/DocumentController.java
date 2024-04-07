@@ -89,7 +89,7 @@ public class DocumentController {
              for(int i = 0; i < files.length; i++) {
                 byte[] byteArr = files[i].getBytes();
                 FileStorageVo fileVo = new FileStorageVo(docno,
-                                              "01", 
+                                              "07", 
                                               files[i].getOriginalFilename(), 
                                               "stored_name 준비중..", 
                                               Base64.getEncoder().encodeToString(byteArr), 

@@ -24,6 +24,10 @@ public class FileStorageJUnitTest {
 //		FileStorageVo fileVo = new FileStorageVo("202400001", "flexWrap_3.html", "flexWrap_344121.html", "payload", 2048);
 //		int n = service.insertFile(fileVo);
 //		assertEquals(1, n);
+		
+		FileStorageVo fVo = service.selectTemplateImg("002");
+		System.out.println(fVo.getPayload());
+		assertNotNull(fVo);
 	}
 
 }

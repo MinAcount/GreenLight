@@ -19,6 +19,14 @@
 	<result property="code" column="CODE" />
 </resultMap>
 
+<select id="selectTemplateImg" resultType="FileStorageVo">
+SELECT REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE 
+	FROM FILESTORAGE
+	WHERE REF_ID = #{tempcode}
+	AND FTYPE = '07'
+	AND DELFLAG = 'N'
+</select>
+
 <insert id="insertFile" parameterType="FileStorageVo">
 	INSERT INTO FILESTORAGE (REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG)
 		VALUES(#{ref_id}, #{ftype}, #{origin_name}, #{stored_name}, #{payload}, #{fsize}, CURRENT_DATE , 'N' )

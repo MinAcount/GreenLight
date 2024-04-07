@@ -288,7 +288,6 @@ $(function() {
    // 문서양식선택 미리보기
    $("#JTSelectTemplate").on("click", "li.jstree-node", function(event){
     event.stopPropagation(); // 이벤트 버블링 중지
-    
     console.log("클릭 이벤트 발생!!");
         
     let clicked = $("#JTSelectTemplate").jstree('get_selected');
@@ -308,8 +307,17 @@ $(function() {
       })
       .then(data => {
          console.log("data",data);
-         let div_before = document.createElement("div");
-         div_before.innerHTML = data.content;
+         let template_preview = document.querySelector("#template_preview");
+         let templateImg = document.createElement("img");
+         let payload = data.fVo.payload;
+         console.log("data.fVo.payload:",data.fVo.payload);
+         templateImg.src = "data:image/png;base64," + payload;
+         templateImg.alt = "TemplatePreviewImg";
+         templateImg.style.width = "100%"; // 너비를 부모 요소의 너비에 맞게 설정
+		 templateImg.style.height = "100%"; // 높이를 부모 요소의 높이에 맞게 설정
+		 templateImg.style.objectFit = "contain";
+         template_preview.innerHTML = "";
+         template_preview.appendChild(templateImg);
          let daterangepickerInput = document.getElementById("daterangepicker");
          daterangepickerInput.remove();
          console.log("div_before:",div_before);
