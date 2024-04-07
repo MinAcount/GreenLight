@@ -854,18 +854,7 @@ async function selectComplete() {
 				}
 				
 			});
-			//radio버튼이 체크/체크해제 될 때마다 신청연차란에 +- 0.5
-//			var half_radios = document.querySelectorAll("input[type='radio']");
-//			for(let i = 0; i < half_radios.length; i++){
-//				half_radios[i].addEventListener("change",function(){
-//					console.log("radio 버튼 체크됨:",this);
-//					if(half_radios[i].checked){
-//						document.querySelector("#getsu").textContent = getsu - weekendCount + 0.5;
-//					} else {
-//						document.querySelector("#getsu").textContent = getsu - weekendCount - 0.5;
-//					}
-//				});
-//			}
+			
 			
 			document.getElementById("apr_chk").innerHTML = "";
 			//			console.log("tempcode:",data1.tempcode)
@@ -934,37 +923,6 @@ async function selectComplete() {
 				}
 			});
 
-//			// dadtarangepicker를 위한 api를 적용
-//			$('#daterangepicker').daterangepicker({
-//				"locale": {
-//					"format": "YYYY-MM-DD",
-//					"separator": " ~ ",
-//					"applyLabel": "확인",
-//					"cancelLabel": "취소",
-//					"fromLabel": "From",
-//					"toLabel": "To",
-//					"customRangeLabel": "Custom",
-//					"weekLabel": "W",
-//					"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-//					"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
-//				},
-//				"startDate": new Date(),
-//				"endDate": new Date(),
-//				"drops": "down"
-//			}, function(start, end, label) {
-//				$('#start_day').val(start.format('YYYY-MM-DD'));
-//				$('#end_day').val(end.format('YYYY-MM-DD'));
-//				console.log("============================================================== typeof start:", typeof start);
-//				console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-//
-//            var start_date = new Date(start);
-//            var end_date = new Date(end);
-//
-//            var getsu_date = end_date.getTime() - start_date.getTime();
-//            var getsu = Math.floor(getsu_date / (1000 * 60 * 60 * 24));
-//            console.log("getsu:", getsu);
-//            document.getElementById("getsu").textContent = getsu;
-//         });
 
       } catch (error) {
          console.log("Error..", error);
@@ -1008,56 +966,8 @@ async function selectComplete() {
       })
       $("#apr_chk").html(autoApprHtml);
       
-//      for (let i = 0; i < data2.length; i++) {
-//         var code_name = data2[i].comVo.code_name;
-//         var id = data2[i].empVo[0].id;
-//         var name = data2[i].empVo[0].name;
-//
-//
-//         var list = { code_name: code_name, id: id, name: name };
-//         set.add(list);
-//      }
-//      console.log("set", set);
-//
-//
-//      set.forEach(function(obj) {
-//         var code_name = obj.code_name;
-//         var id = obj.id;
-//         var name = obj.name;
-//         
-//      })
-
-      //         for (let j = i + 1; j < data2.length; j++) {
-      //            console.log(id)
-      //            console.log(data2[i].empVo[0].id)
-      //            console.log(data2[j].empVo[0].id)
-      //            if (id[i] === data2[j].empVo[0].id) {
-      //               console.log("똑같은 id"[i], data2[j].empVo[0].id);
-      //
-      //               var apr_chk_div = document.getElementById("apr_chk");
-      //               var autoApprInputs = apr_chk_div.querySelectorAll(".autoAppr");
-      //               console.log("autoApprInputs", autoApprInputs);
-      //
-      ////               autoApprInputs.forEach(function(autoApprInput) {
-      ////                  console.log(autoApprInput.value);
-      ////                  if (autoApprInput.value === id) {
-      ////                     remove(autoApprInput);
-      ////                  }
-      ////               })
-      //            }
-      //
-      //         }
-
       var apprLine = document.getElementById("apr_chk");
       var apr_rows = apprLine.querySelectorAll(".apr_row");
-
-      //               apr_rows.forEach(function(row, i) {
-      //                  var apprOrder = document.createElement("input");
-      //                  apprOrder.setAttribute("type", "hidden");
-      //                  apprOrder.setAttribute("name", "apr_no");
-      //                  apprOrder.setAttribute("value", i + 1);
-      //                  row.appendChild(apprOrder);
-      //               });
 
       var chkAppr = document.getElementById("chkAppr");
       var chkApprClone1 = apprLine.cloneNode(true);

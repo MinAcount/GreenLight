@@ -80,5 +80,10 @@ public class DocumentDaoImpl implements IDocumentDao{
 	public int updateContent(Map<String, Object> map) {
 		return sqlsession.update(NS+"updateContent",map);
 	}
+
+	@Override
+	public int updateDocument(DocumentVo docVo) {
+		return sqlsession.update(NS+"updateDocument",docVo);
+	}
 	
 }

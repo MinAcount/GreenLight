@@ -73,6 +73,83 @@ function submissionValidation() {
 
 }
 
+
+
+
+
+//임시저장 상신 유효성 검사
+function submissionValidation2() {
+	console.log("submissionValidation()");
+
+	//입력받는값
+	//제목
+	//   let title = document.querySelector("#title");
+	let title = document.querySelector("[name='title']");
+	console.log("title:", title.value);
+
+	//기간 및 일시
+	let daterangepicker = document.querySelector("#daterangepicker");
+	console.log("daterangepicker:", daterangepicker.value);
+	let daterpickers = daterangepicker.value.split("~");
+	let start_day = daterpickers[0];
+	console.log("start_day:", start_day)
+	let end_day = daterpickers[1];
+	console.log("end_day:", end_day);
+	//   document.querySelector("#start_day").value = start_day;
+	//   document.querySelector("#end_day").value = end_day;   
+
+	//반차 여부
+	//체크된 radio 탐색 <-- start, end 별로 저장
+	var start_day_half;
+	var end_day_half;
+	var start_day_halfs = document.querySelectorAll("input[name='start_day_half']:checked");
+	var end_day_halfs = document.querySelectorAll("input[name='end_day_half']:checked");
+	if (start_day_halfs.length > 0) {
+		//radio의 부모의 자식중 checkbox탐색(radio가 체크되었다면 checkbox는 무조건 체크되어있음)
+		for (let i = 0; i < start_day_halfs.length; i++) {
+			let start_day_half_div = start_day_halfs[i].parentElement;
+			let start_day_checked_checkbox = start_day_half_div.querySelector("input[id='start_day_half']:checked");
+			if (start_day_checked_checkbox) {
+				//체크된 checkbox와 radio의 value를 저장
+				start_day_half = start_day_checked_checkbox.value + "-" + start_day_halfs[i].value;
+			}
+		}
+	}
+	console.log("start_day_half:", start_day_half);
+
+	if (end_day_halfs.length > 0) {
+		//radio의 부모의 자식중 checkbox탐색(radio가 체크되었다면 checkbox는 무조건 체크되어있음)
+		for (let i = 0; i < end_day_halfs.length; i++) {
+			let end_day_half_div = end_day_halfs[i].parentElement;
+			let end_day_checked_checkbox = end_day_half_div.querySelector("input[id='end_day_half']:checked");
+			if (end_day_checked_checkbox) {
+				//체크된 checkbox와 radio의 value를 저장
+				end_day_half = end_day_checked_checkbox.value + "-" + end_day_halfs[i].value;
+			}
+		}
+	}
+	console.log("end_day_half:", end_day_half);
+
+	//신청연차
+	let getsu = document.querySelector("#getsu");
+	console.log("getsu:", getsu.textContent);
+
+	//긴급 여부
+	let urgency = document.querySelector("#urgency").value;
+	console.log("urgency:", urgency);
+
+	//null체크
+	if (title.value == '') {
+		alert("제목을 입력하세요..");
+		title.focus();
+	} else if (document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == '') {
+		alert("기간 및 일시를 선택하세요..");
+		daterangepicker.focus();
+	} else {
+		updateDocument();
+	}
+
+}
 //임시저장
 function insertTempDocument() {
 	console.log("insertTempDocument()");
@@ -153,6 +230,7 @@ function insertTempDocument() {
 			docno.textContent = data;
 			console.log("data",data)
 			
+			content = templateArea.innerHTML;
 			updateContent(data, content);
 		})
 		.catch(error => {
@@ -162,54 +240,9 @@ function insertTempDocument() {
 	//알림
 //	notify('전자결재', title + " 문서가 상신되었습니다");
 
-//	window.location.href = "./tempDraftList.do";
+	window.location.href = "./tempDraftList.do";
 }
 
-async function tempDraftDetail() {
-    try {
-		const response1 = await fetch("./tempDraftDetail.do");
-        const data1 = await response1.json();
-        console.log("data1", data1);
-        
-	
-	
-		var sessionId = document.getElementById("loginVo_id").value;
-		var tempcode = document.getElementById("tempCode").value;
-        const response2 = await fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + tempcode);
-        const data2 = await response2.json();
-        console.log("data2", data2);
-        console.log("tempcode", tempcode);
-        
-        var autoApprHtml = $("#apr_chk").html();
-        
-        console.log("--------------------------")
-        var ids = new Array();
-        ids.push(data2[0].empVo[0].id)
-        autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + data2[0].empVo[0].name + " " + data2[0].comVo.code_name +
-                "<input type='hidden' class='autoAppr' name='id' value='" + data2[0].empVo[0].id + "'>" +
-                "</div>";
-                
-        $("#apprJstree").jstree().hide_node(data2[0].empVo[0].id);
-        
-        data2.forEach(function(list){
-            console.log("data2 foreach")
-            ids.forEach(function(id){
-                console.log("ids", ids)
-                if (list.empVo[0].id != id || id == null) {
-                    console.log("list.empVo.id", list.empVo[0].id)
-                    ids.push(list.empVo[0].id);
-                    autoApprHtml += "<div class='apr_row' style='display:flex; flex-direction:row; justify-content:center; margin-top:10px;' name='aprDone'>" + list.empVo[0].name + " " + list.comVo.code_name +
-                        "<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
-                        "</div>";
-                    $("#apprJstree").jstree().hide_node(list.empVo[0].id);
-                }
-            })
-        })
-        $("#apr_chk").html(autoApprHtml);
-    } catch (error) {
-        console.error('오류 발생:', error);
-    }
-}
 
 
 
@@ -502,9 +535,12 @@ function insertDocument() {
 	var tr = WriterArea.querySelectorAll("tr")[1];
 	console.log("tr", tr);
 	var td = tr.querySelectorAll("td")[0];
+	console.log("td",td);
 	var div = td.querySelector("div");
+	console.log("div", div);
 	var newImg = document.createElement("img");
 	var save_sign = document.getElementById("save_sign").value;
+	console.log(save_sign);
 	//	if(save_sign == null){
 	//		console.log("서명이없어용")
 	//		return;
@@ -568,8 +604,316 @@ function insertDocument() {
 	//알림
 //	notify('전자결재', title + " 문서가 상신되었습니다");
 
+	window.location.href = "./draftList.do";
+}
+
+
+
+
+
+
+
+
+//임시저장 기안서 상신을 위해 Controller에 넘겨줄 값 탐색
+function updateDocument() {
+	console.log("updateDocument()");
+
+
+	//input들 value 값 저장하기
+	var templateArea = document.getElementById("templateArea");
+	var inputs = templateArea.querySelectorAll("input[type='text']");
+	console.log("inputs", inputs)
+	inputs.forEach(function(input) {
+		console.log(input.value);
+		var newPTag = document.createElement("P");
+		input.parentElement.appendChild(newPTag);
+		console.log("input", input.parentElement);
+		if (input.value != null) {
+			newPTag.textContent = input.value;
+			console.log("newPTag", newPTag.textContent);
+		}
+		input.remove();
+		//      input.setAttribute("value",input.value);
+		//      input.setAttribute("readonly", "readonly");
+	})
+
+	// 결재순서 input 만들기
+	var chkApprDiv = document.getElementById("chkAppr");
+	var aprrows = chkApprDiv.querySelectorAll(".apr_row");
+	aprrows.forEach(function(row, i) {
+		var orderno = document.createElement("input");
+		orderno.setAttribute("type", "hidden");
+		orderno.setAttribute("name", "apr_no");
+		orderno.setAttribute("value", i + 1);
+		row.appendChild(orderno);
+	})
+
+	/*document table*/
+	var writer_id = document.getElementById("writer_id").value;
+	var templateArea = document.getElementById("templateArea");
+	var content ;
+	var titleTd = document.getElementById("title");
+	var titleP = titleTd.getElementsByTagName("p")[0];
+	var title = titleP.textContent;
+	var draft_date = document.getElementById("draft_date").textContent;
+	var urgencyChecked = document.getElementById("urgency");
+	var urgency = urgencyChecked.checked ? 'Y' : 'N';
+	var tempcode = document.getElementById("tempCode").value;
+	var docno = document.getElementById("docno").value;
+	console.log("writer_id:", writer_id);
+	console.log("content:", content);
+	console.log("title:", title);
+	console.log("draft_date:", draft_date);
+	console.log("urgency:", urgency);
+	console.log("tempcode:", tempcode);
+
+
+	/*vacation table*/
+	/*var writer_id = document.getElementById("writer_id").value;*/
+	var start_day = document.getElementById("start_day").value;
+	var end_day = document.getElementById("end_day").value;
+	var getsu = document.getElementById("getsu").textContent;
+
+	console.log("start_day:", start_day);
+	console.log("end_day:", end_day);
+	console.log("getsu:", getsu);
+
+	//기간 및 일시 태그 대체
+	var dateRange = templateArea.querySelector("#dateRange");
+
+	var newP = document.createElement("p");
+	newP.textContent = start_day + " ~ " + end_day;
+	console.log("newP", newP.textContent)
+
+	dateRange.innerHTML = "";
+	dateRange.appendChild(newP);
+	
+	//휴가종류
+	var getsuFlagTd = document.querySelector("#getsuFlagTd");
+	// 선택된 값을 가져오기 위해 select 요소를 가져옴
+	var selectElement = document.getElementById("getsuFlag");
+	// 선택된 옵션의 인덱스
+	var selectedIndex = selectElement.selectedIndex;
+	// 선택된 옵션 요소
+	var selectedOption = selectElement.options[selectedIndex];
+	// 선택된 값
+	var selectedValue = selectedOption.value;
+	console.log("selectedValue:",selectedValue);
+	
+	var getsuFlagP = document.createElement("p");
+	if(selectedValue == 'N'){
+		getsuFlagP.textContent = "연차";
+	} else if(selectedValue == 'Y') {
+		getsuFlagP.textContent = "공차";
+	}
+	
+	getsuFlagTd.innerHTML = "";
+	getsuFlagTd.appendChild(getsuFlagP);
+
+
+	// 반차여부
+	var halfStatus = document.querySelector("#halfStatus");
+	var halfStatusP = document.createElement("p");
+	halfStatusP.textContent = "";
+	
+	// 시작일
+	var start_day_half_checkbox = document.querySelector("#start_day_half");
+	var start_day_half_div = start_day_half_checkbox.parentElement;
+	var start_day_half_radios = start_day_half_div.querySelectorAll("input[type=radio]");
+	if (start_day_half_checkbox.checked) {
+	    halfStatusP.textContent += start_day_half_checkbox.value;
+	    for (let i = 0; i < start_day_half_radios.length; i++) {
+	        if (start_day_half_radios[i].checked) {
+	            halfStatusP.textContent += " - " + start_day_half_radios[i].value;
+	        }
+	    }
+	}
+	
+	// 종료일
+	var end_day_half_checkbox = document.querySelector("#end_day_half");
+	var end_day_half_div = end_day_half_checkbox.parentElement;
+	var end_day_half_radios = end_day_half_div.querySelectorAll("input[type=radio]");
+	if (end_day_half_checkbox.checked) {
+	    if (halfStatusP.textContent !== "") {
+	        halfStatusP.textContent += ", "; // 시작일과 종료일 사이에 쉼표 추가
+	    }
+	    halfStatusP.textContent += end_day_half_checkbox.value;
+	    for (let i = 0; i < end_day_half_radios.length; i++) {
+	        if (end_day_half_radios[i].checked) {
+	            halfStatusP.textContent += " - " + end_day_half_radios[i].value;
+	        }
+	    }
+	}
+	
+	// 선택된 값들을 화면에 출력
+	halfStatus.innerHTML = ""; // 이전에 있던 내용을 지우고 다시 출력
+	halfStatus.appendChild(halfStatusP); // halfStatusP 요소를 halfStatus에 추가
+
+	// 긴급 여부
+	var urgencyTd = document.querySelector("#urgencyTd");
+	var urgencyTdP = document.createElement("P");
+	urgencyTdP.textContent = "";
+	
+	var urgency_checkbox = document.querySelector("#urgency");
+	if(urgency_checkbox.checked){
+		urgencyTdP.textContent += "긴급!!";
+	} else {
+		urgencyTdP.textContent += " - ";
+	}
+	
+	urgencyTd.innerHTML = "";
+	urgencyTd.appendChild(urgencyTdP);
+
+	/*Approval table*/
+	// 결재자 값 넘기기
+	var emp_id = [];
+	var orderno = [];
+	var apprLine = [];
+	var apr_chk_div = document.getElementById("apr_chk");
+	var chkAppr_div = document.getElementById("chkAppr");
+
+	//   console.log("apr_chk_div",apr_chk_div)
+	var idInputs = apr_chk_div.querySelectorAll("[name='id']");
+	var apprOrderInputs = chkAppr_div.querySelectorAll("[name=apr_no]");
+	//   console.log("idInputs",idInputs)
+	Array.from(idInputs).forEach(function(idInput) {
+		emp_id.push(idInput.value)
+	})
+	//   console.log(emp_id);
+
+	Array.from(apprOrderInputs).forEach(function(apprOrderInput) {
+		//      console.log("------",apprOrderInput.value)
+		orderno.push(apprOrderInput.value)
+	})
+	//   console.log("orderno",orderno)
+	for (let i = 0; i < emp_id.length; i++) {
+		let apprVo = ({
+			writer_id: writer_id,
+			emp_id: emp_id[i],
+			atype: "01",
+			orderno: orderno[i],
+			appr_status: "01"
+		})
+		apprLine.push(apprVo);
+	}
+
+	// 참조자 값 넘기기
+	var ref_emp_id = [];
+	var refLine = [];
+	var chkRef_div = document.getElementById("chkRef");
+	var ids = chkRef_div.querySelectorAll("[name='id']");
+
+	Array.from(ids).forEach(function(id) {
+		ref_emp_id.push(id.value)
+	})
+	console.log("ref_emp_id", ref_emp_id);
+
+	for (let i = 0; i < ref_emp_id.length; i++) {
+		let refVo = ({
+			writer_id: writer_id,
+			emp_id: ref_emp_id[i],
+			atype: "02"
+		})
+		refLine.push(refVo);
+	}
+	console.log(refLine);
+	console.log(typeof refLine);
+
+	// 작성자 값 넘기기
+	var writerVo = {
+		writer_id: writer_id,
+		emp_id: writer_id,
+		atype: "03"
+	}
+	console.log("writerVo", writerVo)
+
+
+
+	// 서명 넣기
+	var WriterArea = document.getElementById("WriterArea");
+	var tr = WriterArea.querySelectorAll("tr")[1];
+	console.log("tr", tr);
+	var td = tr.querySelectorAll("td")[0];
+	console.log("td",td);
+	var div = td.querySelector("div");
+	console.log("div", div);
+	var newImg = document.createElement("img");
+	var save_sign = document.getElementById("save_sign").value;
+	console.log(save_sign);
+	//	if(save_sign == null){
+	//		console.log("서명이없어용")
+	//		return;
+	//	}
+	newImg.setAttribute("src", save_sign);
+	newImg.setAttribute("style", "width:50px");
+	div.appendChild(newImg);
+
+	
+
+	/*filestorage table */
+	var fileInput = document.getElementById("fileInput");
+	var files = fileInput.files;
+	
+	content = templateArea.innerHTML;
+	
+	var formData = new FormData();
+	formData.append("writer_id", writer_id);
+	formData.append("content", content);
+	formData.append("title", title);
+	formData.append("draft_date", draft_date);
+	formData.append("urgency", urgency);
+	formData.append("tempcode", tempcode);
+	formData.append("start_day", start_day);
+	formData.append("end_day", end_day);
+	formData.append("getsu", getsu);
+	formData.append("apprLine", JSON.stringify(apprLine));
+	formData.append("refLine", JSON.stringify(refLine));
+	formData.append("writerVo", JSON.stringify(writerVo));
+	formData.append("doc_status","01");
+	formData.append("docno", docno);
+	console.log("docno", docno);
+
+	for (let i = 0; i < files.length; i++) {
+		formData.append('files', files[i]);
+		console.log("file:", files[i]);
+	}
+
+	/*fetch post*/
+	fetch("./updateDocument.do", {
+		method: 'POST',
+		body: formData
+	})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('네트워크 에러..');
+			}
+			return response.json();
+		})
+		.then(data => {
+			console.log('data:', data);
+			var docno = document.getElementById("docno");
+			docno.textContent = data;
+			content = templateArea.innerHTML;
+			
+			updateContent(data, content);
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
+
+	//알림
+//	notify('전자결재', title + " 문서가 상신되었습니다");
+
 //	window.location.href = "./draftList.do";
 }
+
+
+
+
+
+
+
+
 
 function radioActiveS(chk) {
 	console.log("radioActive 시작일()")

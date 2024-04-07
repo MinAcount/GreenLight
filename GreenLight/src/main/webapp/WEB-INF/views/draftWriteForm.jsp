@@ -210,7 +210,7 @@
                   <input type="hidden" id="loginVo_id" value="${sessionScope.loginVo.id}">
                   
                   <input type="hidden" id="loginVo_spot" value="${sessionScope.loginVo.spot}">
-                  <input type="hidden" id="save_sign" value="">
+                  
                   <input type="hidden" id="vacVo_remaining_leave" value = "${vacVo.remaining_leave}">
             <div
                style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">

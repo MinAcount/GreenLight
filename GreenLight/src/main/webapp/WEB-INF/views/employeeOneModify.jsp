@@ -15,6 +15,7 @@
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
+				<input type="button" class="btn btn-secondary btn-sm" value="뒤로가기" onclick="history.back(-1)">
 				<h1 style="margin-bottom: 70px; text-align: center;">직원 상세정보</h1>
 				<form>
 					<div class="container-xl px-4 mt-4">

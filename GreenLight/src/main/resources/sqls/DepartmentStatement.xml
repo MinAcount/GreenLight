@@ -69,6 +69,7 @@
         FROM DEPARTMENT d
         WHERE HEADNO = #{headno}
         AND d.DELFLAG = 'N'
+        ORDER BY DEPTNO
 </select>
 <!-- 부서명 수정	updateDeptName -->
 <update id="updateDeptName" parameterType="java.util.Map">

@@ -107,13 +107,11 @@ public class DepartmentController {
 		return ResponseEntity.ok(n);
 	}
 	
-	@GetMapping("/updateDeptManager.do")
-	public String updateDeptManager(String deptno, String id) {
-		log.info("DepartmentController GET updateDeptManager.do 부서장 복구 및 변경 : {}/{}", deptno, id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("deptno", deptno);
+	@PostMapping("/updateDeptManager.do")
+	@ResponseBody
+	public String updateDeptManager(@RequestBody Map<String, Object> map) {
+		log.info("DepartmentController GET updateDeptManager.do 부서장 복구 및 변경 : {}", map);
 		deptService.updateDeptMgr(map);
-		return "redirect:/headAndDept.do";
+		return "success";
 	}
 }

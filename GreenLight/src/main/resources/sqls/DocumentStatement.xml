@@ -95,7 +95,7 @@
 			WHERE DOCNO = #{docno}
    </select>
    
-   <!-- 기안서 상신/임시저장 insertDocument -->
+   <!-- 기안서 상신 insertDocument -->
    <insert id="insertDocument" parameterType="DocumentVo">
    		INSERT INTO DOCUMENT
 			(DOCNO, WRITER_ID, TITLE, CONTENT, DRAFT_DATE, URGENCY, TEMPCODE, DOC_STATUS)
@@ -103,6 +103,14 @@
 			#{writer_id}, #{title}, #{content}, 
 			SYSDATE, #{urgency}, #{tempcode}, #{doc_status})
    </insert>
+   
+   <!-- 임시저장 상신 -->
+   <update id="updateDocument">
+   	UPDATE DOCUMENT
+	SET TITLE=#{title}, CONTENT=#{content}, DRAFT_DATE=SYSDATE, URGENCY=#{urgency} , TEMPCODE=#{tempcode}, DOC_STATUS=#{doc_status}
+	WHERE DOCNO=#{docno}
+   	
+   </update>
    
    <!-- 결재대기문서함 전체조회 getAllPendingApprovalDraft -->
    <select id="getAllPendingApprovalDraft" resultMap="DocumentVo">

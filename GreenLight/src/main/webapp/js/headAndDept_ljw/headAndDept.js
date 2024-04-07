@@ -3,7 +3,7 @@ window.onload = function(){
 }
 
 function changeBG(){
-	var allTr = document.querySelectorAll('tr');
+	var allTr = document.querySelectorAll('#main_content tr');
 	
 	allTr.forEach(function(clickTr){
 		clickTr.addEventListener("click", function(){
@@ -97,6 +97,7 @@ function getDept(result){
 	document.getElementById("nameZone").innerHTML = result.dname+" ("+(result.empVo != null ? result.empVo.length : 0)+")";
 	var inputTableHead = document.getElementById("inputListTableHead");
 	var inputTableBody = document.getElementById("inputListTableBody");
+	var xIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
     var tableHTML = '';
     inputTableHead.innerHTML = "<tr><th></th><th>사원번호</th><th>이름</th><th>소속부서</th><th>직위</th><th>부서장</th></tr>";
     if(result.empVo != null){
@@ -112,7 +113,7 @@ function getDept(result){
 			if(item.position == "부서원"){
 				tableHTML += "<td class='dept_mgr_hubo'><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault'></td>";
 			}else{
-				tableHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' disabled='disabled'></td>";
+				tableHTML += "<td>"+xIcon+"</td>";
 			}
 			tableHTML += "<td class='dept_mgr_hubo_id'>"+item.id+"</td>";
 			tableHTML += "<td>"+item.name+"</td>";
@@ -125,6 +126,7 @@ function getDept(result){
 		document.getElementById("managerZone").innerHTML = "부서장 : -";
 	}
     inputTableBody.innerHTML = tableHTML;
+	document.querySelectorAll("input[type='radio']")[0].checked = true;
     
     var buttonZone = document.getElementById("buttonZone");
     buttonZone.innerHTML = "";
@@ -218,14 +220,50 @@ function modifyManager(val){
 function modifyHeadManager(val){
 	let headno = val.toString().padStart(2, '0');
 	var headHubo = document.querySelectorAll("#managerHubo input[type='radio']");
+	var selectedHeadHubo = document.querySelector("#managerHubo input[type='radio']:checked").parentNode.nextElementSibling.innerText;
 	var count = 0;
 	headHubo.forEach(function(head){
 		if(head.checked){
 			count = 1;
 			var confirmResult = confirm("본부장으로 등록하시겠습니까?");
 			if(confirmResult){
-				alert("본부장 변경이 완료되었습니다");
-				location.href="./updateHeadManager.do?id="+head.value+"&headno="+headno;
+				fetch("./updateHeadManager.do",{
+					method:"POST",
+					headers:{"content-type":"application/json"},
+					body:JSON.stringify({
+						id:head.value,
+						headno:headno
+					})
+				})
+				.then(data => data.json())
+				.then(result => {
+					console.log(result);
+					alert("본부장 변경이 완료되었습니다");
+					closeModal();
+					document.getElementById("managerZone").innerText = "본부장 : "+selectedHeadHubo;
+					var managerHubo = document.getElementById("managerHubo");
+   					managerHubo.innerHTML ='';
+				    var huboHTML = '';
+				    if(result.length == 0){
+						huboHTML += "<tr><td>본부장 후보가 없습니다</td></tr>"
+						document.getElementById("modalSubmitBtn").style ="display:none;";
+					}else{
+					    result.newHubo.forEach(function (item) {
+							huboHTML += "<tr>";
+							huboHTML += "<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' value='"+item.id+"'></td>";
+							huboHTML += "<td> ";
+							result.deptList.forEach(function(dept){
+								if(dept.deptno == item.deptno){
+									huboHTML += "("+dept.dname+") " ;
+								}
+							});
+							huboHTML += item.name+" "+item.spot+"</td>";
+							huboHTML += "</tr>";
+						});
+						document.getElementById("modalSubmitBtn").style ="display:block; margin-left: 10px;";
+					}
+					managerHubo.innerHTML = huboHTML;
+				})
 			}else{
 				return;
 			}
@@ -249,10 +287,31 @@ function modifyDeptManager(val){
 		const deptHuboId = deptHubo.closest('tr').querySelector(".dept_mgr_hubo_id").innerText;
 		var confirmResult = confirm("부서장으로 등록하시겠습니까?");
 		if (confirmResult) {
-			alert("부서장 변경이 완료되었습니다");
-			location.href = "./updateDeptManager.do?id=" + deptHuboId + "&deptno=" + deptno;
+			fetch("./updateDeptManager.do",{
+					method:"POST",
+					headers:{"content-type":"application/json"},
+					body:JSON.stringify({
+						id:deptHuboId,
+						deptno:deptno
+					})
+				})
+				.then(data => data.text())
+				.then(result => {
+					console.log(result);
+					selectDept(deptno);
+					alert("부서장 변경이 완료되었습니다");
+				})
 		} else {
 			return;
 		}
 	}
 }
+
+//모달 닫히는 function
+function closeModal() {
+        var modal = document.getElementById('headManagerModal');
+        var backdrop = document.querySelector('.modal-backdrop');
+        modal.classList.remove('show');
+        modal.style.display = 'none';
+        backdrop.remove();
+    }

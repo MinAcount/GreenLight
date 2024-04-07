@@ -9,8 +9,11 @@ public interface IDocumentDao {
 	// 시퀀스 조회 getNextSequenceValue
 	public int getNextSequenceValue();
 	
-	// 기안서 상신/임시저장 insertDocument
+	// 기안서 상신 insertDocument
 	public int insertDocument(DocumentVo docVo);
+	
+	// 임시저장 상신 updateDocument
+	public int updateDocument(DocumentVo docVo);
 
 	// 결재대기문서함 전체조회 getAllPendingApprovalDraft
 	public List<DocumentVo> getAllPendingApprovalDraft(String id);
