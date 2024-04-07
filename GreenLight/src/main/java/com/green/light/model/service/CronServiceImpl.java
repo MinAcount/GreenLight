@@ -107,6 +107,7 @@ public class CronServiceImpl implements ICronService {
 	public int setVacationAndAttendance() {
 		log.info("CronDaoImpl setVacationAndAttendance 휴가자의 자동 근태 등록 트렌젝션 처리 크론");
 		List<VacationVo> vacationList = dao.getEmpVacationStatus();
+		System.out.println(vacationList);
 		int cnt;
 		//휴가자 없을경우 출력 및 반환
 		if(vacationList.isEmpty()) { 
@@ -246,6 +247,7 @@ public class CronServiceImpl implements ICronService {
 			int n = dao.updateVacationAttendance(parameterAttendanceVo);
 			
 		}//휴가인데 회사 출근한 직원 닫는괄호
+		
 		
 		
 		
