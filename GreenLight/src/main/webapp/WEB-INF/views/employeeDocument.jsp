@@ -22,35 +22,9 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">인사 서류 관리</h1>
-				<div
-					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
-					<div style="display: flex; flex-direction: row;">
-						<div class="datatable-dropdown" style="margin-right: 10px;">
-							<select class="datatable-selector" id="searchOpt">
-								<option value="name" selected="selected">이름</option>
-								<option value="dept">부서</option>
-							</select>
-						</div>
-						<div class="datatable-search" style="margin-right: 10px;">
-							<input class="datatable-input" placeholder="Search..."
-								type="search" title="Search within table"
-								aria-controls="datatablesSimple" id="keyword"
-								onkeypress="searchEmployee(event)">
-						</div>
-						<div class="datatable-dropdown">
-							<select class="datatable-selector">
-								<option value="5" selected="selected">5</option>
-								<option value="10">10</option>
-								<option value="20">20</option>
-								<option value="30">30</option>
-								<option value="50">50</option>
-							</select>
-						</div>
-					</div>
-				</div>
 				<hr class="mt-0 mb-4">
 				<div>
-					<table class="datatable-table" id="datatablesSimple" >
+					<table class="datatable-table" id="datatableSimple" >
 						<thead>
 							<tr style="width: 100%;">
 								<th style="width: 5%;"></th>
@@ -79,23 +53,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<nav aria-label="Page navigation example">
-						<ul class="pagination pagination-sm justify-content-center">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span> <span
-									class="sr-only">Next</span>
-							</a></li>
-						</ul>
-					</nav>
 				</div>
 			</div>
 			<div class="modal fade" id="fileListModal" tabindex="-1"
@@ -138,5 +95,60 @@
 		crossorigin="anonymous"></script>
 	<script src="js/datatables/datatables-simple-demo.js"></script>
 	<script src="js/emp_ljw/emp.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#datatableSimple').DataTable({
+
+				"language" : {
+					"emptyTable" : "직원이 없습니다",
+					"lengthMenu" : " _MENU_",
+					"info" : "_START_ - _END_ / _TOTAL_",
+					            "search": "검색: ",
+					"paginate" : {
+						"next" : "다음",
+						"previous" : "이전",
+						"first" : "처음",
+						"last" : "마지막"
+					},
+				},
+
+				info : true, // 좌측하단 정보 표시 
+				searching : true, // 검색 기능 
+				ordering : false, // 정렬 기능
+				paging : true, // 페이징 기능 
+				lengthChange : true, //  좌상단 몇 건씩 볼지 정하는 기능
+				lengthMenu : [ 10, 20, 30, 50, 100 ],
+				pagingType : "full_numbers" // 페이징 타입 설정 : simple =이전, 다음 /simple_numbers 숫자페이징+이전 다음 , /full_numbers = 처음, 마지막 추가
+			});
+		});
+		
+		var empIdList = [];
+		var allEmp = document.querySelectorAll(".empId");
+		var empFileList = document.querySelectorAll(".empFileList");
+		allEmp.forEach(function(eachEmp){
+			empIdList.push(eachEmp.innerText);
+		})
+		console.log(empIdList);
+		fetch("./getAllEmpFile.do", {
+			method: 'POST',
+			headers:{"content-type":"application/json"},
+			body: JSON.stringify({
+				ids:JSON.stringify({empIdList}),
+				start:'03',
+				end:'06'
+			}),
+		})
+		.then(data => data.json())
+		.then(result => {
+			console.log(result);
+			for(let i=0; i<result.length; i++){
+				for(let j=0; j<4; j++){
+					if(((result[i])[j]).payload != null){
+						empFileList[i].querySelectorAll(".file")[j].style = "color:green; font-size:12px; font-weight:bold;";
+					}
+				}
+			}
+		});
+	</script>
 </body>
 </html>

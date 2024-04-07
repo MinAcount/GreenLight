@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,7 @@ import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.FileStorageVo;
+import com.green.light.vo.NotificationVo;
 import com.green.light.vo.SignVo;
 import com.green.light.vo.VacationVo;
 
@@ -56,7 +59,7 @@ public class DocumentController {
 	@PostMapping(value = "/insertDocument.do")
    @ResponseBody
    public ResponseEntity<?> insertDocument(@RequestParam Map<String, Object> map,
-         /* @RequestParam(name = "files", required = false) */ MultipartFile[] files) throws Exception {
+         /* @RequestParam(name = "files", required = false) */ MultipartFile[] files, HttpSession session) throws Exception {
        log.info("DocumentController insertDocument POST /insertDocument.do 기안서를 상신/임시저장하는 기능 : {}, {}", map, files);
        
        // docVo에 값 넣어주기
@@ -237,7 +240,10 @@ public class DocumentController {
    	   System.out.println("==== 성공한 쿼리문의 갯수 : " + n + "개 ====");
    	   
    	   
-      
+		// 알림 session
+   	    EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		List<NotificationVo> notiList = notiService.getCurrNoti(loginVo.getId());
+		session.setAttribute("notiList", notiList);
       
        
 //       return ResponseEntity.ok().build();

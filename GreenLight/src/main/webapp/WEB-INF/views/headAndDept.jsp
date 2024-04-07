@@ -54,7 +54,13 @@
 						</div>
 						<div id="managerZone" style="padding: 13.5px; font-size: 15px;">
 							<c:if test="${headVo.head_mgr ne null}">
-								본부장 : ${headVo.empVo.name} ${headVo.empVo.spot}
+								<c:forEach items="${headVo.deptVo}" var="headDeptVo">
+									<c:forEach items="${headDeptVo.empVo}" var="headDeptEmpVo">
+										<c:if test="${headDeptEmpVo.id eq headVo.head_mgr}">
+											본부장 : (${headDeptVo.dname}) ${headVo.empVo.name} ${headVo.empVo.spot}
+										</c:if>
+									</c:forEach>
+								</c:forEach>
 							</c:if>
 							<c:if test="${headVo.head_mgr eq null}">
 								본부장 : -
@@ -74,6 +80,9 @@
 											<c:forEach items="${headDept.empVo}" var="deptEmp">
 												<c:if test="${headDept.dept_mgr eq deptEmp.id}">
 													<td>${deptEmp.name}</td>
+												</c:if>
+												<c:if test="${headDept.dept_mgr eq null}">
+													<td>-</td>
 												</c:if>
 											</c:forEach>
 										</tr>
@@ -100,18 +109,40 @@
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">본부장 후보</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
+								aria-label="Close" onclick="closeModal()"></button>
 						</div>
 						<div class="modal-body"
 							style="display: flex; flex-direction: column; justify-content: space-between;">
 							<div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around;">
-								<table id="managerHubo"></table>
+								<table id="managerHubo">
+									<c:if test="${fn:length(headMgrHuboList) eq 0}">
+										<tr><td>본부장 후보가 없습니다</td></tr>
+									</c:if>
+									<c:if test="${fn:length(headMgrHuboList) ne 0}">
+										<c:forEach items="${headMgrHuboList}" var="huboList">
+											<tr>
+												<td><input class='form-check-input' id='flexRadioDefault' type='radio' name='flexRadioDefault' value='${huboList.id}'></td>
+												<c:forEach items="${headVo.deptVo}" var="headDept">
+													<c:if test="${huboList.deptno eq headDept.deptno}">
+														<td>(${headDept.dname}) ${huboList.name} ${huboList.spot}</td>
+													</c:if>
+												</c:forEach>
+											</tr>
+										</c:forEach>
+									</c:if>
+								</table>
 							</div>
 							<div class="modal-footer">
 								<button class="btn btn-secondary btn-sm" type="button"
 									data-bs-dismiss="modal">취소</button>
-								<button class="btn btn-primary btn-sm" type="button" id="modalSubmitBtn"
-									style="margin-left: 10px;">변경</button>
+								<c:if test="${fn:length(headMgrHuboList) ne 0}">
+									<button class="btn btn-primary btn-sm" type="button" id="modalSubmitBtn"
+										style="margin-left: 10px;">변경</button>
+								</c:if>
+								<c:if test="${fn:length(headMgrHuboList) eq 0}">
+									<button class="btn btn-primary btn-sm" type="button" id="modalSubmitBtn"
+										style="margin-left: 10px; display: none;">변경</button>
+								</c:if>
 							</div>
 						</div>
 					</div>

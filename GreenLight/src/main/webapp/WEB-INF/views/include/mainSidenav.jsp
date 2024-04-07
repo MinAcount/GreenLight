@@ -9,7 +9,7 @@
             <div class="sidenav-menu">
                <div class="nav accordion" id="accordionSidenav">
                   <div class="sidenav-menu-heading d-sm-none">Account</div>
-                  
+                  <input type="hidden" value="${loginVo.auth}" id="loginVoAuth">
                   <c:if test="${loginVo.auth =='02'}">
 <!-- 인사팀 전용 메뉴 -->
                   <a class="nav-link collapsed emp-main" href="javascript:void(0);"

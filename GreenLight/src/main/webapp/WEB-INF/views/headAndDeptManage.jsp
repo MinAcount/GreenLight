@@ -22,6 +22,7 @@
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
+				<input type="button" class="btn btn-secondary btn-sm" value="뒤로가기" onclick="location.href='./headAndDept.do'">
 				<h1 style="margin-bottom: 70px; text-align: center;">본부 및 부서관리</h1>
 				<div class="datatable-dropdown" style="margin-bottom: 20px;">
 					<select class="datatable-selector" id="gubun"

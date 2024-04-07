@@ -44,6 +44,7 @@ public class HeadquatersController {
 		List<HeadquartersVo> headList = headService.getAllHead();
 		model.addAttribute("headList",headList);
 		HeadquartersVo headVo = null;
+		List<EmployeeVo> headMgrHuboList = new ArrayList<EmployeeVo>();
 		for(HeadquartersVo head :  headList) {
 			if(head.getDelflag().equals("N")) {
 				headVo = head;
@@ -55,10 +56,12 @@ public class HeadquatersController {
 				EmployeeVo empVo = empService.getOneEmployee(headVo.getHead_mgr());
 				headVo.setDeptVo(list);
 				headVo.setEmpVo(empVo);
+				headMgrHuboList = empService.getHeadMgrHubo(headVo.getHeadno());
 				break;
 			}
 		}
 		model.addAttribute("headVo",headVo);
+		model.addAttribute("headMgrHuboList",headMgrHuboList);
 		return "headAndDept";
 	}
 	
@@ -187,13 +190,20 @@ public class HeadquatersController {
 		return "redirect:/headAndDeptManage.do";
 	}
 	
-	@GetMapping("/updateHeadManager.do")
-	public String updateHeadManager(String headno, String id) {
-		log.info("HeadquatersController GET updateHeadManager.do 본부장 복구 및 변경 : {}/{}", headno, id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("id", id);
-		map.put("headno", headno);
+	@PostMapping("/updateHeadManager.do")
+	@ResponseBody
+	public ResponseEntity<?> updateHeadManager(@RequestBody Map<String, Object> map) {
+		log.info("HeadquatersController POST updateHeadManager.do 본부장 복구 및 변경 : {}",map);
 		headService.updateHeadMgr(map);
-		return "redirect:/headAndDept.do";
+		List<EmployeeVo> newHubo = empService.getHeadMgrHubo((String)map.get("headno"));
+		List<DepartmentVo> deptList = new ArrayList<DepartmentVo>();
+		for(EmployeeVo hubo : newHubo) {
+			DepartmentVo deptVo = deptService.getOneDept(hubo.getDeptno());
+			deptList.add(deptVo);
+		}
+		Map<String, Object> joinMap = new HashMap<String, Object>();
+		joinMap.put("newHubo", newHubo);
+		joinMap.put("deptList", deptList);
+		return ResponseEntity.ok(joinMap);
 	}
 }

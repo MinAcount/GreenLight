@@ -675,37 +675,3 @@ function fileDownload(val, type){
 	console.log(ftype);
 	location.href = "./empFileDownload.do?id="+val+"&ftype="+ftype;
 }
-
-window.onload = function(){
-	checkFile();
-}
-
-function checkFile(){
-	var empIdList = [];
-	var allEmp = document.querySelectorAll(".empId");
-	var empFileList = document.querySelectorAll(".empFileList");
-	allEmp.forEach(function(eachEmp){
-		empIdList.push(eachEmp.innerText);
-	})
-	console.log(empIdList);
-	fetch("./getAllEmpFile.do", {
-		method: 'POST',
-		headers:{"content-type":"application/json"},
-		body: JSON.stringify({
-			ids:JSON.stringify({empIdList}),
-			start:'03',
-			end:'06'
-		}),
-	})
-	.then(data => data.json())
-	.then(result => {
-		console.log(result);
-		for(let i=0; i<result.length; i++){
-			for(let j=0; j<4; j++){
-				if(((result[i])[j]).payload != null){
-					empFileList[i].querySelectorAll(".file")[j].style = "color:green; font-size:12px; font-weight:bold;";
-				}
-			}
-		}
-	});
-}
