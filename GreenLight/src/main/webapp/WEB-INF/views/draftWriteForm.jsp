@@ -28,7 +28,7 @@
                <div class="modal fade" id="templateModal" tabindex="-1"
                   aria-labelledby="exampleModalLabel" aria-hidden="true"
                   data-bs-backdrop="static">
-                  <div class="modal-dialog">
+                  <div class="modal-dialog jstreeModal">
                      <div class="modal-content" style="width: 800px; height: 600px;">
                         <div class="modal-header">
                            <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
@@ -81,7 +81,7 @@
                   <div class="modal fade" id="approvalModal" tabindex="-1"
                      aria-labelledby="exampleModalLabel" aria-hidden="true"
                      data-bs-backdrop="static">
-                     <div class="modal-dialog">
+                     <div class="modal-dialog jstreeModal">
                         <div class="modal-content" style="width: 800px; height: 630px;">
                            <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">결재선 설정</h5>
@@ -131,7 +131,7 @@
 						<div class="modal fade" id="refModal" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
-							<div class="modal-dialog">
+							<div class="modal-dialog jstreeModal">
 								<div class="modal-content" style="width: 800px; height: 630px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">참조자 추가</h5>
@@ -199,9 +199,9 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
-							style="margin-right: 5px;" onclick="insertTempDocument()">임시저장</button>
+							style="margin-right: 5px;" onclick="saveTemp()">임시저장</button>
 						<button class="btn btn-primary " type="button"
-							style="width: 73.6px;" onclick="submissionValidation()">상신</button>
+							style="width: 73.6px;" onclick="submissionValidation('01')">상신</button>
 					</div>
 				</div>
 				

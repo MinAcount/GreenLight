@@ -199,9 +199,9 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
-							style="margin-right: 5px;" onclick="insertTempDocument()">임시저장</button>
+							style="margin-right: 5px;" onclick="updateContent()">임시저장</button>
 						<button class="btn btn-primary " type="button"
-							style="width: 73.6px;" onclick="submissionValidation2()">상신</button>
+							style="width: 73.6px;" onclick="submissionValidation('01')">상신</button>
 					</div>
 				</div>
 				
@@ -247,5 +247,6 @@
       crossorigin="anonymous"></script>
    <script src="js/scripts.js"></script>
    <script type="text/javascript" src="./js/tempDraftDetail.js"></script>
+
 </body>
 </html>

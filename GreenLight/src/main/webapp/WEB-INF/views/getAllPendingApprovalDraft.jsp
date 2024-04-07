@@ -29,30 +29,42 @@
 							<tr style="width: 100%">
 								<th>제목</th>
 								<th>기안일</th>
-								<th>긴급</th>
 								<th>작성자</th>
 								<th>문서양식유형</th>
-								<th>첨부</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
 							<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr class="item">
-								<td><a href="./draftDetail.do?docno=${vo.docno}">${vo.title}</a></td>
-								<td>${vo.draft_date}</td>
 								<td>
-									<c:choose>
-									<c:when test="${vo.urgency eq 'Y'}">
-									긴급!
-									</c:when>
-									<c:otherwise>
-									-
-									</c:otherwise>
-									</c:choose>
+									<a href="./draftDetail.do?docno=${vo.docno}">
+										<c:choose>
+							                <c:when test="${vo.urgency eq 'Y'}">
+							                    <span style="margin-right: 7px;" class="badge badge-danger">긴급</span>
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+										${vo.title}  
+										<c:choose>
+							                <c:when test="${vo.file_count > 0}">
+							                    &nbsp;&nbsp;[<i data-feather="paperclip"></i>${vo.file_count}]
+							                </c:when>
+							                <c:otherwise>
+							                    
+							                </c:otherwise>
+							            </c:choose>
+									</a>
+								</td>
+								<td>
+									<script>
+								        var dDate = formatDate("${vo.draft_date}" );
+								        document.write(dDate);
+								    </script>
 								</td>
 								<td>${vo.empVo.getName()}</td>
 								<td>${vo.commVo.code_name}</td>
-								<td>${vo.file_count}</td>
 							</tr>
 							</c:forEach>
 						</tbody>
