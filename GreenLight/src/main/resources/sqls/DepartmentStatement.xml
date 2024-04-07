@@ -41,7 +41,7 @@
 	SELECT d.DEPTNO , d.DNAME, d.DEPT_MGR, d.HEADNO, h.HNAME, d.DELFLAG
         FROM DEPARTMENT d JOIN HEADQUARTERS h
         ON d.HEADNO = h.HEADNO
-        ORDER BY DNAME ASC
+        ORDER BY h.HNAME, DNAME ASC
 </select>
 <!-- 부서 상세 조회	getOneDept -->
 <select id="getOneDept" parameterType="java.lang.String" resultMap="DepartmentVo">
@@ -55,7 +55,7 @@
         ON e.SPOT = c2.CODE AND c2."TYPE" ='직위' 
         AND e.DEPTNO = #{deptno}
         AND ESTATUS = 'Y'
-        ORDER BY c2.CODE DESC
+        ORDER BY (CASE WHEN POSITION = '본부장' THEN 1 ELSE (CASE WHEN POSITION = '부서장' THEN 2 ELSE 3 END) END), c2.CODE DESC
 </select>
 <!-- 부서 상세 정보 조회	getOneDeptInfo -->
 <select id="getOneDeptInfo" parameterType="java.lang.String" resultType="DeptVo">

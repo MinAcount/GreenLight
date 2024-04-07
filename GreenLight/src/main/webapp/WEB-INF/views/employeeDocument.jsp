@@ -4,9 +4,8 @@
 <html lang="en">
 <head>
 <style type="text/css">
-	.form-control:focus, .datatable-input:focus {
-		color: #69707a;
-		box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2);
+	tr:hover{
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -24,31 +23,48 @@
 				<h1 style="margin-bottom: 70px; text-align: center;">인사 서류 관리</h1>
 				<hr class="mt-0 mb-4">
 				<div>
-					<table class="datatable-table" id="datatableSimple" >
+					<table class="datatable-table" id="datatableDocument">
 						<thead>
 							<tr style="width: 100%;">
 								<th style="width: 5%;"></th>
-								<th style="width: 13%;">사원번호</th>
-								<th style="width: 20%;">부서</th>
-								<th style="width: 20%;">이름</th>
-								<th style="width: 42%;" colspan="4">입사서류</th>
+								<th style="width: 13%; text-align: center;">사원번호</th>
+								<th style="width: 20%; text-align: center;">부서</th>
+								<th style="width: 10%; text-align: center;">이름</th>
+								<th style="width: 10%; text-align: right;">근로계약서</th>
+								<th style="width: 10%; text-align: right;">신분증사본</th>
+								<th style="width: 10%; text-align: right;">이력서</th>
+								<th style="width: 10%; text-align: right;">통장사본</th>
 							</tr>
 						</thead>
 						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${empList}" varStatus="vs">
-								<tr onclick="openFileList('${vo.id}', '${vo.name}')" data-bs-toggle='modal' class='empFileList' data-bs-target='#fileListModal'>
+								<tr onclick="openFileList('${vo.id}', '${vo.name}')"
+									data-bs-toggle='modal' class='empFileList'
+									data-bs-target='#fileListModal'>
 									<td style="text-align: center;">${vs.count}</td>
-									<td class="empId">${vo.id}</td>
+									<td class="empId" style="text-align: center;">${vo.id}</td>
 									<c:forEach var="deptVo" items="${deptList}">
 										<c:if test="${deptVo.deptno eq vo.deptno}">
-											<td>${deptVo.dname}</td>
+											<td style="text-align: center;">${deptVo.dname}</td>
 										</c:if>
 									</c:forEach>
-									<td>${vo.name}</td>
-									<td style="font-size: 12px;" class="file">근로계약서</td>
-									<td style="font-size: 12px;" class="file">신분증사본</td>
-									<td style="font-size: 12px;" class="file">이력서</td>
-									<td style="font-size: 12px;" class="file">통장사본</td>
+									<td style="text-align: center;">${vo.name}</td>
+									<c:set var="startIdx" value="${vs.index * 4}" />
+									<c:set var="endIdx" value="${vs.index * 4 + 3}" />
+									<c:forEach var="file" begin="${startIdx}" end="${endIdx}"
+										items="${fileList}" varStatus="fileStatus">
+										<c:if test="${file.ref_id eq vo.id}">
+											<c:if test="${vo.estatus eq 'Y'}">
+												<td style="font-size: 12px; color: green; font-weight: bold; text-align: right;" class="file"><i data-feather='check-circle'></i>${file.comVo.code_name}</td>
+											</c:if>
+											<c:if test="${vo.estatus eq 'N'}">
+												<td style="font-size: 12px; color: orange; font-weight: bold; text-align: right;" class="file"><i data-feather='check-circle'></i>${file.comVo.code_name}</td>
+											</c:if>
+										</c:if>
+										<c:if test="${file.ref_id ne vo.id}">
+											<td style="font-size: 12px; font-weight: 100; color: #ccc; text-align: right;" class="file">${file.comVo.code_name}</td>
+										</c:if>
+									</c:forEach>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -67,7 +83,8 @@
 						</div>
 						<div class="modal-body"
 							style="display: flex; flex-direction: column; justify-content: space-between;">
-							<div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around;">
+							<div class="toast-body"
+								style="display: flex; flex-direction: row; justify-content: space-around;">
 								<table id="empFile" style="width: 100%;">
 									<thead>
 										<tr>
@@ -97,13 +114,12 @@
 	<script src="js/emp_ljw/emp.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$('#datatableSimple').DataTable({
-
+			$('#datatableDocument').DataTable({
 				"language" : {
 					"emptyTable" : "직원이 없습니다",
 					"lengthMenu" : " _MENU_",
 					"info" : "_START_ - _END_ / _TOTAL_",
-					            "search": "검색: ",
+					"search" : "검색: ",
 					"paginate" : {
 						"next" : "다음",
 						"previous" : "이전",
@@ -111,43 +127,16 @@
 						"last" : "마지막"
 					},
 				},
-
+				autoWidth : false,
 				info : true, // 좌측하단 정보 표시 
 				searching : true, // 검색 기능 
 				ordering : false, // 정렬 기능
+				destory : true,
 				paging : true, // 페이징 기능 
 				lengthChange : true, //  좌상단 몇 건씩 볼지 정하는 기능
-				lengthMenu : [ 10, 20, 30, 50, 100 ],
+				"lengthMenu" : [ 10, 20, 30, 50, 100 ],
 				pagingType : "full_numbers" // 페이징 타입 설정 : simple =이전, 다음 /simple_numbers 숫자페이징+이전 다음 , /full_numbers = 처음, 마지막 추가
 			});
-		});
-		
-		var empIdList = [];
-		var allEmp = document.querySelectorAll(".empId");
-		var empFileList = document.querySelectorAll(".empFileList");
-		allEmp.forEach(function(eachEmp){
-			empIdList.push(eachEmp.innerText);
-		})
-		console.log(empIdList);
-		fetch("./getAllEmpFile.do", {
-			method: 'POST',
-			headers:{"content-type":"application/json"},
-			body: JSON.stringify({
-				ids:JSON.stringify({empIdList}),
-				start:'03',
-				end:'06'
-			}),
-		})
-		.then(data => data.json())
-		.then(result => {
-			console.log(result);
-			for(let i=0; i<result.length; i++){
-				for(let j=0; j<4; j++){
-					if(((result[i])[j]).payload != null){
-						empFileList[i].querySelectorAll(".file")[j].style = "color:green; font-size:12px; font-weight:bold;";
-					}
-				}
-			}
 		});
 	</script>
 </body>

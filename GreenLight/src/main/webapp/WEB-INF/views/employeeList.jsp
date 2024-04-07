@@ -4,9 +4,8 @@
 <html lang="en">
 <head>
 <style type="text/css">
-	.form-control:focus, .datatable-input:focus {
-	  color: #69707a;
-	  box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2);
+	tr:hover{
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -123,6 +122,7 @@
 				searching : true, // 검색 기능 
 				ordering : false, // 정렬 기능
 				paging : true, // 페이징 기능 
+				destory : true,
 				lengthChange : true, //  좌상단 몇 건씩 볼지 정하는 기능
 				lengthMenu : [ 10, 20, 30, 50, 100 ],
 				pagingType : "full_numbers" // 페이징 타입 설정 : simple =이전, 다음 /simple_numbers 숫자페이징+이전 다음 , /full_numbers = 처음, 마지막 추가
