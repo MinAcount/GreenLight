@@ -86,15 +86,29 @@
 					</div>
 					<div id="lowerBox"
 						style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-						<div id="calendarBox" class="card" style="width: 49%; min-height: 500px;">일정</div>
-						<div id="apprBox" class="card"
-							style="width: 49%; min-height: 500px; padding: 10px; text-align: center;">
-							<div
-								style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 18px; margin-top: 3px;">
-								<div class="card"
-									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
-								<div class="card"
-									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
+						<div id="calendarBox" class="card" style="width: 49%; min-height: 450px;">일정</div>
+						<div id="apprBox" class="card" style="width: 49%; min-height: 450px; padding: 10px; text-align: center;">
+							<div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 18px; margin-top: 3px;">
+								<div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+									<span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
+									<h5 style="margin-bottom: 15px;">${urgencyLists[0].title}</h5>
+									<p>기안자 : ${urgencyLists[0].empVo.name}</p>
+									<p>기안일 : <script>
+											        var dDate = formatDate("${urgencyLists[0].draft_date}" );
+											        document.write(dDate);
+								    			</script></p>
+									<p>문서유형 : ${urgencyLists[0].commVo.code_name}</p>
+								</div>
+								<div id="urgency2" onclick="location.href = './draftDetail.do?docno=${urgencyLists[1].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+									<span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
+									<h5 style="margin-bottom: 15px;">${urgencyLists[1].title}</h5>
+									<p>기안자 : ${urgencyLists[1].empVo.name}</p>
+									<p>기안일 : <script>
+											        var dDate = formatDate("${urgencyLists[1].draft_date}" );
+											        document.write(dDate);
+								    			</script></p>
+									<p>문서유형 : ${urgencyLists[1].commVo.code_name}</p>
+								</div>
 							</div>
 							<div class="card"
 								style="box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15);">

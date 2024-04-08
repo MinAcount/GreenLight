@@ -27,8 +27,11 @@ public interface IDocumentDao {
 	// 결재문서함 전체조회 getAllApprovalDraft
 	public List<DocumentVo> getAllApprovalDraft(String id);
 	
-	// 결재문서함 긴급순 2줄 getAllPendingApprovalDraftLimit
+	// 결재문서함 4줄 getAllPendingApprovalDraftLimit
 	public List<DocumentVo> getAllPendingApprovalDraftLimit(String id);
+	
+	// 결재문서함 긴급순 2줄 getAllPendingApprovalDraftUrgency
+	public List<DocumentVo> getAllPendingApprovalDraftUrgency(String id);
 
 	// 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus
 	public List<DocumentVo> getAllApprDraftByDocStatus(Map<String, Object> map);

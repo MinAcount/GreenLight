@@ -102,8 +102,14 @@ public class DocumentServiceImpl implements IDocumentService{
 
 	@Override
 	public List<DocumentVo> getAllPendingApprovalDraftLimit(String id) {
-		log.info("DocumentServiceImpl getAllPendingApprovalDraftLimit 결재대기문서함 전체조회 : {}", id);
+		log.info("DocumentServiceImpl getAllPendingApprovalDraftLimit 결재대기문서함 최신 4줄 조회 : {}", id);
 		return dao.getAllPendingApprovalDraftLimit(id);
+	}
+	
+	@Override
+	public List<DocumentVo> getAllPendingApprovalDraftUrgency(String id) {
+		log.info("DocumentServiceImpl getAllPendingApprovalDraftUrgency 결재대기문서함 긴급 2줄조회 : {}", id);
+		return dao.getAllPendingApprovalDraftUrgency(id);
 	}
 
 	@Override
