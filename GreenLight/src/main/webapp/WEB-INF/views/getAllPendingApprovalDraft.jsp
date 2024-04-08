@@ -61,7 +61,7 @@
 								        document.write(dDate);
 								    </script>
 								</td>
-								<td>${vo.empVo.getName()}</td>
+								<td>${vo.empVo.name}</td>
 								<td>${vo.commVo.code_name}</td>
 							</tr>
 							</c:forEach>

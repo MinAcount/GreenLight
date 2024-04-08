@@ -17,6 +17,11 @@ public class FileStorageDaoImpl implements IFileStorageDao {
 	private final String NS = "com.green.light.model.mapper.FileStorageDaoImpl.";
 	
 	@Override
+	public FileStorageVo getFiles(Map<String, Object> map) {
+		return sqlSession.selectOne(NS+"getFiles", map);
+	}
+	
+	@Override
 	public FileStorageVo selectTemplateImg(String tempno) {
 		return sqlSession.selectOne(NS+"selectTemplateImg", tempno);
 	}

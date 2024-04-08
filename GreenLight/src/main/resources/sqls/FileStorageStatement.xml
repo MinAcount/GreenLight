@@ -19,6 +19,15 @@
 	<result property="code" column="CODE" />
 </resultMap>
 
+<select id="getFiles" resultType="FileStorageVo">
+SELECT REF_ID, FTYPE, ORIGIN_NAME, PAYLOAD, FSIZE, UPLOAD_DATE, DELFLAG
+	FROM FILESTORAGE f 
+       WHERE DELFLAG ='N'
+       AND REF_ID =#{docno}
+       AND FTYPE ='01'
+       AND ORIGIN_NAME = #{origin_name}
+</select>
+
 <select id="selectTemplateImg" resultType="FileStorageVo">
 SELECT REF_ID, FTYPE, ORIGIN_NAME, STORED_NAME, PAYLOAD, FSIZE, UPLOAD_DATE 
 	FROM FILESTORAGE

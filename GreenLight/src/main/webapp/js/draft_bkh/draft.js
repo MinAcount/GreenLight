@@ -443,11 +443,10 @@ function insertDocument(gubun) {
 	   //file의 갯수만큼 for문 돌고 그 안에서 onload 이벤트를 발생시키고 img태그에 src, alt 속성 부여
 	   for (let i = 0; i < files.length; i++) {
 		   let fileImg = document.createElement("IMG");
-
 		   fileImg.alt = files[i].name;
 		   fileImg.style.width = "80px";
 		   fileImg.style.height = "80px";
-
+		   
 		   let reader = new FileReader();
 		   reader.readAsDataURL(files[i]);
 		   reader.onload = function() {
