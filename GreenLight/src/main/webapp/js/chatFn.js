@@ -53,28 +53,28 @@ function getAllChat(result){
 		
 		html += '<div id="chatListLi" class="card">';
 		html += '<div id="table-container-div">';
-		html += '<table id="table-container-list">   ';
-		html += '<thead class="table-container-list-thead">';
-		html += '<tr id="favorTr">';
-		if(result[i].gmvo.favor=="Y"){
-			img="★";
-			//html += '<td>'+result[i].gmvo.favor+'</td>    ';
-			html += '<td>'+img+'</td>';
-		} else {
-			img="☆";
-			html += '<td>'+img+'</td>';
-		}
-		html += '</tr>                             ';
-		html += '<tr id=\"roomname'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
-		html += '<td class="roomnamename">'+result[i].gmvo.roomname+'</td>     ';
-		html += '<td>'+formattedSendDate+'</td>          ';
-		html += '</tr>                             ';
-		html += '<tr id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
-		html += '<td>'+result[i].content+'</td>            ';
-		html += '<td class="notinoti">'+result[i].gmvo.noti+'</td>     ';
-		html += '</tr>                             ';
-		html += '</thead>                          ';
-		html += '</table>                          ';
+		html += '<div id="table-container-list" class="card">   ';
+		html += '<div class="table-container-list-thead card">';
+		html += '<div id="favorTr">';
+//		if(result[i].gmvo.favor=="Y"){
+//			img="★";
+//			//html += '<td>'+result[i].gmvo.favor+'</td>    ';
+//			html += '<td>'+img+'</td>';
+//		} else {
+//			img="☆";
+//			html += '<td>'+img+'</td>';
+//		}
+		html += '</div>                             ';
+		html += '<div id=\"roomname'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
+		html += '<div class="roomnamename">'+result[i].gmvo.roomname+'</div>     ';
+		html += '<div>'+formattedSendDate+'</div>          ';
+		html += '</div>                             ';
+		html += '<div id=\"chat'+result[i].chat_id+'\" onclick="getViewInsideChat('+result[i].chat_id+', '+i+')">';
+		html += '<div>'+result[i].content+'</div>            ';
+		html += '<div class="notinoti">'+result[i].gmvo.noti+'</div>     ';
+		html += '</div>                             ';
+		html += '</div>                          ';
+		html += '</div>                          ';
 		html += '</div>';
 		html += '</div>';
 		html += '<br/>';

@@ -134,6 +134,7 @@ function updateContent(docno, content, gubunValue) {
    
    
    var formData = new FormData();
+
     content = document.getElementById("templateArea").innerHTML;
    
    console.log("업데이트된 후",docno, content);
@@ -582,6 +583,7 @@ function insertDocument(gubun) {
    }
    
    
+
 }
 
 
@@ -934,6 +936,7 @@ async function approve() {
    }
 
    window.location.href = "./getAllPendingApprovalDraft.do"
+
 }
 
 
