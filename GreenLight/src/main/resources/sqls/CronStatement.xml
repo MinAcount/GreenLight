@@ -100,9 +100,9 @@ WHERE TO_DATE(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY') || '-' || TO_CHAR(JOIN_DAY, 'MM
 
 <!-- 작일 직원휴가상태조회	getEmpVacationStatus -->
 <select id="getEmpVacationStatus" resultType="VacationVo">
-SELECT ID, START_DAY , END_DAY ,NVL(HALF, 'N') HALF  ,GETSU ,BIGO 
-	FROM VACATION
-	WHERE TRUNC(CURRENT_TIMESTAMP - 1) BETWEEN TRUNC(START_DAY) AND TRUNC(END_DAY)
+SELECT ID, START_DAY , END_DAY ,NVL(HALF, 'N') HALF  ,GETSU ,BIGO
+	FROM VACATION v 
+	WHERE (CURRENT_TIMESTAMP -1) BETWEEN START_DAY AND END_DAY 
 </select>
 <!-- "작일 출근현황조회"	getEmpAttendanceStatus -->
 <select id="getEmpAttendanceStatus" resultType="AttendanceVo" parameterType="java.lang.String">
