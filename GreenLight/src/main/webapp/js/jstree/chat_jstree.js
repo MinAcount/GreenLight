@@ -166,7 +166,10 @@ function delChat(event) {
 	console.log("text", text)
 
 	deletedChat.push(parentDiv);
-	
+	var index = selectedNodeTextName.indexOf(text);
+	if(index != -1){
+		selectedNodeTextName.splice(index,1);
+	}
 	// 삭제
 	parentDiv.remove();
 
@@ -197,7 +200,9 @@ function findTreeNodeByTextChat(text) {
 // 초기화 버튼 기능
 function cleanChat() {
 	var jstree = $("#chatTree").jstree();
+	console.log(jstree);
 	var allNodes = jstree.get_json(null, { flat: true });
+	console.log(allNodes);
 	$("#people_chk").html("");
 	//모든 노드 표시
 	$("#chatTree").jstree('show_all');
@@ -208,6 +213,19 @@ function cleanChat() {
 	}
 	
 	deletedChat = [];
+	selectedNodeTextName = [];
+	selectedIds = [];
+	hideLoginUser();
+	console.log(deletedChat);
+	console.log(selectedNodeTextName);
+	
+	function hideLoginUser(){
+		var loginId = document.getElementById("id").value;
+		var loginNode = $("#chatTree").jstree("get_node", loginId);
+		if(loginNode){
+			$("#chatTree").jstree("hide_node", loginNode);
+		}
+	}
 }
 
 var chkChat;
@@ -216,9 +234,9 @@ var chkChat;
 // 참조자 추가 완료버튼
 function chatDone() {
 
+    var chatName = document.getElementById("createChatName").value;
     console.log(selectedIds);
     
-    var chatName = document.getElementById("createChatName").value;
     var loginId = document.getElementById("id").value;
     console.log(loginId);
     
@@ -229,30 +247,39 @@ function chatDone() {
     selectedNodeTextName.unshift(loginName + " " + loginSpot);
     console.log(selectedNodeTextName);
     
-    fetch("./insertChat.do", {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			id:selectedIds.join(','),
-			roomname:chatName,
-			groupno:'',
-			name:selectedNodeTextName.join(',')
+    if(chatName.trim() == ''){
+    	alert("채팅방 이름은 필수값입니다. 다시 시도해주세요.")
+    	return;
+	}
+    
+    if(selectedIds.length == 1){
+    	alert("최소 인원은 2명입니다.");
+    	return;
+    }
+	    fetch("./insertChat.do", {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				id:selectedIds.join(','),
+				roomname:chatName,
+				groupno:'',
+				name:selectedNodeTextName.join(',')
+			})
 		})
-	})
-	.then(response => {
-		if(!response.ok){
-			throw new Error('Network response was not ok');
-		}
-		return response.text();
-	})
-	.then(data => {
-		console.log("data : ", data);
-	})
-	.catch(error => {
-		console.error("네트워크 오류:", error);
-	});
+		.then(response => {
+			if(!response.ok){
+				throw new Error('Network response was not ok');
+			}
+			return response.text();
+		})
+		.then(data => {
+			console.log("data : ", data);
+		})
+		.catch(error => {
+			console.error("네트워크 오류:", error);
+		});
 }
 
 // 참조자 확인 클릭
@@ -263,6 +290,7 @@ function getchatLine() {
 	chkAppr.style.display = "none";
 }
 
+// jstree 취소
 function chatCancel() {
 	var people_chk = document.getElementById("people_chk");
 	var chat_rows = people_chk.querySelectorAll(".chat_row");
@@ -286,6 +314,8 @@ function chatCancel() {
 	})
 
 	deletedChat = [];
+	selectedNodeTextName = [];
+	selectedIds = [];
 }
 
 async function selectComplete() {
