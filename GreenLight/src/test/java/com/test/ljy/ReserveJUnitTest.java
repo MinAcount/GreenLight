@@ -109,7 +109,7 @@ public class ReserveJUnitTest {
 		
 	    ReservationVo reservationVo = new ReservationVo();
 	    reservationVo.setApplicant("2312120601");
-	    reservationVo.setPhone("010-1234-5678");
+//	    reservationVo.setPhone("010-1234-5678");
 	    reservationVo.setReserve_date(reserveDate);
 	    reservationVo.setMeetingtitle("프로젝트 회의");
 	    
@@ -118,7 +118,7 @@ public class ReserveJUnitTest {
 	   
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("applicant", reservationVo.getApplicant());
-	    map.put("phone", reservationVo.getPhone());
+//	    map.put("phone", reservationVo.getPhone());
 	    map.put("reserve_date", reservationVo.getReserve_date());
 	    map.put("meetingtitle", reservationVo.getMeetingtitle());
 	    map.put("conf_id", checkListVo.getConf_id());
@@ -161,7 +161,7 @@ public class ReserveJUnitTest {
     public void UpdateReserveTest() {
     	ReservationVo vo = new ReservationVo();
     	vo.setReserveno("240301R001");
-    	vo.setPhone("010-0320-0320");
+//    	vo.setPhone("010-0320-0320");
     	vo.setMeetingtitle("상반기 프로젝트 회의(3월)");
     	int cnt = service.updateReserve(vo);
     	assertEquals(1, cnt);
