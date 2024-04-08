@@ -19864,6 +19864,13 @@ th, td {
 	cursor: pointer;
 }
 
+
+.custom-class {
+    vertical-align: middle;
+    width: 700px;
+    height: 630px;
+    top: 20px;
+}
 .chatPeopleIcon {
 	width: 2vw;
 	height: 4.5vh;
