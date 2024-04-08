@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -50,8 +51,24 @@ public class EmpDocumentController {
 		log.info("EmpDocumentController GET employeeDocument.do 직원인사서류관리페이지 접근");
 		List<EmployeeVo> empList = empService.getAllEmployee();
 		List<DepartmentVo> deptList = deptService.getAllDept();
+		List<String> idList = new ArrayList<String>();
+		List<FileStorageVo> list = new ArrayList<FileStorageVo>();
+		for(EmployeeVo empVo : empList) {
+			idList.add(empVo.getId());
+		}
+		for(String id : idList) {
+        	Map<String, Object> mapId = new HashMap<String, Object>();
+        	mapId.put("id", id);
+        	mapId.put("start", "03");
+        	mapId.put("end", "06");
+        	List<FileStorageVo> list2 = fileService.getOneFile(mapId);
+        	for(FileStorageVo eachFile : list2) {
+        		list.add(eachFile);
+        	}
+        }
 		model.addAttribute("empList", empList);
 		model.addAttribute("deptList", deptList);
+		model.addAttribute("fileList", list);
 		return "employeeDocument";
 	}
 
@@ -125,25 +142,4 @@ public class EmpDocumentController {
 	    response.getOutputStream().flush();
 	    response.getOutputStream().close();
 	}
-	
-	@PostMapping("/getAllEmpFile.do")
-	@ResponseBody
-	public ResponseEntity<?> getAllEmpFile(@RequestBody Map<String, Object> map) throws Exception{
-		log.info("EmpDocumentController POST getAllEmpFile.do 개별 인사서류 조회(화면확인용) {}", map);
-		String jsonString = (String)map.get("ids");
-		System.out.println(jsonString);
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, List<String>> jsonArray = objectMapper.readValue(jsonString, new TypeReference<Map<String, List<String>>>() {});
-        List<String> idList = jsonArray.get("empIdList");
-        List<List<FileStorageVo>> list = new ArrayList<List<FileStorageVo>>();
-        for(String id : idList) {
-        	Map<String, Object> mapId = new HashMap<String, Object>();
-        	mapId.put("id", id);
-        	mapId.put("start", "03");
-        	mapId.put("end", "06");
-        	list.add(fileService.getOneFile(mapId));
-        }
-		return ResponseEntity.ok(list);
-	}
-
 }

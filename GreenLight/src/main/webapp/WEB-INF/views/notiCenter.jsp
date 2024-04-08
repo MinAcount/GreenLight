@@ -4,9 +4,8 @@
 <html lang="en">
 <head>
 <style type="text/css">
-	.form-control:focus, .datatable-input:focus {
-	  color: #69707a;
-	  box-shadow: 0 0 0 0.25rem rgba(46, 125, 50, 0.2);
+	td:hover{
+		cursor: pointer;
 	}
 </style>
 </head>

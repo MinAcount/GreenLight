@@ -86,20 +86,14 @@ document.addEventListener("DOMContentLoaded", function() {
 		targetElement.click();
 	}else if(currentURL.includes("headAndDeptManage.do")){
 		currentURL = "headAndDept.do";
-	}else if(currentURL.includes("draft.do")){
-		currentURL = "draftList.do";
-	}else if(currentURL.includes("appr.do")){
-		currentURL = "approvalList.do";
-	}else if(currentURL.includes("ref.do")){
-		currentURL = "referenceList.do";
-	}else if(currentURL.includes("draftDetail.do")){
-		currentURL = "getAllPendingApprovalDraft.do";
-	}else if(currentURL.includes("res.do")){
-		currentURL = "회의실예약.do";
-	}else if(currentURL.includes("possible.do")){
-		currentURL = "예약가능.do";
-	}else if(currentURL.includes("myres.do")){
-		currentURL = "myReserve.do";
+	}else if(currentURL.includes("employeeVacDetails.do")){
+		currentURL = "employeeVacation.do";
+		var targetElement = document.querySelectorAll('#layoutSidenav_nav .emp-main')[0];
+		targetElement.click();
+	}else if(currentURL.includes("employeeAttDetails.do")){
+		currentURL = "employeeAttendance.do";
+		var targetElement = document.querySelectorAll('#layoutSidenav_nav .emp-main')[0];
+		targetElement.click();
 	}
 	
 	var loginVoAuth = document.getElementById("loginVoAuth").value;

@@ -7036,7 +7036,7 @@ textarea.form-control-lg {
 
 .modal {
   --bs-modal-zindex: 1055;
-  --bs-modal-width: 500px;
+/*   --bs-modal-width: 500px; */
   --bs-modal-padding: 1rem;
   --bs-modal-margin: 0.5rem;
   --bs-modal-color: ;
@@ -7123,8 +7123,8 @@ textarea.form-control-lg {
 
 .modal-backdrop {
   --bs-backdrop-zindex: 1050;
-  --bs-backdrop-bg: #000;
-  --bs-backdrop-opacity: 0.5;
+  --bs-backdrop-bg: rgba(0,0,0,0.5);
+  --bs-backdrop-opacity: 1;
   position: fixed;
   top: 0;
   left: 0;
@@ -19831,3 +19831,20 @@ th, td {
 	background-color: red;
 }
 
+.jstreeModal{
+	vertical-align: middle;
+	width: 800px;
+	height: 630px;
+	top: 40px;
+}
+
+.alertModal{
+	width: 500px;
+	top:200px;
+	vertical-align: middle;
+}
+.table-container-list-thead{
+	text-align: center;
+	width: 90%;
+	border: 1px solid gray;
+}

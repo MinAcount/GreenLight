@@ -171,12 +171,22 @@ function cancelPlus(){
 
 //headAndDeptManage.jsp
 function editHeadName(element){
+	var okIcons = document.querySelectorAll(".okIcon");
+	okIcons.forEach(function(okicon){
+		if(okicon.style.display == 'block'){
+			alert("이름은 한번에 하나만 수정 가능합니다");
+			document.getElementsByClassName('editIcon')[rowIndex-1].style = "display : block;"
+			okicon.style.display = "none;"
+			return;
+		}
+	})
 	var table = element.closest('table');
 	var rowIndex = Array.from(table.querySelectorAll('tr')).indexOf(element.closest('tr'));
 	document.getElementsByClassName('hname')[rowIndex-1].removeAttribute('disabled');
 	document.getElementsByClassName('hname')[rowIndex-1].focus();
 	document.getElementsByClassName('editIcon')[rowIndex-1].style = "display : none;"
 	document.getElementsByClassName('okIcon')[rowIndex-1].style = "display : block;"
+	
 }
 
 //headAndDeptManage.jsp
@@ -272,7 +282,7 @@ function headDel(headno, val){
 			}else if(result.isc == "deleteSuccess"){
 				alert("완전히 삭제되었습니다");
 			}else{
-				alert("삭제에 실패하였습니다");
+				alert("해당 본부 아래에 완전히 삭제되지 않은 부서가 있습니다");
 			}
 			window.location.reload();
 		});

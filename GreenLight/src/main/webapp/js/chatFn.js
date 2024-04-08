@@ -51,10 +51,10 @@ function getAllChat(result){
 		var formattedSendDate = formatSendDate(result[i].send_date);
 		var img = "";	
 		
-		html += '<li id="chatListLi">';
+		html += '<div id="chatListLi" class="card">';
 		html += '<div id="table-container-div">';
 		html += '<table id="table-container-list">   ';
-		html += '<thead>';
+		html += '<thead class="table-container-list-thead">';
 		html += '<tr id="favorTr">';
 		if(result[i].gmvo.favor=="Y"){
 			img="★";
@@ -76,7 +76,7 @@ function getAllChat(result){
 		html += '</thead>                          ';
 		html += '</table>                          ';
 		html += '</div>';
-		html += '</li>';
+		html += '</div>';
 		html += '<br/>';
 	};
 		chatList.innerHTML = html;
@@ -291,30 +291,41 @@ function doGetViewInsideChat(result){
 	var chatRoom = document.getElementById('middleChat');
 	var html = '';
 	console.log(result);
+	console.log(result[0]);
 	console.log(result[0].gmvo.roomname);
 	document.getElementById('roomName').innerText=result[0].gmvo.roomname;
 	copyResult = result;
 	
 	function alignChatMessage(chat){
 		var chatClass = '';
-		if(chat.writter == id){
+		var content = chat.content;
+		var writterName = chat.writter;
+		if(content.includes('입장하였습니다.')){
+			writterName = '시스템';
+			chatClass = 'center';
+		} else if(chat.writter == id) {
 			chatClass = 'right';
 		} else {
 			chatClass = 'left';
 		}
-		return chatClass;
+		return {class : chatClass, writter : writterName};
 	}
-				
+	
+	
 	for(var i=0;i<result.length;i++){
 		var formattedSendDate = formatSendDate(result[i].send_date);
-		var chatClass = alignChatMessage(result[i]);	
+		var {class : chatClass, writter : writterName} = alignChatMessage(result[i]);	
 		html += '<div class="'+chatClass+'">';
-		html += '<div>'+result[i].empVo.name + " " + result[i].comVo.code_name+'</div>';
+		if(chatClass != 'center'){
+			html += '<div>'+result[i].empVo.name + " " + result[i].comVo.code_name+'</div>';
+		}
 		if(chatClass == 'left'){
 			html += '<span id="textbox">'+result[i].content+'</span>';
 			html += '<span>'+formattedSendDate+'</span>';
-		} else {
+		} else if (chatClass == 'right'){
 			html += '<span>'+formattedSendDate+'</span>';
+			html += '<span id="textbox">'+result[i].content+'</span>';
+		} else if (chatClass == 'center'){
 			html += '<span id="textbox">'+result[i].content+'</span>';
 		}
 		html += '</div>';

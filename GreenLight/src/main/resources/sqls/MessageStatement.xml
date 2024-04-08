@@ -89,8 +89,8 @@ SELECT G.GROUPNO , G.CHAT_ID , ROOMNAME ,
 </insert>
 <!-- 채팅방 아이디 찾기 getChatIdFound -->
 <select id="getChatIdFound" resultType="java.lang.String">
-	SELECT NVL(MAX(CHAT_ID),0) + 1
-		FROM GROUPMEMBER g 
+	SELECT TO_CHAR(MAX(NVL(TO_NUMBER(CHAT_ID),0))+1) 
+		FROM GROUPMEMBER g
 </select>
 <!--      채팅방 세부 조회 getViewInsideChat -->
 <select id="getViewInsideChat" resultMap="MessageVo">
@@ -103,6 +103,7 @@ SELECT G.GROUPNO, G.CHAT_ID, G.ROOMNAME,
        JOIN EMPLOYEE e ON E.ID = G.ID 
        JOIN COMMON c ON c.CODE = e.SPOT 
        WHERE G.CHAT_ID = #{chat_id} AND M.WRITTER = G.ID
+       AND M.WRITTER != '시스템'
        AND "TYPE" = '직위'
        AND GROUP_OUT = 'N'
        ORDER BY M.SEND_DATE ASC

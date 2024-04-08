@@ -72,44 +72,6 @@ public class DocumentServiceImpl implements IDocumentService{
 	}
   
 	
-	@Override
-	@Transactional
-	public int updateDraft(DocumentVo dVo, List<FileStorageVo> fVos, List<ApprovalVo> apprVos) {
-		log.info("DocumentServiceImpl insertDraft 게시글, 파일 업로드 : {}, {}, {}", dVo, fVos, apprVos);
-		
-		// 성공한 쿼리문의 갯수
-		int cnt = 0;
-		
-		try {
-			// 기안서 상신
-			System.out.println("==== insertDocument() ====");
-			System.out.println("==== dVo : " + dVo + " ====");
-			cnt += dao.updateDocument(dVo);
-			
-			// 파일 다중 등록
-			for(int i = 0; i < fVos.size(); i++) {
-				System.out.println("==== insertFile() ====");
-				System.out.println("==== fVo : " + fVos.get(i) + " ====");
-				cnt += fDao.insertFile(fVos.get(i));
-			}
-			
-			// 결재자 다중 등록
-			for(int i = 0; i < apprVos.size(); i++) {
-				System.out.println("==== insertApproval() ====");
-				System.out.println("==== apprVo : " + apprVos.get(i) + " ====");
-				cnt += aDao.insertApproval(apprVos.get(i));
-			}
-			
-			// 트랜잭션 쿼리 실패시 롤백 되는지 확인용 
-//			ApprovalVo forErrorApprVo = new ApprovalVo();
-//			forErrorApprVo.setDocno(null);
-//			cnt += aDao.insertApproval(forErrorApprVo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		return cnt;
-	}
 	
 	
 	@Override

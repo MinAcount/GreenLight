@@ -66,10 +66,17 @@ $(function() {
 		console.log("sel----------", sel);
 		selectedIds.push(sel);
 		console.log(selectedIds);
+		
 		var selectedNode = $("#chatTree").jstree().get_node(sel);
-				console.log(selectedNode)
+		console.log(selectedNode);
+		
+		var selectedNodeText = $("#chatTree").jstree().get_node(sel).text;
+		console.log(selectedNodeText);
+		
+		selectedNodeTextName.push(selectedNodeText);
+		
 		var children = $("#chatTree").jstree().get_children_dom(selectedNode);
-				console.log(children, children.length)
+		console.log(children, children.length);
 
 		if (children.length > 0) {
 			children.each(function() {
@@ -147,6 +154,7 @@ $(function() {
 
 
 var selectedIds = [];
+var selectedNodeTextName = [];
 
 //참조자 삭제
 function delChat(event) {
@@ -214,7 +222,12 @@ function chatDone() {
     var loginId = document.getElementById("id").value;
     console.log(loginId);
     
-    selectedIds.push(loginId);
+    var loginName = document.getElementById("name").value;
+    var loginSpot = document.getElementById("spot").value;
+    
+    selectedIds.unshift(loginId);
+    selectedNodeTextName.unshift(loginName + " " + loginSpot);
+    console.log(selectedNodeTextName);
     
     fetch("./insertChat.do", {
 		method: 'POST',
@@ -224,7 +237,8 @@ function chatDone() {
 		body: JSON.stringify({
 			id:selectedIds.join(','),
 			roomname:chatName,
-			groupno:''
+			groupno:'',
+			name:selectedNodeTextName.join(',')
 		})
 	})
 	.then(response => {

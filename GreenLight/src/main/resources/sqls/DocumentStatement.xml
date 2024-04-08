@@ -95,7 +95,7 @@
 			WHERE DOCNO = #{docno}
    </select>
    
-   <!-- 기안서 상신 insertDocument -->
+   <!-- 기안서/임시저장 상신 insertDocument -->
    <insert id="insertDocument" parameterType="DocumentVo">
    		INSERT INTO DOCUMENT
 			(DOCNO, WRITER_ID, TITLE, CONTENT, DRAFT_DATE, URGENCY, TEMPCODE, DOC_STATUS)
@@ -104,12 +104,11 @@
 			SYSDATE, #{urgency}, #{tempcode}, #{doc_status})
    </insert>
    
-   <!-- 임시저장 상신 -->
-   <update id="updateDocument">
+   <!-- 임시저장에서 상신버튼 -->
+   <update id="insertTempDocument" parameterType="DocumentVo">
    	UPDATE DOCUMENT
 	SET TITLE=#{title}, CONTENT=#{content}, DRAFT_DATE=SYSDATE, URGENCY=#{urgency} , TEMPCODE=#{tempcode}, DOC_STATUS=#{doc_status}
 	WHERE DOCNO=#{docno}
-   	
    </update>
    
    <!-- 결재대기문서함 전체조회 getAllPendingApprovalDraft -->
@@ -282,7 +281,7 @@ WHERE DOCNO = #{docno}
 <!-- 기안서 내용 업데이트 -->
 <update id="updateContent" parameterType="java.util.Map">
 UPDATE DOCUMENT
-	SET CONTENT=#{content}
+	SET CONTENT=#{content}, TITLE=#{title}, DRAFT_DATE=SYSDATE
 	WHERE DOCNO=#{docno}
 </update>
 </mapper>

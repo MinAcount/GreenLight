@@ -80,13 +80,12 @@
 							                    
 							                </c:otherwise>
 							            </c:choose>
-										
 									</a>
 								</td>
 								<td class="name">${vo.empVo.getName()}</td>
 								<td>
 									<script>
-								        var dDate = formatDate("${vo.draft_date}");
+								        var dDate = formatDate("${vo.draft_date}" );
 								        document.write(dDate);
 								    </script>
 								</td>

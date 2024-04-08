@@ -37,15 +37,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.15/jstree.min.js"></script>
 
 <!-- 알림 -->
-<!-- <script src="js/notification_ljw/noti.js" type="module"></script> -->
-<!-- <script src="js/notification_ljw/header_noti.js"></script> -->
 <script src="js/notification_ljw/header_noti.js"></script>
 <!-- jstree -->
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
-<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript" src="./js/jstree/jstree.js"></script>
 <style type="text/css">
+#allReadNoti:hover{
+	cursor: pointer;
+}
 #bellIcon {
 	transform-origin: 50% 0%;
 	animation-name: shake;
@@ -124,7 +125,7 @@
 					<h6 class="dropdown-header dropdown-notifications-header">
 						<i class="me-2" data-feather="bell"></i> 최근 알림
 						<c:if test="${fn:length(notiList) ne 0}">
-							<a style="margin-left: 11rem; border: 2px solid white; padding: 5px;" onclick="allReadNoti()">전체읽기</a>
+							<a id="allReadNoti" style="margin-left: 11rem; border: 2px solid white; padding: 5px;" onclick="allReadNoti()">전체읽기</a>
 						</c:if>
 					</h6>
 					<c:if test="${fn:length(notiList) eq 0}">

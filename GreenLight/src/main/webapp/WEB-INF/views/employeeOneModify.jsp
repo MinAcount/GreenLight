@@ -80,9 +80,9 @@
 													</c:forEach>
 													<select class="datatable-selector" name="deptno"
 														id="deptno" style="display: none;">
-														<c:forEach var="dept" items="${deptList}" varStatus="vs">
+														<c:if test="${dept.delflag eq 'N'}">
 															<option value="${dept.deptno}">${dept.dname}</option>
-														</c:forEach>
+														</c:if>
 													</select>
 												</div>
 											</div>
