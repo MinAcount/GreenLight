@@ -100,6 +100,11 @@ public class DocumentServiceImpl implements IDocumentService{
 		return dao.getAllPendingApprovalDraft(id);
 	}
 
+	@Override
+	public List<DocumentVo> getAllPendingApprovalDraftLimit(String id) {
+		log.info("DocumentServiceImpl getAllPendingApprovalDraftLimit 결재대기문서함 전체조회 : {}", id);
+		return dao.getAllPendingApprovalDraftLimit(id);
+	}
 
 	@Override
 	public List<DocumentVo> getAllDraft(String id) {
@@ -169,6 +174,11 @@ public class DocumentServiceImpl implements IDocumentService{
 		log.info("DocumentServiceImpl updateContent 기안서 내용 업데이트 : {}", map);
 		return dao.updateContent(map);
 	}
+
+
+
+
+
 
 	
 

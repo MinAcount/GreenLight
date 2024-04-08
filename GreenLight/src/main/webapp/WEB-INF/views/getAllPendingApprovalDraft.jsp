@@ -18,12 +18,10 @@
 				<div>
 					<table class="datatable-table">
 						<colgroup>
-							<col style="width: 40%">
-							<col style="width: 12%">
-							<col style="width: 12%">
-							<col style="width: 12%">
-							<col style="width: 12%">
-							<col style="width: 12%">
+							<col style="width: 50%">
+							<col style="width: 20%">
+							<col style="width: 10%">
+							<col style="width: 20%">
 						</colgroup>
 						<thead>
 							<tr style="width: 100%">

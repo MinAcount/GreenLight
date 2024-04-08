@@ -32,6 +32,11 @@ public class DocumentDaoImpl implements IDocumentDao{
    }
    
    @Override
+	public List<DocumentVo> getAllPendingApprovalDraftLimit(String id) {
+		return sqlsession.selectList(NS+"getAllPendingApprovalDraftLimit",id);
+	}
+   
+   @Override
    public List<DocumentVo> getAllDraft(String id) {
       return sqlsession.selectList(NS+"getAllDraft",id);
    }
@@ -80,6 +85,8 @@ public class DocumentDaoImpl implements IDocumentDao{
 	public int updateContent(Map<String, Object> map) {
 		return sqlsession.update(NS+"updateContent",map);
 	}
+
+	
 
 	
 }
