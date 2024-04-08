@@ -69,23 +69,50 @@ public class VacationController {
 	
 
 	@GetMapping(value = "/employeeVacation.do")
-	public String employeeVacation(HttpSession session, Model model) {
+	public String employeeVacation(HttpSession session, Model model, String in_date) {
 		log.info("VacationController employeeVacation 직원 휴가관리 페이지 이동");
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
-		parameterMap.put("select_year", "2024");
-		parameterMap.put("select_day", "2024-04");
+		
+		if(in_date == null) {
+			LocalDate toDay = LocalDate.now();
+			String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM")); 
+			String year = toDay.format(DateTimeFormatter.ofPattern("yyyy"));
+			parameterMap.put("select_year", year);
+			parameterMap.put("select_day", month);
+			model.addAttribute("month",month);
+		}else if(in_date != null){
+			String year = in_date.substring(0,4);
+			System.out.println("year == " + year);
+			parameterMap.put("select_year", year);
+			parameterMap.put("select_day", in_date);
+			model.addAttribute("month",in_date);
+		}
 		List<VacationVo> lists= service.selectAllEmployeeVacation(parameterMap);
 		model.addAttribute("lists",lists);
 		return "employeeVacation";
 	}
 	
 	@GetMapping(value = "/employeeVacDetails.do")
-	public String employeeVacDetails(String id, Model model) {
+	public String employeeVacDetails(String id, Model model,  String in_date) {
 		log.info("VacationController employeeVacDetails 직원 휴가관리 상세페이지 페이지 이동");
 		Map<String, Object> parameterMap = new HashMap<String, Object>();
 		parameterMap.put("id", id);
-		parameterMap.put("select_year", "2024");
-		parameterMap.put("select_day", "2024-03");
+		if(in_date == null) {
+			LocalDate toDay = LocalDate.now();
+			String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM")); 
+			String year = toDay.format(DateTimeFormatter.ofPattern("yyyy"));
+			parameterMap.put("select_year", year);
+			parameterMap.put("select_day", month);
+			model.addAttribute("month",month);
+		}else if(in_date != null){
+			String year = in_date.substring(0,4);
+			System.out.println("year == " + year);
+			parameterMap.put("select_year", year);
+			parameterMap.put("select_day", in_date);
+			model.addAttribute("month",in_date);
+		}
+		
+		
 		VacationVo vacVo= service.selectRemainingLeaveByMonth(parameterMap);
 		
 		VacationVo parameterVo = new VacationVo();

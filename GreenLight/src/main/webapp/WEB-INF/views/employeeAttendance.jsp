@@ -24,6 +24,8 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">직원 근태조회</h1>
+								<input type="hidden" id="hiddenMonth" value="${month}">
+				<h2><input type="month" style="border: 0" id="MM" value="${month}"  onchange="updateMonth()"></h2>
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>
@@ -43,7 +45,7 @@
 						</thead>
 						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${lists}" varStatus="vs">
-								<tr onclick="location.href='./employeeAttDetails.do?id=${vo.id}'">
+								<tr onclick="location.href='./employeeAttDetails.do?id=${vo.id}&in_date=${month}'">
 									<td style="text-align: center;">${vs.count}</td>
 									<td>${vo.id}</td>
 									<c:forEach var="dVo" items="${dlists}">
@@ -97,5 +99,21 @@
 		crossorigin="anonymous"></script>
 	<script src="js/datatables/datatables-simple-demo.js"></script>
 	<script src="js/emp_ljw/emp.js"></script>
+			<script type="text/javascript">
+function updateMonth(){
+	var hiddenMonth = document.getElementById('hiddenMonth').value;
+	var selectMonth = document.getElementById('MM').value;
+	var encodedMonth = encodeURIComponent(selectMonth);
+	var dateYear = new Date().getFullYear();
+	var dateMonth = new Date().getMonth()+1;
+	if(new Date(selectMonth) > new Date()){
+		alert("현재보다 나중 날짜는 선택할 수 없습니다");
+		console.log(dateYear+"-"+dateMonth)
+		document.getElementById('MM').value = hiddenMonth;
+		return false;
+	}
+	window.location.href='./employeeAttendance.do?in_date='+encodedMonth;
+}
+	</script>
 </body>
 </html>

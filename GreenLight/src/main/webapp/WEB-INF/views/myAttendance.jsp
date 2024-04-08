@@ -33,8 +33,7 @@
 				</div>
 				<hr class="mt-0 mb-4">
 				<div>
-				<input type="button" value="엑셀로 다운로드" onclick="location.href='./excel.do?in_date=' + '${month}'" style="float: right;">
-				
+				<input type="button" class="btn btn-secondary" value="엑셀로 다운로드" onclick="location.href='./excel.do?in_date=' + '${month}'" style="float: right;">
 				<table class="table">
 					<thead>
 						<tr>

@@ -29,8 +29,8 @@
 				<input type="hidden" value="${EVo.id}" name="id">
 				<input type="hidden" id="hiddenMonth" value="${month}">
 				<h2><input type="month" style="border: 0" id="MM" value="${month}"  onchange="updateMonth()"></h2>
-					<input type="button" id="editButton" value="수정" onclick="toggleEdit()" style="float: right; display: ${editMode ? 'none' : 'block'};">
-					<input type="button" id="completeButton" value="수정 완료" onclick="submitForm()" style="float: right; display: ${editMode ? 'block' : 'none'};">
+					<input type="button" class="btn btn-secondary" id="editButton" value="수정" onclick="toggleEdit()" style="float: right; display: ${editMode ? 'none' : 'block'};">
+					<input type="button" class="btn btn-primary" id="completeButton" value="수정 완료" onclick="submitForm()" style="float: right; display: ${editMode ? 'block' : 'none'};">
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>

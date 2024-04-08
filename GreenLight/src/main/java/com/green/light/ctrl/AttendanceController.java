@@ -198,10 +198,21 @@ public class AttendanceController {
     }
     
     @GetMapping(value = "/employeeAttendance.do")
-    public String employeeAttendance(Model model) {
+	public String employeeAttendance(Model model , String in_date ) {
     	log.info("AttendanceController employeeAttendance 직원관리 근태조회");
-    	String in_date = "2024-03";
-    	List<AttendanceVo> lists = service.getEmployeeAttendance(in_date);
+//    	String in_date = "2024-03";
+    	String indate;
+    	if(in_date == null) {
+    		LocalDate toDay = LocalDate.now();
+    		String month = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+			model.addAttribute("month",month);
+			 indate = toDay.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+    	}else {
+			model.addAttribute("month",in_date);
+			 indate = in_date;
+    	}
+    	
+    	List<AttendanceVo> lists = service.getEmployeeAttendance(indate);
     	List<DepartmentVo> dlists = dService.getAllDept();
     	List<EmployeeVo> elists = eService.getAllEmployee();
     	model.addAttribute("lists",lists);
@@ -244,6 +255,7 @@ public class AttendanceController {
         String in_date = day+" "+in_time;
         String out_date = day+" "+out_time;
         System.out.println(map.get("id"));
+        
         Map<String, Object> parameterMap = new HashMap<String, Object>();
         parameterMap.put("id", map.get("id"));
         parameterMap.put("in_date", in_date);
