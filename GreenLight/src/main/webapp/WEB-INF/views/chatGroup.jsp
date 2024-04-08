@@ -13,8 +13,7 @@
 		#allChatDiv {
 			justify-content: space-between;
 			width: 40%;
-			border: 1px solid gray;
-			max-height: 95%;
+			max-height: 96%;
 		}
 		
 		#chatList{
@@ -26,14 +25,13 @@
 			display: none;
 			justify-content: space-between;
 			width: 53%;
-			border: 1px solid gray;
 			max-height: 95%;
 		}
 		
 		#table-container-div {
 			display: flex;
 			justify-content: center;
-			width: 22vw;
+			width: 24.8vw;
 			height:20vh;
 		}
 		
@@ -42,8 +40,8 @@
 			width: 22vh;
 			float: left;
 			padding-top: 1vh;
-			padding-left: 7vh;
 			font-size: large;
+			color: #69707a;
 		}
 		
 		.create-btn {
@@ -54,14 +52,13 @@
 		
 		#topChat {
 			height: 10vh;
-			border-bottom: 1px solid gray;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 		
 		#middleChat {
-			height: 60vh;
+			height: 80vh;
 			overflow-y: auto;
 		}
 		
@@ -75,10 +72,11 @@
 			text-align: left;
 			width: 30vh;
 			height: 10vh;
-			padding-top:3.2vh;
+			padding-top:3.4vh;
 			font-size: large;
-			margin-left: 2vh;
+			margin-left: 1vh;
 			align-items: center;
+			color: #69707a;
 		}
 		
 		#chatSetting {
@@ -89,11 +87,13 @@
 		}
 		
 		.right {
+			padding: 10px;
 		    text-align: right;
 		    height: 9vh;
 		}
 		
 		.left {
+			padding: 10px;
 			text-align: left;
 			height: 9vh;
 		}
@@ -105,7 +105,6 @@
 		}
 		
 		#textbox {
-			border: 1px solid gray;
 			padding: 10px;
 			display: inline-block;
 			width: auto;
@@ -121,33 +120,29 @@
 		#settingModal {
 			display: none;
 			width: 22vh;
-			height: 22vh;
+			height: 13vh;
 			overflow: auto;
 			z-index: 10000;
 			background-color: white;
 			border: 1px solid gray;
 			position: absolute;
-			top: 6.4%;
-			left: 75%;
+			top: 10vh;
+			left: 51vh;
+			color: #69707a;
 		}
 		
 		#closeSetting {
 			float: right;
 			cursor: pointer;
+			font-size: 3vh;
+    		margin-right: 10px;
 		}
 		
 		#settingContainer {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-		}
-		
-		.settingBtn {
-			text-align: center;
-			border: 1px solid gray;
-			flex: 1;
-			margin: 2px;
-			padding: 2px;
+			float: inline-end;
 		}
 		
 		#peopleModal {
@@ -159,22 +154,52 @@
 			background-color: white;
 			border: 1px solid gray;
 			position: absolute;
-			top: 17.2%;
-			left: 66%;
+			top: 10vh;
+    		left: 12.3vw;
+    		color: #69707a;
 		}
 		
 		#peopleWhoJoin {
 			text-align: center;
-			padding-top: 15px;
+		    padding-top: 15px;
+		    border-bottom: 1px solid;
+		    width: 70px;
+		    margin-left: 15px;
 		}
 		
-		#chatListLi {
-			
+		.chatNameDate {
+			padding-top: 5px;
 		}
 		
-		#table-container-list thead {
-			
+		.chatContentNoti {
+			padding-top: 8vh;
 		}
+		
+		.roomnamename {
+			float: left;
+			font-size: medium;
+		}
+		
+		.datedate {
+			float: right;
+			font-size: medium;
+		}
+		
+		.contentcontent {
+			text-align: left;
+		    width: 200px;
+		    float: left;
+		    font-size: medium;
+		    white-space: nowrap;
+		    overflow: hidden;
+		    text-overflow: ellipsis;
+		}
+		
+		.notinoti {
+			float: right;
+			font-size: large;
+		}
+		
 	</style>
 </head>
 <body class="nav-fixed">
@@ -194,7 +219,7 @@
 					<div class="create-btn card-header">
 					<div id="chatListName">채팅방 목록</div>
 					<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
-						data-bs-target="#chatModal">생성</button>
+						data-bs-target="#chatModal" onclick="closePeople();closeSettingAnother();">생성</button>
 					</div>
 					<br/>
 					<div id="chatList">											
@@ -206,8 +231,8 @@
 							<div class="modal-dialog jstreeModal">
 								<div class="modal-content" style="width: 800px; height: 630px;">
 									<div class="modal-header">
-										<h5 class="modal-title" id="chatModalLabel">채팅방 생성</h5>
-										<input type="text" id="createChatName" placeholder="이름을 입력하세요">
+										<h5 class="modal-title" id="chatModalLabel">채팅방 생성&nbsp;&nbsp;</h5>
+										<input type="text" id="createChatName" style="width: 30vh" placeholder="채팅방 이름을 입력하세요">
 										<button type="button" class="btn-close"
 											data-bs-dismiss="modal" aria-label="Close"></button>
 									</div>
@@ -252,24 +277,24 @@
 				<div style="justify-content: space-between; width: 3%;"></div>
 				<div id="chatRoom" class="card">
 				<!-- 상단 -->
-					<div id="topChat">
+					<div id="topChat" class="card-header">
 						<div id="roomName"></div>
-						<div id="peopleModal" class="peopleModal"></div>
+						<div id="peopleModal" class="peopleModal card"></div>
 						<div id="chatPeople">
-							<img alt="이미지" src="./assets/img/participants.png" height="30vh" width="30vh" onclick="openPeople()">
+							<i class="chatPeopleIcon" data-feather="user" onclick="openPeople()"></i>
 						</div>
-						<div id="settingModal" class="settingModal"></div>
+						<div id="settingModal" class="settingModal card"></div>
 						<div id="chatSetting">
-							<img alt="이미지" src="./assets/img/hamburger.png" height="30vh" width="30vh" onclick="openSetting()">
+							<i class="chatSettingIcon" data-feather="align-justify" onclick="openSetting()"></i>
 						</div>
 					</div>
 				<!-- 중단 -->
 					<div id="middleChat">
 					</div>
 				<!-- 채팅 입력 -->
-					<div id="bottomChat">
-						<input type="text" id="chatInput" placeholder="채팅 입력">
-						<button type="button" id="buttonChat">전송</button>
+					<div id="bottomChat" class="input-group input-group-joined">
+						<input type="text" id="chatInput" class="form-control pe-0" placeholder="채팅 입력">
+						<button type="button" id="buttonChat" class="btn btn-primary">전송</button>
 					</div>
 				</div>
 			</div>
