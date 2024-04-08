@@ -165,11 +165,11 @@ function updateContent(docno, content, gubunValue) {
 
 
 function saveTemp(){
-      var dangerAlert = document.getElementById("dangerAlert");
+      var dangerConfirm = document.getElementById("dangerConfirm");
       document.getElementById("modalTitle").textContent = "임시저장하시겠습니까?"
       document.getElementById("modalContent").innerHTML = "결재선, 참조자, 파일은 저장되지 않습니다.<br>그래도 임시저장하시겠습니까?"
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
-      dangerAlert.setAttribute("style","display:block");
+      dangerConfirm.setAttribute("style","display:block");
 }
 
 
@@ -509,7 +509,7 @@ function insertDocument(gubun) {
    
          //알림
          //   notify('전자결재', title + " 문서가 상신되었습니다");
-//         window.location.href = "./draftList.do";   
+         window.location.href = "./draftList.do";   
    
    } else if(gubun == '04'){
       console.log("구분 04===========")
@@ -956,10 +956,11 @@ function checkSign() {
          console.log(save_sign)
          if (save_sign === null) {
             console.log("서명없음")
-            var dangerAlert = document.getElementById("dangerAlert");
-            dangerAlert.setAttribute("style", "display:block");
+            var dangerConfirm = document.getElementById("dangerConfirm");
+            dangerConfirm.setAttribute("style", "display:block");
             document.getElementById("modalTitle").innerHTML = "등록된 서명 없음!"
             document.getElementById("modalContent").innerHTML = "기안서 작성을 위해서는 서명이 필요합니다.<br>서명 등록 페이지로 이동하시겠습니까?"
+            dangerConfirm.setAttribute("onclick","location.href='./signature.do'");
          } else {
             window.location.href = './draftWriteForm.do';
          }
@@ -970,8 +971,8 @@ function checkSign() {
       });
 }
 
-function closeDangerAlert() {
-   var dangerAlert = document.getElementById("dangerAlert");
-   dangerAlert.setAttribute("style", "display:none");
+function closedangerConfirm() {
+   var dangerConfirm = document.getElementById("dangerConfirm");
+   dangerConfirm.setAttribute("style", "display:none");
 }
 

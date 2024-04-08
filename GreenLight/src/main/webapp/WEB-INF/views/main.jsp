@@ -31,58 +31,107 @@
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
-				<div id="main_content">
-					<div id="main">
-						flex direction : row, padding 20px?
-						<div id="upperBox">
-							felx direction : column, justifycontent: 띄워지는거 알아서..
-							<div id="calendarBox"></div>
-							width 40%
-							<div id="apprBox"></div>
-							width 40%
+				<div id="main"
+					style="width: 100%; display: flex; flex-direction: column;">
+					<!-- 출퇴근관리 -->
+					<div class=" card"
+						style="width: 100%; margin-bottom: 40px; height: 220px; display: flex; flex-direction: row;">
+						<div style="width: 30%; height: 30%;">
+							<div style="width: 100%; text-align: center; padding: 10px;" id="profileDiv">
+							</div>
 						</div>
-						<div id="mainAttBox"></div>
-					</div>
-				</div>
-
-
-
-
-				<!-- 출퇴근관리 -->
-				<div class="mainAttBox" style="border: 1px solid;">
-					<div class="item">
-					    <c:set var="now" value="<%= new java.util.Date() %>" />
-					    <h2><fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일 (E)" /></h2>
-					    <h2 id="time"></h2>
-					</div>
-						<div class="item">
-						    <h4>출근시간 : ${attVo.in_date != null ? attVo.in_date.substring(11,16) : '미등록'}</h4>
-						    <h4>퇴근시간 : ${attVo.out_date != null ? attVo.out_date.substring(11,16) : '미등록'}</h4>
-						    <h4>상태 : ${attVo.att_status}</h4>
+						<div style="width: 70%;">
+							<div class="card-header"
+								style="width: 100%; height: 30%; display: flex; flex-direction: row; justify-content: center; background-color: rgba(66, 138, 70, 1); border-top-left-radius: 0px;">
+								<c:set var="now" value="<%=new java.util.Date()%>" />
+								<h2 style="margin-right: 20px; margin-top: 5px; color: #fff;">
+									<fmt:formatDate value="${now}" pattern="yyyy년 MM월 dd일 (E)" />
+								</h2>
+								<h2 style="margin-top: 5px; color: #fff;" id="time"></h2>
+							</div>
+							<div class="card-body"
+								style="display: flex; flex-direction: column; width: 100%;">
+								<div
+									style="display: flex; flex-direction: row; justify-content: space-around; margin-top: 5px;">
+									<h4>출근시간 : ${attVo.in_date != null ? attVo.in_date.substring(11,16) : '미등록'}</h4>
+									<h4>퇴근시간 : ${attVo.out_date != null ? attVo.out_date.substring(11,16) : '미등록'}</h4>
+									<h4>상태 : ${attVo.att_status}</h4>
+								</div>
+								<div
+									style="margin-top: 15px; display: flex; justify-content: center;">
+									<c:choose>
+										<c:when
+											test="${attVo.in_date == null && attVo.out_date == null}">
+											<button style="width: 120px;" class="btn btn-primary"
+												id="attendanceButton" onclick="location.href='in.do'">출근하기</button>
+										</c:when>
+										<c:otherwise>
+											<c:choose>
+												<c:when test="${attVo.out_date == null}">
+													<button style="width: 120px;" id="leaveButton"
+														type="button" class="btn btn-danger"
+														onclick="location.href='out.do'">퇴근하기</button>
+												</c:when>
+												<c:otherwise>
+													<button style="width: 120px;" id="leaveButton"
+														type="button" class="btn btn-danger"
+														onclick="alert('이미 퇴근되었습니다.')">퇴근하기</button>
+												</c:otherwise>
+											</c:choose>
+										</c:otherwise>
+									</c:choose>
+								</div>
+							</div>
 						</div>
-					<div class="item">
-						<c:choose>
-							<c:when test="${attVo.in_date == null && attVo.out_date == null}">
-								<input id="attendanceButton" type="button" value="출근하기" onclick="location.href='in.do'">
-							</c:when>
-							<c:otherwise>
-								<c:choose>
-									<c:when test="${attVo.out_date == null}">
-										<input id="leaveButton" type="button" value="퇴근하기" onclick="location.href='out.do'">
-									</c:when>
-									<c:otherwise>
-										<input id="leaveButton" type="button" value="퇴근하기" onclick="alert('이미 퇴근되었습니다.')">
-									</c:otherwise>
-								</c:choose>
-							</c:otherwise>
-						</c:choose>
+					</div>
+					<div id="lowerBox"
+						style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+						<div id="calendarBox" class="card" style="width: 49%; min-height: 500px;">일정</div>
+						<div id="apprBox" class="card"
+							style="width: 49%; min-height: 500px; padding: 10px; text-align: center;">
+							<div
+								style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 18px; margin-top: 3px;">
+								<div class="card"
+									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
+								<div class="card"
+									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
+							</div>
+							<div class="card"
+								style="box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15);">
+								<div class="card-header"
+									style="display: flex; flex-direction: row; justify-content: space-between; padding: 5px; background-color: rgba(66,138,70,1);">
+									<p style="width: 40%; text-align: center; margin-bottom: 0px; color: #fff;">제목</p>
+									<p style="width: 25%; text-align: center; margin-bottom: 0px; color: #fff;">기안일</p>
+									<p style="width: 15%; text-align: center; margin-bottom: 0px; color: #fff;">작성자</p>
+									<p style="width: 25%; text-align: center; margin-bottom: 0px; color: #fff;">문서양식</p>
+								</div>
+								<div class="card-body" style="display: flex; flex-direction: column; padding: 10px;">
+									<c:forEach var="doc" items="${docLists}">
+										<div style="display: flex; flex-direction: row; margin-bottom: 10px;">
+											<p style="width: 40%; text-align: center; margin-bottom: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40%;"><a href="./draftDetail.do?docno=${doc.docno}">${doc.title}</a></p>
+											<p style="width: 25%; text-align: center; margin-bottom: 0px;">
+												<script>
+											        var dDate = formatDate("${doc.draft_date}" );
+											        document.write(dDate);
+								    			</script>
+								    		</p>
+											<p style="width: 15%; text-align: center; margin-bottom: 0px;">${doc.empVo.name}</p>
+											<p style="width: 25%; text-align: center; margin-bottom: 0px;">${doc.commVo.code_name}</p>
+										</div>
+									</c:forEach>
+								</div>
+							</div>
+						</div>
+					</div>
 					
-
-
-					</div>
 				</div>
-				<%@ include file="./include/footer.jsp"%>
 			</div>
+
+
+
+
+
+			<%@ include file="./include/footer.jsp"%>
 		</div>
 	</div>
 
@@ -104,6 +153,8 @@ function initClock() {
 
     updateClock(); // 페이지 로드 시 한 번 실행
     setInterval(updateClock, 1000); // 1초마다 업데이트
+    
+   
 }
 
 </script>

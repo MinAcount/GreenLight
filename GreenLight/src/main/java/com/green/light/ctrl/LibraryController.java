@@ -50,7 +50,7 @@ public class LibraryController {
 		 log.info("LibraryController GET draftList.do 기안문서함 이동 후 전체조회");
 		 EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		 String id = loginVo.getId();
-		 Thread.sleep(1000);
+		 Thread.sleep(1500);
 		 List<DocumentVo> lists = service.getAllDraft(id);
 		 model.addAttribute("lists", lists);
 		 System.out.println(lists);
