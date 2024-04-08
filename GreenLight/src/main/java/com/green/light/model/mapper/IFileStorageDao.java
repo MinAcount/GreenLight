@@ -6,6 +6,8 @@ import java.util.Map;
 import com.green.light.vo.FileStorageVo;
 
 public interface IFileStorageDao {
+//	특정문서에 저장되어있는 파일 조회 getFiles
+	public FileStorageVo getFiles(Map<String, Object> map);
 //	템플릿 미리보기 이미지 조회 selectTemplateImg
 	public FileStorageVo selectTemplateImg(String tempno);
 	public int insertFile(FileStorageVo fileVo);

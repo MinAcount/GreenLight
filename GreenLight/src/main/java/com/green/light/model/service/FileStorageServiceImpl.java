@@ -18,6 +18,12 @@ public class FileStorageServiceImpl implements IFileStorageService {
 	private IFileStorageDao dao;
 	
 	@Override
+	public FileStorageVo getFiles(Map<String, Object> map) {
+		log.info("FileStorageServiceImpl getFiles 특정문서에 저장되어있는 파일 조회 : {}", map);
+		return dao.getFiles(map);
+	}
+	
+	@Override
 	public FileStorageVo selectTemplateImg(String tempno) {
 		log.info("FileStorageServiceImpl selectTemplateImg 문서양식 미리보기 이미지 조회 : {}", tempno);
 		return dao.selectTemplateImg(tempno);
