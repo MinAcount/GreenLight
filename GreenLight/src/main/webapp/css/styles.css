@@ -19885,3 +19885,14 @@ th, td {
 	margin: 2px;
 	padding: 3px;
 }
+/* 지원 */
+.file-modal {
+	vertical-align: middle;
+	width: 500px;
+	top:20%
+}
+.head-dept-modal{
+	vertical-align: middle;
+	width: 300px;
+	top:20%
+}
