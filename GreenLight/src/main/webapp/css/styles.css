@@ -19845,6 +19845,11 @@ th, td {
 }
 .table-container-list-thead{
 	text-align: center;
-	width: 90%;
+	height: 20vh;
+	width: 54vh;
 	border: 1px solid gray;
+}
+
+.table-container-list {
+	
 }
