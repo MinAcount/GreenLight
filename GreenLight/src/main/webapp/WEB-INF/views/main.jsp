@@ -31,7 +31,19 @@
 		<!-- 콘텐츠 영역 -->
 		<div id="layoutSidenav_content">
 			<div id="main_content">
-
+				<div id="main_content">
+					<div id="main">
+						flex direction : row, padding 20px?
+						<div id="upperBox">
+							felx direction : column, justifycontent: 띄워지는거 알아서..
+							<div id="calendarBox"></div>
+							width 40%
+							<div id="apprBox"></div>
+							width 40%
+						</div>
+						<div id="mainAttBox"></div>
+					</div>
+				</div>
 
 
 
