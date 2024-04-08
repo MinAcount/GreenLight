@@ -19853,3 +19853,14 @@ th, td {
 .table-container-list {
 	
 }
+/* 지원 */
+.file-modal {
+	vertical-align: middle;
+	width: 500px;
+	top:20%
+}
+.head-dept-modal{
+	vertical-align: middle;
+	width: 300px;
+	top:20%
+}
