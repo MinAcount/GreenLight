@@ -13,10 +13,13 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <title>GreenLight</title>
-<link href="css/styles.css" rel="stylesheet" />
+<link rel="stylesheet" href="css/styles.css"/>
+<!-- <link rel="stylesheet" type="text/css" href="css/cal.css"> -->
 <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-<link href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 
 <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/js/all.min.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.js" crossorigin="anonymous"></script>
@@ -93,9 +96,7 @@
 		id="sidenavAccordion">
 
 		<!-- 사이드나브바 토글 버튼-->
-		<button
-			class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0"
-			id="sidebarToggle">
+		<button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle">
 			<i data-feather="menu"></i>
 		</button>
 

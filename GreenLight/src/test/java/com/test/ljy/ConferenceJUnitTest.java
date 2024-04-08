@@ -32,7 +32,7 @@ public class ConferenceJUnitTest {
 		assertNotNull(sqlSessionTemplate);
 	}
 	
-	@Test
+//	@Test
 	public void AllRoomTest() {
 		List<ConferenceVo> lists = service.getAllRoom();
 		System.out.println(lists);

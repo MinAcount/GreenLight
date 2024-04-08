@@ -14,8 +14,20 @@
 	transition: max-height 0.5s ease-in-out;
 }
 
-.fc-day-number.fc-sat.fc-past { color:#0000FF; }     
-.fc-day-number.fc-sun.fc-past { color:#FF0000; }    /* 일요일 */
+/* FullCalender*/
+.fc-day {
+	height: 26.5px;
+}
+
+.fc-day-sun a {
+	color: tomato;
+	text-decoration: none;
+}
+
+/* .fc-today-button { */
+/* 	color: #2C3E50; */
+/* 	background-color: #428A46; */
+/* } */
 
 .basic-calendar-details.show {
 	max-height: 500px; /* 콘텐츠의 높이에 맞게 조정하세요 */
@@ -143,12 +155,39 @@ input[type="submit"]:hover {
 }
 
 .name_btn {
-/*     font-size: 15px; */
+	/*     font-size: 15px; */
 	padding: 4px;
-    color: #428A46;
-    background-color: white;
-    border: solid 1px #428A46;
-    border-radius: 20px;
-    pointer-events: none;
-    margin: 3px;
+	color: #428A46;
+	background-color: white;
+	border: solid 1px #428A46;
+	border-radius: 20px;
+	pointer-events: none;
+	margin: 3px;
+}
+
+#circle {
+	width: 20px;
+	height: 20px;
+	border: none;
+	border-radius: 50%;
+	border-radius: 50%;
+}
+
+.checkbox-container {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	padding-left: 15px;
+}
+
+.checkbox-input {
+	align-items: center;
+}
+
+.form-check-input {
+	margin-bottom: 8px;
+}
+
+.form-check-label {
+	flex: 1;
 }
