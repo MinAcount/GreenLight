@@ -193,7 +193,7 @@ public class EmployeeController {
 			}else {
 				map.put("fail", failVo.getFail()+1);
 				employeeService.getLogin(map);
-				return ResponseEntity.ok("{\"msg\":\"FAILPASS\"}");
+				return ResponseEntity.ok("{\"msg\":\""+(failVo.getFail()+1)+"\"}");
 			}
 		}
 	}

@@ -60,6 +60,7 @@
                               </c:if>
                            </div>
 
+          <!-- 
                            <div class="card-body">
                               <div class="row gx-3 mb-3">
                                  <div class="col-md-12">
@@ -201,6 +202,271 @@
                               </div>
                               <p style="font-size: 7px; position: absolute; right: 20px;">*
                                  필수입력사항입니다.</p>
+  
+
+                             중간 나뉜 부분 위쪽이 혜원이 
+                             아래쪽이 지원이
+
+                             
+                             
+                    <div class="card-body">
+										<div class="row gx-3 mb-3">
+											<div class="col-md-12">
+												<label class="small mb-1" for="name">이름*</label> <input
+													class="form-control" id="name" name="name" placeholder="이름"
+													value="${vo.name}" disabled="disabled">
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="dept">부서*</label>
+												<div class="datatable-dropdown">
+													<c:forEach var="dept" items="${deptList}" varStatus="vs">
+														<c:if test="${dept.deptno eq vo.deptno}">
+															<input class="form-control" id="hidden_deptno"
+																value="${dept.dname}" disabled="disabled">
+														</c:if>
+													</c:forEach>
+													<select class="datatable-selector" name="deptno"
+														id="deptno" style="display: none;">
+														<c:forEach var="dept" items="${deptList}" varStatus="vs">
+															<c:if test="${dept.delflag eq 'N'}">
+																<option value="${dept.deptno}">${dept.dname}</option>
+															</c:if>
+														</c:forEach>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="spot">직위*</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_spot"
+														value="${vo.spot}" disabled="disabled"> <select
+														class="datatable-selector" name="spot" id="spot"
+														style="display: none;">
+														<option value="01" selected="selected">사원</option>
+														<option value="02">주임</option>
+														<option value="03">대리</option>
+														<option value="04">과장</option>
+														<option value="05">차장</option>
+														<option value="06">부장</option>
+														<option value="07">이사</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="etype">근무형태*</label>
+												<div class="datatable-dropdown">
+													<input class="form-control" id="hidden_etype"
+														value="${vo.etype eq 'A' ? '정규직' : '비정규직'}"
+														disabled="disabled"> <select
+														class="datatable-selector" name="etype" id="etype"
+														style="display: none;">
+														<option value="A" selected="selected">정규직</option>
+														<option value="B">비정규직</option>
+													</select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="gender">성별</label>
+												<div class="datatable-dropdown">
+													<input class="form-control"
+														value="${vo.gender eq 'F' ? '여성' : '남성'}"
+														disabled="disabled"> <select
+														class="datatable-selector" name="gender" id="gender"
+														style="display: none">
+														<option value="M" selected="selected">남성</option>
+														<option value="F">여성</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-12">
+												<label class="small mb-1" for="email">이메일*</label> <input
+													class="form-control" id="email" name="email"
+													placeholder="이메일" value="${vo.email}" disabled="disabled">
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-12">
+												<label class="small mb-1" for="address">주소</label> <input
+													class="form-control" id="address" name="address"
+													placeholder="주소" value="${vo.address}" disabled="disabled">
+											</div>
+										</div>
+										<div class="row gx-3 mb-3">
+											<div class="col-md-6">
+												<label class="small mb-1" for="phone">전화번호*</label> <input
+													class="form-control" id="phone" name="phone"
+													placeholder="전화번호 ex)01012345678" maxlength="11"
+													value="${vo.phone}" disabled="disabled">
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="birthday">생년월일</label>
+												<fmt:parseDate value="${vo.birthday}"
+													pattern="yyyy-MM-dd HH:mm:ss" var="fmtBirthday" />
+												<input class="form-control"
+													value="<fmt:formatDate value="${fmtBirthday}" pattern = "yyyy-MM-dd"/>"
+													disabled="disabled">
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="join_day">입사일*</label>
+												<fmt:parseDate value="${vo.join_day}"
+													pattern="yyyy-MM-dd HH:mm:ss" var="fmtJoinDay" />
+												<input class="form-control" id="hidden_join_day"
+													value="<fmt:formatDate value="${fmtJoinDay}" pattern = "yyyy-MM-dd"/>"
+													disabled="disabled">
+												<div id="join_day" style="display: none;">
+													<div class="input-group input-group-joined"
+														style="width: 14.5rem;">
+														<span class="input-group-text" id="litepickerSpan">
+															<i data-feather="calendar"></i>
+														</span> <input class="form-control ps-0"
+															id="litepickerSingleDate" name="join_day"
+															placeholder="YYYY-MM-DD" />
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<label class="small mb-1" for="join_day">퇴사일</label>
+												<fmt:parseDate value="${vo.exit_day}"
+													pattern="yyyy-MM-dd HH:mm:ss" var="fmtExitDay" />
+												<input id="hidden_exit_day" class="form-control"
+													value="<fmt:formatDate value="${fmtExitDay}" pattern = "yyyy-MM-dd"/>"
+													disabled="disabled">
+												<div id="exit_day" style="display: none;">
+													<div class="input-group input-group-joined"
+														style="width: 14.5rem;">
+														<span class="input-group-text" id="litepickerSpan">
+															<i data-feather="calendar"></i>
+														</span> <input class="form-control ps-0" id="litepickerDate"
+															name="exit_day" placeholder="YYYY-MM-DD" />
+													</div>
+												</div>
+											</div>
+										</div>
+										<p style="font-size: 7px; position: absolute; right: 20px;">*
+											필수입력사항입니다.</p>
+                    -->
+                          
+                          <div class="card-body">
+    <div class="row gx-3 mb-3">
+        <div class="col-md-12">
+            <label class="small mb-1" for="name">이름*</label>
+            <input class="form-control" id="name" name="name" placeholder="이름" value="${vo.name}" disabled="disabled">
+        </div>
+    </div>
+    <div class="row gx-3 mb-3">
+        <div class="col-md-6">
+            <label class="small mb-1" for="dept">부서*</label>
+            <div class="datatable-dropdown">
+                <c:forEach var="dept" items="${deptList}" varStatus="vs">
+                    <c:if test="${dept.deptno eq vo.deptno}">
+                        <input class="form-control" id="hidden_deptno" value="${dept.dname}" disabled="disabled">
+                    </c:if>
+                </c:forEach>
+                <select class="datatable-selector" name="deptno" id="deptno" style="display: none;">
+                    <c:forEach var="dept" items="${deptList}" varStatus="vs">
+                        <c:if test="${dept.delflag eq 'N'}">
+                            <option value="${dept.deptno}">${dept.dname}</option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="small mb-1" for="spot">직위*</label>
+            <div class="datatable-dropdown">
+                <input class="form-control" id="hidden_spot" value="${vo.spot}" disabled="disabled">
+                <select class="datatable-selector" name="spot" id="spot" style="display: none;">
+                    <option value="01" selected="selected">사원</option>
+                    <option value="02">주임</option>
+                    <option value="03">대리</option>
+                    <option value="04">과장</option>
+                    <option value="05">차장</option>
+                    <option value="06">부장</option>
+                    <option value="07">이사</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-3 mb-3">
+        <div class="col-md-6">
+            <label class="small mb-1" for="etype">근무형태*</label>
+            <div class="datatable-dropdown">
+                <input class="form-control" id="hidden_etype" value="${vo.etype eq 'A' ? '정규직' : '비정규직'}" disabled="disabled">
+                <select class="datatable-selector" name="etype" id="etype" style="display: none;">
+                    <option value="A" selected="selected">정규직</option>
+                    <option value="B">비정규직</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="small mb-1" for="gender">성별</label>
+            <div class="datatable-dropdown">
+                <input class="form-control" value="${vo.gender eq 'F' ? '여성' : '남성'}" disabled="disabled">
+                <select class="datatable-selector" name="gender" id="gender" style="display: none">
+                    <option value="M" selected="selected">남성</option>
+                    <option value="F">여성</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row gx-3 mb-3">
+        <div class="col-md-12">
+            <label class="small mb-1" for="email">이메일*</label>
+            <input class="form-control" id="email" name="email" placeholder="이메일" value="${vo.email}" disabled="disabled">
+        </div>
+    </div>
+    <div class="row gx-3 mb-3">
+        <div class="col-md-12">
+            <label class="small mb-1" for="address">주소</label>
+            <input class="form-control" id="address" name="address" placeholder="주소" value="${vo.address}" disabled="disabled">
+        </div>
+    </div>
+    <div class="row gx-3 mb-3">
+        <div class="col-md-6">
+            <label class="small mb-1" for="phone">전화번호*</label>
+            <input class="form-control" id="phone" name="phone" placeholder="전화번호 ex)01012345678" maxlength="11" value="${vo.phone}" disabled="disabled">
+        </div>
+        <div class="col-md-6">
+            <label class="small mb-1" for="birthday">생년월일</label>
+            <fmt:parseDate value="${vo.birthday}" pattern="yyyy-MM-dd HH:mm:ss" var="fmtBirthday" />
+            <input class="form-control" value="<fmt:formatDate value="${fmtBirthday}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+        </div>
+        <div class="col-md-6">
+            <label class="small mb-1" for="join_day">입사일*</label>
+            <fmt:parseDate value="${vo.join_day}" pattern="yyyy-MM-dd HH:mm:ss" var="fmtJoinDay" />
+            <input class="form-control" id="hidden_join_day" value="<fmt:formatDate value="${fmtJoinDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+            <div id="join_day" style="display: none;">
+                <div class="input-group input-group-joined" style="width: 14.5rem;">
+                    <span class="input-group-text" id="litepickerSpan">
+                        <i data-feather="calendar"></i>
+                    </span>
+                    <input class="form-control ps-0" id="litepickerSingleDate" name="join_day" placeholder="YYYY-MM-DD" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="small mb-1" for="join_day">퇴사일</label>
+            <fmt:parseDate value="${vo.exit_day}" pattern="yyyy-MM-dd HH:mm:ss" var="fmtExitDay" />
+            <input id="hidden_exit_day" class="form-control" value="<fmt:formatDate value="${fmtExitDay}" pattern = "yyyy-MM-dd"/>" disabled="disabled">
+            <div id="exit_day" style="display: none;">
+                <div class="input-group input-group-joined" style="width: 14.5rem;">
+                    <span class="input-group-text" id="litepickerSpan">
+                        <i data-feather="calendar"></i>
+                    </span>
+                    <input class="form-control ps-0" id="litepickerDate" name="exit_day" placeholder="YYYY-MM-DD" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <p style="font-size: 7px; position: absolute; right: 20px;">* 필수입력사항입니다.</p>
+</div>
+
 
                               <c:if test="${vo.estatus eq 'N'}">
                                  <button class="btn btn-danger" type="button"

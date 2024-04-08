@@ -109,8 +109,8 @@
 			<div class="modal fade" id="headManagerModal" tabindex="-1"
 				aria-labelledby="exampleModalLabel" aria-hidden="true"
 				data-bs-backdrop="static">
-				<div class="modal-dialog">
-					<div class="modal-content" style="width: 300px;">
+				<div class="modal-dialog head-dept-modal">
+					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" id="exampleModalLabel">본부장 후보</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"

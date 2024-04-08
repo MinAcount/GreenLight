@@ -32,23 +32,33 @@
 				<!-- 로그인 박스-->
 				<div
 					class="d-flex align-items-center justify-content-between mt-4 mb-0">
-					<button class="btn btn-primary" type="button" onclick="loginSubmit()" >로그인</button>
+					<button class="btn btn-primary" type="button" onclick="loginSubmit()">로그인</button>
 				</div>
 			</form>
 		</div>
 	</div>
-	<div class="toast" role="alert" aria-live="assertive"
-		aria-atomic="true" style="opacity: 1; /* position: absolute; left: 50%; top:50%; margin-left:-250px; margin-top:-50px; */">
-		<div class="toast-header text-danger">
-			<i data-feather="alert-circle" id="toastFeather"></i> <strong
-				class="me-auto">로그인 실패</strong>
-			<button class="ml-2 mb-1 btn-close" type="button"
-				data-bs-dismiss="toast" aria-label="Close"></button>
-		</div>
-		<div class="toast-body">
-			아이디 혹은 비밀번호를 다시 확인해주세요.<br/>
-			5회이상 틀릴 경우 해당 아이디의 로그인이 제한됩니다.
-			(<span id="fail">${failCount.fail+1}</span>/5)
+	<div class="modal modal-backdrop" style="display: none;" data-bs-backdrop="static backdrop"
+		id="loginDangerAlert">
+		<div class="modal-dialog alertModal">
+			<div class="modal-content">
+				<div class="modal-header text-danger">
+					<div class="modal-title" id="exampleModalLabel">
+						<i data-feather="alert-circle" id="toastFeather"></i> <strong
+							class="me-auto" id="modalTitle">로그인 실패</strong>
+					</div>
+				</div>
+				<div class="modal-body">
+					<div id="modalContent" style="padding: 15px;">
+						아이디 혹은 비밀번호를 다시 확인해주세요.<br/>
+						5회이상 틀릴 경우 해당 아이디의 로그인이 제한됩니다.
+						(<span id="fail"></span>/5)
+					</div>
+					<div class="modal-footer">
+						<button id="returnLoginBtn" style="margin-left: 10px;" class="btn btn-danger"
+							type="button">확인</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
@@ -79,10 +89,15 @@
 		function loginSubmit() {
 			var id = document.getElementById("id").value;
 			var password = document.getElementById("password").value;
-			var failCount = parseInt(document.getElementById("fail").innerHTML);
 			
 			if(id == "" || password == ""){
-				alert("아이디와 비밀번호를 입력해주세요.");
+				document.querySelector("#modalContent").innerText = "아이디와 비밀번호를 입력해주세요.";
+				document.querySelector("#loginDangerAlert").style.display = "block";
+				document.querySelector("#returnLoginBtn" ).addEventListener("click", function(){
+					document.querySelector("#loginDangerAlert").style.display = "none";
+					document.getElementById("id").value = "";
+					document.getElementById("password").value = "";
+				})
 				return;
 			}
 			fetch('./loginCheck.do', {
@@ -97,21 +112,32 @@
 			.then(result => {
 				console.log(result);
 				if(result.msg == 'NULL'){
-					alert("없는 아이디입니다. 다시 확인하여주세요");
+					document.querySelector("#modalContent").innerText = "없는 아이디입니다. 다시 확인하여주세요";
+					document.querySelector("#loginDangerAlert").style.display = "block";
+					document.querySelector("#returnLoginBtn" ).addEventListener("click", function(){
+						document.querySelector("#loginDangerAlert").style.display = "none";
+						document.getElementById("id").value = "";
+						document.getElementById("password").value = "";
+					})
 					return;
 				}else if(result.msg == 'LOCK'){
-					alert("접근이 제한된 아이디입니다. 관리자에게 문의해주세요");
+					document.querySelector("#modalContent").innerText = "접근이 제한된 아이디입니다. 관리자에게 문의해주세요";
+					document.querySelector("#loginDangerAlert").style.display = "block";
+					document.querySelector("#returnLoginBtn" ).addEventListener("click", function(){
+						document.querySelector("#loginDangerAlert").style.display = "none";
+					})
 					return;
 				}else if(result.msg == 'SUCCESS'){
 					location.href="./main.do";
 				}else if (result.msg == 'SUCCESSADMIN'){
 					location.href="./admin.do";
-				}else if(result.msg == 'FAILPASS'){
-// 					document.querySelectorAll(".toast")[0].classList.add("show");
-					alert("비밀번호를 다시 확인해주세요");
-					location.reload();
 				}else{
-					alert("로그인에 실패하였습니다. 관리자에게 문의해주세요");
+					document.getElementById("fail").innerText = result.msg;
+					document.querySelector("#loginDangerAlert").style.display = "block";
+					document.querySelector("#returnLoginBtn").addEventListener("click", function(){
+						document.querySelector("#loginDangerAlert").style.display = "none";
+						document.getElementById("password").value = "";
+					})
 				}
 			});
 		}

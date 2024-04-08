@@ -92,8 +92,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // 일정 입력 모달
 document.getElementById("insertSchedule").addEventListener("click", function() {
-	$("#scheduelModal").modal("show");
-	console.log("일정 등록 모달");
+    $("#scheduelModal").modal("show");
+    console.log("일정 등록 모달");
 });
 
 // addSchedule 이벤트 핸들러 함수 정의
@@ -252,6 +252,53 @@ function toggleTimeSelection(checkbox) {
 	}
 }
 
+function resetModal() {
+    // 캘린더 선택 초기화
+    var labelNameSelect = document.getElementById('label_name');
+    labelNameSelect.selectedIndex = 0;
+    
+    // 제목 입력 필드 초기화
+    var titleInput = document.getElementById('title');
+    titleInput.value = '';
+
+    // 날짜 선택 필드 초기화
+    var daterangepickerInput = document.getElementById('daterangepicker');
+    daterangepickerInput.value = '';
+
+    // 종일/반복 체크박스 초기화
+    var allDayCheckbox = document.getElementById('allDay');
+    allDayCheckbox.checked = false;
+    var recurCheckbox = document.getElementById('recur');
+    recurCheckbox.checked = false;
+
+    // 참여자 부분 초기화
+    var partShowSpan = document.getElementById('partShow');
+    partShowSpan.innerHTML = '';
+
+    // 위치 입력 필드 초기화
+    var locationInput = document.getElementById('location');
+    locationInput.value = '';
+
+    // 메모 텍스트 영역 초기화
+    var memoTextarea = document.getElementById('memo');
+    memoTextarea.value = '';
+
+    // 추가정보 부분 초기화
+    var basicCalendarDetailsDiv = document.getElementById('basicCalendarDetails');
+    basicCalendarDetailsDiv.style.display = 'none';
+
+    // 추가정보 선택값 초기화
+    var categorySelect = document.getElementById('category');
+    categorySelect.selectedIndex = 0;
+    var prioritySelect = document.getElementById('priority');
+    prioritySelect.selectedIndex = 0;
+    var visibilitySelect = document.getElementById('visibility');
+    visibilitySelect.selectedIndex = 0;
+    var permissionSelect = document.getElementById('permission');
+    permissionSelect.selectedIndex = 0;
+    var alarmSelect = document.getElementById('alarm');
+    alarmSelect.selectedIndex = 0;
+}
 
 function oneScheduleView(schedule_id) {
     console.log("일정 상세 모달 : ", schedule_id);
@@ -333,6 +380,3 @@ function oneScheduleView(schedule_id) {
             });
     }
 }
-
-
-
