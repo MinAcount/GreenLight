@@ -25,12 +25,29 @@
 		<div id="layoutSidenav_content">
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">서명 정보</h1>
-				<div
-					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
-				</div>
 				<hr class="mt-0 mb-4">
-				<div>
-					<table class="table">
+<div style="display: flex; justify-content: center;">
+    <div style="display: flex; flex-wrap: wrap;">
+    	<c:choose>
+    		<c:when test="${empty signlist}">
+    		                <p>등록된 서명이 없습니다</p>
+    		</c:when>
+    		<c:otherwise>
+        <c:forEach var="lists" items="${signlist}" varStatus="vr">
+            <div style="text-align: center; margin: 5px;">
+                <img alt="서명" src="${lists.save_sign}" style="border: 1px solid;"><br>
+                <input type="radio" name="signnoGroup" ${lists.main eq 'Y' ? 'checked' : ''} value="${lists.signno}" data-main="${lists.main}">
+                &nbsp;&nbsp;${lists.main  eq 'Y' ? '대표서명' : '일반서명'} &nbsp;&nbsp;&nbsp;
+            </div>
+        </c:forEach>
+    		</c:otherwise>
+    	</c:choose>
+    		
+    </div>
+</div>
+					<br>
+					<br>
+				<%-- 	<table class="table">
 						<tbody>
 							<c:forEach var="lists" items="${signlist}" varStatus="vr">
 								<tr>
@@ -42,17 +59,11 @@
 									<td>${lists.main}</td>
 								</tr>
 							</c:forEach>
-
 						</tbody>
-						<tfoot>
-							<td>
-								<input type="button" value="대표서명으로 지정" onclick="mainSign()">
-								<input type="button" value="삭제" onclick="delSign()">
-								<input type="button" value="등록" onclick="openChildWindow()">
-							</td>
-						</tfoot>
-					</table>
-				</div>
+					</table> --%>
+							<input type="button" class="btn btn-secondary" value="대표서명으로 지정" onclick="mainSign()">
+							<input type="button" class="btn btn-primary" value="등록" onclick="openChildWindow()">
+							<input type="button" class="btn btn-danger" value="삭제" onclick="delSign()">
 			</div>
 			<%@ include file="./include/footer.jsp"%>
 		</div>

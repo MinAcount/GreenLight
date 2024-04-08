@@ -27,6 +27,8 @@
 			<div id="main_content">
 				<h1 style="margin-bottom: 70px; text-align: center;">${vacVo.empVo.name} 연차현황</h1>
 				<input type="hidden" value="${EVo.id}" name="id">
+				<input type="hidden" id="hiddenMonth" value="${month}">
+				<h2><input type="month" style="border: 0" id="MM" value="${month}"  onchange="updateMonth()"></h2>
 				<div
 					style="display: flex; justify-content: space-between; margin-top: 50px; height: 60.8px;">
 				</div>
@@ -39,7 +41,7 @@
 							</div>
 							<div class="col-xl-8" style="width: 100%; margin: 10px auto;">
 								<div class="card mb-4">
-									<div class="card-header">${vacVo.empVo.id}</div>
+									<div class="card-header" id="id">${vacVo.empVo.id}</div>
 									<div class="card-body">
 										<div class="row gx-3 mb-3">
 											<div class="col-md-6">
@@ -147,6 +149,23 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
 	<script src="js/scripts.js"></script>
+			<script type="text/javascript">
+function updateMonth(){
+	var hiddenMonth = document.getElementById('hiddenMonth').value;
+	var selectMonth = document.getElementById('MM').value;
+	var encodedMonth = encodeURIComponent(selectMonth);
+	var dateYear = new Date().getFullYear();
+	var dateMonth = new Date().getMonth()+1;
+	if(new Date(selectMonth) > new Date()){
+		alert("현재보다 나중 날짜는 선택할 수 없습니다");
+		console.log(dateYear+"-"+dateMonth)
+		document.getElementById('MM').value = hiddenMonth;
+		return false;
+	}
+	var id = document.getElementById('id').innerText;
+	window.location.href='./employeeVacDetails.do?id='+id+'&in_date='+encodedMonth;
+}
+	</script>
 
 </body>
 </html>
