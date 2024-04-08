@@ -19847,9 +19847,34 @@ th, td {
 	text-align: center;
 	height: 20vh;
 	width: 54vh;
-	border: 1px solid gray;
+	padding: 10px;
 }
 
-.table-container-list {
-	
+.chat_card {
+	box-shadow: 0 0.15rem 0.1rem 0 rgba(33, 40, 50, 0.1);
+}
+
+.textbox_card {
+	box-shadow: 0 0.05rem 0.05rem 0 rgba(33, 40, 50, 0.1);
+}
+
+.chatSettingIcon {
+	width: 3vw;
+	height: 4.5vh;
+	cursor: pointer;
+}
+
+.chatPeopleIcon {
+	width: 2vw;
+	height: 4.5vh;
+	cursor: pointer;
+}
+
+.settingBtn_card {
+//	box-shadow: 0 0rem 0.01rem 0 rgba(33, 40, 50, 0.1);
+	text-align: center;
+//	border: 1px solid gray;
+	flex: 1;
+	margin: 2px;
+	padding: 3px;
 }
