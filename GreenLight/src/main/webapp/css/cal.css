@@ -141,3 +141,14 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background-color: #0056b3;
 }
+
+.name_btn {
+/*     font-size: 15px; */
+	padding: 4px;
+    color: #428A46;
+    background-color: white;
+    border: solid 1px #428A46;
+    border-radius: 20px;
+    pointer-events: none;
+    margin: 3px;
+}

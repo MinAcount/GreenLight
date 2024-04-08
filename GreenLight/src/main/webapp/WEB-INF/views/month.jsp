@@ -4,6 +4,7 @@
 <html lang="en">
 <head>
 <link rel="stylesheet" type="text/css" href="./css/cal.css">
+<link rel="stylesheet" type="text/css" href="./css/styles.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-bJQN0gRBAFlqVcFrj2k/9+JMe50VnT8i8FDEQoiR8tRckCeTV6UKGq6vtsbgndnOnvKEtLcctzN7K0s9Jko9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <style type="text/css">
 .fc-toolbar-chunk {
@@ -17,6 +18,8 @@
 	<div id="layoutSidenav" style="display: flex;">
 		<%@ include file="./include/mainSidenav.jsp"%>
 		<!-- 콘텐츠 영역 -->
+		<input type="hidden" value="${loginVo.id}" id="loginId">
+		<input type="hidden" value="${loginVo.name}" id="loginName">
 		<div id="layoutSidenav_content" style="flex: 1;">
 			<div id="main_content" class="row" style="height: 100%;">
 				<!-- 왼쪽 콘텐츠(사이드바) -->
@@ -35,6 +38,11 @@
 										id="exampleCheck1"> <span class="form-check-label"
 										for="exampleCheck1">내 일정(기본)</span>
 								</div>
+								<div class="mb-2" style="padding-left: 15px;">
+									<input class="form-check-input" type="checkbox"
+										id="exampleCheck1"> <span class="form-check-label"
+										for="exampleCheck1">휴가</span>
+								</div>
 							</div>
 							<div style="padding-top: 30px;">
 								<p>📆관심 캘린더</p>
@@ -48,7 +56,9 @@
 										id="exampleCheck5"> <span class="form-check-label"
 										for="exampleCheck5">내 일정(김태민)</span>
 								</div>
-								<p style="color: grey">+ 관심 캘린더 추가</p>
+								<div class="mb-2" style="padding-left: 15px; padding-top: 15px;">
+									<a style="color: grey" href="#">+ 관심 캘린더 추가</a>
+								</div>
 							</div>
 							<hr>
 							<div>
@@ -77,32 +87,22 @@
 		<!-- 등록 모달 -->
 		<div class="modal fade" id="scheduelModal" tabindex="-1"
 			aria-labelledby="scheduelModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-md">
+			<div class="modal-dialog modal-dialog-centered modal-md custom-class">
 				<div class="modal-content border-0"
 					style="padding: 20px; overflow-y: hidden;">
 					<div class="modal-header">
 						<h5 class="modal-title" id="scheduelModalLabel">일정등록</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal"
-							aria-label="Close"></button>
 					</div>
 					<div class="modal-body">
 						<form action="./insertSchedule.do" method="post" id="scheduelForm">
 							<div style="display: flex; flex-direction: column; gap: 10px;">
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">색상</span> <select id="color"
-										name="color" class="form-control" style="flex: 3;">
-										<option value="red">빨간색</option>
-										<option value="blue">파란색</option>
-										<option value="green">초록색</option>
-										<option value="yellow">노란색</option>
-									</select>
-								</div>
-								<div style="display: flex; gap: 10px; align-items: center;">
 									<span style="flex: 1;">캘린더</span> <select id="label_name"
 										name="label_name" class="form-control" style="flex: 3;"
 										value="">
-										<option value="My">내 일정(기본)</option>
-										<option value="${dname}">${dname}일정</option>
+										<option value="기본일정">내 일정(기본)</option>
+										<option value="휴가">휴가</option>
+										<option value="${dname}일정">${dname}일정</option>
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
@@ -138,13 +138,14 @@
 										class="form-control" style="flex: 3;">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<div class="form-check">
+									<span style="flex: 1;"></span> 
+									<div class="form-check" style="flex: 1.5;">
 										<input type="checkbox" id="allDay" name="allDay" value="종일"
 											class="form-check-input" onchange="toggleTimeSelection(this)"
 											style="margin-bottom: 0px;"> <span for="allDay"
 											class="form-check-label" style="margin-bottom: 0px;">종일</span>
 									</div>
-									<div class="form-check">
+									<div class="form-check" style="flex: 1.5;">
 										<input type="checkbox" id="recur" name="recur" value="Y"
 											class="form-check-input" style="margin-bottom: 0px;">
 										<span for="recur" class="form-check-label"
@@ -152,16 +153,18 @@
 									</div>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">참여자</span> <input type="text"
-										id="participants" name="participants" class="form-control"
-										placeholder="참여자 선택" style="flex: 3;">
+									<span style="flex: 1;">참여자</span> 
+									<button id="participantsModal" class="form-control" type="button" data-bs-toggle="modal"data-bs-target="#partModal" style="flex: 3;">참여자 선택</button>
+									<input type="hidden" id="participants" name="participants[]" class="form-control">
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">위치</span> <input type="text"
-										id="location" name="location" class="form-control"
-										placeholder="위치" style="flex: 1.5;" value=""> <input
-										type="button" id="reserveRoom" name="reserveRoom"
-										class="form-control" value="회의실 예약" style="flex: 1;">
+									<span style="flex: 1;"></span> 
+									<span id="partShow" style="flex: 3;"></span>
+								</div>
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">위치</span> 
+									<input type="text" id="location" name="location" class="form-control" placeholder="위치" style="flex: 1.7;" value=""> 
+									<input type="button" id="reserveRoom" name="reserveRoom" class="form-control" value="회의실 예약" style="flex: 1;">
 								</div>
 							</div>
 							<div class="form-group" style="padding-top: 20px;">
@@ -170,7 +173,7 @@
 									placeholder="메모를 입력하세요"></textarea>
 							</div>
 							<div>
-								<a href="#" id="basicCalendarToggle">기본캘린더</a>
+								<a href="#" id="basicCalendarToggle" style="font-size: 20px;">추가정보</a>
 							</div>
 							<div id="basicCalendarDetails">
 								<div style="display: flex; flex-direction: column; gap: 10px;">
@@ -197,7 +200,7 @@
 									<div style="display: flex; gap: 10px; align-items: center;">
 										<span style="flex: 1;">공개여부</span> <select id="visibility"
 											name="visibility" class="form-control" style="flex: 3;">
-											<option value="Y">전체공개</option>
+											<option value="Y">공개</option>
 											<option value="N">비공개</option>
 										</select>
 									</div>
@@ -223,30 +226,57 @@
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary"
-							data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetModal()">취소</button>
 						<button type="button" class="btn btn-primary"
-							onclick="addScheduleHandler()">추가</button>
-							<!-- onclick="addScheduleHandler()">추가</button> -->
+							onclick="addScheduleHandler()">등록</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="detailVieweModal"></div>
-
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-			crossorigin="anonymous"></script>
+		<!-- jstree 모달 -->
+		<div style="display: flex; flex-direction: row; justify-content: space-between;">
+			<div class="modal fade" id="partModal" tabindex="-1" aria-labelledby="partModalLabel" aria-hidden="true" data-bs-backdrop="static">
+				<div class="modal-dialog jstreeModal">
+					<div class="modal-content" style="width: 800px; height: 630px;">
+						<div class="modal-header">
+							<h5 class="modal-title" id="partModalLabel">참여자 선택</h5>
+						</div>
+						<div class="modal-body" style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
+							<div class="toast-body" style="display: flex; flex-direction: row; justify-content: space-around; border: none;">
+								<!-- 참조자들(js tree) -->
+								<div id="part_sel" style="width: 300px; min-height: 450px; padding: 10px;" class="form-control">
+									<div id="search_box">
+										<input class="form-control" id="search_input" type="text" placeholder="검색">
+									</div>
+									<div id="partTree" style="margin-top: 10px; border: none; width: 100%; max-height: 390px; overflow-y: scroll;"></div>
+								</div>
+								<div style="width: 50px; text-align: center;">
+									<button id="addPeople" class="form-control" style="width: 30px; height: 100px; margin-top: 180px; padding-left: 10px; padding-right: 10px;"><i class="fa-solid fa-caret-right"></i></button>
+								</div>
+								<!-- 선택된 참조자들 -->
+								<div class="form-control" id="people_chk" style="width: 300px; min-height: 450px; padding-top: 30px;"></div>
+							</div>
+							<div class="modal-footer" style="margin-bottom: 20px; margin-top: 10px;">
+								<input type="button" class="btn btn-danger" value="초기화" onclick="partClean()">
+								<button class="btn btn-secondary " type="button" data-bs-dismiss="modal" onclick="partCancel()">취소</button>
+								<button data-bs-dismiss="modal" onclick="partDone()" class="btn btn-primary " type="button" style="margin-left: 10px;">선택완료</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 상세 일정 모달 -->
+	<div id="detailVieweModal"></div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<script src="js/scripts.js"></script>
-		<script
-			src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-		<link rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-		<link rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
-		<script type="text/javascript"
-			src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
 		<script type="text/javascript" src="js/cal.js"></script>
+		<script type="text/javascript" src="js/jstree/schedule_jstree.js"></script>
 		<script type="text/javascript" src="js/datatime.js"></script>
 </body>
 </html>
