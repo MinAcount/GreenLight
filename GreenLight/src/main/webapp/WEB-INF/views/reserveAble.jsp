@@ -175,7 +175,7 @@ th, td {
 	<!-- 예약 모달 -->
 	<div class="modal fade" id="reserveFormModal" tabindex="-1"
 		aria-labelledby="reserveFormModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-md">
+		<div class="modal-dialog modal-dialog-centered modal-md custom-class">
 			<div class="modal-content border-0"
 				style="padding: 20px; overflow-y: hidden;">
 				<div class="modal-header">

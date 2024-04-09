@@ -80,58 +80,56 @@ function oneReserveView(reserveno) {
 
 function updateReserveTitle(reserveno) {
 	console.log("예약수정 : ", reserveno)
-    var iconSpan = document.querySelector('#reserveModal .modal-body span');
-    iconSpan.textContent = '';
-    
-    var inputField = document.querySelector('#reserveModal input[type="hidden"]');
-    
-    inputField.style.display = 'inline';
-    inputField.removeAttribute('type'); 
-    
-    var saveButton = document.createElement('button');
-    saveButton.textContent = '저장하기';
-    saveButton.className = 'btn btn-primary';
-    
-    // 저장 버튼의 클릭 이벤트 리스너를 추가합니다.
-    saveButton.addEventListener('click', function() {
-        // 수정된 목적을 가져옵니다.
-        var updatedMeetingTitle = inputField.value;
-        
-        // AJAX 요청을 보냅니다.
-        fetch('./updateReserve.do?reserveno=' + reserveno, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                reserveno: reserveno,
-                meetingtitle: updatedMeetingTitle
-            })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // 서버로부터 응답을 받은 후의 처리 작업을 여기에 추가합니다.
-            console.log('예약 수정 완료:', data);
-            // 모달을 닫습니다.
-            $('#reserveModal').modal('hide');
-        })
-        .catch(error => {
-            console.error('오류:', error);
-        });
-    });
-    
-    // 저장 버튼을 삽입합니다.
-    var container = document.querySelector('#reserveModal .modal-footer');
-    container.innerHTML = ''; // 기존 내용을 비웁니다.
-    container.appendChild(saveButton);
+	var iconSpan = document.querySelector('#reserveModal .modal-body span');
+	iconSpan.textContent = '';
+
+	var inputField = document.querySelector('#reserveModal input[type="hidden"]');
+
+	inputField.style.display = 'inline';
+	inputField.removeAttribute('type');
+
+	var saveButton = document.createElement('button');
+	saveButton.textContent = '저장하기';
+	saveButton.className = 'btn btn-primary';
+
+	// 저장 버튼의 클릭 이벤트 리스너를 추가합니다.
+	saveButton.addEventListener('click', function() {
+		// 수정된 목적을 가져옵니다.
+		var updatedMeetingTitle = inputField.value;
+
+		// AJAX 요청을 보냅니다.
+		fetch('./updateReserve.do?reserveno=' + reserveno, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				reserveno: reserveno,
+				meetingtitle: updatedMeetingTitle
+			})
+		})
+			.then(response => {
+				if (!response.ok) {
+					throw new Error('서버 응답 실패');
+				}
+				return response.json();
+			})
+			.then(data => {
+				// 서버로부터 응답을 받은 후의 처리 작업을 여기에 추가합니다.
+				console.log('예약 수정 완료:', data);
+				// 모달을 닫습니다.
+				$('#reserveModal').modal('hide');
+			})
+			.catch(error => {
+				console.error('오류:', error);
+			});
+	});
+
+	// 저장 버튼을 삽입합니다.
+	var container = document.querySelector('#reserveModal .modal-footer');
+	container.innerHTML = ''; // 기존 내용을 비웁니다.
+	container.appendChild(saveButton);
 }
-
-
 
 // 나의 예약 전체조회
 function allReserveList(val) {
@@ -344,6 +342,9 @@ var modifyVal = function() {
 	var idx = $(".active").text(); // 클래스가 'active'인 요소의 텍스트 값을 변수 idx에 할당
 }
 
+function TimeFix(durationInMinutes, minTime) {
+
+}
 document.addEventListener('DOMContentLoaded', function() {
 	console.log("예약 리스트 Loaded 준비");
 	renderReserve();
@@ -372,81 +373,34 @@ function renderReserve() {
 }
 
 function initializeCalendar(events) {
-	console.log("예약 리스트 값 : ", events);
-	var reservationEl = document.getElementById('reservation');
+    var reservationEl = document.getElementById('reservation');
+    var reservation = new FullCalendar.Calendar(reservationEl, {
+        initialView: 'listWeek',
+        titleFormat: function(date) {
+            return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
+        },
+        eventSources: [{
+            events: events.map(function(event) {
+                return {
+                    cname: event.conferenceVo.cname,
+                    title: event.reservationVo.meetingtitle,
+                    start: event.reservationVo.reserve_date
+                };
+            }),
+            color: '#428A46',
+            textColor: 'white'
+        }],
+        dateClick: function() {
+            insert();
+        },
+        eventClick: function(info) {
+            var seq = info.event.extendedProps.seq;
+            detail(seq);
+        }
+    });
 
-	var reservation = new FullCalendar.Calendar(reservationEl, {
-		googleCalendarApiKey: 'AIzaSyC2cgtxbwgWkXWXUbsIXgP5NSE7tLNQq9E',
-		initialView: 'timeGridDay',
-		resources: [
-			{ id: 'room1', title: '회의실 A' },
-			{ id: 'room2', title: '회의실 B' },
-			{ id: 'room3', title: '회의실 C' }
-		],
-		events: [
-			{ id: 'event1', resourceId: 'room1', start: '2024-04-04T09:00:00', end: '2024-04-04T11:00:00', title: '회의실 A 예약' },
-			{ id: 'event2', resourceId: 'room2', start: '2024-04-04T10:00:00', end: '2024-04-04T12:00:00', title: '회의실 B 예약' },
-			{ id: 'event3', resourceId: 'room3', start: '2024-04-04T11:00:00', end: '2024-04-04T13:00:00', title: '회의실 C 예약' }
-		],
-		headerToolbar: {
-			left: 'addEventButton'
-		},
-		titleFormat: function(date) {
-			return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
-		},
-		eventSources: [
-			{
-				googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
-				className: "koHol",
-				color: "red",
-				textColor: "white"
-			},
-			{
-				events: events.map(function(event) {
-					return {
-						title: event.reservationVo.meetingtitle, // 예약 제목을 이벤트 제목으로 설정
-						start: event.reservationVo.reserve_date // 예약 날짜를 이벤트 시작 날짜로 설정
-					};
-				}),
-				color: '#428A46',
-				textColor: 'white'
-			}
-		],
-		eventTimeFormat: {
-			hour: 'numeric',
-			minute: '2-digit',
-			hour12: false
-		},
-		slotMinTime: '09:00:00', // 슬롯의 최소 시간을 아침 9시로 설정
-		slotMaxTime: '21:00:00', // 슬롯의 최대 시간을 저녁 9시로 설정
-		allDayText: false, // allDay 텍스트 숨기기
-		slotLabelInterval: '1:00', // 슬롯 레이블 간격 조정 (1시간 간격)
-		customButtons: {
-			addEventButton: {
-				text: "일정 추가",
-				click: function() {
-					insert();
-				}
-			}
-		},
-		dateClick: function() {
-			insert();
-		},
-		eventClick: function(info) {
-			var seq = info.event.extendedProps.seq;
-			detail(seq);
-		},
-		editable: false,
-		droppable: false,
-		displayEventTime: false,
-		dayMaxEvents: true
-	});
-
-	reservation.render();
+    reservation.render();
 }
-
-
-
 
 
 
@@ -816,9 +770,9 @@ function reservationForm(conf_id, cname) {
 }
 
 function alertModel() {
-    var modalContent = `
+	var modalContent = `
         <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-dialog-centered custom-class">
                 <div class="modal-content" style="max-width: 300px;">
                     <div class="modal-body" style="padding: 30px">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 10px; right: 10px;"></button>
@@ -829,20 +783,20 @@ function alertModel() {
         </div>
     `;
 
-    var modalElement = $(modalContent);
-    modalElement.on('shown.bs.modal', function () {
-        // 모달이 표시된 후에 실행되는 코드
-        var modalDialog = modalElement.find('.modal-dialog');
-        var windowHeight = $(window).height();
-        var modalHeight = modalDialog.height();
-        var topMargin = (windowHeight - modalHeight) / 2;
-        modalDialog.css('margin-top', topMargin);
-    });
-    modalElement.modal('show');
-    modalElement.find('.btn-close').on('click', function() {
-        // 모달 닫기 버튼 클릭 시 실행되는 코드
-        window.location.href = './reserveAble.do';
-    });
+	var modalElement = $(modalContent);
+	modalElement.on('shown.bs.modal', function() {
+		// 모달이 표시된 후에 실행되는 코드
+		var modalDialog = modalElement.find('.modal-dialog');
+		var windowHeight = $(window).height();
+		var modalHeight = modalDialog.height();
+		var topMargin = (windowHeight - modalHeight) / 2;
+		modalDialog.css('margin-top', topMargin);
+	});
+	modalElement.modal('show');
+	modalElement.find('.btn-close').on('click', function() {
+		// 모달 닫기 버튼 클릭 시 실행되는 코드
+		window.location.href = './reserveAble.do';
+	});
 }
 
 alertModel();
