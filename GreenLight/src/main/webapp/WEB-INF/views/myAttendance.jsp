@@ -45,6 +45,15 @@
 						</tr>
 					</thead>
 					<tbody>
+								<c:choose>
+					<c:when test="${empty attList}">
+					<tr>
+					    <td colspan="6" style="text-align: center;">
+					        <p>근태 내용이 없습니다.</p>
+					    </td>
+					</tr>
+					</c:when>
+					<c:otherwise>
 						<c:forEach var="lists" items="${attList}" varStatus="vr">
 							<tr>
 							 <td>${vr.count}</td>
@@ -54,6 +63,8 @@
 							 <td>${lists.att_status != null ? lists.att_status : '-'}</td>
 							</tr>
 						</c:forEach>
+					</c:otherwise>
+					</c:choose>
 					</tbody>
 				</table>
 				</div>

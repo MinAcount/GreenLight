@@ -114,6 +114,15 @@
 							</tr>
 						</thead>
 						<tbody>
+											<c:choose>
+					<c:when test="${empty lists}">
+					<tr>
+					    <td colspan="6" style="text-align: center;">
+					        <p>휴가 내용이 없습니다.</p>
+					    </td>
+					</tr>
+					</c:when>
+					<c:otherwise>
 							<c:forEach var="vlist" items="${vacationList}" varStatus="vr">
 							    <tr>
 									<c:choose>
@@ -138,6 +147,8 @@
 							        </td>
 							    </tr>
 							</c:forEach>
+					</c:otherwise>
+					</c:choose>
 						</tbody>
 					</table>
 				</div>
