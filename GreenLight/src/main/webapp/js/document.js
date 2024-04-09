@@ -1,5 +1,5 @@
 window.onload = function() {
-	var docno = document.getElementById("docno").textContent;
+	var docno = document.getElementById("docno").value;
 	console.log("docno", docno);
 
 	//draftDetail.jsp 이미지 다운로드

@@ -247,7 +247,10 @@ function insertDocument(gubun) {
       /*var writer_id = document.getElementById("writer_id").value;*/
       var start_day = document.getElementById("start_day").value;
       var end_day = document.getElementById("end_day").value;
+      /*vacation_half*/ 
       var getsu = document.getElementById("getsu").textContent;
+      
+      
    
       console.log("start_day:", start_day);
       console.log("end_day:", end_day);
@@ -285,7 +288,6 @@ function insertDocument(gubun) {
       getsuFlagTd.innerHTML = "";
       getsuFlagTd.appendChild(getsuFlagP);
       
-      // 반차여부
       var halfStatus = document.querySelector("#halfStatus");
       var halfStatusP = document.createElement("p");
       halfStatusP.textContent = "";
@@ -318,6 +320,17 @@ function insertDocument(gubun) {
               }
           }
       }
+      
+	   // 반차여부
+	   var vacation_half = "";
+	   // 시작일만 체크되면 A, 종료일만 체크되면 P, 시작일, 종료일 모두 체크되면 M
+	   if (start_day_half_checkbox.checked && !end_day_half_checkbox.checked) {
+			vacation_half = 'A';
+	   } else if (!start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
+			vacation_half = 'P';
+	   } else if (start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
+			vacation_half = 'M';
+	   }
       
       // 선택된 값들을 화면에 출력
       halfStatus.innerHTML = ""; // 이전에 있던 내용을 지우고 다시 출력
@@ -478,11 +491,15 @@ function insertDocument(gubun) {
       formData.append("writerVo", JSON.stringify(writerVo));
       formData.append("gubun", "01");
       
-   
       for (let i = 0; i < files.length; i++) {
          formData.append('files', files[i]);
          console.log("file:", files[i]);
       }
+      
+      formData.append("start_day", start_day);
+      formData.append("end_day", end_day);
+      formData.append("vacation_half", vacation_half);
+      formData.append("getsu", getsu);
       
       
       /*fetch post*/
@@ -511,8 +528,8 @@ function insertDocument(gubun) {
          
    
          //알림
-         //   notify('전자결재', title + " 문서가 상신되었습니다");
-//         window.location.href = "./draftList.do";   
+            notify('전자결재', title + " 문서가 상신되었습니다");
+         window.location.href = "./draftList.do";   
    
    } else if(gubun == '04'){
       console.log("구분 04===========")
@@ -582,7 +599,7 @@ function insertDocument(gubun) {
          .catch(error => {
             console.error('오류 발생:', error);
          });
-//         window.location.href = "./tempDraftList.do";
+         window.location.href = "./tempDraftList.do";
    }
    
    

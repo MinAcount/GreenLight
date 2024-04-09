@@ -28,5 +28,17 @@ public class VacationVo {
 	
 	private EmployeeVo empVo;
 	private DepartmentVo deptVo;
-
+	
+	public VacationVo(String vacno, String id, String start_day, String end_day, String half, float getsu,
+			String bigo) {
+		super();
+		this.vacno = vacno;
+		this.id = id;
+		this.start_day = start_day;
+		this.end_day = end_day;
+		this.half = half;
+		this.getsu = getsu;
+		this.bigo = bigo;
+	}
+	
 }
