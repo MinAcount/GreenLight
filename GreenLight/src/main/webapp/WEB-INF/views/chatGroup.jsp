@@ -13,7 +13,7 @@
 		#allChatDiv {
 			justify-content: space-between;
 			width: 40%;
-			max-height: 96%;
+			max-height: 90%;
 		}
 		
 		#chatList{
@@ -25,7 +25,7 @@
 			display: none;
 			justify-content: space-between;
 			width: 53%;
-			max-height: 95%;
+			max-height: 90%;
 		}
 		
 		#table-container-div {
@@ -58,7 +58,7 @@
 		}
 		
 		#middleChat {
-			height: 80vh;
+			height: 93.5vh;
 			overflow-y: auto;
 		}
 		
