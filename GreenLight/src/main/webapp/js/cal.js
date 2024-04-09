@@ -4,20 +4,72 @@ function showCurrentMonthCalendar() {
 	var currentYear = currentDate.getFullYear();
 	var viewmonth = currentYear + '-' + ('0' + currentMonth).slice(-2);
 	console.log("달력이 호출됨 : " + viewmonth);
-	renderCalendar(viewmonth);
+	renderCalendar(viewmonth, selectedCalendars = []);
 }
 
-function renderCalendar(viewmonth) {
+function updateFilter() {
+	var selectedCalendars = [];
+
+	if (document.getElementById('basicCheck').checked) {
+		var basicElements = document.getElementsByName('basicCheck');
+		var backgroundColor = window.getComputedStyle(basicElements[0]).getPropertyValue('background-color');
+		selectedCalendars.push({
+			name: document.getElementById('basicCheck').value,
+			color: backgroundColor
+		});
+	}
+	if (document.getElementById('vacationCheck').checked) {
+		var vacationElements = document.getElementsByName('vacationCheck');
+		var backgroundColor = window.getComputedStyle(vacationElements[0]).getPropertyValue('background-color');
+		selectedCalendars.push({
+			name: document.getElementById('vacationCheck').value,
+			color: backgroundColor
+		});
+	}
+	if (document.getElementById('compenyCheck').checked) {
+		var compenyElements = document.getElementsByName('compenyCheck');
+		var backgroundColor = window.getComputedStyle(compenyElements[0]).getPropertyValue('background-color');
+		selectedCalendars.push({
+			name: document.getElementById('compenyCheck').value,
+			color: backgroundColor
+		});
+	}
+	if (document.getElementById('deptCheck').checked) {
+		var deptElements = document.getElementsByName('deptCheck');
+		var backgroundColor = window.getComputedStyle(deptElements[0]).getPropertyValue('background-color');
+		selectedCalendars.push({
+			name: document.getElementById('deptCheck').value,
+			color:backgroundColor
+		});
+	}
+	console.log("선택된 캘린더 값들:", selectedCalendars);
+
+	var titleElement = document.querySelector('.fc-toolbar-title');
+	var titleText = titleElement.textContent;
+	var year = titleText.split(' ')[0].replace('년', '');
+	var month = titleText.split(' ')[1].replace('월', '');
+	var viewmonth = year + '-' + ('0' + month).slice(-2);
+
+	renderCalendar(viewmonth, selectedCalendars);
+}
+
+function renderCalendar(viewmonth, selectedCalendars) {
+	console.log("render 진입", selectedCalendars);
 	var scheduleEl = document.getElementById('addSchedule');
 
 	var calendar = new FullCalendar.Calendar(scheduleEl, {
-		// FullCalendar 설정
+		height: '100%',
 		googleCalendarApiKey: 'AIzaSyC2cgtxbwgWkXWXUbsIXgP5NSE7tLNQq9E',
 		initialView: 'dayGridMonth',
+		firstDay: 1,
 		headerToolbar: {
-			left: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek',
-			center: 'title',
 			right: 'prev,next,today'
+		},
+		titleFormat: function(date) {
+			year = date.date.year;
+			month = date.date.month + 1;
+
+			return year + "년 " + month + "월";
 		},
 		eventSources: [{
 			googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
@@ -37,7 +89,7 @@ function renderCalendar(viewmonth) {
 
 			var monthDiff = endMonth - startMonth;
 			if (monthDiff < 0) {
-				monthDiff += 12; // 음수를 양수로 변환하기 위해 12를 더합니다.
+				monthDiff += 12;
 			}
 			var nextMonth = (startMonth + monthDiff) % 12;
 			if (nextMonth === 0) {
@@ -57,22 +109,32 @@ function renderCalendar(viewmonth) {
 				.then(data => {
 					var events = [];
 					data.forEach(eventData => {
-						var addEvent = {
-							schedule_id: eventData.schedule_id,
-							title: eventData.title,
-							start: eventData.start_date,
-							end: eventData.end_date,
-							id: eventData.schedule_id,
-							usertype: eventData.usertype,
-							alarm: eventData.alarm
-						};
-						events.push(addEvent);
+						if (selectedCalendars.some(calendar => calendar.name === eventData.label_name)) {
+							var addEvent = {
+								schedule_id: eventData.schedule_id,
+								label_name: eventData.label_name,
+								title: eventData.title,
+								start: eventData.start_date,
+								end: eventData.end_date,
+								id: eventData.schedule_id,
+								usertype: eventData.usertype,
+								alarm: eventData.alarm
+							};
+
+							var calendar = selectedCalendars.find(calendar => calendar.name === eventData.label_name);
+                            if (calendar) {
+                                addEvent.color = calendar.color;
+                                addEvent.textColor = '#212831';
+                            }
+
+							events.push(addEvent);
+						}
 					});
 					successCallback(events);
 				})
 				.catch(error => {
 					failureCallback();
-					console.error('Error occurred while fetching data from server:', error);
+					console.error('서버에서 데이터를 가져오는 동안 오류가 발생했습니다:', error);
 				});
 		},
 		eventClick: function(info) {
@@ -90,10 +152,43 @@ document.addEventListener("DOMContentLoaded", function() {
 	showCurrentMonthCalendar();
 });
 
+window.onload = function() {
+	var selectedCalendars = JSON.parse(localStorage.getItem('selectedCalendars'));
+
+	if (selectedCalendars && selectedCalendars.length > 0) {
+		selectedCalendars.forEach(function(calendar) {
+			var checkbox = document.getElementById(calendar + 'Check');
+			if (checkbox) {
+				checkbox.checked = true;
+			}
+		});
+		updateFilter();
+	}
+
+	var basicCheckbox = document.getElementById('basicCheck');
+	if (basicCheckbox) {
+		basicCheckbox.onchange = updateFilter;
+	}
+	var vacationCheckbox = document.getElementById('vacationCheck');
+	if (vacationCheckbox) {
+		vacationCheckbox.onchange = updateFilter;
+	}
+	var compenyCheckbox = document.getElementById('compenyCheck');
+	if (compenyCheckbox) {
+		compenyCheckbox.onchange = updateFilter;
+	}
+	var deptCheckbox = document.getElementById('deptCheck');
+	if (deptCheckbox) {
+		deptCheckbox.onchange = updateFilter;
+	}
+}
+
+//------------------------------------------------------------------------------------------------
+
 // 일정 입력 모달
 document.getElementById("insertSchedule").addEventListener("click", function() {
-    $("#scheduelModal").modal("show");
-    console.log("일정 등록 모달");
+	$("#scheduelModal").modal("show");
+	console.log("일정 등록 모달");
 });
 
 // addSchedule 이벤트 핸들러 함수 정의
@@ -253,71 +348,71 @@ function toggleTimeSelection(checkbox) {
 }
 
 function resetModal() {
-    // 캘린더 선택 초기화
-    var labelNameSelect = document.getElementById('label_name');
-    labelNameSelect.selectedIndex = 0;
-    
-    // 제목 입력 필드 초기화
-    var titleInput = document.getElementById('title');
-    titleInput.value = '';
+	// 캘린더 선택 초기화
+	var labelNameSelect = document.getElementById('label_name');
+	labelNameSelect.selectedIndex = 0;
 
-    // 날짜 선택 필드 초기화
-    var daterangepickerInput = document.getElementById('daterangepicker');
-    daterangepickerInput.value = '';
+	// 제목 입력 필드 초기화
+	var titleInput = document.getElementById('title');
+	titleInput.value = '';
 
-    // 종일/반복 체크박스 초기화
-    var allDayCheckbox = document.getElementById('allDay');
-    allDayCheckbox.checked = false;
-    var recurCheckbox = document.getElementById('recur');
-    recurCheckbox.checked = false;
+	// 날짜 선택 필드 초기화
+	var daterangepickerInput = document.getElementById('daterangepicker');
+	daterangepickerInput.value = '';
 
-    // 참여자 부분 초기화
-    var partShowSpan = document.getElementById('partShow');
-    partShowSpan.innerHTML = '';
+	// 종일/반복 체크박스 초기화
+	var allDayCheckbox = document.getElementById('allDay');
+	allDayCheckbox.checked = false;
+	var recurCheckbox = document.getElementById('recur');
+	recurCheckbox.checked = false;
 
-    // 위치 입력 필드 초기화
-    var locationInput = document.getElementById('location');
-    locationInput.value = '';
+	// 참여자 부분 초기화
+	var partShowSpan = document.getElementById('partShow');
+	partShowSpan.innerHTML = '';
 
-    // 메모 텍스트 영역 초기화
-    var memoTextarea = document.getElementById('memo');
-    memoTextarea.value = '';
+	// 위치 입력 필드 초기화
+	var locationInput = document.getElementById('location');
+	locationInput.value = '';
 
-    // 추가정보 부분 초기화
-    var basicCalendarDetailsDiv = document.getElementById('basicCalendarDetails');
-    basicCalendarDetailsDiv.style.display = 'none';
+	// 메모 텍스트 영역 초기화
+	var memoTextarea = document.getElementById('memo');
+	memoTextarea.value = '';
 
-    // 추가정보 선택값 초기화
-    var categorySelect = document.getElementById('category');
-    categorySelect.selectedIndex = 0;
-    var prioritySelect = document.getElementById('priority');
-    prioritySelect.selectedIndex = 0;
-    var visibilitySelect = document.getElementById('visibility');
-    visibilitySelect.selectedIndex = 0;
-    var permissionSelect = document.getElementById('permission');
-    permissionSelect.selectedIndex = 0;
-    var alarmSelect = document.getElementById('alarm');
-    alarmSelect.selectedIndex = 0;
+	// 추가정보 부분 초기화
+	var basicCalendarDetailsDiv = document.getElementById('basicCalendarDetails');
+	basicCalendarDetailsDiv.style.display = 'none';
+
+	// 추가정보 선택값 초기화
+	var categorySelect = document.getElementById('category');
+	categorySelect.selectedIndex = 0;
+	var prioritySelect = document.getElementById('priority');
+	prioritySelect.selectedIndex = 0;
+	var visibilitySelect = document.getElementById('visibility');
+	visibilitySelect.selectedIndex = 0;
+	var permissionSelect = document.getElementById('permission');
+	permissionSelect.selectedIndex = 0;
+	var alarmSelect = document.getElementById('alarm');
+	alarmSelect.selectedIndex = 0;
 }
 
 function oneScheduleView(schedule_id) {
-    console.log("일정 상세 모달 : ", schedule_id);
-    // 이미 열려있는 모달 창이 있는지 확인
-    var existingModal = $('#oneScheduleView');
-    if (existingModal.length) {
-        // 모달 창이 이미 열려있는 경우, 내용을 업데이트하고 보여줌
-        fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('서버 응답 실패');
-                }
-                return response.json(); // JSON 형식으로 데이터 받기
-            })
-            .then(data => {
-                console.log('서버에서 받은 데이터:', data); // 데이터 확인
-                // 모달 내용 업데이트
-                existingModal.find('.modal-title').text(data.title);
-                existingModal.find('.modal-body').html(`
+	console.log("일정 상세 모달 : ", schedule_id);
+	// 이미 열려있는 모달 창이 있는지 확인
+	var existingModal = $('#oneScheduleView');
+	if (existingModal.length) {
+		// 모달 창이 이미 열려있는 경우, 내용을 업데이트하고 보여줌
+		fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+			.then(function(response) {
+				if (!response.ok) {
+					throw new Error('서버 응답 실패');
+				}
+				return response.json(); // JSON 형식으로 데이터 받기
+			})
+			.then(data => {
+				console.log('서버에서 받은 데이터:', data); // 데이터 확인
+				// 모달 내용 업데이트
+				existingModal.find('.modal-title').text(data.title);
+				existingModal.find('.modal-body').html(`
                     <div class="row">
                         <div>
                             <p><strong style="padding-right: 6px;"></strong> ${data.start_date} ~ ${data.end_date}</p>
@@ -330,25 +425,25 @@ function oneScheduleView(schedule_id) {
                         </div>
                     </div>
                 `);
-                existingModal.modal('show');
-            })
-            .catch(error => {
-                console.error('오류:', error);
-            });
-    } else {
-        // 모달 창이 열려있지 않은 경우, 새로운 모달 창 생성
-        fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-            .then(function(response) {
-                if (!response.ok) {
-                    throw new Error('서버 응답 실패');
-                }
-                return response.json(); // JSON 형식으로 데이터 받기
-            })
-            .then(data => {
-                console.log('서버에서 받은 데이터:', data); // 데이터 확인
-                var modalContent = `
+				existingModal.modal('show');
+			})
+			.catch(error => {
+				console.error('오류:', error);
+			});
+	} else {
+		// 모달 창이 열려있지 않은 경우, 새로운 모달 창 생성
+		fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+			.then(function(response) {
+				if (!response.ok) {
+					throw new Error('서버 응답 실패');
+				}
+				return response.json(); // JSON 형식으로 데이터 받기
+			})
+			.then(data => {
+				console.log('서버에서 받은 데이터:', data); // 데이터 확인
+				var modalContent = `
                     <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered custom-class">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="detailModalLabel">${data.title}</h5>
@@ -372,11 +467,15 @@ function oneScheduleView(schedule_id) {
                         </div>
                     </div>
                 `;
-                $('body').append(modalContent);
-                $('#oneScheduleView').modal('show');
-            })
-            .catch(error => {
-                console.error('오류:', error);
-            });
-    }
+				$('body').append(modalContent);
+				$('#oneScheduleView').modal('show');
+			})
+			.catch(error => {
+				console.error('오류:', error);
+			});
+	}
 }
+
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+    window.onload();
+});

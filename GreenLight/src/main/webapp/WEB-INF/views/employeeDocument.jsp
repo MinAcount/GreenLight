@@ -7,6 +7,9 @@
 	tr:hover{
 		cursor: pointer;
 	}
+	.modal.hide .modal-backdrop {
+	  display: none;
+	}
 </style>
 </head>
 <body class="nav-fixed">
@@ -38,9 +41,7 @@
 						</thead>
 						<tbody id="inputTableBody">
 							<c:forEach var="vo" items="${empList}" varStatus="vs">
-								<tr onclick="openFileList('${vo.id}', '${vo.name}')"
-									data-bs-toggle='modal' class='empFileList'
-									data-bs-target='#fileListModal'>
+								<tr onclick="openFileList('${vo.id}', '${vo.name}')" data-bs-toggle='modal' class='empFileList' data-bs-target='#fileListModal'>
 									<td style="text-align: center;">${vs.count}</td>
 									<td class="empId" style="text-align: center;">${vo.id}</td>
 									<c:forEach var="deptVo" items="${deptList}">
@@ -71,13 +72,13 @@
 					</table>
 				</div>
 			</div>
-			<div class="modal fade" id="fileListModal" tabindex="-1"
+			<div class="modal" id="fileListModal"
 				aria-labelledby="exampleModalLabel" aria-hidden="true"
 				data-bs-backdrop="static">
 				<div class="modal-dialog file-modal" >
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">인사서류</h5>
+							<h5 class="modal-title" id="exampleModalTitle">인사서류</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="modal"
 								aria-label="Close"></button>
 						</div>
@@ -95,6 +96,26 @@
 									</thead>
 									<tbody id="empFileTableBody"></tbody>
 								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal" style="display: none;" data-bs-backdrop="static" tabindex="-1"
+				id="dangerConfirmDocument" >
+				<div class="modal-dialog alertModal">
+					<div class="modal-content">
+						<div class="modal-header text-danger">
+							<div class="modal-title" id="exampleModalLabel">
+								<i data-feather="alert-circle" id="toastFeather"></i> <strong
+									class="me-auto" id="modalTitle"></strong>
+							</div>
+						</div>
+						<div class="modal-body">
+							<div id="modalContent" style="padding: 15px;"></div>
+							<div class="modal-footer">
+								<button id="firstBtn" class="btn btn-dsecondary" type="button">취소</button>
+								<button id="secondBtn" style="margin-left: 10px;" class="btn btn-danger" type="button">확인</button>
 							</div>
 						</div>
 					</div>

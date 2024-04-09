@@ -147,10 +147,10 @@ function getViewInsideChat(idx, i){
 				
 				if(sendName.startsWith(name)){
 					console.log("확인1");
-					$("#middleChat").append($("<div>").css("float", "right").append($("<div>").text(sendName + " " + spot).css("text-align", "right")).append($("<span>").text(formattedSendDate).css("text-align", "right")).append($("<span id='textbox'>").text(msg).css("text-align", "right"))).append("<br><br><br>");
+					$("#middleChat").append($("<div class='right'>").append($("<div>").text(sendName + " " + spot).css("text-align", "right")).append($("<span>").text(formattedSendDate).css("text-align", "right")).append($("<div id='textbox' class='textbox_card card'>").text(msg).css("text-align", "right")));
 				} else {
 					console.log("확인2");
-					$("#middleChat").append($("<div>").css("float", "left").append($("<div>").text(sendName + " " +spot).css("text-align", "left")).append($("<span id='textbox'>").text(msg).css("text-align", "left")).append($("<span>").text(formattedSendDate).css("text-align", "left"))).append("<br><br><br>");
+					$("#middleChat").append($("<div class='left'>").append($("<div>").text(sendName + " " +spot).css("text-align", "left")).append($("<div id='textbox' class='textbox_card card'>").text(msg).css("text-align", "left")).append($("<span>").text(formattedSendDate).css("text-align", "left")));
 					//알림
               		notify(sendName, msg, './chatGroup.do');
 				}

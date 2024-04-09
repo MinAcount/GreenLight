@@ -3,9 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="./css/cal.css">
 <link rel="stylesheet" type="text/css" href="./css/styles.css">
+<link rel="stylesheet" type="text/css" href="./css/cal.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-bJQN0gRBAFlqVcFrj2k/9+JMe50VnT8i8FDEQoiR8tRckCeTV6UKGq6vtsbgndnOnvKEtLcctzN7K0s9Jko9w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 <style type="text/css">
 .fc-toolbar-chunk {
 	
@@ -21,7 +23,7 @@
 		<input type="hidden" value="${loginVo.id}" id="loginId">
 		<input type="hidden" value="${loginVo.name}" id="loginName">
 		<div id="layoutSidenav_content" style="flex: 1;">
-			<div id="main_content" class="row" style="height: 100%;">
+			<div id="main_content" class="row" style="height: 130%;">
 				<!-- 왼쪽 콘텐츠(사이드바) -->
 				<div id="left_nav" style="flex: 2;">
 					<nav class="sidenav shadow-right sidenav-light"
@@ -33,28 +35,28 @@
 							</div>
 							<div>
 								<p>📆내 캘린더</p>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck1"> <span class="form-check-label"
-										for="exampleCheck1">내 일정(기본)</span>
+								<div class="mb-2 checkbox-container">
+    								<input class="form-check-input checkbox-input" type="checkbox" id="basicCheck" value="기본일정" onchange="updateFilter()" checked> 
+    								<span class="form-check-label checkbox-input">내 일정(기본)</span> 
+    								<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #ade3e5;" readonly>
 								</div>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck1"> <span class="form-check-label"
-										for="exampleCheck1">휴가</span>
+								<div class="mb-2 checkbox-container">
+									<input class="form-check-input checkbox-input" type="checkbox" id="vacationCheck" value="휴가"  onchange="updateFilter()" checked> 
+									<span class="form-check-label checkbox-input">휴가</span>
+									<input id="circle" type="button" name="vacationCheck" class="checkbox-input" style="background-color: #f2c79c;" readonly>
 								</div>
 							</div>
 							<div style="padding-top: 30px;">
 								<p>📆관심 캘린더</p>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck4"> <span class="form-check-label"
-										for="exampleCheck4">내 일정(이지원)</span>
+								<div class="mb-2 checkbox-container">
+									<input class="form-check-input checkbox-input" type="checkbox" id="interestCheck" value="이지원" onchange="updateFilter()"> 
+									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(이지원)</span>
+									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #bad9a1;" readonly>
 								</div>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck5"> <span class="form-check-label"
-										for="exampleCheck5">내 일정(김태민)</span>
+								<div class="mb-2 checkbox-container">
+									<input class="form-check-input checkbox-input" type="checkbox"id="interestCheck" value="김태민" onchange="updateFilter()"> 
+									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(김태민)</span>
+									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #c7c2f2;" readonly>
 								</div>
 								<div class="mb-2" style="padding-left: 15px; padding-top: 15px;">
 									<a style="color: grey" href="#">+ 관심 캘린더 추가</a>
@@ -62,15 +64,15 @@
 							</div>
 							<hr>
 							<div>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck6"> <span class="form-check-label"
-										for="exampleCheck6">전사일정</span>
+								<div class="mb-2 checkbox-container">
+									<input class="form-check-input checkbox-input" type="checkbox" id="compenyCheck" value="전사일정" onchange="updateFilter()" checked>  
+									<span class="form-check-label checkbox-input" for="compenyCheck">전사일정</span>
+									<input id="circle" type="button" name="compenyCheck" class="checkbox-input" style="background-color: #f0e0ad;" readonly>
 								</div>
-								<div class="mb-2" style="padding-left: 15px;">
-									<input class="form-check-input" type="checkbox"
-										id="exampleCheck7"> <span class="form-check-label"
-										for="exampleCheck7">${dname} 일정</span>
+								<div class="mb-2 checkbox-container">
+									<input class="form-check-input checkbox-input" type="checkbox" id="deptCheck" value="${dname}일정" onchange="updateFilter()" checked> 
+									<span class="form-check-label checkbox-input" for="deptCheck">${dname} 일정</span>
+									<input id="circle" type="button" name="deptCheck" class="checkbox-input" style="background-color: #f5d4e3;" readonly>
 								</div>
 							</div>
 						</div>
@@ -79,7 +81,7 @@
 				<!-- 오른쪽 콘텐츠 -->
 				<div id="main-right" style="flex: 8;"
 					class="sidenav shadow-right sidenav-light">
-					<div id="addSchedule"></div>
+					<div id="addSchedule" style="padding: 20px;"></div>
 				</div>
 				<%@ include file="./include/footer.jsp"%>
 			</div>
@@ -97,12 +99,11 @@
 						<form action="./insertSchedule.do" method="post" id="scheduelForm">
 							<div style="display: flex; flex-direction: column; gap: 10px;">
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">캘린더</span> <select id="label_name"
-										name="label_name" class="form-control" style="flex: 3;"
-										value="">
+									<span style="flex: 1;">캘린더</span> <select id="label_name" name="label_name" class="form-control" style="flex: 3;" value="">
 										<option value="기본일정">내 일정(기본)</option>
 										<option value="휴가">휴가</option>
-										<option value="${dname}일정">${dname}일정</option>
+										<option value="${dname}일정">${dname} 일정</option>
+										<option value="전사일정">전사일정</option>
 									</select>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
@@ -272,8 +273,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<script src="js/scripts.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 		<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
 		<script type="text/javascript" src="js/cal.js"></script>
 		<script type="text/javascript" src="js/jstree/schedule_jstree.js"></script>
