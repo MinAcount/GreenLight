@@ -35,6 +35,7 @@ import com.green.light.model.service.IDocumentService;
 import com.green.light.model.service.IEmployeeService;
 import com.green.light.model.service.IFileStorageService;
 import com.green.light.model.service.ISignService;
+import com.green.light.model.service.IVacationService;
 import com.green.light.model.service.INotificationService;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DepartmentVo;
@@ -62,6 +63,8 @@ public class DocumentController {
 	private INotificationService notiService;
 	@Autowired
 	private IFileStorageService fileService;
+	@Autowired
+	private IVacationService vacationService;
 	
 	@GetMapping(value = "/getFiles.do")
 	@ResponseBody
@@ -244,7 +247,10 @@ public class DocumentController {
 			EmployeeVo loginVo = (EmployeeVo) session.getAttribute("loginVo");
 			List<NotificationVo> notiList = notiService.getCurrNoti(loginVo.getId());
 			session.setAttribute("notiList", notiList);
-
+			
+			// vacationVo
+//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
+//			vacationService.registerVacation(vVo);
 //              }
 		} else if (map.get("gubun").equals("04")) {
 
