@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- <link rel="stylesheet" type="text/css" href="./css/cal.css"> -->
+<link rel="stylesheet" type="text/css" href="./css/cal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 <style type="text/css">
    .mainAttBox{

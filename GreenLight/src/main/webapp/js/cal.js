@@ -368,97 +368,70 @@ function resetModal() {
 }
 
 function oneScheduleView(schedule_id) {
+    console.log("일정 상세 모달 : ", schedule_id);
+    fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('서버 응답 실패');
+            }
+            return response.json(); // JSON 형식으로 데이터 받기
+        })
+        .then(data => {
+            console.log('서버에서 받은 데이터:', data); // 데이터 확인
+            const startDate = new Date(data.start_date);
+            const endDate = new Date(data.end_date);
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+            const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
+            const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
+            const participants = JSON.parse(data.participants);
 
-	console.log("일정 상세 모달 : ", schedule_id);
-	// 이미 열려있는 모달 창이 있는지 확인
-	var existingModal = $('#oneScheduleView');
-	if (existingModal.length) {
-		// 모달 창이 이미 열려있는 경우, 내용을 업데이트하고 보여줌
-		fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-			.then(function(response) {
-				if (!response.ok) {
-					throw new Error('서버 응답 실패');
-				}
-				return response.json(); // JSON 형식으로 데이터 받기
-			})
-			.then(data => {
-				console.log('서버에서 받은 데이터:', data); // 데이터 확인
-				// 모달 내용 업데이트
-				existingModal.find('.modal-body').html(`
-                    <div class="row">
-                        <div>
-                            <h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
-                            ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
-                            ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
-							${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
-							${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
-							${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
-							<p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
-							<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
-  							${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>
+            var modalContent = `
+            <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered custom-class">
+                    <div class="modal-content" style="width: 550px;"> 
+                        <div class="modal-body" style="padding: 50px;">
+                            <div class="row">
+                                <div>
+                                    <h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
+                                    ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
+                                    ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
+                                    ${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
+                                    ${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
+                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
+                                    <p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
+                                    ${participants != null ? `<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
+                                    ${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="closeModalBtn" data-bs-dismiss="modal">닫기</button>
                         </div>
                     </div>
-                `);
-				existingModal.modal('show');
-			})
-			.catch(error => {
-				console.error('오류:', error);
-			});
-	} else {
-		// 모달 창이 열려있지 않은 경우, 새로운 모달 창 생성
-		fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-			.then(function(response) {
-				if (!response.ok) {
-					throw new Error('서버 응답 실패');
-				}
-				return response.json(); // JSON 형식으로 데이터 받기
-			})
-			.then(data => {
-				console.log('서버에서 받은 데이터:', data); // 데이터 확인
-				const startDate = new Date(data.start_date);
-				const endDate = new Date(data.end_date);
-				const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-				const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
-				const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
-
-				const participants = JSON.parse(data.participants);
-				const participantNames = participants.map(participant => participant.name).join(', ');
-				var modalContent = `
-    <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-class">
-            <div class="modal-content" style="width: 550px;"> 
-                <div class="modal-body" style="padding: 50px;">
-                    <div class="row">
-                        <div>
-    						<h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
-                            ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
-                            ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
-							${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
-							${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
-							${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
-							<p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
-							<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
-  							${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                
                 </div>
             </div>
-        </div>
-    </div>
-`;
-				$('body').append(modalContent);
-				$('#oneScheduleView').modal('show');
+            `;
+            // 모달이 이미 열려 있는 경우, 모달을 완전히 제거하고 다시 생성하여 열기
+            if ($('#oneScheduleView').length) {
+                $('#oneScheduleView').remove();
+                $('body').append(modalContent);
+            } else { // 모달이 열려 있지 않은 경우, 새로운 모달을 생성하여 열기
+                $('body').append(modalContent);
+            }
 
-			})
-			.catch(error => {
-				console.error('오류:', error);
-			});
-	}
+            $('#oneScheduleView').modal('show'); // 모달 열기
+
+            // 닫기 버튼 클릭 이벤트 처리
+            $('#closeModalBtn').click(function() {
+                $('#oneScheduleView').modal('hide'); // 모달을 숨김
+            });
+        })
+        .catch(error => {
+            console.error('오류:', error);
+        });
 }
+
+
 
 document.getElementById('sidebarToggle').addEventListener('click', function() {
 	updateFilter()
