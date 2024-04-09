@@ -181,7 +181,7 @@
 						</c:forEach>
 					</c:if>
 				</a>
-
+				</div>
 					<!-- 유저 드롭다운 -->
 					<li class="nav-item dropdown no-caret dropdown-user me-3 me-lg-4">
 						<a class="btn btn-icon btn-transparent-dark dropdown-toggle"
