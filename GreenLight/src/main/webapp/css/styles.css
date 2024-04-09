@@ -19831,12 +19831,7 @@ th, td {
 	background-color: red;
 }
 
-.jstreeModal{
-	vertical-align: middle;
-	width: 800px;
-	height: 630px;
-	top: 40px;
-}
+
 
 .alertModal{
 	width: 500px;
@@ -19927,3 +19922,13 @@ th, td {
 /*     to right,#fbcac9, #8ca6ce */
 /*   ); */
 /* } */
+.jstreeModal{
+	vertical-align: middle;
+	width: 800px;
+	height: 630px;
+	top: 40px;
+}
+
+.fc .fc-daygrid-day.fc-day-today{
+	background-color: rbga(66,138,70,0.1);
+}

@@ -248,10 +248,8 @@ public class DocumentController {
 			List<NotificationVo> notiList = notiService.getCurrNoti(loginVo.getId());
 			session.setAttribute("notiList", notiList);
 			
-			// vacationVo
-//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
-//			vacationService.registerVacation(vVo);
-//              }
+
+			
 		} else if (map.get("gubun").equals("04")) {
 
 			System.out.println("=======================================구분 04 임시저장");
@@ -351,6 +349,10 @@ public class DocumentController {
 			writerId.add(nextId);
 			notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
 			notiService.insertNoti(notiMap, writerId);
+			
+//			 vacationVo
+//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
+//			vacationService.registerVacation(vVo);
 		}
 
 		SignVo signVo = signService.selectMainSign((String) map.get("emp_id"));
