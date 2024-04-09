@@ -20,9 +20,9 @@ function renderCalendar(viewmonth) {
 			center: 'title',
 			right: ''
 		},
-		titleFormat: function(date) {
-                    return date.date.year + '.' + ('0' + (parseInt(date.date.month) + 1)).slice(-2);
-                },
+//		titleFormat: function(date) {
+//                    return date.date.year + '.' + ('0' + (parseInt(date.date.month) + 1)).slice(-2);
+//                },
 		eventSources: [{
 			googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
 			className: "koHol",
