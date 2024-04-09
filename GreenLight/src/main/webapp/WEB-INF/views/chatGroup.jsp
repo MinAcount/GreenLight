@@ -13,7 +13,7 @@
 		#allChatDiv {
 			justify-content: space-between;
 			width: 40%;
-			max-height: 90%;
+			height: 93.5%;
 		}
 		
 		#chatList{
@@ -25,14 +25,14 @@
 			display: none;
 			justify-content: space-between;
 			width: 53%;
-			max-height: 90%;
+			height: 93.5%;
 		}
 		
 		#table-container-div {
 			display: flex;
 			justify-content: center;
-			width: 24.8vw;
-			height:20vh;
+			width: 100%;
+			height: 100%;
 		}
 		
 		#chatListName {
@@ -51,7 +51,7 @@
 		}
 		
 		#topChat {
-			height: 10vh;
+			height: 7%;
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -66,6 +66,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			margin-top: 3%;
 		}
 		
 		#roomName {
@@ -119,44 +120,52 @@
 		
 		#settingModal {
 			display: none;
-			width: 22vh;
-			height: 13vh;
+			width: 20%;
+			height: 11%;
 			overflow: auto;
 			z-index: 10000;
 			background-color: white;
 			border: 1px solid gray;
 			position: absolute;
-			top: 10vh;
-			left: 51vh;
+			top: 7%;
+			left: 77%;
 			color: #69707a;
 		}
 		
 		#closeSetting {
 			float: right;
 			cursor: pointer;
-			font-size: 3vh;
-    		margin-right: 10px;
+			font-size: 150%;
+    		margin-right: 8%;
+    		height: 3%;
 		}
 		
 		#settingContainer {
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
-			float: inline-end;
 		}
 		
 		#peopleModal {
 			display: none;
-			width: 15vh;
-			height: 20vh;
+			width: 15%;
+			height: 15%;
 			overflow: auto;
 			z-index: 10000;
 			background-color: white;
 			border: 1px solid gray;
 			position: absolute;
-			top: 10vh;
-    		left: 12.3vw;
+			top: 7%;
+    		left: 39%;
     		color: #69707a;
+		}
+		
+		#closePeopleX {
+			float: right;
+			cursor: pointer;
+			font-size: 150%;
+    		margin-right: 8%;
+    		height: 3%;
 		}
 		
 		#peopleWhoJoin {
@@ -168,11 +177,11 @@
 		}
 		
 		.chatNameDate {
-			padding-top: 5px;
+			padding-top: 5%;
 		}
 		
 		.chatContentNoti {
-			padding-top: 8vh;
+			padding-top: 14%;
 		}
 		
 		.roomnamename {
