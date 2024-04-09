@@ -1,7 +1,7 @@
 //상신 유효성 검사
 function submissionValidation(gubun) {
    console.log("submissionValidation()");
-
+	var tempcode = document.getElementById("tempcode").value;
    //입력받는값
    //제목
    //   let title = document.querySelector("#title");
@@ -12,6 +12,7 @@ function submissionValidation(gubun) {
       document.getElementById("tempdaterangepicker").setAttribute("id", "daterangepicker")
    }
    
+   if(tempcode == '01'){
    //기간 및 일시
    let daterangepicker = document.querySelector("#daterangepicker");
    console.log("daterangepicker:", daterangepicker.value);
@@ -58,7 +59,7 @@ function submissionValidation(gubun) {
    //신청연차
    let getsu = document.querySelector("#getsu");
    console.log("getsu:", getsu.textContent);
-
+}
    //긴급 여부
    let urgency = document.querySelector("#urgency").value;
    console.log("urgency:", urgency);
@@ -170,7 +171,7 @@ function saveTemp(){
       document.getElementById("modalContent").innerHTML = "결재선, 참조자, 파일은 저장되지 않습니다.<br>그래도 임시저장하시겠습니까?"
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
       dangerConfirm.setAttribute("style","display:block");
-      dangerConfirm.querySelector("secondBtn").addEventListener('click',function(){
+      dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
 	dangerConfirm.style.display = "none";
 	insertDocument("04");
 })
@@ -198,30 +199,35 @@ function insertDocument(gubun) {
       var templateArea = document.getElementById("templateArea");
       var content ;
       var title = document.getElementsByName("title")[0].value;
-      var draft_date = document.getElementById("draft_date").textContent;
+      var tempcode = document.getElementById("tempcode").value;
       var urgencyChecked = document.getElementById("urgency");
       var urgency = urgencyChecked.checked ? 'Y' : 'N';
-      var tempcode = document.getElementById("tempcode").value;
+      var draft_date = document.getElementById("draft_date").textContent;
+      console.log("draft_date:", draft_date);
+      console.log("urgency", urgency);
       console.log("writer_id:", writer_id);
       console.log("content:", content);
       console.log("title:", title);
-      console.log("draft_date:", draft_date);
-      console.log("urgency:", urgency);
       console.log("tempcode:", tempcode);
+      
    
       var formData = new FormData();
       formData.append("writer_id", writer_id);
-      
       formData.append("title", title);
       formData.append("draft_date", draft_date);
       formData.append("urgency", urgency);
       formData.append("tempcode", tempcode);
+      
+      if(tempcode == '01'){
       formData.append("start_day", start_day);
       formData.append("end_day", end_day);
       formData.append("getsu", getsu);
+}
    
 // 상신버튼일때
    if (gubun == '01'){
+      var tempcode = document.getElementById("tempcode").value;
+      console.log("tempcode",tempcode);
       
       //input들 value 값 저장하기
       var templateArea = document.getElementById("templateArea");
@@ -242,16 +248,15 @@ function insertDocument(gubun) {
 
       })
 
-
+	if(tempcode == '01'){
+		console.log("tempcode 01진입")
       /*vacation table*/
-      /*var writer_id = document.getElementById("writer_id").value;*/
+//      var writer_id = document.getElementById("writer_id").value;
       var start_day = document.getElementById("start_day").value;
       var end_day = document.getElementById("end_day").value;
       /*vacation_half*/ 
       var getsu = document.getElementById("getsu").textContent;
-      
-      
-   
+	
       console.log("start_day:", start_day);
       console.log("end_day:", end_day);
       console.log("getsu:", getsu);
@@ -322,25 +327,29 @@ function insertDocument(gubun) {
       }
       
 	   // 반차여부
-	   var vacation_half = "";
+	   var vacation_half = document.getElementById("vacation_half");
 	   // 시작일만 체크되면 A, 종료일만 체크되면 P, 시작일, 종료일 모두 체크되면 M
 	   if (start_day_half_checkbox.checked && !end_day_half_checkbox.checked) {
-			vacation_half = 'A';
+			vacation_half.value = 'A';
 	   } else if (!start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
-			vacation_half = 'P';
+			vacation_half.value = 'P';
 	   } else if (start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
-			vacation_half = 'M';
+			vacation_half.value = 'M';
 	   }
+	   
+	   
       
       // 선택된 값들을 화면에 출력
       halfStatus.innerHTML = ""; // 이전에 있던 내용을 지우고 다시 출력
       halfStatus.appendChild(halfStatusP); // halfStatusP 요소를 halfStatus에 추가
    
+      
+   
+}
       // 긴급 여부
       var urgencyTd = document.querySelector("#urgencyTd");
       var urgencyTdP = document.createElement("P");
       urgencyTdP.textContent = "";
-      
       var urgency_checkbox = document.querySelector("#urgency");
       if(urgency_checkbox.checked){
          urgencyTdP.textContent += "긴급!!";
@@ -350,6 +359,8 @@ function insertDocument(gubun) {
       
       urgencyTd.innerHTML = "";
       urgencyTd.appendChild(urgencyTdP);
+      
+      
    
       /*Approval table*/
       // 결재자 값 넘기기
@@ -496,10 +507,13 @@ function insertDocument(gubun) {
          console.log("file:", files[i]);
       }
       
+      if(tempcode == '01'){
+	
       formData.append("start_day", start_day);
       formData.append("end_day", end_day);
       formData.append("vacation_half", vacation_half);
       formData.append("getsu", getsu);
+}
       
       
       /*fetch post*/
@@ -529,14 +543,23 @@ function insertDocument(gubun) {
    
          //알림
             notify('전자결재', title + " 문서가 상신되었습니다");
-         window.location.href = "./draftList.do";   
+//         window.location.href = "./draftList.do";   
    
    } else if(gubun == '04'){
       console.log("구분 04===========")
       
       var titleInput = document.getElementsByName("title")[0];
       titleInput.setAttribute("value", title);
+
+       var urgency = document.getElementById("urgency");
+      console.log("urgency",urgency);
+      if(urgency.checked){
+         urgency.setAttribute("checked","checked");
+      }
+      console.log("urgency",urgency);
       
+      if(tempcode=='01'){
+	
       //휴가종류 저장
       var getsuFlag = document.querySelector("#getsuFlag");
       var selectedGetsuFlag = getsuFlag.selectedIndex;
@@ -547,11 +570,7 @@ function insertDocument(gubun) {
       
       document.getElementById("daterangepicker").setAttribute("id","tempdaterangepicker");
 
-      var urgency = document.getElementById("urgency");
-      console.log("urgency",urgency);
-      if(urgency.checked){
-         urgency.setAttribute("checked","checked");
-      }
+     
       
       var halfStatus = document.getElementById("halfStatus");
       var checkboxes = halfStatus.querySelectorAll("input[type='checkbox']");
@@ -570,12 +589,13 @@ function insertDocument(gubun) {
       })
       
       
+}
       
       content = templateArea.innerHTML;
       formData.append("content", content);
       formData.append("doc_status","04");
       formData.append("gubun","04");
-      
+      formData.append("urgency","N");
       
       /*fetch post*/
       fetch("./insertDocument.do", {
@@ -599,7 +619,7 @@ function insertDocument(gubun) {
          .catch(error => {
             console.error('오류 발생:', error);
          });
-         window.location.href = "./tempDraftList.do";
+//         window.location.href = "./tempDraftList.do";
    }
    
    
@@ -885,7 +905,7 @@ async function approve() {
                console.log("찾음")
                var oParent = orderno.parentElement;
                nextId = oParent.querySelector("[name='id']").value;
-               console.log("nextId", nextId)
+               console.log("nextId", nextId);
             }
          })
       }
@@ -893,6 +913,7 @@ async function approve() {
    var titleTd = document.getElementById("title");
    var titleP = titleTd.querySelector("p");
    var title = titleP.textContent;
+   
    
    var formData = new FormData();
    formData.append("comment", approveCommentValue);
@@ -903,7 +924,24 @@ async function approve() {
    formData.append("nextId", nextId);
    formData.append("writer_id", writer_id);
    formData.append("title",title);
-
+	
+ var tempcode = document.getElementById("tempcode").value;
+ if(tempcode=='01'){
+	var start_day = document.getElementById("start_day").value;
+	console.log("start_day",start_day);
+	var end_day = document.getElementById("end_day").value;
+	console.log("end_day",end_day);
+	var vacation_half = document.getElementById("vacation_half").value;
+	console.log("vacation_half",vacation_half);
+	formData.append("start_day",start_day);
+	formData.append("end_day",end_day);
+	formData.append("vacation_half",vacation_half);
+	var getsu = document.getElementById("getsu").textContent;
+	console.log("getsu", getsu);
+	formData.append("getsu", getsu);
+}
+	
+	
    try {
       const response1 = await fetch("./updateApproval.do", {
          method: 'POST',
@@ -965,7 +1003,7 @@ async function approve() {
       console.error('오류 발생:', error);
    }
 
-   window.location.href = "./getAllPendingApprovalDraft.do"
+//   window.location.href = "./getAllPendingApprovalDraft.do"
 
 }
 

@@ -97,11 +97,59 @@
                </div>
                <div id="lowerBox"
                   style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-						<div id="calendarBox" onclick="location.href = './month.do'"
-							class="card" style="width: 49%; min-height: 450px;">
-							<div id="addSchedule" style="padding: 15px;"></div>
-						</div>
-						<div id="apprBox" class="card" style="width: 49%;  padding: 20px; text-align: center;">
+                  <div id="calendarBox" class="card" style="width: 49%;">
+                           <div id="addSchedule" style="padding: 15px;"></div>
+                        </div>
+                  <div id="apprBox" class="card" style="width: 49%;  padding: 20px; text-align: center;">
+                     <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 30px; margin-top: 3px;">
+                        <div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+                           <span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
+                           <h5 style="margin-bottom: 15px;">${urgencyLists[0].title}</h5>
+                           <p>작성자 : ${urgencyLists[0].empVo.name}</p>
+                           <p>기안일 : <script>
+                                         var dDate = formatDate("${urgencyLists[0].draft_date}" );
+                                         document.write(dDate);
+                                     </script></p>
+                           <p>문서유형 : ${urgencyLists[0].commVo.code_name}</p>
+                        </div>
+                        <div id="urgency2" onclick="location.href = './draftDetail.do?docno=${urgencyLists[1].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+                           <span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
+                           <h5 style="margin-bottom: 15px;">${urgencyLists[1].title}</h5>
+                           <p>작성자 : ${urgencyLists[1].empVo.name}</p>
+                           <p>기안일 : <script>
+                                         var dDate = formatDate("${urgencyLists[1].draft_date}" );
+                                         document.write(dDate);
+                                     </script></p>
+                           <p>문서유형 : ${urgencyLists[1].commVo.code_name}</p>
+                        </div>
+                     </div>
+                     <div class="card"
+                        style="box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15);">
+                        <div class="card-header"
+                           style="display: flex; flex-direction: row; justify-content: space-between; padding: 5px; background-color: rgba(66,138,70,1);">
+                           <p style="width: 40%; text-align: center; margin-bottom: 0px; color: #fff;">제목</p>
+                           <p style="width: 25%; text-align: center; margin-bottom: 0px; color: #fff;">기안일</p>
+                           <p style="width: 15%; text-align: center; margin-bottom: 0px; color: #fff;">작성자</p>
+                           <p style="width: 25%; text-align: center; margin-bottom: 0px; color: #fff;">문서양식</p>
+                        </div>
+                        <div class="card-body" style="display: flex; flex-direction: column; padding: 10px;">
+                           <c:forEach var="doc" items="${docLists}">
+                              <div style="display: flex; flex-direction: row; margin-bottom: 10px; border-bottom: 1px solid #ddd">
+                                 <p style="width: 40%; text-align: center; margin-bottom: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40%;"><a href="./draftDetail.do?docno=${doc.docno}">${doc.title}</a></p>
+                                 <p style="width: 25%; text-align: center; margin-bottom: 0px;">
+                                    <script>
+                                         var dDate = formatDate("${doc.draft_date}" );
+                                         document.write(dDate);
+                                     </script>
+                                  </p>
+                                 <p style="width: 15%; text-align: center; margin-bottom: 0px;">${doc.empVo.name}</p>
+                                 <p style="width: 25%; text-align: center; margin-bottom: 0px;">${doc.commVo.code_name}</p>
+                              </div>
+                           </c:forEach>
+                        </div>
+                     </div>
+                  </div>
+                  <div id="apprBox" class="card" style="width: 49%;  padding: 20px; text-align: center;">
                      <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 30px; margin-top: 3px;">
                         <div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
                            <span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
