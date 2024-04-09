@@ -774,7 +774,7 @@ function openFileList(val, name){
 	})
 	.then(data => data.json())
 	.then(result => {
-		document.getElementById("exampleModalLabel").innerText = name + "님의 인사서류";
+		document.getElementById("exampleModalTitle").innerText = name + "님의 인사서류";
 		modalOpen(result, val, name);
 	});
 }
@@ -790,7 +790,7 @@ function modalOpen(result, val, name){
 	    				'<svg onclick=\"fileDownload('+val+','+item.ftype+')\" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>' : "-") + "</td>";
 	    tableHTML += "<td style='text-align: center;' class='gubunBtn'>" + 
              (item.stored_name != null ? 
-              "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#dangerConfirm' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
+              "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#dangerConfirmDocument' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
               "<label for='fileInput_"+val+"_"+item.comVo.code+"' class='btn btn-primary'>등록<input id='fileInput_"+val+"_"+item.comVo.code+"' accept='image/jpeg, image/jpg, image/png, image/gif, .pdf, .hwp' type='file' style='display: none;' onchange=\"empFileUpload(this.files[0],'"+val+"','"+item.comVo.code+"')\"></label>"+
               "<button type='button' style='display:none;' class='btn btn-info' onclick=\"empFileInsert('"+val+"','"+item.comVo.code+"','"+name+"')\">완료</button>") + 
              "</td>";
@@ -802,15 +802,17 @@ function modalOpen(result, val, name){
 function empFileDel(id, type, name){
 	console.log(id);
 	console.log(type);
-	document.getElementById("dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #modalTitle").innerText = "파일삭제 확인";
-	document.querySelector("#dangerConfirm #modalContent").innerText = "정말 삭제하시겠습니까? 삭제하신 파일은 복구할 수 없습니다";
-	document.querySelector("#dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
+	var modalTitleIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" id="toastFeather"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+	document.querySelector("#dangerConfirmDocument #exampleModalLabel").innerHTML = modalTitleIcon+"파일삭제 확인";
+	document.querySelector("#dangerConfirmDocument #modalContent").innerHTML = "정말 삭제하시겠습니까? \n삭제하신 파일은 복구할 수 없습니다";
+	document.getElementById("dangerConfirmDocument").style.display = "block";
+	document.getElementById("dangerConfirmDocument").style.zIndex = "9999";
+	document.querySelector("#dangerConfirmDocument #firstBtn").addEventListener("click", function() {
+		openFileList(id,name);
+		document.querySelector("#dangerConfirmDocument").style.display = "none";
 	})
-	document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
+	document.querySelector("#dangerConfirmDocument #secondBtn").addEventListener("click", function() {
+		document.querySelector("#dangerConfirmDocument").style.display = "none";
 		fetch("./empFileDel.do",{
 			method : "POST",
 			headers : {"content-type" : "application/json"},
@@ -832,11 +834,13 @@ function empFileDel(id, type, name){
 				})
 			}else{
 				document.getElementById("primaryAlert").style.display = "block";
+				document.getElementById("primaryAlert").style.zIndex = "9999";
 				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
 				document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 삭제되었습니다";
 				document.querySelector("#primaryAlert").style.display = "block";
 				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
 					document.querySelector("#primaryAlert").style.display = "none";
+					location.reload();
 				})
 				modalOpen(result, id, name);
 			}
@@ -905,16 +909,17 @@ function empFileInsert(id, type, name){
 			document.querySelector("#dangerAlert").style.display = "none";
 			})
 		}else{
-			alert("정상적으로 등록되었습니다");
+			document.getElementById("primaryAlert").style.zIndex = "9999";
 			document.getElementById("primaryAlert").style.display = "block";
 			document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
 			document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 등록되었습니다";
 			document.querySelector("#primaryAlert").style.display = "block";
 			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
 				document.querySelector("#primaryAlert").style.display = "none";
+				location.reload();
 			})
-			modalOpen(result, id, name);
-			checkFile();
+			
+			
 		}
 	});
 }

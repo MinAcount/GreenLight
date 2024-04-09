@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="modal modal-backdrop" style="display: none;" data-bs-backdrop="static backdrop"
+	<div class="modal" style="display: none;" data-bs-backdrop="static"
 		id="dangerConfirm" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">
@@ -27,7 +27,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal modal-backdrop" style="display: none;" data-bs-backdrop="static backdrop"
+	<div class="modal" style="display: none;" data-bs-backdrop="static"
 		id="primaryConfirm" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">
@@ -40,16 +40,15 @@
 				<div class="modal-body">
 					<div id="modalContent" style="padding: 15px;"></div>
 					<div class="modal-footer">
-						<button id="firstBtnP" class="btn btn-secondary" type="button"
-							onclick="closesPrimaryAlert()">취소</button>
-						<button id="secondBtnP" style="margin-left: 10px;" class="btn btn-primary"
+						<button id="firstBtn" class="btn btn-secondary" type="button">취소</button>
+						<button id="secondBtn" style="margin-left: 10px;" class="btn btn-primary"
 							type="button">확인</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="modal modal-backdrop" style="display: none;" data-bs-backdrop="static backdrop"
+	<div class="modal" style="display: none;" data-bs-backdrop="static"
 		id="dangerAlert" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">
@@ -69,7 +68,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal modal-backdrop" style="display: none;" data-bs-backdrop="static backdrop"
+	<div class="modal" style="display: none;" data-bs-backdrop="static"
 		id="primaryAlert" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">
