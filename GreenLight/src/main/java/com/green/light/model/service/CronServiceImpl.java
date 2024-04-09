@@ -102,6 +102,7 @@ public class CronServiceImpl implements ICronService {
 	}
 	
 	// 휴가자의 자동근태등록 트렌젝션 처리
+	@Scheduled(cron = "0 40 1 * * *")//오전 1시 40분에 설정 
 	@Transactional(readOnly = false)
 	@Override
 	public int setVacationAndAttendance() {
