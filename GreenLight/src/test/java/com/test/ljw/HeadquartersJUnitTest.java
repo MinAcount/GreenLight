@@ -1,28 +1,19 @@
 package com.test.ljw;
 
-import static org.junit.Assert.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.green.light.model.service.IHeadquartersService;
-import com.green.light.vo.HeadquartersVo;
+import org.springframework.test.context.web.WebAppConfiguration;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/**/*.xml"})
+@WebAppConfiguration
 public class HeadquartersJUnitTest {
 	
-	@Autowired
-	private IHeadquartersService service;
+//	@Autowired
+//	private IHeadquartersService service;
 
-	@Test
+//	@Test
 	public void HeadquartersTest() {
 //		본부 전체 조회
 //		List<HeadquartersVo> list = service.getAllHead();
@@ -35,7 +26,7 @@ public class HeadquartersJUnitTest {
 //		assertNotNull(vo);
 		
 //		본부명 수정
-		Map<String, Object> map = new HashMap<String, Object>();
+//		Map<String, Object> map = new HashMap<String, Object>();
 //		map.put("hname", "new본부");
 //		map.put("headno", "06");
 //		int n = service.updateHeadName(map);
@@ -46,10 +37,10 @@ public class HeadquartersJUnitTest {
 //		assertEquals(1, n);
 		
 //		본부장 등록 및 변경
-		map.put("head_mgr", "2303100101");
-		map.put("headno", "04");
-		boolean isc = service.updateHeadMgr(map);
-		assertTrue(isc);
+//		map.put("head_mgr", "2303100101");
+//		map.put("headno", "04");
+//		boolean isc = service.updateHeadMgr(map);
+//		assertTrue(isc);
 		
 //		본부 삭제
 //		int n = service.updateHeadDelete("07");

@@ -60,7 +60,7 @@
 
 <!-- 로그인 시도 횟수 조회 및 암호화된 비밀번호 조회 -->
 <select id="getLoginFail" parameterType="java.lang.String" resultType="EmpVo">
-	SELECT FAIL , ID, PASSWORD
+	SELECT FAIL , ID, PASSWORD, ESTATUS
 		FROM EMPLOYEE e
 		WHERE ID =#{id}
 </select>
