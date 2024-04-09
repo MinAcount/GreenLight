@@ -296,7 +296,7 @@ function modifyHeadManager(val){
 function modifyDeptManager(val) {
 	let deptno = val.toString().padStart(2, '0');
 	var deptHubo = document.querySelector(".dept_mgr_hubo input[type='radio']:checked");
-	const deptHuboId = '';
+	let deptHuboId = '';
 	if(deptHubo == null){
 		deptHuboId = '';
 	}else{
