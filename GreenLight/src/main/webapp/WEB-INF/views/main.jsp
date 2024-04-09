@@ -84,7 +84,6 @@
 							</div>
 						</div>
 					</div>
-//  lhw(상단)
 					<div id="lowerBox"
 						style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
 						<div id="calendarBox" class="card" style="width: 49%; min-height: 450px;">일정</div>
@@ -110,20 +109,6 @@
 								    			</script></p>
 									<p>문서유형 : ${urgencyLists[1].commVo.code_name}</p>
 								</div>
-//main(상단) lhw(하단)
-					<div id="lowerBox" style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-						<div id="calendarBox" class="card" style="width: 49%; min-height: 500px;">
-                     		<div id="addSchedule" style="padding: 15px;"></div>
-						</div>
-						<div id="apprBox" class="card"
-							style="width: 49%; min-height: 500px; padding: 10px; text-align: center;">
-							<div
-								style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 18px; margin-top: 3px;">
-								<div class="card"
-									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
-								<div class="card"
-									style="min-height: 280px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15)"></div>
-//main 하단
 							</div>
 							<div class="card"
 								style="box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15);">
