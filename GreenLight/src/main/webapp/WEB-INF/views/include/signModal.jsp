@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-		id="dangerConfirm" >
+	<div id="dangerConfirm" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">
 				<div class="modal-header text-danger">
