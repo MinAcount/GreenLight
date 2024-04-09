@@ -19864,6 +19864,9 @@ th, td {
 	cursor: pointer;
 }
 
+.dateHeader {
+	text-align: center;
+}
 
 .custom-class {
     vertical-align: middle;
@@ -19882,8 +19885,9 @@ th, td {
 	text-align: center;
 	border: 1px solid gray;
 	flex: 1;
-	margin: 2px;
-	padding: 3px;
+	margin: 2%;
+	padding: 3%;
+	width: 96%;
 }
 /* 지원 */
 .file-modal {
