@@ -39,8 +39,17 @@
 						</tr>
 					</thead>
 					<tbody>
-					
-					<c:forEach var="vlist" items="${vacationList}" varStatus="vr">
+					<c:choose>
+					<c:when test="${empty vacationList}">
+					<tr>
+					    <td colspan="6" style="text-align: center;">
+					        <p>휴가 내용이 없습니다.</p>
+					    </td>
+					</tr>
+
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="vlist" items="${vacationList}" varStatus="vr">
 					    <tr>
 					        <td>${lists.empVo.name}</td>
 					        <td>${lists.deptVo.dname}</td>
@@ -61,6 +70,12 @@
 					        <td>${vlist.bigo}</td>
 					    </tr>
 					</c:forEach>
+					
+					
+					</c:otherwise>
+					</c:choose>
+					
+				
 					</tbody>
 				</table>
 				</div>
