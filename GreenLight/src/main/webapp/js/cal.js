@@ -39,7 +39,7 @@ function updateFilter() {
 		var backgroundColor = window.getComputedStyle(deptElements[0]).getPropertyValue('background-color');
 		selectedCalendars.push({
 			name: document.getElementById('deptCheck').value,
-			color:backgroundColor
+			color: backgroundColor
 		});
 	}
 	console.log("선택된 캘린더 값들:", selectedCalendars);
@@ -122,10 +122,10 @@ function renderCalendar(viewmonth, selectedCalendars) {
 							};
 
 							var calendar = selectedCalendars.find(calendar => calendar.name === eventData.label_name);
-                            if (calendar) {
-                                addEvent.color = calendar.color;
-                                addEvent.textColor = '#212831';
-                            }
+							if (calendar) {
+								addEvent.color = calendar.color;
+								addEvent.textColor = '#212831';
+							}
 
 							events.push(addEvent);
 						}
@@ -150,38 +150,10 @@ function renderCalendar(viewmonth, selectedCalendars) {
 // 페이지 로드 시 현재 월의 달력 표시
 document.addEventListener("DOMContentLoaded", function() {
 	showCurrentMonthCalendar();
+	updateFilter()
 });
 
-window.onload = function() {
-	var selectedCalendars = JSON.parse(localStorage.getItem('selectedCalendars'));
 
-	if (selectedCalendars && selectedCalendars.length > 0) {
-		selectedCalendars.forEach(function(calendar) {
-			var checkbox = document.getElementById(calendar + 'Check');
-			if (checkbox) {
-				checkbox.checked = true;
-			}
-		});
-		updateFilter();
-	}
-
-	var basicCheckbox = document.getElementById('basicCheck');
-	if (basicCheckbox) {
-		basicCheckbox.onchange = updateFilter;
-	}
-	var vacationCheckbox = document.getElementById('vacationCheck');
-	if (vacationCheckbox) {
-		vacationCheckbox.onchange = updateFilter;
-	}
-	var compenyCheckbox = document.getElementById('compenyCheck');
-	if (compenyCheckbox) {
-		compenyCheckbox.onchange = updateFilter;
-	}
-	var deptCheckbox = document.getElementById('deptCheck');
-	if (deptCheckbox) {
-		deptCheckbox.onchange = updateFilter;
-	}
-}
 
 //------------------------------------------------------------------------------------------------
 
@@ -396,6 +368,7 @@ function resetModal() {
 }
 
 function oneScheduleView(schedule_id) {
+
 	console.log("일정 상세 모달 : ", schedule_id);
 	// 이미 열려있는 모달 창이 있는지 확인
 	var existingModal = $('#oneScheduleView');
@@ -411,17 +384,18 @@ function oneScheduleView(schedule_id) {
 			.then(data => {
 				console.log('서버에서 받은 데이터:', data); // 데이터 확인
 				// 모달 내용 업데이트
-				existingModal.find('.modal-title').text(data.title);
 				existingModal.find('.modal-body').html(`
                     <div class="row">
                         <div>
-                            <p><strong style="padding-right: 6px;"></strong> ${data.start_date} ~ ${data.end_date}</p>
-                            <p><strong style="padding-right: 6px;">작성자</strong> ${data.creator}</p>
-                            <p><strong style="padding-right: 6px;">전화번호</strong> ${data.phone}</p>
-                            <p><strong style="padding-right: 6px;">캘린더명</strong> ${data.label_name}</p>
-                            <p><strong style="padding-right: 6px;">카테고리</strong> ${data.category}</p>
-                            <p><strong style="padding-right: 6px;">중요도</strong> ${data.priority}</p>
-                            <p><strong style="padding-right: 6px;">공개여부</strong> ${data.visibility}</p>
+                            <h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
+                            ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
+                            ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
+							${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
+							${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
+							${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
+							<p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
+							<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
+  							${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>
                         </div>
                     </div>
                 `);
@@ -441,34 +415,44 @@ function oneScheduleView(schedule_id) {
 			})
 			.then(data => {
 				console.log('서버에서 받은 데이터:', data); // 데이터 확인
+				const startDate = new Date(data.start_date);
+				const endDate = new Date(data.end_date);
+				const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+				const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
+				const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
+
+				const participants = JSON.parse(data.participants);
+				const participantNames = participants.map(participant => participant.name).join(', ');
 				var modalContent = `
-                    <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered custom-class">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="detailModalLabel">${data.title}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div>
-                                            <p><strong style="padding-right: 6px;"></strong> ${data.start_date} ~ ${data.end_date}</p>
-                                            <p><strong style="padding-right: 6px;">작성자</strong> ${data.creator}</p>
-                                            <p><strong style="padding-right: 6px;">전화번호</strong> ${data.phone}</p>
-                                            <p><strong style="padding-right: 6px;">캘린더명</strong> ${data.label_name}</p>
-                                            <p><strong style="padding-right: 6px;">카테고리</strong> ${data.category}</p>
-                                            <p><strong style="padding-right: 6px;">중요도</strong> ${data.priority}</p>
-                                            <p><strong style="padding-right: 6px;">공개여부</strong> ${data.visibility}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="modal-footer"></div>
-                            </div>
+    <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered custom-class">
+            <div class="modal-content" style="width: 550px;"> 
+                <div class="modal-body" style="padding: 50px;">
+                    <div class="row">
+                        <div>
+    						<h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
+                            ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
+                            ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
+							${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
+							${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
+							${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
+							<p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
+							<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
+  							${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>
+
                         </div>
                     </div>
-                `;
+                </div>
+                <div class="modal-footer">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+`;
 				$('body').append(modalContent);
 				$('#oneScheduleView').modal('show');
+
 			})
 			.catch(error => {
 				console.error('오류:', error);
@@ -477,5 +461,5 @@ function oneScheduleView(schedule_id) {
 }
 
 document.getElementById('sidebarToggle').addEventListener('click', function() {
-    window.onload();
+	updateFilter()
 });
