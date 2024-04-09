@@ -281,9 +281,8 @@ td.red-text {
 		</div>
 	</div>
 	<!-- 취소 모달 -->
-	<div class="modal fade" id="confirmationModal" tabindex="-1"
-		aria-labelledby="confirmationModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered">
+	<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered custom-class">
 			<div class="modal-content" style="width: 400px;">
 				<div class="modal-body" style="padding: 30px">
 					<p class="text-center" style="margin-top: 40px; margin-bottom: 40px;">정말 취소하시겠습니까?</p>

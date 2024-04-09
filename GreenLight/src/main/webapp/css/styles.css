@@ -19869,10 +19869,10 @@ th, td {
 }
 
 .custom-class {
-    vertical-align: middle;
-    width: 700px;
-    height: 630px;
-    top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
 }
 .chatPeopleIcon {
 	width: 2vw;

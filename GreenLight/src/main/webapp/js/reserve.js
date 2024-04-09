@@ -31,13 +31,12 @@ function oneReserveView(reserveno) {
 			const formattedDate = formatReserveDate(reserveDate);
 			var modalContent = `
                 <div class="modal fade" id="reserveModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
+                    <div class="modal-dialog modal-dialog-centered custom-class">
+                        <div class="modal-content" style="width: 450px;">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="reserveModalLabel">예약상세</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body" style="padding-right: 30px; padding-left: 30px; padding-top: 30px;">
                                 <div class="row">
                                     <div>
                                         <p><strong style="padding-right: 6px;">예약번호</strong> ${data.reserveno}</p>
@@ -54,7 +53,7 @@ function oneReserveView(reserveno) {
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary">확인</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                             </div>
                         </div>
                     </div>
@@ -89,7 +88,7 @@ function updateReserveTitle(reserveno) {
 	inputField.removeAttribute('type');
 
 	var saveButton = document.createElement('button');
-	saveButton.textContent = '저장하기';
+	saveButton.textContent = '저장';
 	saveButton.className = 'btn btn-primary';
 
 	// 저장 버튼의 클릭 이벤트 리스너를 추가합니다.
@@ -119,6 +118,10 @@ function updateReserveTitle(reserveno) {
 				console.log('예약 수정 완료:', data);
 				// 모달을 닫습니다.
 				$('#reserveModal').modal('hide');
+				window.onload = function() {
+    var reserveno = 'your_reserveno_value'; // 예약 번호 값
+    window.location.href = './oneReserve.do?reserveno=' + reserveno;
+}
 			})
 			.catch(error => {
 				console.error('오류:', error);
