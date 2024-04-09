@@ -93,22 +93,15 @@
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
-                  <!-- 자신의 근태관리 -->
-                  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
-                  	data-bs-target="#collapseAttd" aria-expanded="false" aria-controls="collapseAttd">
-                     <div class="nav-link-icon">
-                        <i data-feather="briefcase"></i>
-                     </div> 근태관리
-                     <div class="sidenav-collapse-arrow">
-                        <i class="fas fa-angle-down"></i>
-                     </div>
+                  <!-- 채팅 -->
+                  <a class="nav-link collapsed" href="chatGroup.do">
+                  	<div class="nav-link-icon">
+                  		<i data-feather="message-circle"></i>
+                  	</div>
+                    채팅
                   </a>
-                  <div class="collapse" id="collapseAttd" data-bs-parent="#accordionSidenav">
-                     <nav class="sidenav-menu-nested nav">
-                        <a class="nav-link" href="myAttendance.do">내 근태관리</a> 
-                        <a class="nav-link" href="myVacation.do">내 휴가관리</a> 
-                     </nav>
-                  </div>
+                  
+                  
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
@@ -141,13 +134,22 @@
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
 
-<!-- 채팅 -->
-                  <a class="nav-link collapsed" href="chatGroup.do">
-                  	<div class="nav-link-icon">
-                  		<i data-feather="message-circle"></i>
-                  	</div>
-                    채팅
+					<!-- 자신의 근태관리 -->
+                  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
+                  	data-bs-target="#collapseAttd" aria-expanded="false" aria-controls="collapseAttd">
+                     <div class="nav-link-icon">
+                        <i data-feather="briefcase"></i>
+                     </div> 근태관리
+                     <div class="sidenav-collapse-arrow">
+                        <i class="fas fa-angle-down"></i>
+                     </div>
                   </a>
+                  <div class="collapse" id="collapseAttd" data-bs-parent="#accordionSidenav">
+                     <nav class="sidenav-menu-nested nav">
+                        <a class="nav-link" href="myAttendance.do">내 근태관리</a> 
+                        <a class="nav-link" href="myVacation.do">내 휴가관리</a> 
+                     </nav>
+                  </div>
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
