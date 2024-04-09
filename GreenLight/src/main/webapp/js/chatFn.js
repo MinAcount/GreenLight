@@ -53,6 +53,7 @@ function doGetAllChat(){
 	    return timeString;
 	}
 	
+	
 //채팅방 목록 HTML 조립
 function getAllChat(result){
 	var chatList = document.getElementById('chatList');
@@ -179,7 +180,7 @@ function getViewInsideChat(idx, i){
 					document.getElementById('chatRoom').style.display = 'block';
 					chatPeople(result);
 					chatSetting(result);
-					closePeople();
+					closePeopleX();
 					closeSettingAnother();
 					scrollToBottom();
 				}else{
@@ -201,6 +202,8 @@ function getViewInsideChat(idx, i){
 		console.log(result);
 		
         var participants = {}; // 중복된 이름 제거를 위한 객체
+        html += '<span id="closePeopleX" onclick="closePeopleX()">&times;</span>';
+		html += '<br/>';
         for (var i = 0; i < result.length; i++) {
             var participantName = result[i].empVo.name;
             if (!participants[participantName]) {
@@ -307,10 +310,11 @@ function doGetViewInsideChat(result){
 		return {class : chatClass, writter : writterName};
 	}
 	
-	
 	for(var i=0;i<result.length;i++){
 		var formattedSendDate = formatSendDate(result[i].send_date);
 		var {class : chatClass, writter : writterName} = alignChatMessage(result[i]);	
+		
+		
 		html += '<div class="'+chatClass+'">';
 		if(chatClass != 'center'){
 			html += '<div>'+result[i].empVo.name + " " + result[i].comVo.code_name+'</div>';
@@ -420,11 +424,9 @@ function openPeople(){
 		modal.style.display = 'block';
 }
 
-function closePeople(){
+function closePeopleX(){
 	var modal = document.getElementById('peopleModal');
-	if(modal.style.display == 'block'){
-		modal.style.display = 'none';
-	}
+	modal.style.display = 'none';
 }
 
 window.onclick = function(event){

@@ -19846,7 +19846,7 @@ th, td {
 .table-container-list-thead{
 	text-align: center;
 	height: 20vh;
-	width: 54vh;
+	width: 46.5vh;
 	padding: 10px;
 }
 
@@ -19888,6 +19888,15 @@ th, td {
 	margin: 2%;
 	padding: 3%;
 	width: 96%;
+}
+
+#inputRoomName {
+	border: 0;
+	background-color: rgba(33, 40, 50, 0);
+}
+
+#createChatRoomModal {
+	margin-top: 1%;
 }
 /* 지원 */
 .file-modal {
