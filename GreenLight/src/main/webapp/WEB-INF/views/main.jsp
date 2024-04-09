@@ -48,9 +48,10 @@
 						style="width: 100%; margin-bottom: 40px; height: 220px; display: flex; flex-direction: row;">
 						<div style="width: 30%; height: 30%;">
 							<div style="width: 100%; text-align: center; padding: 10px;" id="profileDiv">
+								<p>${loginVo.name}</p>
 							</div>
 						</div>
-						<div style="width: 70%;">
+						<div style="width: 70%; border-left: 1px solid #ddd;">
 							<div class="card-header"
 								style="width: 100%; height: 30%; display: flex; flex-direction: row; justify-content: center; background-color: rgba(66, 138, 70, 1); border-top-left-radius: 0px;">
 								<c:set var="now" value="<%=new java.util.Date()%>" />
@@ -96,11 +97,11 @@
 					</div>
 					<div id="lowerBox"
 						style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-						<div id="calendarBox" class="card" style="width: 49%; min-height: 500px;">
+						<div id="calendarBox" class="card" style="width: 49%;">
                      		<div id="addSchedule" style="padding: 15px;"></div>
                   		</div>
-						<div id="apprBox" class="card" style="width: 49%; min-height: 450px; padding: 10px; text-align: center;">
-							<div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 18px; margin-top: 3px;">
+						<div id="apprBox" class="card" style="width: 49%;  padding: 20px; text-align: center;">
+							<div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 30px; margin-top: 3px;">
 								<div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
 									<span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
 									<h5 style="margin-bottom: 15px;">${urgencyLists[0].title}</h5>
@@ -133,7 +134,7 @@
 								</div>
 								<div class="card-body" style="display: flex; flex-direction: column; padding: 10px;">
 									<c:forEach var="doc" items="${docLists}">
-										<div style="display: flex; flex-direction: row; margin-bottom: 10px;">
+										<div style="display: flex; flex-direction: row; margin-bottom: 10px; border-bottom: 1px solid #ddd">
 											<p style="width: 40%; text-align: center; margin-bottom: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 40%;"><a href="./draftDetail.do?docno=${doc.docno}">${doc.title}</a></p>
 											<p style="width: 25%; text-align: center; margin-bottom: 0px;">
 												<script>
@@ -180,6 +181,13 @@ function initClock() {
     updateClock(); // 페이지 로드 시 한 번 실행
     setInterval(updateClock, 1000); // 1초마다 업데이트
     
+    var profileO = document.querySelector("img[alt='프로필사진']");
+    var profileDiv = document.getElementById("profileDiv");
+    var name = profileDiv.querySelector("p");
+    var profile = profileO.cloneNode(true);
+    name.setAttribute("style","margin-top:15px;")
+    profile.setAttribute("style","width:150px; border:1px solid #ddd; border-radius: 50%; margin-top : 7px;");
+    profileDiv.insertBefore(profile, name);
    
 }
 
