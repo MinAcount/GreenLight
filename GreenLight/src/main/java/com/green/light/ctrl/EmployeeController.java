@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
+import org.junit.internal.runners.statements.Fail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -145,17 +146,20 @@ public class EmployeeController {
 	    	byte[] byteArr = profile.getBytes();
 	    	strProfile = Base64.getEncoder().encodeToString(byteArr);
 	    }
+	    System.out.println(strProfile);
 		EmployeeVo vo = new EmployeeVo("", map.get("name"), map.get("email"), 
 				map.get("phone"), map.get("birthday"), map.get("gender"), 
 				map.get("address"), map.get("deptno"), map.get("spot"), 
 				map.get("join_day"), map.get("etype"), strProfile);
 		String encodePassword = passwordEncoder.encode("1q2w3e4r!!");
 		vo.setPassword(encodePassword);
-		boolean isc = employeeService.insertEmployee(vo);
+		vo.setAuth("");
 		System.out.println("입력되는 vo"+vo);
-	    if (isc) {
+		boolean isc = employeeService.insertEmployee(vo);
+		System.out.println(isc);
+	    if(isc) {
 	    	return ResponseEntity.ok("{\"msg\":\"success\"}");
-	    } else {
+	    }else {
 	    	return ResponseEntity.ok("{\"msg\":\"fail\"}");
 	    }
 	}
@@ -170,30 +174,31 @@ public class EmployeeController {
 			return ResponseEntity.ok("{\"msg\":\"NULL\"}");
 		}else{
 			session.setAttribute("failCount", failVo);
-			if(failVo.getFail() >= 5) {
+			if(failVo.getFail() >= 5 || failVo.getEstatus().equals("N")) {
 				return ResponseEntity.ok("{\"msg\":\"LOCK\"}");
-			}
-			//암호화 된 비밀번호와 입력된 비밀번호가 같은지 확인
-			boolean matchPassword =  passwordEncoder.matches((String)map.get("password"),failVo.getPassword());
-			if(matchPassword) {
-				map.put("password", failVo.getPassword());
-				map.put("fail", 0);
-				EmployeeVo vo = employeeService.getLogin(map);
-				if(vo != null) {
-					session.setAttribute("loginVo", vo);
-					System.out.println("session에 담기는 vo"+vo);
-					if(vo.getAuth() == "00") {
-						return ResponseEntity.ok("{\"msg\":\"SUCCESSADMIN\"}");
+			}else {
+				//암호화 된 비밀번호와 입력된 비밀번호가 같은지 확인
+				boolean matchPassword =  passwordEncoder.matches((String)map.get("password"),failVo.getPassword());
+				if(matchPassword) {
+					map.put("password", failVo.getPassword());
+					map.put("fail", 0);
+					EmployeeVo vo = employeeService.getLogin(map);
+					if(vo != null) {
+						session.setAttribute("loginVo", vo);
+						System.out.println("session에 담기는 vo"+vo);
+						if(vo.getAuth() == "00") {
+							return ResponseEntity.ok("{\"msg\":\"SUCCESSADMIN\"}");
+						}else {
+							return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
+						}
 					}else {
-						return ResponseEntity.ok("{\"msg\":\"SUCCESS\"}");
+						return ResponseEntity.ok("{\"msg\":\"FAILVO\"}");
 					}
 				}else {
-					return ResponseEntity.ok("{\"msg\":\"FAILVO\"}");
+					map.put("fail", failVo.getFail()+1);
+					employeeService.getLogin(map);
+					return ResponseEntity.ok("{\"msg\":\""+(failVo.getFail()+1)+"\"}");
 				}
-			}else {
-				map.put("fail", failVo.getFail()+1);
-				employeeService.getLogin(map);
-				return ResponseEntity.ok("{\"msg\":\""+(failVo.getFail()+1)+"\"}");
 			}
 		}
 	}
