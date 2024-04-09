@@ -160,7 +160,7 @@ th, td {
 							</thead>
 							<tbody id="tableBody">
 								<tr style="height: 200px;">
-									<td colspan="5" style="text-align: center"
+									<td colspan="6" style="text-align: center"
 										onmouseover="return false">조건 및 날짜를 선택해주세요</td>
 								</tr>
 							</tbody>
@@ -176,12 +176,9 @@ th, td {
 	<div class="modal fade" id="reserveFormModal" tabindex="-1"
 		aria-labelledby="reserveFormModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered modal-md custom-class">
-			<div class="modal-content border-0"
-				style="padding: 20px; overflow-y: hidden;">
+			<div class="modal-content border-0" style="width: 500px; padding: 20px; overflow-y: hidden;">
 				<div class="modal-header">
 					<h5 class="modal-title" id="reserveFormModalLabel">예약하기</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					<form action="./insertReserve.do" method="post" id="reserveForm">

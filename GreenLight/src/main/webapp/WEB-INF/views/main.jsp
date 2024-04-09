@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- <link rel="stylesheet" type="text/css" href="./css/cal.css"> -->
+<link rel="stylesheet" type="text/css" href="./css/cal.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css">
 <style type="text/css">
 	.mainAttBox{
@@ -94,9 +94,8 @@
 							</div>
 						</div>
 					</div>
-					<div id="lowerBox"
-						style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
-						<div id="calendarBox" class="card" style="width: 49%; min-height: 500px;">
+					<div id="lowerBox" style="width: 100%; display: flex; flex-direction: row; justify-content: space-between;">
+						<div id="calendarBox" onclick="location.href = './month.do'" class="card" style="width: 49%; min-height: 450px;">
                      		<div id="addSchedule" style="padding: 15px;"></div>
                   		</div>
 						<div id="apprBox" class="card" style="width: 49%; min-height: 450px; padding: 10px; text-align: center;">
@@ -152,11 +151,6 @@
 					
 				</div>
 			</div>
-
-
-
-
-
 			<%@ include file="./include/footer.jsp"%>
 		</div>
 	</div>

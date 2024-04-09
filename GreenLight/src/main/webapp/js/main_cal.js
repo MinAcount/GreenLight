@@ -20,6 +20,9 @@ function renderCalendar(viewmonth) {
 			center: 'title',
 			right: ''
 		},
+		titleFormat: function(date) {
+                    return date.date.year + '.' + ('0' + (parseInt(date.date.month) + 1)).slice(-2);
+                },
 		eventSources: [{
 			googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
 			className: "koHol",
@@ -94,4 +97,13 @@ function renderCalendar(viewmonth) {
 // 페이지 로드 시 현재 월의 달력 표시
 document.addEventListener("DOMContentLoaded", function() {
 	showCurrentMonthCalendar();
+});
+
+document.getElementById('sidebarToggle').addEventListener('click', function() {
+	var titleElement = document.querySelector('.fc-toolbar-title');
+	var titleText = titleElement.textContent;
+	var year = titleText.split(' ')[0].replace('년', '');
+	var month = titleText.split(' ')[1].replace('월', '');
+	var viewmonth = year + '-' + ('0' + month).slice(-2);
+	renderCalendar(viewmonth)
 });
