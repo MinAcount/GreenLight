@@ -2,7 +2,7 @@ $(function() {
 
 
 	var sessionId = document.getElementById("loginVo_id").value;
-	fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + document.getElementById("tempCode").value)
+	fetch("./autoAppr.do?sessionId=" + sessionId + "&tempcode=" + document.getElementById("tempcode").value)
 		.then(response => response.json())
 		.then(data => {
 			console.log("data", data);

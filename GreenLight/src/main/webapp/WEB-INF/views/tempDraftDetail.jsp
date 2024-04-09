@@ -34,7 +34,7 @@
                            <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal"
                               aria-label="Close"></button>
-                           <input type="hidden" id="tempcode" name="tempcode" value="">
+<!--                            <input type="hidden" id="tempcode" name="tempcode" value=""> -->
 
                         </div>
                         <div class="modal-body"
@@ -201,7 +201,7 @@
 						<button class="btn btn-secondary " type="button"
 							style="margin-right: 5px;" onclick="updateContent()">임시저장</button>
 						<button class="btn btn-primary " type="button"
-							style="width: 73.6px;" onclick="submissionValidation('01')">상신</button>
+							style="width: 73.6px;" onclick="submissionValidation('04')">상신</button>
 					</div>
 				</div>
 				

@@ -170,6 +170,10 @@ function saveTemp(){
       document.getElementById("modalContent").innerHTML = "결재선, 참조자, 파일은 저장되지 않습니다.<br>그래도 임시저장하시겠습니까?"
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
       dangerConfirm.setAttribute("style","display:block");
+      dangerConfirm.querySelector("secondBtn").addEventListener('click',function(){
+	dangerConfirm.style.display = "none";
+	insertDocument("04");
+})
 }
 
 
@@ -197,7 +201,7 @@ function insertDocument(gubun) {
       var draft_date = document.getElementById("draft_date").textContent;
       var urgencyChecked = document.getElementById("urgency");
       var urgency = urgencyChecked.checked ? 'Y' : 'N';
-      var tempcode = document.getElementById("tempCode").value;
+      var tempcode = document.getElementById("tempcode").value;
       console.log("writer_id:", writer_id);
       console.log("content:", content);
       console.log("title:", title);
@@ -508,7 +512,7 @@ function insertDocument(gubun) {
    
          //알림
          //   notify('전자결재', title + " 문서가 상신되었습니다");
-         window.location.href = "./draftList.do";   
+//         window.location.href = "./draftList.do";   
    
    } else if(gubun == '04'){
       console.log("구분 04===========")
@@ -578,7 +582,7 @@ function insertDocument(gubun) {
          .catch(error => {
             console.error('오류 발생:', error);
          });
-         window.location.href = "./tempDraftList.do";
+//         window.location.href = "./tempDraftList.do";
    }
    
    
@@ -672,6 +676,16 @@ function addExpenseDetail() {
          tbody.insertBefore(newRow, lastRow);
       }
       else {
+		var dangerAlert = document.getElementById("dangerAlert");
+		console.log("dangerAlert",dangerAlert);
+		var strong = dangerAlert.getElementsByTagName("strong")[0];
+		strong.textContent = "금액을 입력하세요!"
+		dangerAlert.querySelector("#modalContent").textContent = "금액 칸에 값을 입력하세요";
+		dangerAlert.style.display = "block";
+		dangerAlert.querySelector("button").addEventListener('click',function(){
+			dangerAlert.style.display = "none";
+		})
+		
          console.log("값을 입력하세요")
       }
    } else {

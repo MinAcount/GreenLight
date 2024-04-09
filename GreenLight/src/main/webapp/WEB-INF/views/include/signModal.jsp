@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="modal" style="display: none;" data-bs-backdrop="static"
 		id="dangerConfirm" >
 		<div class="modal-dialog alertModal">
 			<div class="modal-content">

@@ -37,6 +37,11 @@ public class DocumentDaoImpl implements IDocumentDao{
 	}
    
    @Override
+   public List<DocumentVo> getAllPendingApprovalDraftUrgency(String id) {
+	   return sqlsession.selectList(NS+"getAllPendingApprovalDraftUrgency",id);
+   }
+   
+   @Override
    public List<DocumentVo> getAllDraft(String id) {
       return sqlsession.selectList(NS+"getAllDraft",id);
    }

@@ -19878,9 +19878,9 @@ th, td {
 }
 
 .settingBtn_card {
-//	box-shadow: 0 0rem 0.01rem 0 rgba(33, 40, 50, 0.1);
+	box-shadow: 0 0rem 0.01rem 0 rgba(33, 40, 50, 0.1);
 	text-align: center;
-//	border: 1px solid gray;
+	border: 1px solid gray;
 	flex: 1;
 	margin: 2px;
 	padding: 3px;
@@ -19895,4 +19895,11 @@ th, td {
 	vertical-align: middle;
 	width: 300px;
 	top:20%
+}
+
+.w40p{
+	width: 40%;
+}
+.w20p{
+	width: 20%;
 }

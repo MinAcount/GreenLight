@@ -49,6 +49,10 @@ public class LoginController {
 		List<DocumentVo> docLists = docService.getAllPendingApprovalDraftLimit(loginVo.getId());
 		model.addAttribute("docLists",docLists);
 		System.out.println("docLists"+docLists);
+		List<DocumentVo> urgencyLists = docService.getAllPendingApprovalDraftUrgency(loginVo.getId());
+		model.addAttribute("urgencyLists",urgencyLists);
+		System.out.println("urgencyLists"+urgencyLists);
+		
 		return "main";
 	}
 	
