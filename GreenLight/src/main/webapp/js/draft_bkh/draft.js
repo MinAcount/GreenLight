@@ -297,13 +297,19 @@ function insertDocument(gubun) {
 
 			})
 
-			var expenseCats = document.getElementsByName("expenseCat");
-			expenseCats.forEach(function(expenseCat) {
+			var expenseCatss = document.getElementsByClassName("expenseCat");
+			console.log("expenseCatss",expenseCatss);
+			console.log("expenseCatss.length",expenseCatss.length);
+			var expenseCatssLength = expenseCatss.length;
+			for(let i=0; i<expenseCatss.length; i++){
+				console.log("몇번째가 돌고 있는가요??",i);
 				var newPTag = document.createElement("P");
-				expenseCat.parentElement.appendChild(newPTag);
-				newPTag.textContent = expenseCat.value;
-				expenseCat.remove();
-			})
+				expenseCatss[i].parentElement.appendChild(newPTag);
+				newPTag.textContent = expenseCatss[i].value;
+			}
+			for(let i=0; i<expenseCatssLength; i++){
+				expenseCatss[0].remove();
+			}
 
 		}
 
@@ -622,19 +628,24 @@ function insertDocument(gubun) {
 
 		//알림
 		notify('전자결재', title + " 문서가 상신되었습니다");
-		window.location.href = "./draftList.do";
+//		window.location.href = "./draftList.do";
 
 	} else if (gubun == '04') {
 		console.log("구분 04===========")
 
 		if (tempcode == '02') { ////////////////////////////////수정
+		
+
 			console.log("tempcode 02진입");
-			var expenseCat = document.getElementById("expenseCat");
-			var options = expenseCat.querySelectorAll("option");
-			options.forEach(function(option) {
-				if (option.value == expenseCat.value) {
-					option.setAttribute("selected", "selected");
-				}
+			var expenseCats = document.getElementsByClassName("expenseCat");
+			console.log("expenseCats", expenseCats);
+			expenseCats.forEach(function(expenseCat) {
+				var options = expenseCat.querySelectorAll("option");
+				options.forEach(function(option) {
+					if (option.value == expenseCat.value) {
+						option.setAttribute("selected", "selected");
+					}
+				})
 			})
 		}
 
@@ -800,7 +811,7 @@ function addExpenseDetail() {
 				'<input class="width100p height33px" type="text">' +
 				'</td>' +
 				'<td class="pdl10 pdr10">' +
-				'<select class="datatable-selector" name="expenseCat">' +
+				'<select class="datatable-selector expenseCat">' +
 				'<option>물품구입비</option>' +
 				'<option>잡비</option>' +
 				'<option>회식비</option>' +
@@ -813,7 +824,7 @@ function addExpenseDetail() {
 				'<td class="pdl10 pdr10"><input onkeyup="updateTotal()" name="amount" class="width100p height33px" type="number"></td>';
 			// 마지막 <tr> 요소 앞에 새로운 <tr> 요소를 삽입
 			tbody.insertBefore(newRow, lastRow);
-
+			
 		}
 		else {
 			var dangerAlert = document.getElementById("dangerAlert");
@@ -1109,7 +1120,7 @@ async function approve() {
 
 		})
 		var content = document.getElementById("templateArea").innerHTML;
-		console.log("content", content)
+		console.log("content", content);
 		formData.append("content", content);
 		formData.append("docno", docno);
 
