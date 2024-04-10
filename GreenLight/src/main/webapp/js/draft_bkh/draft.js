@@ -706,7 +706,7 @@ function insertDocument(gubun) {
 			.catch(error => {
 				console.error('오류 발생:', error);
 			});
-		window.location.href = "./tempDraftList.do";
+//		window.location.href = "./tempDraftList.do";
 	}
 
 
@@ -1056,24 +1056,24 @@ async function approve() {
 		formData.append("getsu", getsu);
 	}
 	
-	// scheduleVo에 들어갈 값 생성
-	var creator = document.getElementById("name").textContent; /*휴가 신청차 이름*/
-	var category = "01";/*01:휴가*/
-	var title = "[" + creator + "]" + document.getElementById("getsuFlagTd").getElementsByTagName("p").textContent; /*일정 제목*/
-	var memo = ""; /*메모 ''*/
-	var start_day = document.getElementById("start_day").value; /*시작일 시, 분 까지*/
-	var end_day = document.getElementById("end_day").value; /*종료일*/
-	var participants = '[{"id":"2303100101","name":"이지원"},{"id":"2402110501","name":"배강훈"}]';
-	
-	// scheduleVo
-	formData.append("writer_id", writer_id);
-	formData.append("creator", creator);
-	formData.append("category", category);
-	formData.append("title", title);
-	formData.append("memo", memo);
-	formData.append("start_date", start_day);
-	formData.append("end_date", end_day);
-	formData.append("participants", JSON.stringify(participants));
+//	// scheduleVo에 들어갈 값 생성
+//	var creator = document.getElementById("name").textContent; /*휴가 신청차 이름*/
+//	var category = "01";/*01:휴가*/
+//	var title = "[" + creator + "]" + document.getElementById("getsuFlagTd").getElementsByTagName("p").textContent; /*일정 제목*/
+//	var memo = ""; /*메모 ''*/
+//	var start_day = document.getElementById("start_day").value; /*시작일 시, 분 까지*/
+//	var end_day = document.getElementById("end_day").value; /*종료일*/
+//	var participants = '[{"id":"2303100101","name":"이지원"},{"id":"2402110501","name":"배강훈"}]';
+//	
+//	// scheduleVo
+//	formData.append("writer_id", writer_id);
+//	formData.append("creator", creator);
+//	formData.append("category", category);
+//	formData.append("title", title);
+//	formData.append("memo", memo);
+//	formData.append("start_date", start_day);
+//	formData.append("end_date", end_day);
+//	formData.append("participants", JSON.stringify(participants));
 	
 	// vacationVo
 //	if (tempcode == '01') {
@@ -1093,7 +1093,7 @@ async function approve() {
 			throw new Error('네트워크 에러..');
 		}
 
-		const data1 = await response1.text();
+		const data1 = await response1.json();
 		console.log('data1:', data1);
 
 		var loginVo_name = document.getElementById("loginVo_name");
@@ -1107,6 +1107,7 @@ async function approve() {
 			if (td.textContent == loginVo_name.value) {
 				var newImg = document.createElement("img");
 				newImg.setAttribute("src", data1.save_sign);
+				console.log("data1.save_sign",data1.save_sign);
 				newImg.setAttribute("style", "width:50px");
 				td.appendChild(newImg);
 				var today = new Date();
@@ -1144,7 +1145,7 @@ async function approve() {
 		console.error('오류 발생:', error);
 	}
 
-	window.location.href = "./getAllPendingApprovalDraft.do"
+//	window.location.href = "./getAllPendingApprovalDraft.do"
 
 }
 
@@ -1177,6 +1178,7 @@ function checkSign() {
             })
             
          } 
+         window.location.href = "./draftWriteForm.do";
       })
       .catch(error => {
          console.error('Error:', error); // 오류 처리
