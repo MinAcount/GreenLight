@@ -21,10 +21,10 @@
          		<div>
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li class="nav-link active ms-0" onclick="allApprovalList(${loginVo.id}); setActive(this)">전체</li>
-                            <li class="nav-link" onclick="approvalListByDocStatus('01'); setActive(this)">진행</li>
-                            <li class="nav-link" onclick="approvalListByDocStatus('02'); setActive(this)">승인</li>
-                            <li class="nav-link" onclick="approvalListByDocStatus('03'); setActive(this)">반려</li>
+                            <li style="cursor: pointer;"class="nav-link active ms-0" onclick="allApprovalList(${loginVo.id}); setActive(this)">전체</li>
+                            <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('01'); setActive(this)">진행</li>
+                            <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('02'); setActive(this)">승인</li>
+                            <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('03'); setActive(this)">반려</li>
                         </ul>
                     </nav>
                     
@@ -48,12 +48,12 @@
 				<table class="datatable-table">
 					<thead>
 						<tr style="width: 100%;">
-							<th style="width: 18.5%;">제목</th>
-							<th style="width: 7%;">작성자</th>
-							<th style="width: 10%;">기안일</th>
-							<th style="width: 10%;">완료일</th>
-							<th style="width: 12.5%;">문서양식유형</th>
-							<th style="width: 10.5%;">기안서상태</th>
+							<th style="width: 18.5%; text-align: center;">제목</th>
+							<th style="width: 7%; text-align: center;">작성자</th>
+							<th style="width: 10%; text-align: center;">기안일</th>
+							<th style="width: 10%; text-align: center;">완료일</th>
+							<th style="width: 12.5%; text-align: center;">문서양식유형</th>
+							<th style="width: 10.5%; text-align: center;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
@@ -80,14 +80,14 @@
 							            </c:choose>
 									</a>
 								</td>
-								<td>${vo.empVo.getName()}</td>
-								<td>
+								<td style="text-align: center;">${vo.empVo.getName()}</td>
+								<td style="text-align: center;">
 									<script>
 								        var dDate = formatDate("${vo.draft_date}");
 								        document.write(dDate);
 								    </script>
-								</td>
-								<td>
+								</td style="text-align: center;">
+								<td style="text-align: center;">
 									<c:choose>
 										<c:when test="${vo.appr_date != null}">
 											<script>
@@ -101,8 +101,8 @@
 									</c:choose>
 									
 								</td>
-								<td>${vo.tempcode}</td>
-								<td>${vo.doc_status}</td>
+								<td style="text-align: center;">${vo.tempcode}</td>
+								<td style="text-align: center;">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

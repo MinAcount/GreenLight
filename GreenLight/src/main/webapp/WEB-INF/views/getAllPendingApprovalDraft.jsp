@@ -25,10 +25,10 @@
 						</colgroup>
 						<thead>
 							<tr style="width: 100%">
-								<th>제목</th>
-								<th>기안일</th>
-								<th>작성자</th>
-								<th>문서양식유형</th>
+								<th style="text-align: center;">제목</th>
+								<th style="text-align: center;">기안일</th>
+								<th style="text-align: center;">작성자</th>
+								<th style="text-align: center;">문서양식유형</th>
 							</tr>
 						</thead>
 						<tbody id="tableBody">
@@ -55,14 +55,14 @@
 							            </c:choose>
 									</a>
 								</td>
-								<td>
+								<td style="text-align: center;">
 									<script>
 								        var dDate = formatDate("${vo.draft_date}" );
 								        document.write(dDate);
 								    </script>
 								</td>
-								<td>${vo.empVo.name}</td>
-								<td>${vo.commVo.code_name}</td>
+								<td style="text-align: center;">${vo.empVo.name}</td>
+								<td style="text-align: center;">${vo.commVo.code_name}</td>
 							</tr>
 							</c:forEach>
 						</tbody>

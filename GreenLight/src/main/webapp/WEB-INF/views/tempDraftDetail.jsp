@@ -199,7 +199,7 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary " type="button"
-							style="margin-right: 5px;" onclick="updateContent()">임시저장</button>
+							style="margin-right: 5px;" onclick="saveTemp()">임시저장</button>
 						<button class="btn btn-primary " type="button"
 							style="width: 73.6px;" onclick="submissionValidation('01')">상신</button>
 					</div>
