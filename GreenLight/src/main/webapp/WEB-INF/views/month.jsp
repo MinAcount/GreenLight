@@ -193,11 +193,11 @@
 										style="flex: 3;"></span>
 								</div>
 								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;">위치</span> <input type="text"
-										id="location" name="location" class="form-control"
-										placeholder="위치" style="flex: 1.7;" value=""> <input
-										type="button" id="reserveRoom" name="reserveRoom"
-										class="form-control" value="회의실 예약" style="flex: 1;">
+									<span style="flex: 1;">위치</span> 
+									<input type="text" id="location" name="location" class="form-control" placeholder="위치" style="flex: 1.7;" value=""> 
+									<button id="reservationRoomModal" class="form-control" 
+									type="button" style="flex: 1;" data-bs-toggle="modal"
+										data-bs-target="#roomModal" onclick="roomInsertModal()">회의실 예약</button>
 								</div>
 							</div>
 							<div class="form-group" style="padding-top: 20px;">
@@ -319,8 +319,70 @@
 			</div>
 		</div>
 	</div>
+	<!-- 회의실 예약 모달 -->
+	<div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="reserveFormModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered modal-md custom-class">
+			<div class="modal-content border-0" style="width: 500px; padding: 20px; overflow-y: hidden;">
+				<div class="modal-header">
+					<h5 class="modal-title" id="reserveFormModalLabel">예약하기</h5>
+				</div>
+				<div class="modal-body">
+					<form action="./insertReserve.do" method="post" id="reserveForm">
+						<div style="display: flex; flex-direction: column; gap: 10px;">
+							<input type="hidden" class="form-control" style="flex: 3; border: none;" value="${loginVo.name}" readonly>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">예약일</span> <input type="text"
+										id="reserve_day" name="reserve_day" class="form-control"
+										style="flex: 3;">
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">예약시간</span> <input type="text" id="time"
+										class="form-control" style="flex: 3;">
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">회의실</span> <input type="text" id="cname"
+										name="cname" class="form-control"
+										style="flex: 3;">
+								</div>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 10px;">
+								<div style="display: flex; gap: 10px; align-items: center;">
+									<span style="flex: 1;">회의목적</span> <input type="text"
+										id="meetingtitle" name="meetingtitle" class="form-control"
+										placeholder="회의 목적" style="flex: 3;" value="">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary"
+						id="addReserveHandler">예약하기</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- 상세 일정 모달 -->
 	<div id="detailVieweModal"></div>
+	<!-- alertInsert 모달 -->
+	<div class="modal fade" id="alertInsertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="false">
+	    <div class="modal-dialog modal-dialog-centered custom-class">
+	        <div class="modal-content" style="width: 400px;">
+	            <div class="modal-body" style="padding: 30px">
+	                <p class="text-center" style="margin-top: 40px; margin-bottom: 40px;">제목을 입력해주세요</p>
+	                <div class="text-center" style="margin-top: 20px; margin-bottom: 20px;">
+	                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px;">닫기</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
 		crossorigin="anonymous"></script>
