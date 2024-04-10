@@ -373,7 +373,8 @@ public class DocumentController {
 		List<String> writerId = new ArrayList<String>();
 		if (orderno == lists.size() || appr_status.equals("03")) {
 			System.out.println("들어옴");
-			service.updateDocStatus(docMap);
+			service.updateDocStatus(docMap, null, null);
+//			service.updateDocStatus(docMap);
 //          vacationVo
 //         VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
 //         vacationService.registerVacation(vVo);

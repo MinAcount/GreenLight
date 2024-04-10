@@ -174,7 +174,6 @@
 							</div>
 						</div>
 						
-						
 						<!-- 서명 유효성처리 모달 -->
 						<div class="modal fade" data-bs-backdrop="static" id="staticBackdrop3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">

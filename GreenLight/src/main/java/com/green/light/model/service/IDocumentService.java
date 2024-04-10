@@ -6,6 +6,8 @@ import java.util.Map;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
+import com.green.light.vo.ScheduleVo;
+import com.green.light.vo.VacationVo;
 
 public interface IDocumentService {
 
@@ -52,7 +54,7 @@ public interface IDocumentService {
 	public DocumentVo getDocumentDetail(String docno);
 	
 	// 기안서 상태 업데이트
-	public int updateDocStatus(Map<String, Object> map);
+	public int updateDocStatus(Map<String, Object> map, VacationVo vVo, ScheduleVo scVo);
 	
 	// 기안서 내용 업데이트
 	public int updateContent(Map<String, Object> map);

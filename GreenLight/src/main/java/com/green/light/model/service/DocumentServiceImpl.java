@@ -12,10 +12,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.green.light.model.mapper.IApprovalDao;
 import com.green.light.model.mapper.IDocumentDao;
 import com.green.light.model.mapper.IFileStorageDao;
+import com.green.light.model.mapper.IScheduleDao;
 import com.green.light.model.mapper.ISignDao;
+import com.green.light.model.mapper.IVacationDao;
 import com.green.light.vo.ApprovalVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.FileStorageVo;
+import com.green.light.vo.ScheduleVo;
+import com.green.light.vo.VacationVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +35,10 @@ public class DocumentServiceImpl implements IDocumentService{
 	private IApprovalDao aDao;
 	@Autowired
 	private ISignDao sDao;
+	@Autowired
+	private IVacationDao vDao;
+	@Autowired
+	private IScheduleDao scDao;
 	
 	@Override
 	@Transactional
@@ -180,9 +188,14 @@ public class DocumentServiceImpl implements IDocumentService{
 
 
 	@Override
-	public int updateDocStatus(Map<String, Object> map) {
-		log.info("DocumentServiceImpl updateDocStatus 기안서 상태 업데이트 : {}", map);
-		return dao.updateDocStatus(map);
+	public int updateDocStatus(Map<String, Object> map, VacationVo vVo, ScheduleVo scVo) {
+		log.info("DocumentServiceImpl updateDocStatus 기안서 상태 업데이트 updateDocStatus, registerVacation, insertSchedule : {}/{}/{}", map, vVo, scVo);
+		int cnt = 0;
+		cnt += dao.updateDocStatus(map);
+		cnt += vDao.registerVacation(vVo);
+		cnt += scDao.insertSchedule(scVo);
+		
+		return cnt;
 	}
 
 
