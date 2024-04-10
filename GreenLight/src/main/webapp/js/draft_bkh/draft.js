@@ -1135,10 +1135,14 @@ function checkSign() {
             dangerConfirm.setAttribute("style", "display:block");
             document.getElementById("modalTitle").innerHTML = "등록된 서명 없음!"
             document.getElementById("modalContent").innerHTML = "기안서 작성을 위해서는 서명이 필요합니다.<br>서명 등록 페이지로 이동하시겠습니까?"
-            dangerConfirm.setAttribute("onclick","location.href='./signature.do'");
-         } else {
-            window.location.href = './draftWriteForm.do';
-         }
+            dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+            	dangerConfirm.style.display = "none";
+            })
+            dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
+            	window.location.href = "./signature.do";
+            })
+            
+         } 
       })
       .catch(error => {
          console.error('Error:', error); // 오류 처리
