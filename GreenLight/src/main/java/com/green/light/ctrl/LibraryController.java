@@ -44,7 +44,7 @@ public class LibraryController {
 		map.put("first", 1);
 		map.put("last", 10);
 		
-		List<DocumentVo> lists = service.getAllPendingApprovalDraftForPaging(map);
+		List<DocumentVo> lists = service.getAllPendingApprovalDraft(id);
 		
 		model.addAttribute("lists", lists);
 		return "getAllPendingApprovalDraft";
