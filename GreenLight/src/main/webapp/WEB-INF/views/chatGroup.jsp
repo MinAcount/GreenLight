@@ -11,7 +11,6 @@
 		}
 		
 		#allChatDiv {
-			justify-content: space-between;
 			width: 40%;
 			height: 900px;
 			max-height: 900px;
@@ -19,7 +18,9 @@
 		
 		#chatList{
 			list-style:none;
-			overflow-y: auto;
+			overflow-y: scroll;
+			min-height: 826px;
+			padding-top: 18px;
 		}
 		
 		#chatRoom {
@@ -231,7 +232,6 @@
 					<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
 						data-bs-target="#chatModal" onclick="closePeople();closeSettingAnother();">생성</button>
 					</div>
-					<br/>
 					<div id="chatList">											
 					</div>
 					<div style="display: flex; flex-direction: row; justify-content: space-between;">
