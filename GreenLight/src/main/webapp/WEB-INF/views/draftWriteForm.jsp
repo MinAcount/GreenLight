@@ -29,7 +29,7 @@
                   aria-labelledby="exampleModalLabel" aria-hidden="true"
                   data-bs-backdrop="static">
                   <div class="modal-dialog jstreeModal">
-                     <div class="modal-content" style="width: 800px; height: 600px;">
+                     <div class="modal-content" style="width: 800px; height: 630px;">
                         <div class="modal-header">
                            <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -57,9 +57,9 @@
                               </div>
                            </div>
                            <div class="modal-footer">
-                              <button class="btn btn-secondary btn-sm" type="button"
+                              <button class="btn btn-secondary" type="button"
                                  data-bs-dismiss="modal">취소</button>
-                              <button class="btn btn-primary btn-sm" type="button"
+                              <button class="btn btn-primary" type="button"
                                  style="margin-left: 10px;" data-bs-dismiss="modal"
                                  onclick="selectComplete()">완료</button>
                            </div>
@@ -104,7 +104,7 @@
                                  </div>
                                  <div style="width: 50px; text-align: center;">
                                     <button id="addEmp" class="btn btn-primary"
-                                       style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+                                       style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
                                  </div>
                                  <!-- 선택된 결재자들 -->
                                  <div id="apr_chk"
@@ -153,7 +153,7 @@
 											</div>
 											<div style="width: 50px; text-align: center;">
 												<button id="addRef" class="btn btn-primary"
-													style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+													style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
 											</div>
 											<!-- 선택된 참조자들 -->
 											<div id="ref_chk"
@@ -223,9 +223,9 @@
                      <nav class="nav nav-borders">
                         <ul
                            style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                           <li id="getApproval" class="nav-link active ms-0"
+                           <li style="cursor: pointer;" id="getApproval" class="nav-link active ms-0"
                               onclick=" setActive(this); getApprLine();">결재선</li>
-                           <li class="nav-link" id="getReference"
+                           <li style="cursor: pointer;" class="nav-link" id="getReference"
                               onclick=" setActive(this); getRefLine();">참조자</li>
                         </ul>
                      </nav>

@@ -43,6 +43,7 @@ import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.FileStorageVo;
 import com.green.light.vo.NotificationVo;
+import com.green.light.vo.PageVo;
 import com.green.light.vo.SignVo;
 import com.green.light.vo.VacationVo;
 
@@ -63,8 +64,45 @@ public class DocumentController {
 	private INotificationService notiService;
 	@Autowired
 	private IFileStorageService fileService;
-	@Autowired
-	private IVacationService vacationService;
+	
+	@PostMapping(value = "/page.do")
+	@ResponseBody
+	public Map<String, Object> page(@RequestParam(name="page") int selectPage,
+									HttpSession session,
+									Model model){
+		log.info("DocumentController page POST /page.do 페이징처리 :{}",selectPage);
+		log.info("session 확인 {} \n {}", session.getAttribute("loginVo"),session.getAttribute("row"));
+		
+		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
+		String id = loginVo.getId();
+		PageVo pVo = null;
+		if((PageVo)session.getAttribute("row") == null) {
+			pVo = new PageVo();
+		} else {
+			pVo = (PageVo)session.getAttribute("row");
+		}
+		
+		pVo.setTotalCount(service.getAllPendingApprovalDraftCount(id));
+		pVo.setCountList(10);
+		pVo.setCountPage(5);
+		pVo.setTotalPage(pVo.getTotalCount());
+		pVo.setPage(selectPage);
+		pVo.setStagePage(selectPage);
+		pVo.setEndPage(pVo.getCountPage());
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("id", id);
+		map.put("first", pVo.getPage()*pVo.getCountList() - (pVo.getCountList()-1));
+		map.put("last", pVo.getPage()*pVo.getCountList());
+		
+		List<DocumentVo> lists = service.getAllPendingApprovalDraftForPaging(map);
+		Map<String, Object> result_map = new HashMap<String, Object>();
+		result_map.put("lists", lists);
+		result_map.put("row", pVo);
+		result_map.put("memId", loginVo.getId());
+		return result_map;
+	}
 	
 	@GetMapping(value = "/getFiles.do")
 	@ResponseBody
@@ -336,6 +374,9 @@ public class DocumentController {
 		if (orderno == lists.size() || appr_status.equals("03")) {
 			System.out.println("들어옴");
 			service.updateDocStatus(docMap);
+//          vacationVo
+//         VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
+//         vacationService.registerVacation(vVo);
 			writerId.add(writer_id);
 			if (appr_status.equals("03") && orderno == lists.size()
 					|| appr_status.equals("03") && orderno != lists.size()) {
@@ -350,10 +391,6 @@ public class DocumentController {
 			writerId.add(nextId);
 			notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
 			notiService.insertNoti(notiMap, writerId);
-			
-//			 vacationVo
-//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
-//			vacationService.registerVacation(vVo);
 		}
 
 		SignVo signVo = signService.selectMainSign((String) map.get("emp_id"));

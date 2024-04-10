@@ -50,7 +50,16 @@ public class DocumentJUnitTest {
 //		System.out.println("----------------------------"+list);
 //		assertNotEquals(0, list.size());
 		
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("id", "2403110902");
+//		map.put("first", 1);
+//		map.put("last", 5);
+//		List<DocumentVo> lists = service.getAllPendingApprovalDraftForPaging(map);
+//		assertEquals(5, lists.size());
+		
+		int rows = service.getAllPendingApprovalDraftCount("2403110902");
+		System.out.println("rows," + rows);
+		assertNotEquals(0, rows);
 	}
-	
 	
 }

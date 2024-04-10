@@ -25,6 +25,16 @@ public class DocumentDaoImpl implements IDocumentDao{
 	public int insertDocument(DocumentVo docVo) {
 		return sqlsession.insert(NS+"insertDocument", docVo);
 	}
+	
+	@Override
+	public int getAllPendingApprovalDraftCount(String id) {
+		return sqlsession.selectOne(NS+"getAllPendingApprovalDraftCount",id);
+	}
+	
+	@Override
+	public List<DocumentVo> getAllPendingApprovalDraftForPaging(Map<String, Object> map) {
+		return sqlsession.selectList(NS+"getAllPendingApprovalDraftForPaging", map);
+	}
    
    @Override
    public List<DocumentVo> getAllPendingApprovalDraft(String id) {

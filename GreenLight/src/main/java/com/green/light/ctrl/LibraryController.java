@@ -1,5 +1,6 @@
 package com.green.light.ctrl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +39,12 @@ public class LibraryController {
 		log.info("LibraryController GET getAllPendingApprovalDraft.do 결재대기문서함 이동 후 전체조회");
 		EmployeeVo loginVo = (EmployeeVo)session.getAttribute("loginVo");
 		String id = loginVo.getId();
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		map.put("first", 1);
+		map.put("last", 10);
 		
-		List<DocumentVo> lists = service.getAllPendingApprovalDraft(id);
+		List<DocumentVo> lists = service.getAllPendingApprovalDraftForPaging(map);
 		
 		model.addAttribute("lists", lists);
 		return "getAllPendingApprovalDraft";
