@@ -319,8 +319,10 @@ $(function() {
 				template_preview.innerHTML = "";
 				template_preview.appendChild(templateImg);
 				var tempcode = document.getElementById("tempcode").value;
+      
 				if(tempcode == '01'){ ////////////////////////////////////////////수정
-				let daterangepickerInput = document.getElementById("daterangepicker");
+
+          let daterangepickerInput = document.getElementById("daterangepicker");
 				daterangepickerInput.remove();
 					
 				console.log("div_before:", div_before);
@@ -332,6 +334,7 @@ $(function() {
 	});
 
 });
+
 
 
 //참조자 삭제
@@ -698,67 +701,69 @@ async function selectComplete() {
 			         console.log(data1);
 			var templateArea = document.getElementById("templateArea");
 			templateArea.innerHTML = data1.vo.content;
-			document.getElementById("tempcode").value = data1.vo.tempcode;
-			var save_sign = data1.sVo.save_sign;
-			document.getElementById("save_sign").value = save_sign;
-			var tempcode = document.getElementById("tempcode").value;
-				console.log("tempcode",tempcode);
-				
-				// input hidden 태그에 뿌려줄 값 조회
-			var loginVo_name = document.getElementById("loginVo_name").value;
-			var deptVo_dname = document.getElementById("deptVo_dname").value;
-			var loginVo_id = document.getElementById("loginVo_id").value;
-			var loginVo_spot = document.getElementById("loginVo_spot").value;
-			
-			
-			console.log("save_sign", save_sign)
-			console.log("loginVo_name:", loginVo_name);
-			console.log("deptVo_dname:", deptVo_dname);
-			console.log("loginVo_id:", loginVo_id);
-			console.log("loginVo_spot:", loginVo_spot);
+      
+			         document.getElementById("tempcode").value = data1.vo.tempcode;
+         var save_sign = data1.sVo.save_sign;
+         document.getElementById("save_sign").value = save_sign;
+         var tempcode = document.getElementById("tempcode").value;
+            console.log("tempcode",tempcode);
+            
+            // input hidden 태그에 뿌려줄 값 조회
+         var loginVo_name = document.getElementById("loginVo_name").value;
+         var deptVo_dname = document.getElementById("deptVo_dname").value;
+         var loginVo_id = document.getElementById("loginVo_id").value;
+         var loginVo_spot = document.getElementById("loginVo_spot").value;
+         
+         
+         console.log("save_sign", save_sign)
+         console.log("loginVo_name:", loginVo_name);
+         console.log("deptVo_dname:", deptVo_dname);
+         console.log("loginVo_id:", loginVo_id);
+         console.log("loginVo_spot:", loginVo_spot);
 
-			// 값이 뿌려질 input hidden 태그 탐색
-			var name = document.getElementById("name");
-			var dname = document.getElementById("dname");
-			var writer_id = document.getElementById("writer_id");
-			console.log("name:", name);
-			console.log("dname:", dname);
-			console.log("writer_id:", writer_id);
-				
-				name.textContent = loginVo_name;
-			dname.textContent = deptVo_dname;
-			writer_id.value = loginVo_id;
+         // 값이 뿌려질 input hidden 태그 탐색
+         var name = document.getElementById("name");
+         var dname = document.getElementById("dname");
+         var writer_id = document.getElementById("writer_id");
+         console.log("name:", name);
+         console.log("dname:", dname);
+         console.log("writer_id:", writer_id);
+            
+            name.textContent = loginVo_name;
+         dname.textContent = deptVo_dname;
+         writer_id.value = loginVo_id;
 
-			// 기안 뿌리기
-			var today = new Date();
+         // 기안 뿌리기
+         var today = new Date();
 
-			// 연도, 월, 일을 문자열로 변환하여 조합
-			var year = today.getFullYear();
-			var month = ('0' + (today.getMonth() + 1)).slice(-2);
-			var day = ('0' + today.getDate()).slice(-2);
-			var dateString = year + '-' + month + '-' + day;
-			console.log("dateString", dateString)
+         // 연도, 월, 일을 문자열로 변환하여 조합
+         var year = today.getFullYear();
+         var month = ('0' + (today.getMonth() + 1)).slice(-2);
+         var day = ('0' + today.getDate()).slice(-2);
+         var dateString = year + '-' + month + '-' + day;
+         console.log("dateString", dateString)
 
-			// input 요소의 value에 할당
-			document.querySelector("#draft_date").textContent = dateString;
-			
-			
-			
-			// 기안란 직위, 이름, 기안일 textContent
-			document.querySelector("#drafter_spot").textContent = loginVo_spot;
-			document.querySelector("#drafter_name").textContent = loginVo_name;
-			document.querySelector("#drafter_draft_date").textContent = dateString;
-				
-			
-			
-			
-				
-			if (tempcode == '01') {
-				
-				var vacVo_remaining_leave = document.getElementById("vacVo_remaining_leave");
-				console.log("vacVo_remaining_leave:", vacVo_remaining_leave.value);
-				document.querySelector("#remaining_leave").textContent = vacVo_remaining_leave.value;
-				
+         // input 요소의 value에 할당
+         document.querySelector("#draft_date").textContent = dateString;
+         
+         
+         
+         // 기안란 직위, 이름, 기안일 textContent
+         document.querySelector("#drafter_spot").textContent = loginVo_spot;
+         document.querySelector("#drafter_name").textContent = loginVo_name;
+         document.querySelector("#drafter_draft_date").textContent = dateString;
+            
+         
+         
+         
+            
+         if (tempcode == '01') {
+            
+            var vacVo_remaining_leave = document.getElementById("vacVo_remaining_leave");
+            console.log("vacVo_remaining_leave:", vacVo_remaining_leave.value);
+            document.querySelector("#remaining_leave").textContent = vacVo_remaining_leave.value;
+            
+
 				var getsu = 0;
 				var weekendCount = 0;
 
@@ -911,43 +916,43 @@ async function selectComplete() {
 				});
 
 			}
-
+      
+      
 			if (tempcode == '02') { ////////////////////////////////////////수정
-				var write_date = document.querySelector("#write_date"); /////////////////////////////////////////////수정
-				write_date.textContent = dateString; /////////////////////////////////////////////수정
-				console.log("write_date", write_date); /////////////////////////////////////////////수정
-				console.log("tempcode", tempcode)
-			
-}
-			document.getElementById("apr_chk").innerHTML = "";
-			//         console.log("tempcode:",data1.tempcode)
-			
+	            var write_date = document.querySelector("#write_date"); /////////////////////////////////////////////수정
+	            write_date.textContent = dateString; /////////////////////////////////////////////수정
+	            console.log("write_date", write_date); /////////////////////////////////////////////수정
+	            console.log("tempcode", tempcode)
+	         
+			}
+	         document.getElementById("apr_chk").innerHTML = "";
+	         //         console.log("tempcode:",data1.tempcode)
 
 			
 
 
-
 			
 
+			
 
 			if (tempcode == '01') { /////////////////////////////////////////////수정
-				// 공가 선택시 신청연차 초기화
-				document.querySelector("#getsuFlag").addEventListener("change", function() {
-					console.log("getsuFlag()");
-					console.log("this.value:", this.value);
-					if (this.value == 'Y') {//공가
-						console.log("공가선택")
-						document.getElementById("getsu").textContent = '0';
-					} else {
-						console.log("연차선택")
-						if (isNaN(parseInt(getsu))) {
-							document.getElementById("getsu").textContent = 0;
-						} else { // NaN - weekendCount는 NaN 이기 때문에 else문으로 처리한다
-							document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
-						}
-					}
-				});
-			}/////////////////////////////////////////////수정
+            // 공가 선택시 신청연차 초기화
+            document.querySelector("#getsuFlag").addEventListener("change", function() {
+               console.log("getsuFlag()");
+               console.log("this.value:", this.value);
+               if (this.value == 'Y') {//공가
+                  console.log("공가선택")
+                  document.getElementById("getsu").textContent = '0';
+               } else {
+                  console.log("연차선택")
+                  if (isNaN(parseInt(getsu))) {
+                     document.getElementById("getsu").textContent = 0;
+                  } else { // NaN - weekendCount는 NaN 이기 때문에 else문으로 처리한다
+                     document.getElementById("getsu").textContent = parseInt(getsu) - weekendCount;
+                  }
+				}
+            });
+         }/////////////////////////////////////////////수정
 
 		} catch (error) {
 			console.log("Error..", error);

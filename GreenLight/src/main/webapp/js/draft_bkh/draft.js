@@ -64,36 +64,35 @@ function submissionValidation(gubun) {
    let urgency = document.querySelector("#urgency").value;
    console.log("urgency:", urgency);
 
-   //null체크
+     //null체크
    if (title.value == '') {
       var dangerAlert = document.getElementById("dangerAlert");
-		console.log("dangerAlert",dangerAlert);
-		var strong = dangerAlert.getElementsByTagName("strong")[0];
-		strong.textContent = "제목을 입력하세요!"
-		dangerAlert.querySelector("#modalContent").textContent = "제목을 입력하세요";
-		dangerAlert.style.display = "block";
-		dangerAlert.querySelector("button").addEventListener('click',function(){
-			dangerAlert.style.display = "none";
-		})
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "제목을 입력하세요!"
+      dangerAlert.querySelector("#modalContent").textContent = "제목을 입력하세요";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
       title.focus();
    } else if (tempcode == '01') {/////////////////////////////////////////////수정
-		if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == ''){
-			var dangerAlert = document.getElementById("dangerAlert");
-		console.log("dangerAlert",dangerAlert);
-		var strong = dangerAlert.getElementsByTagName("strong")[0];
-		strong.textContent = "날짜를 입력하세요!"
-		dangerAlert.querySelector("#modalContent").textContent = "날짜를 선택해 입력하세요.";
-		dangerAlert.style.display = "block";
-		dangerAlert.querySelector("button").addEventListener('click',function(){
-			dangerAlert.style.display = "none";
-		})
-			
-			
+      if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == ''){
+         var dangerAlert = document.getElementById("dangerAlert");
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "날짜를 입력하세요!"
+      dangerAlert.querySelector("#modalContent").textContent = "날짜를 선택해 입력하세요.";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
+         
       daterangepicker.focus();
-		}
-		else {
-			insertDocument(gubun);
-		}
+      }
+      else {
+         insertDocument(gubun);
+      }
    } else {
       insertDocument(gubun);
    }
@@ -195,12 +194,12 @@ function saveTemp(){
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
       dangerConfirm.setAttribute("style","display:block");
       dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
-	insertDocument("04");
-	dangerConfirm.style.display = "none";
-})
-	dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
-		dangerConfirm.style.display = "none";
-	})
+		insertDocument("04");
+		   dangerConfirm.style.display = "none";
+		})
+	   dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+	      dangerConfirm.style.display = "none";
+	   })
 }
 
 
@@ -273,37 +272,41 @@ function insertDocument(gubun) {
          input.remove();
          //      input.setAttribute("value",input.value);
          //      input.setAttribute("readonly", "readonly");
-
+		
       })
       
-      if(tempcode == '02'){ ////////////////////////////////수정
-	console.log("tempcode 02진입");
-         var inputs = templateArea.querySelectorAll("input[type='number']");
-      console.log("inputs", inputs)
-      inputs.forEach(function(input) {
-         console.log(input.value);
-         var newPTag = document.createElement("P");
-         input.parentElement.appendChild(newPTag);
-         console.log("input", input.parentElement);
-         if (input.value != null) {
-            newPTag.textContent = input.value;
-            console.log("newPTag", newPTag.textContent);
-         }
-         input.remove();
-         //      input.setAttribute("value",input.value);
-         //      input.setAttribute("readonly", "readonly");
-
-      })
-	var expenseCats = document.getElementsByName("expenseCat");
-	expenseCats.forEach(function(expenseCat){
-		var newPTag = document.createElement("p");
-    expenseCat.parentElement.appendChild(newPTag);
-	newPTag.textContent = expenseCat.value;
-	expenseCat.remove();
-	})
+      		
 	
-}
-
+	       if(tempcode == '02'){ ////////////////////////////////수정
+		   console.log("tempcode 02진입");
+		   
+		      var inputs = templateArea.querySelectorAll("input[type='number']");
+	      console.log("inputs", inputs)
+	      inputs.forEach(function(input) {
+	         console.log(input.value);
+	         var newPTag = document.createElement("P");
+	         input.parentElement.appendChild(newPTag);
+	         console.log("input", input.parentElement);
+	         if (input.value != null) {
+	            newPTag.textContent = input.value;
+	            console.log("newPTag", newPTag.textContent);
+	         }
+	         input.remove();
+	         //      input.setAttribute("value",input.value);
+	         //      input.setAttribute("readonly", "readonly");
+	
+	      })
+		   
+		   var expenseCats = document.getElementsByName("expenseCat");
+		   expenseCats.forEach(function(expenseCat){
+		      var newPTag = document.createElement("P");
+		    expenseCat.parentElement.appendChild(newPTag);
+		   newPTag.textContent = expenseCat.value;
+		   expenseCat.remove();
+		   })
+		   
+		}
+	
 	if(tempcode == '01'){
 		console.log("tempcode 01진입")
       /*vacation table*/
@@ -606,15 +609,15 @@ function insertDocument(gubun) {
       console.log("구분 04===========")
       
        if(tempcode == '02'){ ////////////////////////////////수정
-	console.log("tempcode 02진입");
-	var expenseCat = document.getElementById("expenseCat");
-	var options = expenseCat.querySelectorAll("option");
-	options.forEach(function(option){
-		if(option.value == expenseCat.value){
-			option.setAttribute("selected","selected");
-		}
-	})
-}
+	   console.log("tempcode 02진입");
+	   var expenseCat = document.getElementById("expenseCat");
+	   var options = expenseCat.querySelectorAll("option");
+	   options.forEach(function(option){
+	      if(option.value == expenseCat.value){
+	         option.setAttribute("selected","selected");
+	      }
+	   })
+	}
       
       
       var templateArea = document.getElementById("templateArea"); ///////////////////////////////수정
@@ -622,8 +625,9 @@ function insertDocument(gubun) {
 //      console.log("inputs", inputs)
       inputs.forEach(function(input) {
          console.log(input.value);
-		input.setAttribute("value",input.value);
+      input.setAttribute("value",input.value);
       })
+
       
       var titleInput = document.getElementsByName("title")[0];
       titleInput.setAttribute("value", title);
@@ -806,15 +810,18 @@ function addExpenseDetail() {
          console.log("값을 입력하세요")
       }
    } else {
-	var dangerAlert = document.getElementById("dangerAlert");
-		console.log("dangerAlert",dangerAlert);
-		var strong = dangerAlert.getElementsByTagName("strong")[0];
-		strong.textContent = "추가 할 수 없습니다!"
-		dangerAlert.querySelector("#modalContent").textContent = "10줄까지만 추가 가능합니다.";
-		dangerAlert.style.display = "block";
-		dangerAlert.querySelector("button").addEventListener('click',function(){
-			dangerAlert.style.display = "none";
-		})
+
+     var dangerAlert = document.getElementById("dangerAlert");
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "추가 할 수 없습니다!"
+      dangerAlert.querySelector("#modalContent").textContent = "10줄까지만 추가 가능합니다.";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
+	
+	
       console.log("10개까지밖에 안돼용")
    }
    
@@ -843,6 +850,7 @@ function deleteExpenseDetail() {
     });
     console.log("총 합계:", totalAmount);
     document.getElementById("totalAmount").textContent = totalAmount;
+   
 }
 
 async function rejectApproval() {
@@ -1102,7 +1110,7 @@ async function approve() {
       console.error('오류 발생:', error);
    }
 
-//   window.location.href = "./getAllPendingApprovalDraft.do"
+   window.location.href = "./getAllPendingApprovalDraft.do"
 
 }
 

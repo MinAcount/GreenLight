@@ -27,10 +27,7 @@
 					<input type="hidden" id="docno" value="${docVo.docno}">
 				<hr class="mt-0 mb-5">
 
-				<div
-					style="display: flex; flex-direction: row; justify-content: flex-end;">
-					
-					
+				<div style="display: flex; flex-direction: row; justify-content: flex-end;">
 					<!-- 문서양식모달 -->
 					<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
 						<div class="modal-dialog">

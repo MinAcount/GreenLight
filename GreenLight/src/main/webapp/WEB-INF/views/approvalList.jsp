@@ -21,7 +21,7 @@
          		<div>
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li style="cursor: pointer;"class="nav-link active ms-0" onclick="allApprovalList(${loginVo.id}); setActive(this)">전체</li>
+                             <li style="cursor: pointer;"class="nav-link active ms-0" onclick="allApprovalList(${loginVo.id}); setActive(this)">전체</li>
                             <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('01'); setActive(this)">진행</li>
                             <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('02'); setActive(this)">승인</li>
                             <li style="cursor: pointer;"class="nav-link" onclick="approvalListByDocStatus('03'); setActive(this)">반려</li>
@@ -45,18 +45,25 @@
          	<hr class="mt-0 mb-5">
 			<div>
 				<input type="hidden" value="${loginVo.id}" id="id">
-				<table class="datatable-table">
+				<table class="datatable-table" id="datatablesSimple2">
 					<thead>
 						<tr style="width: 100%;">
 							<th style="width: 18.5%; text-align: center;">제목</th>
-							<th style="width: 7%; text-align: center;">작성자</th>
-							<th style="width: 10%; text-align: center;">기안일</th>
-							<th style="width: 10%; text-align: center;">완료일</th>
-							<th style="width: 12.5%; text-align: center;">문서양식유형</th>
-							<th style="width: 10.5%; text-align: center;">기안서상태</th>
+		                     <th style="width: 7%; text-align: center;">작성자</th>
+		                     <th style="width: 10%; text-align: center;">기안일</th>
+		                     <th style="width: 10%; text-align: center;">완료일</th>
+		                     <th style="width: 12.5%; text-align: center;">문서양식유형</th>
+		                     <th style="width: 10.5%; text-align: center;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
+						<c:choose>
+						<c:when test="${empty lists || lists.size() eq 0 }">
+						<tr>
+							<td style="text-align: center;" colspan="6"><b>표시할 기안서가 없습니다..</b></td>
+						</tr>
+						</c:when>
+						<c:otherwise>
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr>
 								<td>
@@ -81,13 +88,13 @@
 									</a>
 								</td>
 								<td style="text-align: center;">${vo.empVo.getName()}</td>
-								<td style="text-align: center;">
-									<script>
-								        var dDate = formatDate("${vo.draft_date}");
-								        document.write(dDate);
-								    </script>
-								</td style="text-align: center;">
-								<td style="text-align: center;">
+		                        <td style="text-align: center;">
+		                           <script>
+		                                var dDate = formatDate("${vo.draft_date}");
+		                                document.write(dDate);
+		                            </script>
+		                        </td>
+		                        <td style="text-align: center;">
 									<c:choose>
 										<c:when test="${vo.appr_date != null}">
 											<script>
@@ -102,9 +109,12 @@
 									
 								</td>
 								<td style="text-align: center;">${vo.tempcode}</td>
+                        		<td style="text-align: center;">${vo.doc_status}</td>
 								<td style="text-align: center;">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>
@@ -137,8 +147,12 @@
       </div>
    </div>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-   <script src="js/scripts.js"></script>
-
-   
+	<script src="js/scripts.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
+		crossorigin="anonymous"></script>
+	<script src="js/datatables/datatables-simple-demo.js"></script>
+	<script src="js/emp_ljw/emp.js"></script>
+	
 </body>
 </html>

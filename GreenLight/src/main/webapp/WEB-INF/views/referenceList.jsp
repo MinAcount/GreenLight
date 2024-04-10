@@ -49,14 +49,21 @@
 					<thead>
 						<tr style="width: 100%;">
 							<th style="width: 18.5%; text-align: center;">제목</th>
-							<th style="width: 7%; text-align: center;">작성자</th>
-							<th style="width: 10%; text-align: center;">기안일</th>
-							<th style="width: 10%; text-align: center;">완료일</th>
-							<th style="width: 12.5%; text-align: center;">문서양식유형</th>
-							<th style="width: 10.5%; text-align: center;">기안서상태</th>
+		                     <th style="width: 7%; text-align: center;">작성자</th>
+		                     <th style="width: 10%; text-align: center;">기안일</th>
+		                     <th style="width: 10%; text-align: center;">완료일</th>
+		                     <th style="width: 12.5%; text-align: center;">문서양식유형</th>
+		                     <th style="width: 10.5%; text-align: center;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
+						<c:choose>
+						<c:when test="${empty lists || lists.size() eq 0}">
+						<tr>
+							<td style="text-align: center;"><b>표시할 기안서가 없습니다..</b></td>
+						</tr>
+						</c:when>
+						<c:otherwise>
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr>
 								<td>
@@ -81,13 +88,13 @@
 									</a>
 								</td>
 								<td style="text-align: center;">${vo.empVo.getName()}</td>
-								<td>
-									<script>
-								        var dDate = formatDate("${vo.draft_date}" );
-								        document.write(dDate);
-								    </script>
-								</td>
-								<td style="text-align: center;">
+		                        <td>
+		                           <script>
+		                                var dDate = formatDate("${vo.draft_date}" );
+		                                document.write(dDate);
+		                            </script>
+		                        </td>
+		                        <td style="text-align: center;">
 									<c:choose>
 										<c:when test="${vo.appr_date != null}">
 											<script>
@@ -102,9 +109,11 @@
 									
 								</td>
 								<td style="text-align: center;">${vo.tempcode}</td>
-								<td style="text-align: center;">${vo.doc_status}</td>
+                        		<td style="text-align: center;">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
+						</c:otherwise>
+						</c:choose>
 					</tbody>
 				</table>
 			</div>

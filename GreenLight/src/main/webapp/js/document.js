@@ -10,14 +10,14 @@ window.onload = function() {
 		console.log("fileTdImg", fileTdImgs[i]);
 		fileTdImgs[i].addEventListener("click", function() {
 			var primaryConfirm = document.getElementById("primaryConfirm");
-      primaryConfirm.querySelector("#modalTitle").textContent = "다운로드";
-      primaryConfirm.querySelector("#modalContent").innerHTML = "다운로드 하시겠습니까?";
-       primaryConfirm.style.display = "block";
-      primaryConfirm.querySelector("#firstBtn").addEventListener('click', function() {
-    primaryConfirm.style.display = "none";
-});
-      primaryConfirm.querySelector("#secondBtn").addEventListener('click',function(){
-	console.log("파일 다운로드")
+		      primaryConfirm.querySelector("#modalTitle").textContent = "다운로드";
+		      primaryConfirm.querySelector("#modalContent").innerHTML = "다운로드 하시겠습니까?";
+		       primaryConfirm.style.display = "block";
+		      primaryConfirm.querySelector("#firstBtn").addEventListener('click', function() {
+				    primaryConfirm.style.display = "none";
+				});
+		      primaryConfirm.querySelector("#secondBtn").addEventListener('click',function(){
+		   console.log("파일 다운로드")
 				//downloadFile(data);
 				//window.location = 'data:png/image;base64,' + data.payload;
 				console.log("fileTdImg click()");
@@ -37,12 +37,11 @@ window.onload = function() {
 //					.catch(error => {
 //						console.error('There was a problem with your fetch operation:', error);
 //					});
-	primaryConfirm.style.display = "none";
-})
-	dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
-		dangerConfirm.style.display = "none";
-	})
-			
+				   primaryConfirm.style.display = "none";
+			})
+			   dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+			      dangerConfirm.style.display = "none";
+			   })
 
 		})
 	}
@@ -129,7 +128,7 @@ function draftListByDocStatus(val) {
             tableHTML += "</a></td>";
          }
 
-         tableHTML += "<td style='text-align: center;'>" + item.empVo.name + "</td>" +
+          tableHTML += "<td style='text-align: center;'>" + item.empVo.name + "</td>" +
             "<td style='text-align: center;'>" + formatDate(item.draft_date) + "</td>" +
             "<td style='text-align: center;'>" + item.tempcode + "</td>" +
             "<td style='text-align: center;'>" + item.doc_status + "</td>" +
@@ -232,7 +231,7 @@ function allApprovalList(val) {
          } else {
             tableHTML += "</a></td>";
          }
-         tableHTML += "<td style='text-align: center;'>" + item.empVo.name + "</td>" +
+          tableHTML += "<td style='text-align: center;'>" + item.empVo.name + "</td>" +
             "<td style='text-align: center;'>" + formatDate(item.draft_date) + "</td>" +
             "<td style='text-align: center;'>" + (item.appr_date != null ? formatDate(item.appr_date) : '-') + "</td>" +
             "<td style='text-align: center;'>" + item.tempcode + "</td>" +

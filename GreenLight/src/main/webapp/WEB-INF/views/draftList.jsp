@@ -23,10 +23,10 @@
          		<div>
          			<nav class="nav nav-borders">
          				<ul style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                            <li style="cursor: pointer;" class="nav-link active ms-0" onclick="allDraftList(${loginVo.id}); setActive(this)">전체</li>
+							<li style="cursor: pointer;" class="nav-link active ms-0" onclick="allDraftList(${loginVo.id}); setActive(this)">전체</li>
                             <li style="cursor: pointer;"class="nav-link" id="doc_status1" onclick="draftListByDocStatus('01'); setActive(this)">진행</li>
                             <li style="cursor: pointer;"class="nav-link" id="doc_status2" onclick="draftListByDocStatus('02'); setActive(this)">승인</li>
-                            <li style="cursor: pointer;"class="nav-link" id="doc_status3" onclick="draftListByDocStatus('03'); setActive(this)">반려</li>
+                            <li style="cursor: pointer;"class="nav-link" id="doc_status3" onclick="draftListByDocStatus('03'); setActive(this)">반려</li></ul>
                         </ul>
                     </nav>
                     
@@ -52,13 +52,20 @@
 					<thead>
 						<tr style="width: 100%;">
 							<th style="width: 23.5%; text-align: center;">제목</th>
-							<th style="width: 9%; text-align: center;">작성자</th>
-							<th style="width: 10%; text-align: center;">기안일</th>
-							<th style="width: 14%; text-align: center;">문서양식유형</th>
-							<th style="width: 10%; text-align: center;">기안서상태</th>
+		                     <th style="width: 9%; text-align: center;">작성자</th>
+		                     <th style="width: 10%; text-align: center;">기안일</th>
+		                     <th style="width: 14%; text-align: center;">문서양식유형</th>
+		                     <th style="width: 10%; text-align: center;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody id="tableBody">
+						<c:choose>
+						<c:when test="${empty lists || lists.size() eq 0 }">
+						<tr>
+							<td style="text-align: center;" colspan="5"><b>표시할 기안서가 없습니다..</b></td>
+						</tr>
+						</c:when>
+						<c:otherwise>
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr class="item">
 								<td class="title">
@@ -83,16 +90,19 @@
 									</a>
 								</td>
 								<td style="text-align: center;" class="name">${vo.empVo.getName()}</td>
-								<td style="text-align: center;">
-									<script>
-								        var dDate = formatDate("${vo.draft_date}" );
-								        document.write(dDate);
-								    </script>
-								</td>
-								<td style="text-align: center;" class="tempcode">${vo.tempcode}</td>
-								<td style="text-align: center;" class="doc_status">${vo.doc_status}</td>
+		                        <td style="text-align: center;">
+		                           <script>
+		                                var dDate = formatDate("${vo.draft_date}" );
+		                                document.write(dDate);
+		                            </script>
+		                        </td>
+		                        <td style="text-align: center;" class="tempcode">${vo.tempcode}</td>
+		                        <td style="text-align: center;" class="doc_status">${vo.doc_status}</td>
 							</tr>
-						</c:forEach>
+						</c:forEach>	
+						</c:otherwise>
+						</c:choose>
+						
 					</tbody>
 				</table>
 			</div>

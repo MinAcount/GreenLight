@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <body>
-	<div id="layoutSidenav_nav">
+   <div id="layoutSidenav_nav">
          <nav class="sidenav shadow-right sidenav-light">
             <div class="sidenav-menu">
                <div class="nav accordion" id="accordionSidenav">
@@ -34,7 +34,7 @@
                      </nav>
                   </div>
                   <a class="nav-link collapsed" href="headAndDept.do"><div class="nav-link-icon">
-                  	<i data-feather="users"></i></div>
+                     <i data-feather="users"></i></div>
                     부서관리
                   </a>
                   
@@ -42,30 +42,30 @@
                   </c:if>
 <!-- 전자결재 -->
                   <a style="cursor: pointer;" class="nav-link collapsed" onclick="checkSign()"><div class="nav-link-icon">
-                  	<i data-feather="file"></i></div>
+                     <i data-feather="file"></i></div>
                     새 기안서 작성
                     </a>
                     <div class="modal " data-bs-backdrop="static" id="signSetting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-						<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
-			        		<div class="modal-content">
-			            		<div class="modal-header text-danger">
-			                		<div class="modal-title" id="exampleModalLabel">
-			                			<i data-feather="check-circle" id="toastFeather"></i>
-					        			<strong class="me-auto">서명을 등록하세요!</strong>
-			                		</div>
-			                		<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-			            		</div>
-			            		<div class="modal-body">기안서 작성을 위한 등록된 서명이 없습니다. 서명 등록을 먼저 해주세요.<br>
-			            			서명을 등록하러 가시겠습니까?
-			            			<br><br>
-			            			<div class="modal-footer">
-										<button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
-									    <button style="margin-left: 10px;" class="btn btn-danger" type="button">Save changes</button>
-								    </div>
-			            		</div>
-				        	</div>
-				    	</div>
-					</div>
+                  <div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
+                       <div class="modal-content">
+                           <div class="modal-header text-danger">
+                               <div class="modal-title" id="exampleModalLabel">
+                                  <i data-feather="check-circle" id="toastFeather"></i>
+                                <strong class="me-auto">서명을 등록하세요!</strong>
+                               </div>
+                               <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                           </div>
+                           <div class="modal-body">기안서 작성을 위한 등록된 서명이 없습니다. 서명 등록을 먼저 해주세요.<br>
+                              서명을 등록하러 가시겠습니까?
+                              <br><br>
+                              <div class="modal-footer">
+                              <button class="btn btn-dsecondary" type="button" data-bs-dismiss="modal">Close</button>
+                               <button style="margin-left: 10px;" class="btn btn-danger" type="button">Save changes</button>
+                            </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
                   
                   
                   
@@ -96,9 +96,9 @@
                   
                   <!-- 채팅 -->
                   <a class="nav-link collapsed" href="chatGroup.do">
-                  	<div class="nav-link-icon">
-                  		<i data-feather="message-circle"></i>
-                  	</div>
+                     <div class="nav-link-icon">
+                        <i data-feather="message-circle"></i>
+                     </div>
                     채팅
                   </a>
                   
@@ -117,7 +117,7 @@
                   
 <!-- 예약 -->
                   <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
-                  	data-bs-target="#collapseResv" aria-expanded="false" aria-controls="collapseResv">
+                     data-bs-target="#collapseResv" aria-expanded="false" aria-controls="collapseResv">
                      <div class="nav-link-icon">
                         <i data-feather="check"></i>
                      </div> 예약
@@ -135,9 +135,9 @@
                   
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
 
-					<!-- 자신의 근태관리 -->
+               <!-- 자신의 근태관리 -->
                   <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse"
-                  	data-bs-target="#collapseAttd" aria-expanded="false" aria-controls="collapseAttd">
+                     data-bs-target="#collapseAttd" aria-expanded="false" aria-controls="collapseAttd">
                      <div class="nav-link-icon">
                         <i data-feather="briefcase"></i>
                      </div> 근태관리
@@ -155,13 +155,13 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   
                   
-				  <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" 
-                	data-bs-target="#collapseApr" aria-expanded="false" aria-controls="collapseApr">
-					<div class="nav-link-icon">
+              <a class="nav-link collapsed" href="javascript:void(0);" data-bs-toggle="collapse" 
+                   data-bs-target="#collapseApr" aria-expanded="false" aria-controls="collapseApr">
+               <div class="nav-link-icon">
                         <i data-feather="tool"></i>
                     </div> 설정
                     <div class="sidenav-collapse-arrow">
-                    	<i class="fas fa-angle-down"></i>
+                       <i class="fas fa-angle-down"></i>
                     </div>
                   </a>
                   <div class="collapse" id="collapseApr"
@@ -170,7 +170,7 @@
                         <a class="nav-link" href="signature.do">전자서명 관리</a> 
                      </nav>
                   </div>
-			 </div>    
+          </div>    
          </nav>
       </div>
       <script type="text/javascript" src="./js/draft_bkh/draft.js"></script>

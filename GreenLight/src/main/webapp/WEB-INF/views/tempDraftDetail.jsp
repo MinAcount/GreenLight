@@ -28,7 +28,7 @@
                <div class="modal fade" id="templateModal" tabindex="-1"
                   aria-labelledby="exampleModalLabel" aria-hidden="true"
                   data-bs-backdrop="static">
-                  <div class="modal-dialog">
+                  <div class="modal-dialog jstreeModal">
                      <div class="modal-content" style="width: 800px; height: 600px;">
                         <div class="modal-header">
                            <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
@@ -81,7 +81,7 @@
                   <div class="modal fade" id="approvalModal" tabindex="-1"
                      aria-labelledby="exampleModalLabel" aria-hidden="true"
                      data-bs-backdrop="static">
-                     <div class="modal-dialog">
+                     <div class="modal-dialog jstreeModal">
                         <div class="modal-content" style="width: 800px; height: 630px;">
                            <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">결재선 설정</h5>
@@ -104,7 +104,7 @@
                                  </div>
                                  <div style="width: 50px; text-align: center;">
                                     <button id="addEmp" class="btn btn-primary"
-                                       style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+                                       style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
                                  </div>
                                  <!-- 선택된 결재자들 -->
                                  <div id="apr_chk"
@@ -131,7 +131,7 @@
 						<div class="modal fade" id="refModal" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
-							<div class="modal-dialog">
+							<div class="modal-dialog jstreeModal">
 								<div class="modal-content" style="width: 800px; height: 630px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">참조자 추가</h5>
@@ -153,7 +153,7 @@
 											</div>
 											<div style="width: 50px; text-align: center;">
 												<button id="addRef" class="btn btn-primary"
-													style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+													style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
 											</div>
 											<!-- 선택된 참조자들 -->
 											<div id="ref_chk"
