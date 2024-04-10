@@ -27,6 +27,7 @@
                             <li style="cursor: pointer;"class="nav-link" id="doc_status1" onclick="draftListByDocStatus('01'); setActive(this)">진행</li>
                             <li style="cursor: pointer;"class="nav-link" id="doc_status2" onclick="draftListByDocStatus('02'); setActive(this)">승인</li>
                             <li style="cursor: pointer;"class="nav-link" id="doc_status3" onclick="draftListByDocStatus('03'); setActive(this)">반려</li></ul>
+                        </ul>
                     </nav>
                     
          		</div>

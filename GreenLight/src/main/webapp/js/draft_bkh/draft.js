@@ -219,6 +219,7 @@ function insertDocument(gubun) {
          row.appendChild(orderno);
       })
    
+   
       /*document table*/
       var writer_id = document.getElementById("writer_id").value;
       var templateArea = document.getElementById("templateArea");
@@ -248,6 +249,7 @@ function insertDocument(gubun) {
       formData.append("end_day", end_day);
       formData.append("getsu", getsu);
 }
+
    
 // 상신버튼일때
    if (gubun == '01'){
@@ -745,6 +747,8 @@ function radioActiveE(chk) {
 var lastDetail;
 function addExpenseDetail() {
    console.log("addExpenseDetail()")
+   
+   
    var expenseDetail = document.getElementById("expenseDetail");
    var tbody = expenseDetail.lastElementChild;
    var lastRow = tbody.lastElementChild;
@@ -787,9 +791,10 @@ function addExpenseDetail() {
             '</select>' +
             '</td>' +
             '<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>' +
-            '<td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="number"></td>';
+            '<td class="pdl10 pdr10"><input onkeyup="updateTotal()" name="amount" class="width100p height33px" type="number"></td>';
          // 마지막 <tr> 요소 앞에 새로운 <tr> 요소를 삽입
          tbody.insertBefore(newRow, lastRow);
+         
       }
       else {
 		var dangerAlert = document.getElementById("dangerAlert");
@@ -805,7 +810,8 @@ function addExpenseDetail() {
          console.log("값을 입력하세요")
       }
    } else {
-		var dangerAlert = document.getElementById("dangerAlert");
+
+     var dangerAlert = document.getElementById("dangerAlert");
       console.log("dangerAlert",dangerAlert);
       var strong = dangerAlert.getElementsByTagName("strong")[0];
       strong.textContent = "추가 할 수 없습니다!"
@@ -815,8 +821,11 @@ function addExpenseDetail() {
          dangerAlert.style.display = "none";
       })
 	
+	
       console.log("10개까지밖에 안돼용")
    }
+   
+    
 }
 
 function deleteExpenseDetail() {
@@ -1050,7 +1059,7 @@ async function approve() {
          throw new Error('네트워크 에러..');
       }
 
-      const data1 = await response1.json();
+      const data1 = await response1.text();
       console.log('data1:', data1);
 
       var loginVo_name = document.getElementById("loginVo_name");
@@ -1142,6 +1151,8 @@ function closedangerConfirm() {
    dangerConfirm.setAttribute("style", "display:none");
 }
 
+
+    
 function updateTotal() {
     var totalAmount = 0;
     var amountInputs = document.getElementsByName("amount");

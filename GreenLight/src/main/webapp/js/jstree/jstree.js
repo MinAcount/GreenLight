@@ -319,9 +319,12 @@ $(function() {
 				template_preview.innerHTML = "";
 				template_preview.appendChild(templateImg);
 				var tempcode = document.getElementById("tempcode").value;
-            	if(tempcode == '01'){ ////////////////////////////////////////////수정
-				let daterangepickerInput = document.getElementById("daterangepicker");
+      
+				if(tempcode == '01'){ ////////////////////////////////////////////수정
+
+          let daterangepickerInput = document.getElementById("daterangepicker");
 				daterangepickerInput.remove();
+					
 				console.log("div_before:", div_before);
 				}
 			})
@@ -331,6 +334,8 @@ $(function() {
 	});
 
 });
+
+
 
 //참조자 삭제
 function delRef(event) {
@@ -682,6 +687,7 @@ function refCancel() {
 
 async function selectComplete() {
 	console.log("selectComplete()");
+	
 	var selectedNodes = $("#JTSelectTemplate").jstree("get_selected", true);
 	if (selectedNodes.length > 0) {
 		var tempno = selectedNodes[0].original.tempno;
@@ -692,10 +698,10 @@ async function selectComplete() {
 		try {
 			const response1 = await fetch("./selectMainTemplate.do?tempno=" + tempno + "&id=" + loginVo_id);
 			const data1 = await response1.json();
-			//         console.log(data.content);
-
+			         console.log(data1);
 			var templateArea = document.getElementById("templateArea");
 			templateArea.innerHTML = data1.vo.content;
+      
 			         document.getElementById("tempcode").value = data1.vo.tempcode;
          var save_sign = data1.sVo.save_sign;
          document.getElementById("save_sign").value = save_sign;
@@ -757,6 +763,7 @@ async function selectComplete() {
             console.log("vacVo_remaining_leave:", vacVo_remaining_leave.value);
             document.querySelector("#remaining_leave").textContent = vacVo_remaining_leave.value;
             
+
 				var getsu = 0;
 				var weekendCount = 0;
 
@@ -909,6 +916,8 @@ async function selectComplete() {
 				});
 
 			}
+      
+      
 			if (tempcode == '02') { ////////////////////////////////////////수정
 	            var write_date = document.querySelector("#write_date"); /////////////////////////////////////////////수정
 	            write_date.textContent = dateString; /////////////////////////////////////////////수정
@@ -919,14 +928,10 @@ async function selectComplete() {
 	         document.getElementById("apr_chk").innerHTML = "";
 	         //         console.log("tempcode:",data1.tempcode)
 
-			name.textContent = loginVo_name;
-			dname.textContent = deptVo_dname;
-			writer_id.value = loginVo_id;
-
 			
 
-			// input 요소의 value에 할당
-			document.querySelector("#draft_date").textContent = dateString;
+
+			
 
 			
 
