@@ -62,6 +62,7 @@ function renderCalendar(viewmonth, selectedCalendars) {
 		googleCalendarApiKey: 'AIzaSyC2cgtxbwgWkXWXUbsIXgP5NSE7tLNQq9E',
 		initialView: 'dayGridMonth',
 		firstDay: 1,
+		timeFormat: 'HH:mm',
 		headerToolbar: {
 			left: 'today',
 			center: 'title',
@@ -142,6 +143,15 @@ function renderCalendar(viewmonth, selectedCalendars) {
 					failureCallback();
 					console.error('서버에서 데이터를 가져오는 동안 오류가 발생했습니다:', error);
 				});
+		},
+		dateClick: function(info) {
+			var clickedDate = info.dateStr;
+			console.log("Clicked Date:", clickedDate);
+
+			$("#start_date").val(clickedDate); // 시작일에 클릭한 날짜 설정
+			$("#end_date").val(clickedDate);   // 종료일에 클릭한 날짜 설정
+
+			$("#scheduelModal").modal("show");
 		},
 		eventClick: function(info) {
 			var schedule_id = info.event.extendedProps.schedule_id;
@@ -254,10 +264,10 @@ function addScheduleHandler() {
 				console.log("일정 등록 성공");
 				document.getElementById("scheduelForm").reset(); // 폼 초기화
 				$("#scheduelModal").modal("hide"); // 모달 닫기
-				window.location.reload();
+				alertModel(); // 일정 등록 성공 시 alertModel() 함수 호출
 			} else {
 				console.log("일정 등록 실패");
-				alert("일정을 등록할 수 없습니다");
+				$('#alertInsertModal').modal('show');
 			}
 		})
 		.catch(error => {
@@ -285,27 +295,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
 	$('#daterangepicker').daterangepicker({
-		"locale": {
-			"format": "YYYY-MM-DD hh:mm",
-			"separator": " ~ ",
-			"applyLabel": "확인",
-			"cancelLabel": "취소",
-			"fromLabel": "From",
-			"toLabel": "To",
-			"customRangeLabel": "Custom",
-			"weekLabel": "W",
-			"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-			"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+		locale: {
+			format: "YYYY-MM-DD HH:mm",
+			separator: " ~ ",
+			applyLabel: "확인",
+			cancelLabel: "취소",
+			fromLabel: "From",
+			toLabel: "To",
+			customRangeLabel: "Custom",
+			weekLabel: "W",
+			daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+			monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 		},
 		timePicker: true,
 		timePicker24Hour: true,
 		startDate: moment().startOf('hour'),
-		endDate: moment().startOf('hour').add(32, 'hour'),
-		"drops": "down"
+		endDate: moment().startOf('hour').add(2, 'hour'),
+		drops: "down"
 	}, function(start, end, label) {
-		$('#start_date').val(start.format('YYYY-MM-DD hh:mm'));
-		$('#end_date').val(end.format('YYYY-MM-DD hh:mm'));
-		console.log('New date range selected: ' + start.format('YYYY-MM-DD hh:mm') + ' to ' + end.format('YYYY-MM-DD hh:mm') + ' (predefined range: ' + label + ')');
+		if (start.isSame(end, 'day')) {
+			$('#start_date').val(start.format('YYYY-MM-DD HH:mm'));
+			$('#end_date').val(start.format('YYYY-MM-DD HH:mm'));
+		} else { // 범위 선택일 경우
+			$('#start_date').val(start.format('YYYY-MM-DD HH:mm'));
+			$('#end_date').val(end.format('YYYY-MM-DD HH:mm'));
+		}
+		$('#applyBtn').removeAttr('disabled'); // 확인 버튼 활성화
+		console.log('New date range selected: ' + start.format('YYYY-MM-DD HH:mm') + ' to ' + end.format('YYYY-MM-DD HH:mm') + ' (predefined range: ' + label + ')');
+		$('#daterangepicker').on('apply.daterangepicker', function() {
+			$('#applyBtn').removeAttr('disabled');
+		});
 	});
 });
 
@@ -437,8 +456,44 @@ function oneScheduleView(schedule_id) {
 		});
 }
 
-
-
 document.getElementById('sidebarToggle').addEventListener('click', function() {
 	updateFilter()
 });
+
+function roomInsertModal() {
+	var reserveDayValue = document.getElementById('reserve_day').value;
+	document.getElementById('start_date').value = reserveDayValue;
+}
+
+function alertModel() {
+    var modalContent = `
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered custom-class">
+                <div class="modal-content" style="max-width: 300px;">
+                    <div class="modal-body text-center" style="padding: 30px;">
+                        <p style="margin-top: 30px; margin-bottom: 30px;">등록되었습니다</p>
+                        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px; margin: auto;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    var modalElement = $(modalContent);
+    modalElement.modal('show');
+
+    // 모달이 표시된 후에 실행되는 코드
+    modalElement.on('shown.bs.modal', function() {
+        var modalDialog = modalElement.find('.modal-dialog');
+        var windowHeight = $(window).height();
+        var modalHeight = modalDialog.height();
+        var topMargin = (windowHeight - modalHeight) / 2;
+        modalDialog.css('margin-top', topMargin);
+    });
+
+    // 모달 닫기 버튼에 클릭 이벤트 추가
+    modalElement.find('#close').on('click', function() {
+        // 모달 닫기 버튼을 클릭하면 페이지를 새로고침
+        window.location.reload();
+    });
+}
