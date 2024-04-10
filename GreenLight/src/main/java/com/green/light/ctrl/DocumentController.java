@@ -1,12 +1,16 @@
 package com.green.light.ctrl;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,31 +25,28 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.green.light.model.mapper.IDocumentDao;
-import com.green.light.model.mapper.INotificationDao;
 import com.green.light.model.service.IApprovalService;
 import com.green.light.model.service.IDocumentService;
-import com.green.light.model.service.IEmployeeService;
 import com.green.light.model.service.IFileStorageService;
-import com.green.light.model.service.ISignService;
-import com.green.light.model.service.IVacationService;
 import com.green.light.model.service.INotificationService;
+import com.green.light.model.service.IScheduleService;
+import com.green.light.model.service.ISignService;
 import com.green.light.vo.ApprovalVo;
-import com.green.light.vo.DepartmentVo;
 import com.green.light.vo.DocumentVo;
 import com.green.light.vo.EmployeeVo;
 import com.green.light.vo.FileStorageVo;
 import com.green.light.vo.NotificationVo;
 import com.green.light.vo.PageVo;
+import com.green.light.vo.ScheduleVo;
 import com.green.light.vo.SignVo;
-import com.green.light.vo.VacationVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -64,6 +65,8 @@ public class DocumentController {
 	private INotificationService notiService;
 	@Autowired
 	private IFileStorageService fileService;
+	@Autowired
+	private IScheduleService scehduleService;
 	
 	@PostMapping(value = "/page.do")
 	@ResponseBody
@@ -341,7 +344,7 @@ public class DocumentController {
 
 	@PostMapping(value = "/updateApproval.do")
 	@ResponseBody
-	public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) {
+	public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) throws ParseException {
 		log.info("DocumentController updateApproval POST /updateApproval.do 결재선 업데이트: {}", map);
 		List<EmployeeVo> lists = apprService.getApproval((String) map.get("docno"));
 		System.out.println(lists);
@@ -364,6 +367,37 @@ public class DocumentController {
 		apprService.updateApprStatus(docMap);
 		apprService.updateComment(docMap);
 		System.out.println("orderno" + orderno);
+		
+		// 일정 추가
+		ScheduleVo vo = new ScheduleVo();
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date start_date = dateFormat.parse((String) map.get("start_date"));
+		Date end_date = dateFormat.parse((String) map.get("end_date"));
+		
+		vo.setCno((String) map.get("cno"));
+		vo.setCreator((String) map.get("creator"));
+		vo.setLabel_name("휴가");
+		vo.setCategory((String) map.get("category"));
+		vo.setTitle((String) map.get("title"));
+		vo.setMemo((String) map.get("memo"));
+		vo.setStart_date(start_date);
+		vo.setEnd_date(end_date);
+		vo.setPriority("02");
+		vo.setRecur("N");
+		vo.setVisibility("Y");
+		vo.setParticipants((String) map.get("participants"));
+		vo.setPermission("R");
+		vo.setAlarm("08");
+		
+		int cnt = scehduleService.insertSchedule(vo);
+		
+		if(cnt > 0) {
+			System.out.println("휴가일정생성 성공");
+		}else {
+			System.out.println("휴가일정생성 실패");
+		}
+		
 		// 알림 추가 : 상신자
 		Map<String, Object> notiMap = new HashMap<String, Object>();
 		notiMap.put("noti_id", "");

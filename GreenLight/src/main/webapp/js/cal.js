@@ -63,13 +63,19 @@ function renderCalendar(viewmonth, selectedCalendars) {
 		initialView: 'dayGridMonth',
 		firstDay: 1,
 		headerToolbar: {
-			right: 'prev,next,today'
+			left: 'today',
+			center: 'title',
+			right: 'prev,next'
 		},
 		titleFormat: function(date) {
 			year = date.date.year;
 			month = date.date.month + 1;
-
 			return year + "년 " + month + "월";
+		},
+		buttonClasses: {
+			prev: 'btn btn-custom', // 월간 버튼의 클래스를 btn-custom으로 설정
+			right: 'btn btn-custom',  // 주간 버튼의 클래스를 btn-custom으로 설정
+			today: 'btn btn-custom'
 		},
 		eventSources: [{
 			googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
@@ -78,7 +84,7 @@ function renderCalendar(viewmonth, selectedCalendars) {
 			borderColor: "white",
 			textColor: "tomato"
 		}],
-		navLinks: false,
+		navLinks: true,
 		editable: true,
 		selectable: false,
 		nowIndicator: true,
@@ -368,24 +374,24 @@ function resetModal() {
 }
 
 function oneScheduleView(schedule_id) {
-    console.log("일정 상세 모달 : ", schedule_id);
-    fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
-            }
-            return response.json(); // JSON 형식으로 데이터 받기
-        })
-        .then(data => {
-            console.log('서버에서 받은 데이터:', data); // 데이터 확인
-            const startDate = new Date(data.start_date);
-            const endDate = new Date(data.end_date);
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-            const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
-            const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
-            const participants = JSON.parse(data.participants);
+	console.log("일정 상세 모달 : ", schedule_id);
+	fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+		.then(function(response) {
+			if (!response.ok) {
+				throw new Error('서버 응답 실패');
+			}
+			return response.json(); // JSON 형식으로 데이터 받기
+		})
+		.then(data => {
+			console.log('서버에서 받은 데이터:', data); // 데이터 확인
+			const startDate = new Date(data.start_date);
+			const endDate = new Date(data.end_date);
+			const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+			const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
+			const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
+			const participants = JSON.parse(data.participants);
 
-            var modalContent = `
+			var modalContent = `
             <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered custom-class">
                     <div class="modal-content" style="width: 550px;"> 
@@ -397,10 +403,10 @@ function oneScheduleView(schedule_id) {
                                     ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
                                     ${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
                                     ${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
-                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
                                     <p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
                                     ${participants != null ? `<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
                                     ${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>` : ''}
+                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;">메모</strong> ${data.memo}</p>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -411,24 +417,24 @@ function oneScheduleView(schedule_id) {
                 </div>
             </div>
             `;
-            // 모달이 이미 열려 있는 경우, 모달을 완전히 제거하고 다시 생성하여 열기
-            if ($('#oneScheduleView').length) {
-                $('#oneScheduleView').remove();
-                $('body').append(modalContent);
-            } else { // 모달이 열려 있지 않은 경우, 새로운 모달을 생성하여 열기
-                $('body').append(modalContent);
-            }
+			// 모달이 이미 열려 있는 경우, 모달을 완전히 제거하고 다시 생성하여 열기
+			if ($('#oneScheduleView').length) {
+				$('#oneScheduleView').remove();
+				$('body').append(modalContent);
+			} else { // 모달이 열려 있지 않은 경우, 새로운 모달을 생성하여 열기
+				$('body').append(modalContent);
+			}
 
-            $('#oneScheduleView').modal('show'); // 모달 열기
+			$('#oneScheduleView').modal('show'); // 모달 열기
 
-            // 닫기 버튼 클릭 이벤트 처리
-            $('#closeModalBtn').click(function() {
-                $('#oneScheduleView').modal('hide'); // 모달을 숨김
-            });
-        })
-        .catch(error => {
-            console.error('오류:', error);
-        });
+			// 닫기 버튼 클릭 이벤트 처리
+			$('#closeModalBtn').click(function() {
+				$('#oneScheduleView').modal('hide'); // 모달을 숨김
+			});
+		})
+		.catch(error => {
+			console.error('오류:', error);
+		});
 }
 
 
