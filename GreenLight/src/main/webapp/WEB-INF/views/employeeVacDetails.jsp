@@ -115,7 +115,7 @@
 						</thead>
 						<tbody>
 											<c:choose>
-					<c:when test="${empty lists}">
+					<c:when test="${empty vacationList}">
 					<tr>
 					    <td colspan="6" style="text-align: center;">
 					        <p>휴가 내용이 없습니다.</p>

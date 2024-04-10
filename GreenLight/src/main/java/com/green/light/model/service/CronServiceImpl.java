@@ -61,8 +61,8 @@ public class CronServiceImpl implements ICronService {
 	}
 	
 	
-	@Scheduled(cron = "0 20 1 * * *")//오전 1시 20분에 설정 
-//	@Scheduled(cron="0/10 * * * * *")//10초에 한번씩
+//	@Scheduled(cron="0/50 * * * * *")//50초에 한번씩
+	@Scheduled(cron = "0 20 1 * * *")//매일 오전 1시 20분에 설정 
 	@Override
 	public int updateLeaveNewEmployee() {
 		log.info("CronDaoImpl updateLeaveNewEmployee 1년 미만 직원 연차 부여 크론");
@@ -70,8 +70,8 @@ public class CronServiceImpl implements ICronService {
 	}
 	
 	
-	@Scheduled(cron = "0 30 1 * * *")//오전 1시 30분에 설정 
-//	@Scheduled(cron="0/10 * * * * *")//10초에 한번씩
+	@Scheduled(cron = "0 30 1 * * *")//매일 오전 1시 30분에 설정 
+//	@Scheduled(cron="0/50 * * * * *")//50초에 한번씩
 	@Override
 	public int updateLeaveEmployee() {
 		log.info("CronDaoImpl updateLeaveEmployee 1년 이상 근속직원 연차부여 크론");
@@ -103,6 +103,7 @@ public class CronServiceImpl implements ICronService {
 	
 	// 휴가자의 자동근태등록 트렌젝션 처리
 	@Scheduled(cron = "0 40 1 * * *")//오전 1시 40분에 설정 
+//	@Scheduled(cron="0/50 * * * * *")//50초에 한번씩
 	@Transactional(readOnly = false)
 	@Override
 	public int setVacationAndAttendance() {
