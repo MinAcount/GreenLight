@@ -29,7 +29,7 @@
                   aria-labelledby="exampleModalLabel" aria-hidden="true"
                   data-bs-backdrop="static">
                   <div class="modal-dialog jstreeModal">
-                     <div class="modal-content" style="width: 800px; height: 600px;">
+                     <div class="modal-content" style="width: 800px; height: 630px;">
                         <div class="modal-header">
                            <h5 class="modal-title" id="exampleModalLabel">문서양식 선택</h5>
                            <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -57,9 +57,9 @@
                               </div>
                            </div>
                            <div class="modal-footer">
-                              <button class="btn btn-secondary btn-sm" type="button"
+                              <button class="btn btn-secondary" type="button"
                                  data-bs-dismiss="modal">취소</button>
-                              <button class="btn btn-primary btn-sm" type="button"
+                              <button class="btn btn-primary" type="button"
                                  style="margin-left: 10px;" data-bs-dismiss="modal"
                                  onclick="selectComplete()">완료</button>
                            </div>
@@ -104,7 +104,7 @@
                                  </div>
                                  <div style="width: 50px; text-align: center;">
                                     <button id="addEmp" class="btn btn-primary"
-                                       style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+                                       style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
                                  </div>
                                  <!-- 선택된 결재자들 -->
                                  <div id="apr_chk"
@@ -153,7 +153,7 @@
 											</div>
 											<div style="width: 50px; text-align: center;">
 												<button id="addRef" class="btn btn-primary"
-													style="width: 30px; height: 100px; margin-top: 180px">얍</button>
+													style="width: 30px; height: 100px; margin-top: 180px">&gt;&gt;</button>
 											</div>
 											<!-- 선택된 참조자들 -->
 											<div id="ref_chk"
@@ -215,7 +215,161 @@
             <div
                style="display: flex; flex-direction: row; padding-top: 20px; padding-bottom: 20px; min-height: 800px;">
                <div id="templateArea">
-										
+					<input type="hidden" id="tempcode" value="">
+					<input type="hidden" id="save_sign" value="">
+<div style="width: 100%; text-align: center;" id="templateAreaLeft">
+                     <div class="top"
+                        style="text-align: center; margin-bottom: 50px; padding-top: 30px;">
+                        <h2>지출결의서</h2>
+                     </div>
+                     <div class="header1"
+                        style="display: flex; flex-direction: row; justify-content: flex-end; margin-bottom: 20px;">
+                        <div style="display: flex; flex-direction: row;">
+                           <table id="WriterArea" class="template" style="height: 160px;">
+                              <tr>
+                                 <th rowspan="3" class="width30">신청</th>
+                                 <td id="drafter_spot" class="fontSize14" style="width: 90px; height: 20px;"></td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <div id="drafter_name" class="fontSize14"></div>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td id="drafter_draft_date" class="fontSize14" style="height: 20px;"></td>
+                              </tr>
+                           </table>
+
+                           <table id="approvalArea" class="template"
+                              style="margin-left: 10px; height: 160px;">
+                              <tr id="firstTr">
+                                 <th id="apprTh" rowspan="3" class="width30" style="display: none;">승인</th>
+                                 
+                              </tr>
+                              <tr id="secondTr">
+                                 
+                              </tr>
+                              <tr id="thirdTr">
+                                 
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+                     <div class="header2"
+                        style="display: flex; flex-direction: row; justify-content: flex-start;">
+                        <div style="width: 100%;">
+                           <table class="template" style="width: 69%;">
+                              <tr>
+                                 <th style="width: 80px;">기안자</th>
+                                 <td id="draftWriter" style="width: 180px;" class="paddingL10">
+                                    <p id="name"></p>
+                                    <input type="hidden" id="writer_id" name="writer_id" value="">
+                                 </td>
+                              </tr>
+                               <tr>
+                                 <th>소속부서</th>
+                                 <td class="paddingL10">
+                                    <p id="dname"></p>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th>기안일</th>
+                                 <td class="paddingL10">
+                                    <p id="draft_date"></p>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <th>문서번호</th>
+                                 <td class="paddingL10">
+                                 	<p id="docno"></p>
+                                 </td>
+                              </tr>
+                           </table>
+                        </div>
+                     </div>
+
+
+                  <div class="content" style="width: 100%; margin-top: 20px;">
+                     <table class="template" style="width: 100%;">
+                     
+                        <tr>
+                           <th style="width: 20%;">제목</th>
+                           <td id="title" colspan="3" class="pdl10 pdr10"><input name="title" class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                           <th style="width: 20%;">작성일자</th>
+                           <td style="width: 30%;" class="pdl10 pdr10"><p id="write_date"></p></td>
+                          <th style="width: 20%;">금액</th>
+                           <td style="width: 30%;" class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                           <th>지출사유</th>
+                           <td colspan="3" style="width: 30%;" class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                        </tr>
+                        <tr>
+                              		<th>긴급 여부</th>
+									<td id="urgencyTd" class="pdl10" colspan = '3'>
+									    <div style="display: inline-block;">
+									        <input type="checkbox" id="urgency" name="urgency">
+									    </div>
+									    <div style="display: inline-block;">
+									        <p style="color:red; margin-left: 5px;">긴급 여부 체크란 입니다!</p>
+									    </div>
+									</td>
+                              </tr>
+                     </table>
+                  </div>
+                  <div class="AddDetails"
+                     style="margin-top: 30px; margin-bottom: 10px; text-align: right;">
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1" onclick="addExpenseDetail()">추가</button>
+                     <button
+                        style="background-color: rgba(123, 130, 124, 0.1); border: 1px solid #B0B5B1" onclick="deleteExpenseDetail()">삭제</button>
+                  </div>
+                  <div class="bottom" style="width: 100%;">
+                     <table class="template" id="expenseDetail" style="width: 100%;">
+                     <tbody>
+                        <tr>
+                           <th style="width: 25%;">일자</th>
+                           <th style="width:20%; text-align: center;">분류</th>
+                           <th style="width: 35%;">사용내역</th>
+                           <th style="width: 20%">금액</th>
+                        </tr>
+                        <tr class="details">
+                           <td class="pdl10 pdr10"><input style="width: 100%;" type="text"></td>
+							<td class="pdl10 pdr10">
+								<select class="datatable-selector" name="deptno" id="deptno">
+										<option>물품구입비</option>
+										<option>잡비</option>
+										<option>회식비</option>
+										<option>식비</option>
+										<option>교통비</option>
+										<option>기타</option>
+								</select>
+							</td>
+							<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>
+                           <td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="number"></td>
+                        </tr>
+                        <tr>
+                           <th colspan="1">합계</th>
+                           <td colspan="3"></td>
+                        </tr>
+                        </tbody>
+                     </table>
+                     <table class="template" style="margin-top: 10px; width: 100%; height: 50px;">
+                                 <colgroup>
+                                    <col width="20%">
+                                    <col width="80%">
+                                 </colgroup>
+                                 <tr>
+                                    <th>파일첨부</th>
+                                    <td id="fileTd" class="pdl10">
+                                       <input type="file" id="fileInput" multiple="multiple">
+                                    </td>
+                                 </tr>
+                              </table>
+                  </div>
+                  </div>					
                </div>
                <div
                   style="margin-left: 30px; width: 25%; border: 1px solid black; padding: 10px; border-color: #B0B5B1;">
@@ -223,9 +377,9 @@
                      <nav class="nav nav-borders">
                         <ul
                            style="display: flex; flex-direction: row; height: 62px; margin-bottom: 0px; padding-top: 14px;">
-                           <li id="getApproval" class="nav-link active ms-0"
+                           <li style="cursor: pointer;" id="getApproval" class="nav-link active ms-0"
                               onclick=" setActive(this); getApprLine();">결재선</li>
-                           <li class="nav-link" id="getReference"
+                           <li style="cursor: pointer;" class="nav-link" id="getReference"
                               onclick=" setActive(this); getRefLine();">참조자</li>
                         </ul>
                      </nav>

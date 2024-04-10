@@ -39,10 +39,10 @@
 							<th style="width: 2.5%;">
 								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
 							</th>
-							<th style="width: 35%;">제목</th>
-							<th style="width: 17.5%;">생성일</th>
-							<th style="width: 20%;">문서양식유형</th>
-							<th style="width: 15%;">기안서상태</th>
+							<th style="width: 35%; text-align: center;">제목</th>
+							<th style="width: 17.5%; text-align: center;">생성일</th>
+							<th style="width: 20%; text-align: center;">문서양식유형</th>
+							<th style="width: 15%; text-align: center;">기안서상태</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -73,14 +73,14 @@
 									</a>
 									<input id="docno" type="hidden" value="${vo.docno}">
 									</td>
-								<td>
+								<td style="text-align: center;">
 									<script>
 								        var dDate = formatDate("${vo.draft_date}" );
 								        document.write(dDate);
 								    </script>
 								</td>
-								<td>${vo.tempcode}</td>
-								<td>${vo.doc_status}</td>
+								<td style="text-align: center;">${vo.tempcode}</td>
+								<td style="text-align: center;">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
 					</tbody>

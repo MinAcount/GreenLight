@@ -66,11 +66,34 @@ function submissionValidation(gubun) {
 
    //null체크
    if (title.value == '') {
-      alert("제목을 입력하세요..");
+      var dangerAlert = document.getElementById("dangerAlert");
+		console.log("dangerAlert",dangerAlert);
+		var strong = dangerAlert.getElementsByTagName("strong")[0];
+		strong.textContent = "제목을 입력하세요!"
+		dangerAlert.querySelector("#modalContent").textContent = "제목을 입력하세요";
+		dangerAlert.style.display = "block";
+		dangerAlert.querySelector("button").addEventListener('click',function(){
+			dangerAlert.style.display = "none";
+		})
       title.focus();
-   } else if (document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == '') {
-      alert("기간 및 일시를 선택하세요..");
+   } else if (tempcode == '01') {/////////////////////////////////////////////수정
+		if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == ''){
+			var dangerAlert = document.getElementById("dangerAlert");
+		console.log("dangerAlert",dangerAlert);
+		var strong = dangerAlert.getElementsByTagName("strong")[0];
+		strong.textContent = "날짜를 입력하세요!"
+		dangerAlert.querySelector("#modalContent").textContent = "날짜를 선택해 입력하세요.";
+		dangerAlert.style.display = "block";
+		dangerAlert.querySelector("button").addEventListener('click',function(){
+			dangerAlert.style.display = "none";
+		})
+			
+			
       daterangepicker.focus();
+		}
+		else {
+			insertDocument(gubun);
+		}
    } else {
       insertDocument(gubun);
    }
@@ -172,9 +195,12 @@ function saveTemp(){
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
       dangerConfirm.setAttribute("style","display:block");
       dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
-	dangerConfirm.style.display = "none";
 	insertDocument("04");
+	dangerConfirm.style.display = "none";
 })
+	dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+		dangerConfirm.style.display = "none";
+	})
 }
 
 
@@ -193,6 +219,7 @@ function insertDocument(gubun) {
          orderno.setAttribute("value", i + 1);
          row.appendChild(orderno);
       })
+   
    
       /*document table*/
       var writer_id = document.getElementById("writer_id").value;
@@ -223,6 +250,7 @@ function insertDocument(gubun) {
       formData.append("end_day", end_day);
       formData.append("getsu", getsu);
 }
+
    
 // 상신버튼일때
    if (gubun == '01'){
@@ -247,6 +275,34 @@ function insertDocument(gubun) {
          //      input.setAttribute("readonly", "readonly");
 
       })
+      
+      if(tempcode == '02'){ ////////////////////////////////수정
+	console.log("tempcode 02진입");
+         var inputs = templateArea.querySelectorAll("input[type='number']");
+      console.log("inputs", inputs)
+      inputs.forEach(function(input) {
+         console.log(input.value);
+         var newPTag = document.createElement("P");
+         input.parentElement.appendChild(newPTag);
+         console.log("input", input.parentElement);
+         if (input.value != null) {
+            newPTag.textContent = input.value;
+            console.log("newPTag", newPTag.textContent);
+         }
+         input.remove();
+         //      input.setAttribute("value",input.value);
+         //      input.setAttribute("readonly", "readonly");
+
+      })
+	var expenseCats = document.getElementsByName("expenseCat");
+	expenseCats.forEach(function(expenseCat){
+		var newPTag = document.createElement("p");
+    expenseCat.parentElement.appendChild(newPTag);
+	newPTag.textContent = expenseCat.value;
+	expenseCat.remove();
+	})
+	
+}
 
 	if(tempcode == '01'){
 		console.log("tempcode 01진입")
@@ -287,7 +343,7 @@ function insertDocument(gubun) {
       if(selectedValue == 'N'){
          getsuFlagP.textContent = "연차";
       } else if(selectedValue == 'Y') {
-         getsuFlagP.textContent = "공차";
+         getsuFlagP.textContent = "공가";
       }
       
       getsuFlagTd.innerHTML = "";
@@ -474,6 +530,7 @@ function insertDocument(gubun) {
 		   fileImg.alt = files[i].name;
 		   fileImg.style.width = "80px";
 		   fileImg.style.height = "80px";
+		   fileImg.style.cursor = "pointer";
 		   
 		   let reader = new FileReader();
 		   reader.readAsDataURL(files[i]);
@@ -543,10 +600,30 @@ function insertDocument(gubun) {
    
          //알림
             notify('전자결재', title + " 문서가 상신되었습니다");
-//         window.location.href = "./draftList.do";   
+         window.location.href = "./draftList.do";   
    
    } else if(gubun == '04'){
       console.log("구분 04===========")
+      
+       if(tempcode == '02'){ ////////////////////////////////수정
+	console.log("tempcode 02진입");
+	var expenseCat = document.getElementById("expenseCat");
+	var options = expenseCat.querySelectorAll("option");
+	options.forEach(function(option){
+		if(option.value == expenseCat.value){
+			option.setAttribute("selected","selected");
+		}
+	})
+}
+      
+      
+      var templateArea = document.getElementById("templateArea"); ///////////////////////////////수정
+      var inputs = templateArea.querySelectorAll("input[type='text']");
+//      console.log("inputs", inputs)
+      inputs.forEach(function(input) {
+         console.log(input.value);
+		input.setAttribute("value",input.value);
+      })
       
       var titleInput = document.getElementsByName("title")[0];
       titleInput.setAttribute("value", title);
@@ -619,7 +696,7 @@ function insertDocument(gubun) {
          .catch(error => {
             console.error('오류 발생:', error);
          });
-//         window.location.href = "./tempDraftList.do";
+         window.location.href = "./tempDraftList.do";
    }
    
    
@@ -666,6 +743,8 @@ function radioActiveE(chk) {
 var lastDetail;
 function addExpenseDetail() {
    console.log("addExpenseDetail()")
+   
+   
    var expenseDetail = document.getElementById("expenseDetail");
    var tbody = expenseDetail.lastElementChild;
    var lastRow = tbody.lastElementChild;
@@ -698,7 +777,7 @@ function addExpenseDetail() {
             '<input class="width100p height33px" type="text">' +
             '</td>' +
             '<td class="pdl10 pdr10">' +
-            '<select class="datatable-selector" name="deptno" id="deptno">' +
+            '<select class="datatable-selector" name="expenseCat">' +
             '<option>물품구입비</option>' +
             '<option>잡비</option>' +
             '<option>회식비</option>' +
@@ -708,9 +787,10 @@ function addExpenseDetail() {
             '</select>' +
             '</td>' +
             '<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>' +
-            '<td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="text"></td>';
+            '<td class="pdl10 pdr10"><input onkeyup="updateTotal()" name="amount" class="width100p height33px" type="number"></td>';
          // 마지막 <tr> 요소 앞에 새로운 <tr> 요소를 삽입
          tbody.insertBefore(newRow, lastRow);
+         
       }
       else {
 		var dangerAlert = document.getElementById("dangerAlert");
@@ -726,8 +806,19 @@ function addExpenseDetail() {
          console.log("값을 입력하세요")
       }
    } else {
+	var dangerAlert = document.getElementById("dangerAlert");
+		console.log("dangerAlert",dangerAlert);
+		var strong = dangerAlert.getElementsByTagName("strong")[0];
+		strong.textContent = "추가 할 수 없습니다!"
+		dangerAlert.querySelector("#modalContent").textContent = "10줄까지만 추가 가능합니다.";
+		dangerAlert.style.display = "block";
+		dangerAlert.querySelector("button").addEventListener('click',function(){
+			dangerAlert.style.display = "none";
+		})
       console.log("10개까지밖에 안돼용")
    }
+   
+    
 }
 
 function deleteExpenseDetail() {
@@ -744,6 +835,14 @@ function deleteExpenseDetail() {
    if (tbodyTrs.length > 1) {
       delLastDetail.remove();
    }
+   
+   var totalAmount = 0;
+    var amountInputs = document.getElementsByName("amount");
+    amountInputs.forEach(function(input) {
+        totalAmount += parseInt(input.value) || 0;
+    });
+    console.log("총 합계:", totalAmount);
+    document.getElementById("totalAmount").textContent = totalAmount;
 }
 
 async function rejectApproval() {
@@ -952,7 +1051,7 @@ async function approve() {
          throw new Error('네트워크 에러..');
       }
 
-      const data1 = await response1.json();
+      const data1 = await response1.text();
       console.log('data1:', data1);
 
       var loginVo_name = document.getElementById("loginVo_name");
@@ -1044,3 +1143,14 @@ function closedangerConfirm() {
    dangerConfirm.setAttribute("style", "display:none");
 }
 
+
+    
+function updateTotal() {
+    var totalAmount = 0;
+    var amountInputs = document.getElementsByName("amount");
+    amountInputs.forEach(function(input) {
+        totalAmount += parseInt(input.value) || 0;
+    });
+    console.log("총 합계:", totalAmount);
+    document.getElementById("totalAmount").textContent = totalAmount;
+}

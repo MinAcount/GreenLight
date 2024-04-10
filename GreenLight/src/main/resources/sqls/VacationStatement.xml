@@ -112,7 +112,7 @@ GROUP BY E.ID, E.NAME, E.JOIN_DAY, D.DNAME, E.SPOT, E.LEAVE
 <!-- 휴가사용등록	registerVacation -->
 <insert id="registerVacation" parameterType="VacationVo">
 <selectKey resultType="java.lang.String" keyProperty="vacno" order="BEFORE" >
-	SELECT VACATION_SEQ.NEXTVAL FROM DUAL
+	SELECT TO_CHAR(MAX(TO_NUMBER(VACNO))+1) FROM VACATION
 </selectKey>
 INSERT INTO VACATION (VACNO, ID, START_DAY, END_DAY, HALF, GETSU, BIGO)
 VALUES (#{vacno}, #{id}, TO_DATE(#{start_day}, 'YYYY-MM-DD'), 

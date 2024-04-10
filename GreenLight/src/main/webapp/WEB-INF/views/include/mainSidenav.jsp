@@ -41,9 +41,10 @@
                   <hr style="margin-top:10px; margin-bottom:10px; margin-left:8px; margin-right:8px;">
                   </c:if>
 <!-- 전자결재 -->
-                  <a class="nav-link collapsed" onclick="checkSign()"><div class="nav-link-icon">
+                  <a style="cursor: pointer;" class="nav-link collapsed" onclick="checkSign()"><div class="nav-link-icon">
                   	<i data-feather="file"></i></div>
                     새 기안서 작성
+                    </a>
                     <div class="modal " data-bs-backdrop="static" id="signSetting" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="alert" aria-live="assertive" aria-atomic="true" style="opacity: 1;">
 			        		<div class="modal-content">
@@ -65,7 +66,7 @@
 				        	</div>
 				    	</div>
 					</div>
-                  </a>
+                  
                   
                   
                   <a class="nav-link collapsed" href="javascript:void(0);"

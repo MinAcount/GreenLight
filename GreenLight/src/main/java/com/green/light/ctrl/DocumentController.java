@@ -336,6 +336,11 @@ public class DocumentController {
 		if (orderno == lists.size() || appr_status.equals("03")) {
 			System.out.println("들어옴");
 			service.updateDocStatus(docMap);
+			
+//			 vacationVo
+//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
+//			vacationService.registerVacation(vVo);
+			
 			writerId.add(writer_id);
 			if (appr_status.equals("03") && orderno == lists.size()
 					|| appr_status.equals("03") && orderno != lists.size()) {
@@ -351,9 +356,6 @@ public class DocumentController {
 			notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
 			notiService.insertNoti(notiMap, writerId);
 			
-//			 vacationVo
-//			VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
-//			vacationService.registerVacation(vVo);
 		}
 
 		SignVo signVo = signService.selectMainSign((String) map.get("emp_id"));

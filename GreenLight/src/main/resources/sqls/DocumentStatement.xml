@@ -264,7 +264,7 @@
          OR (a.APPR_CURRENT ='03'
              AND a.EMP_ID=#{id} AND a.ATYPE='01'
              AND NOT d.DOC_STATUS = '04')
-         ORDER BY d.DRAFT_DATE DESC 
+         ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
    </select>
    
    <!-- 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus -->
@@ -292,7 +292,7 @@
          OR (a.APPR_CURRENT ='03'
              AND a.EMP_ID=#{id} AND a.ATYPE='01'
              AND NOT d.DOC_STATUS = '04')
-         ORDER BY d.DRAFT_DATE DESC 
+         ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
    </select>
    
    
