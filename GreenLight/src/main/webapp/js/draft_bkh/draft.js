@@ -1150,34 +1150,38 @@ async function approve() {
 
 
 function checkSign() {
-	fetch('./checkSign.do', {
-		method: 'POST'
-	})
-		.then(response => {
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			return response.json();
-		})
-		.then(data => {
-			console.log('Success:', data);
-			var save_sign = data.save_sign;
-			console.log(save_sign)
-			if (save_sign === null) {
-				console.log("서명없음")
-				var dangerConfirm = document.getElementById("dangerConfirm");
-				dangerConfirm.setAttribute("style", "display:block");
-				document.getElementById("modalTitle").innerHTML = "등록된 서명 없음!"
-				document.getElementById("modalContent").innerHTML = "기안서 작성을 위해서는 서명이 필요합니다.<br>서명 등록 페이지로 이동하시겠습니까?"
-				dangerConfirm.setAttribute("onclick", "location.href='./signature.do'");
-			} else {
-				window.location.href = './draftWriteForm.do';
-			}
-		})
-		.catch(error => {
-			console.error('Error:', error); // 오류 처리
-			// 오류가 발생했을 때 추가 작업을 수행할 수 있습니다.
-		});
+   fetch('./checkSign.do', {
+      method: 'POST'
+   })
+      .then(response => {
+         if (!response.ok) {
+            throw new Error('Network response was not ok');
+         }
+         return response.json();
+      })
+      .then(data => {
+         console.log('Success:', data);
+         var save_sign = data.save_sign;
+         console.log(save_sign)
+         if (save_sign === null) {
+            console.log("서명없음")
+            var dangerConfirm = document.getElementById("dangerConfirm");
+            dangerConfirm.setAttribute("style", "display:block");
+            document.getElementById("modalTitle").innerHTML = "등록된 서명 없음!"
+            document.getElementById("modalContent").innerHTML = "기안서 작성을 위해서는 서명이 필요합니다.<br>서명 등록 페이지로 이동하시겠습니까?"
+            dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+            	dangerConfirm.style.display = "none";
+            })
+            dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
+            	window.location.href = "./signature.do";
+            })
+            
+         } 
+      })
+      .catch(error => {
+         console.error('Error:', error); // 오류 처리
+         // 오류가 발생했을 때 추가 작업을 수행할 수 있습니다.
+      });
 }
 
 function closedangerConfirm() {

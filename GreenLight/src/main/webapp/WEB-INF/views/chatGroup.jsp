@@ -68,7 +68,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			margin-top: 3%;
+			margin-top: 2%;
 		}
 		
 		#roomName {
@@ -182,7 +182,7 @@
 		}
 		
 		.chatContentNoti {
-			padding-top: 14%;
+			padding-top: 20%;
 		}
 		
 		.roomnamename {
