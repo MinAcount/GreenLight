@@ -119,9 +119,9 @@ function updateReserveTitle(reserveno) {
 				// 모달을 닫습니다.
 				$('#reserveModal').modal('hide');
 				window.onload = function() {
-    var reserveno = 'your_reserveno_value'; // 예약 번호 값
-    window.location.href = './oneReserve.do?reserveno=' + reserveno;
-}
+					var reserveno = 'your_reserveno_value'; // 예약 번호 값
+					window.location.href = './oneReserve.do?reserveno=' + reserveno;
+				}
 			})
 			.catch(error => {
 				console.error('오류:', error);
@@ -345,9 +345,6 @@ var modifyVal = function() {
 	var idx = $(".active").text(); // 클래스가 'active'인 요소의 텍스트 값을 변수 idx에 할당
 }
 
-function TimeFix(durationInMinutes, minTime) {
-
-}
 document.addEventListener('DOMContentLoaded', function() {
 	console.log("예약 리스트 Loaded 준비");
 	renderReserve();
@@ -376,33 +373,48 @@ function renderReserve() {
 }
 
 function initializeCalendar(events) {
-    var reservationEl = document.getElementById('reservation');
-    var reservation = new FullCalendar.Calendar(reservationEl, {
-        initialView: 'listWeek',
-        titleFormat: function(date) {
-            return date.date.year + '년 ' + (parseInt(date.date.month) + 1) + '월';
-        },
-        eventSources: [{
-            events: events.map(function(event) {
-                return {
-                    cname: event.conferenceVo.cname,
-                    title: event.reservationVo.meetingtitle,
-                    start: event.reservationVo.reserve_date
-                };
-            }),
-            color: '#428A46',
-            textColor: 'white'
-        }],
-        dateClick: function() {
-            insert();
-        },
-        eventClick: function(info) {
-            var seq = info.event.extendedProps.seq;
-            detail(seq);
-        }
-    });
+	var reservationEl = document.getElementById('reservation');
+	var reservation = new FullCalendar.Calendar(reservationEl, {
+		initialView: 'listWeek',
+		headerToolbar: {
+			left: 'prev',
+			center: 'title',
+			right: 'next'
+		},
+		titleFormat: function(date) {
+			var year = date.date.year;
+			var month = date.date.month + 1;
+			var day = date.date.day;
 
-    reservation.render();
+			// 현재 날짜의 첫째 날의 요일을 구합니다. (0: 일요일, 1: 월요일, ..., 6: 토요일)
+			var firstDayOfWeek = new Date(year, month - 1, 1).getDay();
+
+			// 현재 날짜가 몇 주차에 속하는지 계산합니다.
+			var week = Math.ceil((day + firstDayOfWeek) / 7);
+
+			return year + "년 " + month + "월 " + week + "주";
+		},
+
+		eventSources: [{
+			events: events.map(function(event) {
+				return {
+					reserveno: event.reserveno,
+					cname: event.conferenceVo.cname,
+					title: event.reservationVo.meetingtitle,
+					start: event.reservationVo.reserve_date
+				};
+			}),
+			color: '#428A46',
+			textColor: 'white'
+		}],
+		/*찾기*/
+		eventClick: function(info) {
+			var reserveno = info.event.extendedProps.reserveno
+			oneReserveView(reserveno);
+		}
+	});
+
+	reservation.render();
 }
 
 
@@ -755,7 +767,8 @@ function reservationForm(conf_id, cname) {
 					console.log("예약 성공");
 					document.getElementById("reserveForm").reset();
 					$("#reserveFormModal").modal("hide");
-					alertModel();
+					var modalText = "예약되었습니다";
+					alertModel(modalText);
 				} else if (returnStatus == -1) {
 					console.log("예약 실패");
 					alert("중복된 예약이 있습니다");
@@ -772,38 +785,37 @@ function reservationForm(conf_id, cname) {
 	});
 }
 
-function alertModel() {
-	var modalContent = `
+function alertModel(modalText) {
+    var modalContent = `
         <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered custom-class">
-                <div class="modal-content" style="max-width: 300px;">
-                    <div class="modal-body" style="padding: 30px">
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 10px; right: 10px;"></button>
-                        <p class="text-center" style="margin-top: 30px; margin-bottom: 30px;">예약되었습니다</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+		    <div class="modal-dialog modal-dialog-centered custom-class">
+		        <div class="modal-content" style="max-width: 300px;">
+		            <div class="modal-body text-center" style="padding: 30px;">
+		                <p style="margin-top: 30px; margin-bottom: 30px;">${modalText}</p>
+		                <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px; margin: auto;">닫기</button>
+		            </div>
+		        </div>
+		    </div>
+		</div>
     `;
 
-	var modalElement = $(modalContent);
-	modalElement.on('shown.bs.modal', function() {
-		// 모달이 표시된 후에 실행되는 코드
-		var modalDialog = modalElement.find('.modal-dialog');
-		var windowHeight = $(window).height();
-		var modalHeight = modalDialog.height();
-		var topMargin = (windowHeight - modalHeight) / 2;
-		modalDialog.css('margin-top', topMargin);
-	});
-	modalElement.modal('show');
-	modalElement.find('.btn-close').on('click', function() {
-		// 모달 닫기 버튼 클릭 시 실행되는 코드
-		window.location.href = './reserveAble.do';
-	});
+    var modalElement = $(modalContent);
+    modalElement.modal('show');
+
+    // 모달이 표시된 후에 실행되는 코드
+    modalElement.on('shown.bs.modal', function() {
+        var modalDialog = modalElement.find('.modal-dialog');
+        var windowHeight = $(window).height();
+        var modalHeight = modalDialog.height();
+        var topMargin = (windowHeight - modalHeight) / 2;
+        modalDialog.css('margin-top', topMargin);
+    });
+
+    // 모달 닫기 버튼 클릭 시 실행되는 코드
+     modalElement.find('#close').on('click', function() {
+        window.location.reload();
+    });
 }
-
-alertModel();
-
 
 
 function showConfirmationModal(reserveno) {
@@ -825,7 +837,8 @@ function deleteReserve() {
 				console.log('예약이 성공적으로 삭제되었습니다.');
 				$('#confirmationModal').modal('hide');
 				$('#alertModal').modal('show');
-				window.location.reload();
+				var modalText = "취소되었습니다";
+				alertModel(modalText)
 			}
 		})
 		.catch(error => {

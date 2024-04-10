@@ -62,14 +62,21 @@ function renderCalendar(viewmonth, selectedCalendars) {
 		googleCalendarApiKey: 'AIzaSyC2cgtxbwgWkXWXUbsIXgP5NSE7tLNQq9E',
 		initialView: 'dayGridMonth',
 		firstDay: 1,
+		timeFormat: 'HH:mm',
 		headerToolbar: {
-			right: 'prev,next,today'
+			left: 'today',
+			center: 'title',
+			right: 'prev,next'
 		},
 		titleFormat: function(date) {
 			year = date.date.year;
 			month = date.date.month + 1;
-
 			return year + "년 " + month + "월";
+		},
+		buttonClasses: {
+			prev: 'btn btn-custom', // 월간 버튼의 클래스를 btn-custom으로 설정
+			right: 'btn btn-custom',  // 주간 버튼의 클래스를 btn-custom으로 설정
+			today: 'btn btn-custom'
 		},
 		eventSources: [{
 			googleCalendarId: "ko.south_korea.official#holiday@group.v.calendar.google.com",
@@ -78,7 +85,7 @@ function renderCalendar(viewmonth, selectedCalendars) {
 			borderColor: "white",
 			textColor: "tomato"
 		}],
-		navLinks: false,
+		navLinks: true,
 		editable: true,
 		selectable: false,
 		nowIndicator: true,
@@ -136,6 +143,15 @@ function renderCalendar(viewmonth, selectedCalendars) {
 					failureCallback();
 					console.error('서버에서 데이터를 가져오는 동안 오류가 발생했습니다:', error);
 				});
+		},
+		dateClick: function(info) {
+			var clickedDate = info.dateStr;
+			console.log("Clicked Date:", clickedDate);
+
+			$("#start_date").val(clickedDate); // 시작일에 클릭한 날짜 설정
+			$("#end_date").val(clickedDate);   // 종료일에 클릭한 날짜 설정
+
+			$("#scheduelModal").modal("show");
 		},
 		eventClick: function(info) {
 			var schedule_id = info.event.extendedProps.schedule_id;
@@ -248,10 +264,10 @@ function addScheduleHandler() {
 				console.log("일정 등록 성공");
 				document.getElementById("scheduelForm").reset(); // 폼 초기화
 				$("#scheduelModal").modal("hide"); // 모달 닫기
-				window.location.reload();
+				alertModel(); // 일정 등록 성공 시 alertModel() 함수 호출
 			} else {
 				console.log("일정 등록 실패");
-				alert("일정을 등록할 수 없습니다");
+				$('#alertInsertModal').modal('show');
 			}
 		})
 		.catch(error => {
@@ -279,27 +295,36 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
 	$('#daterangepicker').daterangepicker({
-		"locale": {
-			"format": "YYYY-MM-DD hh:mm",
-			"separator": " ~ ",
-			"applyLabel": "확인",
-			"cancelLabel": "취소",
-			"fromLabel": "From",
-			"toLabel": "To",
-			"customRangeLabel": "Custom",
-			"weekLabel": "W",
-			"daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
-			"monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
+		locale: {
+			format: "YYYY-MM-DD HH:mm",
+			separator: " ~ ",
+			applyLabel: "확인",
+			cancelLabel: "취소",
+			fromLabel: "From",
+			toLabel: "To",
+			customRangeLabel: "Custom",
+			weekLabel: "W",
+			daysOfWeek: ["일", "월", "화", "수", "목", "금", "토"],
+			monthNames: ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
 		},
 		timePicker: true,
 		timePicker24Hour: true,
 		startDate: moment().startOf('hour'),
-		endDate: moment().startOf('hour').add(32, 'hour'),
-		"drops": "down"
+		endDate: moment().startOf('hour').add(2, 'hour'),
+		drops: "down"
 	}, function(start, end, label) {
-		$('#start_date').val(start.format('YYYY-MM-DD hh:mm'));
-		$('#end_date').val(end.format('YYYY-MM-DD hh:mm'));
-		console.log('New date range selected: ' + start.format('YYYY-MM-DD hh:mm') + ' to ' + end.format('YYYY-MM-DD hh:mm') + ' (predefined range: ' + label + ')');
+		if (start.isSame(end, 'day')) {
+			$('#start_date').val(start.format('YYYY-MM-DD HH:mm'));
+			$('#end_date').val(start.format('YYYY-MM-DD HH:mm'));
+		} else { // 범위 선택일 경우
+			$('#start_date').val(start.format('YYYY-MM-DD HH:mm'));
+			$('#end_date').val(end.format('YYYY-MM-DD HH:mm'));
+		}
+		$('#applyBtn').removeAttr('disabled'); // 확인 버튼 활성화
+		console.log('New date range selected: ' + start.format('YYYY-MM-DD HH:mm') + ' to ' + end.format('YYYY-MM-DD HH:mm') + ' (predefined range: ' + label + ')');
+		$('#daterangepicker').on('apply.daterangepicker', function() {
+			$('#applyBtn').removeAttr('disabled');
+		});
 	});
 });
 
@@ -368,24 +393,24 @@ function resetModal() {
 }
 
 function oneScheduleView(schedule_id) {
-    console.log("일정 상세 모달 : ", schedule_id);
-    fetch("./oneSchedule.do?schedule_id=" + schedule_id)
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('서버 응답 실패');
-            }
-            return response.json(); // JSON 형식으로 데이터 받기
-        })
-        .then(data => {
-            console.log('서버에서 받은 데이터:', data); // 데이터 확인
-            const startDate = new Date(data.start_date);
-            const endDate = new Date(data.end_date);
-            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-            const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
-            const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
-            const participants = JSON.parse(data.participants);
+	console.log("일정 상세 모달 : ", schedule_id);
+	fetch("./oneSchedule.do?schedule_id=" + schedule_id)
+		.then(function(response) {
+			if (!response.ok) {
+				throw new Error('서버 응답 실패');
+			}
+			return response.json(); // JSON 형식으로 데이터 받기
+		})
+		.then(data => {
+			console.log('서버에서 받은 데이터:', data); // 데이터 확인
+			const startDate = new Date(data.start_date);
+			const endDate = new Date(data.end_date);
+			const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+			const formattedStartDate = startDate.toLocaleDateString('ko-KR', options);
+			const formattedEndDate = endDate.toLocaleDateString('ko-KR', options);
+			const participants = JSON.parse(data.participants);
 
-            var modalContent = `
+			var modalContent = `
             <div class="modal fade" id="oneScheduleView" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered custom-class">
                     <div class="modal-content" style="width: 550px;"> 
@@ -397,10 +422,10 @@ function oneScheduleView(schedule_id) {
                                     ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
                                     ${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
                                     ${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
-                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.memo}</p>` : ''}
                                     <p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
                                     ${participants != null ? `<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
                                     ${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>` : ''}
+                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;">메모</strong> ${data.memo}</p>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -411,28 +436,64 @@ function oneScheduleView(schedule_id) {
                 </div>
             </div>
             `;
-            // 모달이 이미 열려 있는 경우, 모달을 완전히 제거하고 다시 생성하여 열기
-            if ($('#oneScheduleView').length) {
-                $('#oneScheduleView').remove();
-                $('body').append(modalContent);
-            } else { // 모달이 열려 있지 않은 경우, 새로운 모달을 생성하여 열기
-                $('body').append(modalContent);
-            }
+			// 모달이 이미 열려 있는 경우, 모달을 완전히 제거하고 다시 생성하여 열기
+			if ($('#oneScheduleView').length) {
+				$('#oneScheduleView').remove();
+				$('body').append(modalContent);
+			} else { // 모달이 열려 있지 않은 경우, 새로운 모달을 생성하여 열기
+				$('body').append(modalContent);
+			}
 
-            $('#oneScheduleView').modal('show'); // 모달 열기
+			$('#oneScheduleView').modal('show'); // 모달 열기
 
-            // 닫기 버튼 클릭 이벤트 처리
-            $('#closeModalBtn').click(function() {
-                $('#oneScheduleView').modal('hide'); // 모달을 숨김
-            });
-        })
-        .catch(error => {
-            console.error('오류:', error);
-        });
+			// 닫기 버튼 클릭 이벤트 처리
+			$('#closeModalBtn').click(function() {
+				$('#oneScheduleView').modal('hide'); // 모달을 숨김
+			});
+		})
+		.catch(error => {
+			console.error('오류:', error);
+		});
 }
-
-
 
 document.getElementById('sidebarToggle').addEventListener('click', function() {
 	updateFilter()
 });
+
+function roomInsertModal() {
+	var reserveDayValue = document.getElementById('reserve_day').value;
+	document.getElementById('start_date').value = reserveDayValue;
+}
+
+function alertModel() {
+    var modalContent = `
+        <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered custom-class">
+                <div class="modal-content" style="max-width: 300px;">
+                    <div class="modal-body text-center" style="padding: 30px;">
+                        <p style="margin-top: 30px; margin-bottom: 30px;">등록되었습니다</p>
+                        <button type="button" id="close" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px; margin: auto;">닫기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    var modalElement = $(modalContent);
+    modalElement.modal('show');
+
+    // 모달이 표시된 후에 실행되는 코드
+    modalElement.on('shown.bs.modal', function() {
+        var modalDialog = modalElement.find('.modal-dialog');
+        var windowHeight = $(window).height();
+        var modalHeight = modalDialog.height();
+        var topMargin = (windowHeight - modalHeight) / 2;
+        modalDialog.css('margin-top', topMargin);
+    });
+
+    // 모달 닫기 버튼에 클릭 이벤트 추가
+    modalElement.find('#close').on('click', function() {
+        // 모달 닫기 버튼을 클릭하면 페이지를 새로고침
+        window.location.reload();
+    });
+}
