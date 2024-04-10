@@ -561,23 +561,7 @@ function insertDocument(gubun) {
 
 		content = templateArea.innerHTML;
 		
-		/*일정*/
-		var creator = ""; /*휴가 신청차 이름*/
-		var category = "";/*01:휴가 03:경조사 10:예비군*/
-		var title = "["+creator+"]"+" 목적"; /*일정 제목*/
-		var memo = ""; /*메모*/
-		var start_date = ""; /*시작일*/
-		var end_date = ""; /*종료일*/
-		var participants = '[{"id":"2303100101","name":"이지원"},{"id":"2402110501","name":"배강훈"}]';
-		
-		formData.append("cno", writer_id);
-		formData.append("creator", creator);
-		formData.append("category", category);
-		formData.append("title", title);
-		formData.append("memo", memo);
-		formData.append("start_date", start_date);
-		formData.append("end_date", end_date);
-		formData.append("participants", JSON.stringify(participants));
+		formData.append("writer_id", writer_id);
 		
 		/*전자결재*/
 		formData.append("content", content);
@@ -587,19 +571,11 @@ function insertDocument(gubun) {
 		formData.append("writerVo", JSON.stringify(writerVo));
 		formData.append("gubun", "01");
 
+		// file
 		for (let i = 0; i < files.length; i++) {
 			formData.append('files', files[i]);
 			console.log("file:", files[i]);
 		}
-
-		if (tempcode == '01') {
-
-			formData.append("start_day", start_day);
-			formData.append("end_day", end_day);
-			formData.append("vacation_half", vacation_half);
-			formData.append("getsu", getsu);
-		}
-
 
 		/*fetch post*/
 		fetch("./insertDocument.do", {
@@ -912,6 +888,7 @@ async function rejectApproval() {
 	formData.append("appr_status", appr_status);
 	formData.append("writer_id", writer_id);
 	formData.append("title", title);
+	
 	/*fetch post*/
 	try {
 		const response1 = await fetch("./updateApproval.do", {
@@ -1063,6 +1040,7 @@ async function approve() {
 	formData.append("title", title);
 
 	var tempcode = document.getElementById("tempcode").value;
+	console.log("tempcode",tempcode);
 	if (tempcode == '01') {
 		var start_day = document.getElementById("start_day").value;
 		console.log("start_day", start_day);
@@ -1077,7 +1055,33 @@ async function approve() {
 		console.log("getsu", getsu);
 		formData.append("getsu", getsu);
 	}
-
+	
+	// scheduleVo에 들어갈 값 생성
+	var creator = document.getElementById("name").textContent; /*휴가 신청차 이름*/
+	var category = "01";/*01:휴가*/
+	var title = "[" + creator + "]" + document.getElementById("getsuFlagTd").getElementsByTagName("p").textContent; /*일정 제목*/
+	var memo = ""; /*메모 ''*/
+	var start_day = document.getElementById("start_day").value; /*시작일 시, 분 까지*/
+	var end_day = document.getElementById("end_day").value; /*종료일*/
+	var participants = '[{"id":"2303100101","name":"이지원"},{"id":"2402110501","name":"배강훈"}]';
+	
+	// scheduleVo
+	formData.append("writer_id", writer_id);
+	formData.append("creator", creator);
+	formData.append("category", category);
+	formData.append("title", title);
+	formData.append("memo", memo);
+	formData.append("start_date", start_day);
+	formData.append("end_date", end_day);
+	formData.append("participants", JSON.stringify(participants));
+	
+	// vacationVo
+//	if (tempcode == '01') {
+//		formData.append("start_day", start_day);
+//		formData.append("end_day", end_day);
+//		formData.append("vacation_half", vacation_half);
+//		formData.append("getsu", getsu);
+//	}
 
 	try {
 		const response1 = await fetch("./updateApproval.do", {

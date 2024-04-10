@@ -41,6 +41,15 @@ public class DocumentServiceImpl implements IDocumentService{
 	private IScheduleDao scDao;
 	
 	@Override
+	public int afterApprove(VacationVo vVo, ScheduleVo scVo) {
+		log.info("DocumentServiceImpl afterApprove 기안서 승인 후 연차, 일정 등록 : {}/{}", vVo, scVo);
+		int cnt = 0;
+		cnt += vDao.registerVacation(vVo);
+		cnt += scDao.insertSchedule(scVo);
+		return cnt;
+	}
+	
+	@Override
 	@Transactional
 	public int insertDraft(DocumentVo dVo, List<FileStorageVo> fVos, List<ApprovalVo> apprVos) {
 		log.info("DocumentServiceImpl insertDraft 게시글, 파일 업로드 : {}, {}, {}", dVo, fVos, apprVos);
@@ -188,14 +197,9 @@ public class DocumentServiceImpl implements IDocumentService{
 
 
 	@Override
-	public int updateDocStatus(Map<String, Object> map, VacationVo vVo, ScheduleVo scVo) {
-		log.info("DocumentServiceImpl updateDocStatus 기안서 상태 업데이트 updateDocStatus, registerVacation, insertSchedule : {}/{}/{}", map, vVo, scVo);
-		int cnt = 0;
-		cnt += dao.updateDocStatus(map);
-		cnt += vDao.registerVacation(vVo);
-		cnt += scDao.insertSchedule(scVo);
-		
-		return cnt;
+	public int updateDocStatus(Map<String, Object> map) {
+		log.info("DocumentServiceImpl updateDocStatus 기안서 상태 업데이트 updateDocStatus : {}", map);
+		return dao.updateDocStatus(map);
 	}
 
 
