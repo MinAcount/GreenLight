@@ -198,7 +198,18 @@ $(function() {
 		console.log("autoAppr_length", autoAppr_length)
 		if (added_length > 3 - autoAppr_length) {
 			console.log("결재자는 최대 4명까지만 설정가능합니다");
+			var newDiv = document.createElement("div");
+
+			var newP = document.createElement("p");
+			newP.textContent = "결재자는 최대 4명까지만 설정 가능합니다";
+			newP.style.textAlign = "center";
+			newP.style.color = "red";
+			newP.style.marginTop = "10px";
+			newDiv.appendChild(newP);
+			apr_chk.appendChild(newDiv);
 			return;
+		} else {
+			newDiv.style.display = "none";
 		}
 		$("#apprJstree").jstree('hide_node', sel);
 		var selText = $("#apprJstree").jstree().get_text(sel);
