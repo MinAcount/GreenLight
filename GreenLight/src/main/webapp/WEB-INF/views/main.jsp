@@ -102,7 +102,7 @@
                         </div>
                   <div id="apprBox" class="card" style="width: 49%;  padding: 20px; text-align: center;">
                      <div style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 30px; margin-top: 3px;">
-                        <div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+                        <div id="urgency1" onclick="location.href = './draftDetail.do?docno=${urgencyLists[0].docno}'" class="card" style="cursor:pointer; min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
                            <span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
                            <h5 style="margin-bottom: 15px;">${urgencyLists[0].title}</h5>
                            <p>기안자 : ${urgencyLists[0].empVo.name}</p>
@@ -112,7 +112,7 @@
                                      </script></p>
                            <p>문서유형 : ${urgencyLists[0].commVo.code_name}</p>
                         </div>
-                        <div id="urgency2" onclick="location.href = './draftDetail.do?docno=${urgencyLists[1].docno}'" class="card" style="min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
+                        <div id="urgency2" onclick="location.href = './draftDetail.do?docno=${urgencyLists[1].docno}'" class="card" style="cursor:pointer; min-height: 230px; width: 49%; box-shadow: 0 0.15rem 1rem 0 rgba(33, 40, 50, 0.15); padding: 15px;">
                            <span class="badge badge-danger" style="width: 50px; margin-bottom: 15px; margin-top: 10px;">긴급</span>
                            <h5 style="margin-bottom: 15px;">${urgencyLists[1].title}</h5>
                            <p>기안자 : ${urgencyLists[1].empVo.name}</p>

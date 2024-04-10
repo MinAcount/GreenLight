@@ -201,6 +201,7 @@ $(function() {
 			var newDiv = document.createElement("div");
 
 			var newP = document.createElement("p");
+			newDiv.setAttribute("id","apprLimit");
 			newP.textContent = "결재자는 최대 4명까지만 설정 가능합니다";
 			newP.style.textAlign = "center";
 			newP.style.color = "red";
@@ -208,9 +209,7 @@ $(function() {
 			newDiv.appendChild(newP);
 			apr_chk.appendChild(newDiv);
 			return;
-		} else {
-			newDiv.style.display = "none";
-		}
+		} 
 		$("#apprJstree").jstree('hide_node', sel);
 		var selText = $("#apprJstree").jstree().get_text(sel);
 		if (!selText) {
@@ -365,13 +364,16 @@ function delRef(event) {
 	var deletedNode = findTreeNodeByText2(text);
 	console.log(deletedNode)
 	$("#refJstree").jstree('show_node', deletedNode.id);
-
+	
 }
 
 var deletedAppr = [];
 var deletedRef = [];
 // 결재자 삭제
 function del(event) {
+	
+	var apprLimit = document.getElementById("apprLimit");
+	apprLimit.remove();
 	// 클릭된 span의 parent div
 	var parentDiv = event.target.parentElement;
 	console.log("parentDiv", parentDiv)
@@ -387,6 +389,7 @@ function del(event) {
 	console.log(deletedNode)
 	$("#apprJstree").jstree('show_node', deletedNode.id);
 
+	
 }
 
 function findTreeNodeByText2(text) {
@@ -441,24 +444,44 @@ var children_apr_row;
 var parent_apr_row;
 // 초기화 버튼 기능
 function clean() {
-	parent_apr_row = document.getElementsByClassName("apr_row");
-
-	//   console.log(parent_apr_row,parent_apr_row.length)
-	var parent_apr_row_clone = Array.from(parent_apr_row);
-	for (let i = 0; i < parent_apr_row.length; i++) {
-		children_apr_row = parent_apr_row_clone[i].querySelector("[name='delIcon']");
-		if (children_apr_row) {
-			deletedAppr.push(parent_apr_row_clone[i]);
-			parent_apr_row_clone[i].remove();
-			//         console.log("parent_apr_row_clone",parent_apr_row_clone[i])
-			var enable_id = parent_apr_row_clone[i].querySelector("[name='id']").value;
-			console.log("enable_id", enable_id)
-			$("#apprJstree").jstree().show_node(enable_id);
+	
+	var apr_chk = document.getElementById("apr_chk");
+	var inputs = apr_chk.querySelectorAll("input");
+	inputs.forEach(function(input){
+		if(input.className != "autoAppr"){
+			if(input.name == "id"){
+				var enable_id = input.value;
+				$("#apprJstree").jstree().show_node(enable_id);
+			}
+			input.parentElement.remove();
 		}
-	}
-
-	console.log("cleanAppr", cleanAppr);
+	})
+	var apprLimit = document.getElementById("apprLimit");
+	apprLimit.remove();
+	
+//	
+//	parent_apr_row = document.getElementsByClassName("apr_row");
+//
+//	//   console.log(parent_apr_row,parent_apr_row.length)
+//	
+//	
+//	var parent_apr_row_clone = Array.from(parent_apr_row);
+//	for (let i = 0; i < parent_apr_row.length; i++) {
+//		children_apr_row = parent_apr_row_clone[i].querySelector("[name='delIcon']");
+//		if (children_apr_row) {
+//			deletedAppr.push(parent_apr_row_clone[i]);
+//			parent_apr_row_clone[i].remove();
+//			//         console.log("parent_apr_row_clone",parent_apr_row_clone[i])
+//			var enable_id = parent_apr_row_clone[i].querySelector("[name='id']").value;
+//			console.log("enable_id", enable_id)
+//			$("#apprJstree").jstree().show_node(enable_id);
+//		}
+//	}
+//
+//	console.log("cleanAppr", cleanAppr);
 	deletedAppr = [];
+//	var apprLimit = document.getElementById("apprLimit");
+//	apprLimit.remove();
 }
 
 var chkAppr;
