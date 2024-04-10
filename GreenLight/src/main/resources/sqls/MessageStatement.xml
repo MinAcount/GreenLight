@@ -64,7 +64,7 @@ SELECT GROUPNO, CHAT_ID, ROOMNAME,
              AND G.LAST_MESG = M.MESG_ID 
              GROUP BY G.CHAT_ID) S
        WHERE GROUP_OUT = 'N'
-       ORDER BY FAVOR DESC, SEND_DATE DESC
+       ORDER BY SEND_DATE DESC
 </select>
 <!-- 	 채팅방 목록 검색 getSearchChat -->
 <select id="getSearchChat" parameterType="java.util.Map" resultMap="MessageVo">

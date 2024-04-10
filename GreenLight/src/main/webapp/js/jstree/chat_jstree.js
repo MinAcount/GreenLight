@@ -216,6 +216,7 @@ function cleanChat() {
 	selectedNodeTextName = [];
 	selectedIds = [];
 	hideLoginUser();
+	document.getElementById("createChatName").value = "";
 	console.log(deletedChat);
 	console.log(selectedNodeTextName);
 	
@@ -276,6 +277,7 @@ function chatDone() {
 		})
 		.then(data => {
 			console.log("data : ", data);
+			location.reload();
 		})
 		.catch(error => {
 			console.error("네트워크 오류:", error);
@@ -316,6 +318,7 @@ function chatCancel() {
 	deletedChat = [];
 	selectedNodeTextName = [];
 	selectedIds = [];
+	document.getElementById("createChatName").value = "";
 }
 
 async function selectComplete() {

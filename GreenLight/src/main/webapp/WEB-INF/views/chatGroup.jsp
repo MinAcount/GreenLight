@@ -11,27 +11,29 @@
 		}
 		
 		#allChatDiv {
-			justify-content: space-between;
 			width: 40%;
-			height: 93.5%;
+			height: 900px;
+			max-height: 900px;
 		}
 		
 		#chatList{
 			list-style:none;
-			overflow-y: auto;
+			overflow-y: scroll;
+			min-height: 826px;
+			padding-top: 18px;
 		}
 		
 		#chatRoom {
 			display: none;
 			justify-content: space-between;
 			width: 53%;
-			height: 93.5%;
+			height: 900px;
+			max-height: 900px;
 		}
 		
 		#table-container-div {
 			display: flex;
-			justify-content: center;
-			width: 100%;
+			width: 5%;
 			height: 100%;
 		}
 		
@@ -51,14 +53,14 @@
 		}
 		
 		#topChat {
-			height: 7%;
+			height: 8%;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 		
 		#middleChat {
-			height: 93.5vh;
+			height: 85.5%;
 			overflow-y: auto;
 		}
 		
@@ -72,8 +74,7 @@
 		#roomName {
 			text-align: left;
 			width: 30vh;
-			height: 10vh;
-			padding-top:3.4vh;
+			padding-top: 1.3%;
 			font-size: large;
 			margin-left: 1vh;
 			align-items: center;
@@ -149,7 +150,7 @@
 		#peopleModal {
 			display: none;
 			width: 15%;
-			height: 15%;
+			height: 17%;
 			overflow: auto;
 			z-index: 10000;
 			background-color: white;
@@ -209,6 +210,7 @@
 			font-size: large;
 		}
 		
+		
 	</style>
 </head>
 <body class="nav-fixed">
@@ -230,7 +232,6 @@
 					<button id="createChatRoomModal" class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal"
 						data-bs-target="#chatModal" onclick="closePeople();closeSettingAnother();">생성</button>
 					</div>
-					<br/>
 					<div id="chatList">											
 					</div>
 					<div style="display: flex; flex-direction: row; justify-content: space-between;">
