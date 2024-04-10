@@ -111,6 +111,61 @@
 	WHERE DOCNO=#{docno}
    </update>
    
+   <!-- 결재대기문서함 페이징용 기안서갯수 조회 getAllPendingApprovalDraftCount -->
+   <select id="getAllPendingApprovalDraftCount" resultType="java.lang.Integer">
+   <![CDATA[
+   SELECT DISTINCT COUNT(*)
+			FROM DOCUMENT D
+			JOIN APPROVAL A ON D.DOCNO = A.DOCNO
+			JOIN EMPLOYEE E ON D.WRITER_ID = E.ID -- 수정된 부분
+			JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
+			WHERE A.EMP_ID = #{id}
+			AND A.APPR_STATUS = '01'
+			AND A.ATYPE = '01'
+			AND ( A.ORDERNO = 1
+			        OR (
+			    A.ORDERNO <> 1
+			                AND EXISTS (
+			                SELECT 1
+			                FROM APPROVAL A2
+			                WHERE A.DOCNO = A2.DOCNO
+			                        AND A2.ORDERNO = A.ORDERNO - 1
+			                        AND A2.APPR_STATUS = '02'
+			    )
+			)
+			)
+			ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
+   ]]>
+   </select>
+   
+   <!-- 결재대기문서함 페이징용 getAllPendingApprovalDraftForPaging -->
+   <select id="getAllPendingApprovalDraftForPaging" resultMap="DocumentVo">
+      <![CDATA[
+         SELECT * FROM (SELECT DISTINCT D.DOCNO, D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
+			FROM DOCUMENT D
+			JOIN APPROVAL A ON D.DOCNO = A.DOCNO
+			JOIN EMPLOYEE E ON D.WRITER_ID = E.ID
+			JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
+			WHERE A.EMP_ID = #{id}
+			AND A.APPR_STATUS = '01'
+			AND A.ATYPE = '01'
+			AND ( A.ORDERNO = 1
+			        OR (
+			    A.ORDERNO <> 1
+			                AND EXISTS (
+			                SELECT 1
+			                FROM APPROVAL A2
+			                WHERE A.DOCNO = A2.DOCNO
+			                        AND A2.ORDERNO = A.ORDERNO - 1
+			                        AND A2.APPR_STATUS = '02'
+			    )
+			)
+			)
+			ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.urgency DESC, d.DRAFT_DATE DESC)
+       WHERE ROWNUM BETWEEN #{first} AND #{last}
+      ]]>
+   </select>
+   
    <!-- 결재대기문서함 전체조회 getAllPendingApprovalDraft -->
    <select id="getAllPendingApprovalDraft" resultMap="DocumentVo">
       <![CDATA[
@@ -142,29 +197,29 @@
    <!-- 결재대기문서함 긴급x 4줄 조회 getAllPendingApprovalDraftLimit -->
    <select id="getAllPendingApprovalDraftLimit" resultMap="DocumentVo">
       <![CDATA[
-         SELECT * FROM (SELECT DISTINCT D.DOCNO ,D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
-           FROM DOCUMENT D
-           JOIN APPROVAL A ON D.DOCNO = A.DOCNO
-           JOIN EMPLOYEE E ON A.EMP_ID = E.ID
-           JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
-           WHERE A.EMP_ID = #{id}
-           AND A.APPR_STATUS = '01'
-           AND A.ATYPE = '01'
-           AND ( A.ORDERNO = 1
-                   OR (
-               A.ORDERNO <> 1
-                           AND EXISTS (
-                           SELECT 1
-                           FROM APPROVAL A2
-                           WHERE A.DOCNO = A2.DOCNO
-                                   AND A2.ORDERNO = A.ORDERNO - 1
-                                   AND A2.APPR_STATUS = '02'
-               )
-           )
-       )
-       AND d.URGENCY = 'N'
-       ORDER BY d.DRAFT_DATE DESC)
-       WHERE ROWNUM <=4
+         SELECT * FROM (SELECT DISTINCT D.DOCNO, D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
+			FROM DOCUMENT D
+			JOIN APPROVAL A ON D.DOCNO = A.DOCNO
+			JOIN EMPLOYEE E ON D.WRITER_ID = E.ID -- 수정된 부분
+			JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
+			WHERE A.EMP_ID = #{id}
+			AND A.APPR_STATUS = '01'
+			AND A.ATYPE = '01'
+			AND ( A.ORDERNO = 1
+			        OR (
+			    A.ORDERNO <> 1
+			                AND EXISTS (
+			                SELECT 1
+			                FROM APPROVAL A2
+			                WHERE A.DOCNO = A2.DOCNO
+			                        AND A2.ORDERNO = A.ORDERNO - 1
+			                        AND A2.APPR_STATUS = '02'
+			    )
+			)
+			)
+			ORDER BY D.DRAFT_DATE DESC)
+
+       WHERE ROWNUM <=6
       ]]>
    </select>
    
@@ -172,36 +227,34 @@
    <!-- 결재대기문서함 2줄조회 getAllPendingApprovalDraftUrgency -->
    <select id="getAllPendingApprovalDraftUrgency" resultMap="DocumentVo">
       <![CDATA[
-         SELECT * FROM (SELECT DISTINCT D.DOCNO ,D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
-           FROM DOCUMENT D
-           JOIN APPROVAL A ON D.DOCNO = A.DOCNO
-           JOIN EMPLOYEE E ON A.EMP_ID = E.ID
-           JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
-           WHERE A.EMP_ID = #{id}
-           AND A.APPR_STATUS = '01'
-           AND A.ATYPE = '01'
-           AND ( A.ORDERNO = 1
-                   OR (
-               A.ORDERNO <> 1
-                           AND EXISTS (
-                           SELECT 1
-                           FROM APPROVAL A2
-                           WHERE A.DOCNO = A2.DOCNO
-                                   AND A2.ORDERNO = A.ORDERNO - 1
-                                   AND A2.APPR_STATUS = '02'
-               )
-           )
-       )
-       ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC)
+         SELECT * FROM (SELECT DISTINCT D.DOCNO, D.TITLE ,D.DRAFT_DATE ,D.URGENCY ,E.NAME ,C.CODE_NAME ,(SELECT COUNT(*) FROM FILESTORAGE f WHERE F.REF_ID = D.DOCNO AND FTYPE = '01') AS FILE_COUNT
+			FROM DOCUMENT D
+			JOIN APPROVAL A ON D.DOCNO = A.DOCNO
+			JOIN EMPLOYEE E ON D.WRITER_ID = E.ID -- 수정된 부분
+			JOIN COMMON C ON D.TEMPCODE = C.CODE AND C."TYPE" = '문서양식코드'
+			WHERE A.EMP_ID = #{id}
+			AND A.APPR_STATUS = '01'
+			AND A.ATYPE = '01'
+			AND ( A.ORDERNO = 1
+			        OR (
+			    A.ORDERNO <> 1
+			                AND EXISTS (
+			                SELECT 1
+			                FROM APPROVAL A2
+			                WHERE A.DOCNO = A2.DOCNO
+			                        AND A2.ORDERNO = A.ORDERNO - 1
+			                        AND A2.APPR_STATUS = '02'
+			    )
+			)
+			)
+			ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC)
        WHERE ROWNUM <=2
       ]]>
    </select>
-   
-   
+
    <!-- 기안문서함 전체조회 getAllDraft -->
    <select id="getAllDraft" resultMap="DocumentVo">
-      SELECT e.ID, d.DOCNO, e.NAME , d.TITLE, 
-
+      SELECT e.ID, d.DOCNO, e.NAME , d.TITLE,
        d.DRAFT_DATE, d.URGENCY, 
        (SELECT CODE_NAME FROM COMMON c WHERE d.TEMPCODE = c.CODE AND c."TYPE" = '문서양식코드') AS TEMPCODE,
        (SELECT CODE_NAME FROM COMMON c WHERE d.DOC_STATUS = c.CODE AND c."TYPE" = '기안서상태') AS DOC_STATUS,
@@ -210,7 +263,7 @@
       JOIN EMPLOYEE e ON d.WRITER_ID = e.ID 
       WHERE d.WRITER_ID = #{id}
       AND NOT d.DOC_STATUS = '04'
-      ORDER BY d.DRAFT_DATE DESC
+      ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC
    </select>
    
    <!-- 기안문서함 기안서상태별 전체조회 getAllDraftByDocStatus -->
@@ -264,7 +317,7 @@
          OR (a.APPR_CURRENT ='03'
              AND a.EMP_ID=#{id} AND a.ATYPE='01'
              AND NOT d.DOC_STATUS = '04')
-         ORDER BY d.DRAFT_DATE DESC 
+         ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC 
    </select>
    
    <!-- 결재문서함 기안서상태별 전체조회 getAllApprDraftByDocStatus -->
@@ -292,7 +345,7 @@
          OR (a.APPR_CURRENT ='03'
              AND a.EMP_ID=#{id} AND a.ATYPE='01'
              AND NOT d.DOC_STATUS = '04')
-         ORDER BY d.DRAFT_DATE DESC 
+         ORDER BY CASE WHEN d.URGENCY = 'Y' THEN 0 ELSE 1 END, d.DRAFT_DATE DESC 
    </select>
    
    

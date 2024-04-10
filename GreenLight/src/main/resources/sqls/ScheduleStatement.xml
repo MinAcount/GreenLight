@@ -84,12 +84,12 @@
 	</select>
 	<!-- 일정등록 -->
 	<insert id="insertSchedule" parameterType="ScheduleVo">
-		INSERT INTO SCHEDULE (SCHEDULE_ID, CNO, CREATOR, PHONE, MODIFIED, LABEL_NAME, CATEGORY,
+		INSERT INTO SCHEDULE (SCHEDULE_ID, CNO, CREATOR, MODIFIED, LABEL_NAME, CATEGORY,
 							  TITLE, MEMO, START_DATE, END_DATE, LOCATION, PRIORITY, RECUR, VISIBILITY,
 							  PARTICIPANTS, PERMISSION, ALARM)
 		VALUES
 		    ('S' || TO_CHAR(CURRENT_DATE, 'YYMMDD') || LPAD(SCHEDULE_SEQ.NEXTVAL, 3, '0'), 
-		     #{cno}, #{creator}, #{phone}, CURRENT_DATE, #{label_name}, #{category},
+		     #{cno}, #{creator}, CURRENT_DATE, #{label_name}, #{category},
 		     #{title}, #{memo}, #{start_date}, #{end_date},
 		     #{location}, #{priority}, #{recur}, #{visibility},
 		     #{participants}, #{permission}, #{alarm})

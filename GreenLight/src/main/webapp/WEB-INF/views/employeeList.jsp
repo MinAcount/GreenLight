@@ -106,7 +106,7 @@
 			$('#datatablesSimple').DataTable({
 
 				"language" : {
-					"emptyTable" : "직원이 없습니다",
+					"emptyTable" : "표시할 기안서가 없습니다..",
 					"lengthMenu" : " _MENU_",
 					"info" : "_START_ - _END_ / _TOTAL_",
 					            "search": "검색: ",

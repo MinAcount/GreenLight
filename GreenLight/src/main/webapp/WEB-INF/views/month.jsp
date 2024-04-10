@@ -43,25 +43,28 @@
 								<div class="mb-2 checkbox-container">
 									<input class="form-check-input checkbox-input" type="checkbox" id="vacationCheck" value="휴가"  onchange="updateFilter()" checked> 
 									<span class="form-check-label checkbox-input">휴가</span>
-									<input id="circle" type="button" name="vacationCheck" class="checkbox-input" style="background-color: #f2c79c;" readonly>
-								</div>
-							</div>
-							<div style="padding-top: 30px;">
-								<p>📆관심 캘린더</p>
-								<div class="mb-2 checkbox-container">
-									<input class="form-check-input checkbox-input" type="checkbox" id="interestCheck" value="이지원" onchange="updateFilter()"> 
-									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(이지원)</span>
-									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #bad9a1;" readonly>
-								</div>
-								<div class="mb-2 checkbox-container">
-									<input class="form-check-input checkbox-input" type="checkbox"id="interestCheck" value="김태민" onchange="updateFilter()"> 
-									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(김태민)</span>
-									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #c7c2f2;" readonly>
+									<input id="circle" type="button" name="vacationCheck" class="checkbox-input" style="background-color: #bad9a1;" readonly>
 								</div>
 								<div class="mb-2" style="padding-left: 15px; padding-top: 15px;">
-									<a style="color: grey" href="#">+ 관심 캘린더 추가</a>
-								</div>
+									<a style="color: grey" href="#">+ 내 캘린더 추가</a>
+ 								</div>
 							</div>
+<!-- 							<div style="padding-top: 30px;"> -->
+<!-- 								<p>📆관심 캘린더</p> -->
+<!-- 								<div class="mb-2 checkbox-container"> -->
+<!-- 									<input class="form-check-input checkbox-input" type="checkbox" id="interestCheck" value="이지원" onchange="updateFilter()">  -->
+<!-- 									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(이지원)</span> -->
+<!-- 									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #bad9a1;" readonly> -->
+<!-- 								</div> -->
+<!-- 								<div class="mb-2 checkbox-container"> -->
+<!-- 									<input class="form-check-input checkbox-input" type="checkbox"id="interestCheck" value="김태민" onchange="updateFilter()">  -->
+<!-- 									<span class="form-check-label checkbox-input" for="interestCheck">내 일정(김태민)</span> -->
+<!-- 									<input id="circle" type="button" name="basicCheck" class="checkbox-input" style="background-color: #c7c2f2;" readonly> -->
+<!-- 								</div> -->
+<!-- 								<div class="mb-2" style="padding-left: 15px; padding-top: 15px;"> -->
+<!-- 									<a style="color: grey" href="#">+ 관심 캘린더 추가</a> -->
+<!-- 								</div> -->
+<!-- 							</div> -->
 							<hr>
 							<div>
 								<div class="mb-2 checkbox-container">
@@ -79,8 +82,7 @@
 					</nav>
 				</div>
 				<!-- 오른쪽 콘텐츠 -->
-				<div id="main-right" style="flex: 8;"
-					class="sidenav shadow-right sidenav-light">
+				<div id="main-right" style="flex: 8;" class="sidenav shadow-right sidenav-light">
 					<div id="addSchedule" style="padding: 20px;"></div>
 				</div>
 				<%@ include file="./include/footer.jsp"%>
@@ -90,8 +92,7 @@
 		<div class="modal fade" id="scheduelModal" tabindex="-1"
 			aria-labelledby="scheduelModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered modal-md custom-class">
-				<div class="modal-content border-0"
-					style="padding: 20px; overflow-y: hidden;">
+				<div class="modal-content border-0" style="width:700px; padding: 20px; overflow-y: hidden;">
 					<div class="modal-header">
 						<h5 class="modal-title" id="scheduelModalLabel">일정등록</h5>
 					</div>
@@ -138,21 +139,26 @@
 										type="hidden" id="end_date" name="end_date"
 										class="form-control" style="flex: 3;">
 								</div>
-								<div style="display: flex; gap: 10px; align-items: center;">
-									<span style="flex: 1;"></span> 
-									<div class="form-check" style="flex: 1.5;">
-										<input type="checkbox" id="allDay" name="allDay" value="종일"
+								<input type="hidden" id="allDay" name="allDay" value="종일"
 											class="form-check-input" onchange="toggleTimeSelection(this)"
-											style="margin-bottom: 0px;"> <span for="allDay"
-											class="form-check-label" style="margin-bottom: 0px;">종일</span>
-									</div>
-									<div class="form-check" style="flex: 1.5;">
-										<input type="checkbox" id="recur" name="recur" value="Y"
+											style="margin-bottom: 0px;">
+								<input type="hidden" id="recur" name="recur" value="Y"
 											class="form-check-input" style="margin-bottom: 0px;">
-										<span for="recur" class="form-check-label"
-											style="margin-bottom: 0px;">반복</span>
-									</div>
-								</div>
+<!-- 								<div style="display: flex; gap: 10px; align-items: center;"> -->
+<!-- 									<span style="flex: 1;"></span>  -->
+<!-- 									<div class="form-check" style="flex: 1.5;"> -->
+<!-- 										<input type="checkbox" id="allDay" name="allDay" value="종일" -->
+<!-- 											class="form-check-input" onchange="toggleTimeSelection(this)" -->
+<!-- 											style="margin-bottom: 0px;"> <span for="allDay" -->
+<!-- 											class="form-check-label" style="margin-bottom: 0px;">종일</span> -->
+<!-- 									</div> -->
+<!-- 									<div class="form-check" style="flex: 1.5;"> -->
+<!-- 										<input type="checkbox" id="recur" name="recur" value="Y" -->
+<!-- 											class="form-check-input" style="margin-bottom: 0px;"> -->
+<!-- 										<span for="recur" class="form-check-label" -->
+<!-- 											style="margin-bottom: 0px;">반복</span> -->
+<!-- 									</div> -->
+<!-- 								</div> -->
 								<div style="display: flex; gap: 10px; align-items: center;">
 									<span style="flex: 1;">참여자</span> 
 									<button id="participantsModal" class="form-control" type="button" data-bs-toggle="modal"data-bs-target="#partModal" style="flex: 3;">참여자 선택</button>

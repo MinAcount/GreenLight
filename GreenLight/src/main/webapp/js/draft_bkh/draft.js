@@ -1,7 +1,7 @@
 //상신 유효성 검사
 function submissionValidation(gubun) {
    console.log("submissionValidation()");
-
+	var tempcode = document.getElementById("tempcode").value;
    //입력받는값
    //제목
    //   let title = document.querySelector("#title");
@@ -12,6 +12,7 @@ function submissionValidation(gubun) {
       document.getElementById("tempdaterangepicker").setAttribute("id", "daterangepicker")
    }
    
+   if(tempcode == '01'){
    //기간 및 일시
    let daterangepicker = document.querySelector("#daterangepicker");
    console.log("daterangepicker:", daterangepicker.value);
@@ -58,18 +59,40 @@ function submissionValidation(gubun) {
    //신청연차
    let getsu = document.querySelector("#getsu");
    console.log("getsu:", getsu.textContent);
-
+}
    //긴급 여부
    let urgency = document.querySelector("#urgency").value;
    console.log("urgency:", urgency);
 
-   //null체크
+     //null체크
    if (title.value == '') {
-      alert("제목을 입력하세요..");
+      var dangerAlert = document.getElementById("dangerAlert");
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "제목을 입력하세요!"
+      dangerAlert.querySelector("#modalContent").textContent = "제목을 입력하세요";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
       title.focus();
-   } else if (document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == '') {
-      alert("기간 및 일시를 선택하세요..");
+   } else if (tempcode == '01') {/////////////////////////////////////////////수정
+      if(document.querySelector("#start_day").value == '' || document.querySelector("#end_day").value == ''){
+         var dangerAlert = document.getElementById("dangerAlert");
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "날짜를 입력하세요!"
+      dangerAlert.querySelector("#modalContent").textContent = "날짜를 선택해 입력하세요.";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
+         
       daterangepicker.focus();
+      }
+      else {
+         insertDocument(gubun);
+      }
    } else {
       insertDocument(gubun);
    }
@@ -170,10 +193,13 @@ function saveTemp(){
       document.getElementById("modalContent").innerHTML = "결재선, 참조자, 파일은 저장되지 않습니다.<br>그래도 임시저장하시겠습니까?"
       document.getElementById("secondBtn").setAttribute("onclick","insertDocument('04')");
       dangerConfirm.setAttribute("style","display:block");
-      dangerConfirm.querySelector("secondBtn").addEventListener('click',function(){
-	dangerConfirm.style.display = "none";
-	insertDocument("04");
-})
+      dangerConfirm.querySelector("#secondBtn").addEventListener('click',function(){
+		insertDocument("04");
+		   dangerConfirm.style.display = "none";
+		})
+	   dangerConfirm.querySelector("#firstBtn").addEventListener('click',function(){
+	      dangerConfirm.style.display = "none";
+	   })
 }
 
 
@@ -193,35 +219,42 @@ function insertDocument(gubun) {
          row.appendChild(orderno);
       })
    
+   
       /*document table*/
       var writer_id = document.getElementById("writer_id").value;
       var templateArea = document.getElementById("templateArea");
       var content ;
       var title = document.getElementsByName("title")[0].value;
-      var draft_date = document.getElementById("draft_date").textContent;
+      var tempcode = document.getElementById("tempcode").value;
       var urgencyChecked = document.getElementById("urgency");
       var urgency = urgencyChecked.checked ? 'Y' : 'N';
-      var tempcode = document.getElementById("tempcode").value;
+      var draft_date = document.getElementById("draft_date").textContent;
+      console.log("draft_date:", draft_date);
+      console.log("urgency", urgency);
       console.log("writer_id:", writer_id);
       console.log("content:", content);
       console.log("title:", title);
-      console.log("draft_date:", draft_date);
-      console.log("urgency:", urgency);
       console.log("tempcode:", tempcode);
+      
    
       var formData = new FormData();
       formData.append("writer_id", writer_id);
-      
       formData.append("title", title);
       formData.append("draft_date", draft_date);
       formData.append("urgency", urgency);
       formData.append("tempcode", tempcode);
+      
+      if(tempcode == '01'){
       formData.append("start_day", start_day);
       formData.append("end_day", end_day);
       formData.append("getsu", getsu);
+}
+
    
 // 상신버튼일때
    if (gubun == '01'){
+      var tempcode = document.getElementById("tempcode").value;
+      console.log("tempcode",tempcode);
       
       //input들 value 값 저장하기
       var templateArea = document.getElementById("templateArea");
@@ -239,19 +272,50 @@ function insertDocument(gubun) {
          input.remove();
          //      input.setAttribute("value",input.value);
          //      input.setAttribute("readonly", "readonly");
-
+		
       })
-
-
+      
+      		
+	
+	       if(tempcode == '02'){ ////////////////////////////////수정
+		   console.log("tempcode 02진입");
+		   
+		      var inputs = templateArea.querySelectorAll("input[type='number']");
+	      console.log("inputs", inputs)
+	      inputs.forEach(function(input) {
+	         console.log(input.value);
+	         var newPTag = document.createElement("P");
+	         input.parentElement.appendChild(newPTag);
+	         console.log("input", input.parentElement);
+	         if (input.value != null) {
+	            newPTag.textContent = input.value;
+	            console.log("newPTag", newPTag.textContent);
+	         }
+	         input.remove();
+	         //      input.setAttribute("value",input.value);
+	         //      input.setAttribute("readonly", "readonly");
+	
+	      })
+		   
+		   var expenseCats = document.getElementsByName("expenseCat");
+		   expenseCats.forEach(function(expenseCat){
+		      var newPTag = document.createElement("P");
+		    expenseCat.parentElement.appendChild(newPTag);
+		   newPTag.textContent = expenseCat.value;
+		   expenseCat.remove();
+		   })
+		   
+		}
+	
+	if(tempcode == '01'){
+		console.log("tempcode 01진입")
       /*vacation table*/
-      /*var writer_id = document.getElementById("writer_id").value;*/
+//      var writer_id = document.getElementById("writer_id").value;
       var start_day = document.getElementById("start_day").value;
       var end_day = document.getElementById("end_day").value;
       /*vacation_half*/ 
       var getsu = document.getElementById("getsu").textContent;
-      
-      
-   
+	
       console.log("start_day:", start_day);
       console.log("end_day:", end_day);
       console.log("getsu:", getsu);
@@ -282,7 +346,7 @@ function insertDocument(gubun) {
       if(selectedValue == 'N'){
          getsuFlagP.textContent = "연차";
       } else if(selectedValue == 'Y') {
-         getsuFlagP.textContent = "공차";
+         getsuFlagP.textContent = "공가";
       }
       
       getsuFlagTd.innerHTML = "";
@@ -322,25 +386,29 @@ function insertDocument(gubun) {
       }
       
 	   // 반차여부
-	   var vacation_half = "";
+	   var vacation_half = document.getElementById("vacation_half");
 	   // 시작일만 체크되면 A, 종료일만 체크되면 P, 시작일, 종료일 모두 체크되면 M
 	   if (start_day_half_checkbox.checked && !end_day_half_checkbox.checked) {
-			vacation_half = 'A';
+			vacation_half.value = 'A';
 	   } else if (!start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
-			vacation_half = 'P';
+			vacation_half.value = 'P';
 	   } else if (start_day_half_checkbox.checked && end_day_half_checkbox.checked) {
-			vacation_half = 'M';
+			vacation_half.value = 'M';
 	   }
+	   
+	   
       
       // 선택된 값들을 화면에 출력
       halfStatus.innerHTML = ""; // 이전에 있던 내용을 지우고 다시 출력
       halfStatus.appendChild(halfStatusP); // halfStatusP 요소를 halfStatus에 추가
    
+      
+   
+}
       // 긴급 여부
       var urgencyTd = document.querySelector("#urgencyTd");
       var urgencyTdP = document.createElement("P");
       urgencyTdP.textContent = "";
-      
       var urgency_checkbox = document.querySelector("#urgency");
       if(urgency_checkbox.checked){
          urgencyTdP.textContent += "긴급!!";
@@ -350,6 +418,8 @@ function insertDocument(gubun) {
       
       urgencyTd.innerHTML = "";
       urgencyTd.appendChild(urgencyTdP);
+      
+      
    
       /*Approval table*/
       // 결재자 값 넘기기
@@ -463,6 +533,7 @@ function insertDocument(gubun) {
 		   fileImg.alt = files[i].name;
 		   fileImg.style.width = "80px";
 		   fileImg.style.height = "80px";
+		   fileImg.style.cursor = "pointer";
 		   
 		   let reader = new FileReader();
 		   reader.readAsDataURL(files[i]);
@@ -496,10 +567,13 @@ function insertDocument(gubun) {
          console.log("file:", files[i]);
       }
       
+      if(tempcode == '01'){
+	
       formData.append("start_day", start_day);
       formData.append("end_day", end_day);
       formData.append("vacation_half", vacation_half);
       formData.append("getsu", getsu);
+}
       
       
       /*fetch post*/
@@ -534,9 +608,39 @@ function insertDocument(gubun) {
    } else if(gubun == '04'){
       console.log("구분 04===========")
       
+       if(tempcode == '02'){ ////////////////////////////////수정
+	   console.log("tempcode 02진입");
+	   var expenseCat = document.getElementById("expenseCat");
+	   var options = expenseCat.querySelectorAll("option");
+	   options.forEach(function(option){
+	      if(option.value == expenseCat.value){
+	         option.setAttribute("selected","selected");
+	      }
+	   })
+	}
+      
+      
+      var templateArea = document.getElementById("templateArea"); ///////////////////////////////수정
+      var inputs = templateArea.querySelectorAll("input[type='text']");
+//      console.log("inputs", inputs)
+      inputs.forEach(function(input) {
+         console.log(input.value);
+      input.setAttribute("value",input.value);
+      })
+
+      
       var titleInput = document.getElementsByName("title")[0];
       titleInput.setAttribute("value", title);
+
+       var urgency = document.getElementById("urgency");
+      console.log("urgency",urgency);
+      if(urgency.checked){
+         urgency.setAttribute("checked","checked");
+      }
+      console.log("urgency",urgency);
       
+      if(tempcode=='01'){
+	
       //휴가종류 저장
       var getsuFlag = document.querySelector("#getsuFlag");
       var selectedGetsuFlag = getsuFlag.selectedIndex;
@@ -547,11 +651,7 @@ function insertDocument(gubun) {
       
       document.getElementById("daterangepicker").setAttribute("id","tempdaterangepicker");
 
-      var urgency = document.getElementById("urgency");
-      console.log("urgency",urgency);
-      if(urgency.checked){
-         urgency.setAttribute("checked","checked");
-      }
+     
       
       var halfStatus = document.getElementById("halfStatus");
       var checkboxes = halfStatus.querySelectorAll("input[type='checkbox']");
@@ -570,12 +670,13 @@ function insertDocument(gubun) {
       })
       
       
+}
       
       content = templateArea.innerHTML;
       formData.append("content", content);
       formData.append("doc_status","04");
       formData.append("gubun","04");
-      
+      formData.append("urgency","N");
       
       /*fetch post*/
       fetch("./insertDocument.do", {
@@ -646,6 +747,8 @@ function radioActiveE(chk) {
 var lastDetail;
 function addExpenseDetail() {
    console.log("addExpenseDetail()")
+   
+   
    var expenseDetail = document.getElementById("expenseDetail");
    var tbody = expenseDetail.lastElementChild;
    var lastRow = tbody.lastElementChild;
@@ -678,7 +781,7 @@ function addExpenseDetail() {
             '<input class="width100p height33px" type="text">' +
             '</td>' +
             '<td class="pdl10 pdr10">' +
-            '<select class="datatable-selector" name="deptno" id="deptno">' +
+            '<select class="datatable-selector" name="expenseCat">' +
             '<option>물품구입비</option>' +
             '<option>잡비</option>' +
             '<option>회식비</option>' +
@@ -688,9 +791,10 @@ function addExpenseDetail() {
             '</select>' +
             '</td>' +
             '<td class="pdl10 pdr10"><input class="width100p height33px" type="text"></td>' +
-            '<td class="pdl10 pdr10"><input name="amount" class="width100p height33px" type="text"></td>';
+            '<td class="pdl10 pdr10"><input onkeyup="updateTotal()" name="amount" class="width100p height33px" type="number"></td>';
          // 마지막 <tr> 요소 앞에 새로운 <tr> 요소를 삽입
          tbody.insertBefore(newRow, lastRow);
+         
       }
       else {
 		var dangerAlert = document.getElementById("dangerAlert");
@@ -706,8 +810,22 @@ function addExpenseDetail() {
          console.log("값을 입력하세요")
       }
    } else {
+
+     var dangerAlert = document.getElementById("dangerAlert");
+      console.log("dangerAlert",dangerAlert);
+      var strong = dangerAlert.getElementsByTagName("strong")[0];
+      strong.textContent = "추가 할 수 없습니다!"
+      dangerAlert.querySelector("#modalContent").textContent = "10줄까지만 추가 가능합니다.";
+      dangerAlert.style.display = "block";
+      dangerAlert.querySelector("button").addEventListener('click',function(){
+         dangerAlert.style.display = "none";
+      })
+	
+	
       console.log("10개까지밖에 안돼용")
    }
+   
+    
 }
 
 function deleteExpenseDetail() {
@@ -724,6 +842,15 @@ function deleteExpenseDetail() {
    if (tbodyTrs.length > 1) {
       delLastDetail.remove();
    }
+   
+   var totalAmount = 0;
+    var amountInputs = document.getElementsByName("amount");
+    amountInputs.forEach(function(input) {
+        totalAmount += parseInt(input.value) || 0;
+    });
+    console.log("총 합계:", totalAmount);
+    document.getElementById("totalAmount").textContent = totalAmount;
+   
 }
 
 async function rejectApproval() {
@@ -885,7 +1012,7 @@ async function approve() {
                console.log("찾음")
                var oParent = orderno.parentElement;
                nextId = oParent.querySelector("[name='id']").value;
-               console.log("nextId", nextId)
+               console.log("nextId", nextId);
             }
          })
       }
@@ -893,6 +1020,7 @@ async function approve() {
    var titleTd = document.getElementById("title");
    var titleP = titleTd.querySelector("p");
    var title = titleP.textContent;
+   
    
    var formData = new FormData();
    formData.append("comment", approveCommentValue);
@@ -903,7 +1031,24 @@ async function approve() {
    formData.append("nextId", nextId);
    formData.append("writer_id", writer_id);
    formData.append("title",title);
-
+	
+ var tempcode = document.getElementById("tempcode").value;
+ if(tempcode=='01'){
+	var start_day = document.getElementById("start_day").value;
+	console.log("start_day",start_day);
+	var end_day = document.getElementById("end_day").value;
+	console.log("end_day",end_day);
+	var vacation_half = document.getElementById("vacation_half").value;
+	console.log("vacation_half",vacation_half);
+	formData.append("start_day",start_day);
+	formData.append("end_day",end_day);
+	formData.append("vacation_half",vacation_half);
+	var getsu = document.getElementById("getsu").textContent;
+	console.log("getsu", getsu);
+	formData.append("getsu", getsu);
+}
+	
+	
    try {
       const response1 = await fetch("./updateApproval.do", {
          method: 'POST',
@@ -914,7 +1059,7 @@ async function approve() {
          throw new Error('네트워크 에러..');
       }
 
-      const data1 = await response1.json();
+      const data1 = await response1.text();
       console.log('data1:', data1);
 
       var loginVo_name = document.getElementById("loginVo_name");
@@ -1006,3 +1151,14 @@ function closedangerConfirm() {
    dangerConfirm.setAttribute("style", "display:none");
 }
 
+
+    
+function updateTotal() {
+    var totalAmount = 0;
+    var amountInputs = document.getElementsByName("amount");
+    amountInputs.forEach(function(input) {
+        totalAmount += parseInt(input.value) || 0;
+    });
+    console.log("총 합계:", totalAmount);
+    document.getElementById("totalAmount").textContent = totalAmount;
+}

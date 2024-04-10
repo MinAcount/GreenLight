@@ -27,12 +27,7 @@
 					<input type="hidden" id="docno" value="${docVo.docno}">
 				<hr class="mt-0 mb-5">
 
-				<div
-					style="display: flex; flex-direction: row; justify-content: space-between;">
-					<div>
-						<button id="detailPreview" class="btn btn-secondary " type="button" style="margin-right: 5px;">미리보기</button>
-					</div>
-					
+				<div style="display: flex; flex-direction: row; justify-content: flex-end;">
 					<!-- 문서양식모달 -->
 					<div class="modal fade" id="templateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static">
 						<div class="modal-dialog">
@@ -76,7 +71,7 @@
 						<div class="modal fade" id="approve" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
-							<div class="modal-dialog">
+							<div class="modal-dialog apprModal">
 								<div class="modal-content" style="width: 500px; height: 430px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">결재하기</h5>
@@ -105,7 +100,7 @@
 						<div class="modal fade" id="rejectApproval" tabindex="-1"
 							aria-labelledby="refModalLabel" aria-hidden="true"
 							data-bs-backdrop="static">
-							<div class="modal-dialog">
+							<div class="modal-dialog apprModal">
 								<div class="modal-content" style="width: 500px; height: 430px;">
 									<div class="modal-header">
 										<h5 class="modal-title" id="refModalLabel">반려하기</h5>

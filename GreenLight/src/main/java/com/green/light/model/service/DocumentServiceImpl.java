@@ -93,6 +93,17 @@ public class DocumentServiceImpl implements IDocumentService{
 		return cnt;
 	}
 	
+	@Override
+	public int getAllPendingApprovalDraftCount(String id) {
+		log.info("DocumentServiceImpl getAllPendingApprovalDraftCount 결재대기문서함 페이징용 기안서 갯수 조회 : {}", id);
+		return dao.getAllPendingApprovalDraftCount(id);
+	}
+	
+	@Override
+	public List<DocumentVo> getAllPendingApprovalDraftForPaging(Map<String, Object> map) {
+		log.info("DocumentServiceImpl getAllPendingApprovalDraftForPaging 결재대기문서함 페이징용 조회 : {}", map);
+		return dao.getAllPendingApprovalDraftForPaging(map);
+	}
 	
 	@Override
 	public List<DocumentVo> getAllPendingApprovalDraft(String id) {

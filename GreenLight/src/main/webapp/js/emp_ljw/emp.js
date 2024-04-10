@@ -5,7 +5,7 @@ function profileUpload(input) {
         return;
     }
 
-    console.log(input.files[0]);
+    
     if (input.files[0].size > 500 * 1024) {
         document.getElementById("dangerAlert").style.display = "block";
         document.querySelector("#dangerAlert #modalTitle").innerText = "업로드 오류";
@@ -39,6 +39,8 @@ function profileUpload(input) {
     };
 
     reader.readAsDataURL(input.files[0]);
+    console.log(input.files[0]);
+    console.log(input.value);
 }
 
 
@@ -116,6 +118,7 @@ function checkUploadEmployee(){
 		})
 		.then(data => data.json())
 		.then(result =>{
+			console.log(result);
 			if(result.msg == "success"){
 				document.getElementById("primaryAlert").style.display = "block";
 		        document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
@@ -123,6 +126,7 @@ function checkUploadEmployee(){
 				document.querySelector("#primaryAlert").style.display = "block";
 				document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
 					document.querySelector("#primaryAlert").style.display = "none";
+					location.href="./employeeList.do";
 				})
 			}else{
 				document.getElementById("dangerAlert").style.display = "block";
@@ -131,9 +135,9 @@ function checkUploadEmployee(){
 				document.querySelector("#dangerAlert").style.display = "block";
 				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
 					document.querySelector("#dangerAlert").style.display = "none";
+					location.href="./employeeList.do";
 				})
 			}
-			location.href="./employeeList.do";
 		});
 	}
 }
