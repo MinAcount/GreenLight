@@ -47,6 +47,7 @@ import com.green.light.vo.NotificationVo;
 import com.green.light.vo.PageVo;
 import com.green.light.vo.ScheduleVo;
 import com.green.light.vo.SignVo;
+import com.green.light.vo.VacationVo;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -343,98 +344,99 @@ public class DocumentController {
 	}
 
 	@PostMapping(value = "/updateApproval.do")
-	@ResponseBody
-	public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) throws ParseException {
-		log.info("DocumentController updateApproval POST /updateApproval.do 결재선 업데이트: {}", map);
-		List<EmployeeVo> lists = apprService.getApproval((String) map.get("docno"));
-		System.out.println(lists);
-		int orderno = 0;
-		for (int i = 0; i < lists.size(); i++) {
-			if (map.get("emp_id").equals(lists.get(i).getApprVo().getEmp_id())) {
-				orderno = lists.get(i).getApprVo().getOrderno();
-			}
-		}
-		Map<String, Object> docMap = new HashedMap<String, Object>();
-		docMap.put("doc_status", map.get("doc_status"));
-		docMap.put("docno", map.get("docno"));
-		docMap.put("emp_id", map.get("emp_id"));
-		docMap.put("comment", map.get("comment"));
-		docMap.put("appr_status", map.get("appr_status"));
-		String appr_status = (String) map.get("appr_status");
-		String nextId = (String) map.get("nextId");
-		String writer_id = (String) map.get("writer_id");
-		String title = (String) map.get("title");
-		apprService.updateApprStatus(docMap);
-		apprService.updateComment(docMap);
-		System.out.println("orderno" + orderno);
-		
-		// 일정 추가
-		ScheduleVo vo = new ScheduleVo();
-		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		Date start_date = dateFormat.parse((String) map.get("start_date"));
-		Date end_date = dateFormat.parse((String) map.get("end_date"));
-		
-		vo.setCno((String) map.get("cno"));
-		vo.setCreator((String) map.get("creator"));
-		vo.setLabel_name("휴가");
-		vo.setCategory((String) map.get("category"));
-		vo.setTitle((String) map.get("title"));
-		vo.setMemo((String) map.get("memo"));
-		vo.setStart_date(start_date);
-		vo.setEnd_date(end_date);
-		vo.setPriority("02");
-		vo.setRecur("N");
-		vo.setVisibility("Y");
-		vo.setParticipants((String) map.get("participants"));
-		vo.setPermission("R");
-		vo.setAlarm("08");
-		
-		int cnt = scehduleService.insertSchedule(vo);
-		
-		if(cnt > 0) {
-			System.out.println("휴가일정생성 성공");
-		}else {
-			System.out.println("휴가일정생성 실패");
-		}
-		
-		// 알림 추가 : 상신자
-		Map<String, Object> notiMap = new HashMap<String, Object>();
-		notiMap.put("noti_id", "");
-		notiMap.put("gubun", map.get("docno"));
-		notiMap.put("ntype", "03");
-		notiMap.put("sender", writer_id);
-		List<String> writerId = new ArrayList<String>();
-		if (orderno == lists.size() || appr_status.equals("03")) {
-			System.out.println("들어옴");
-			service.updateDocStatus(docMap, null, null);
-//			service.updateDocStatus(docMap);
-//          vacationVo
-//         VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), (float)map.get("getsu"), "");
-//         vacationService.registerVacation(vVo);
-			writerId.add(writer_id);
-			if (appr_status.equals("03") && orderno == lists.size()
-					|| appr_status.equals("03") && orderno != lists.size()) {
-				notiMap.put("content", "[" + title + "] 문서가 반려(반려사유:" + map.get("comment") + ")되었습니다.");
-			} else if (!appr_status.equals("03") && orderno == lists.size()) {
-				notiMap.put("content", "[" + title + "] 문서가 승인되었습니다.");
-				
-			}
-			notiService.insertNoti(notiMap, writerId);
-		}
-		if (nextId != null) {
-			writerId.add(nextId);
-			notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
-			notiService.insertNoti(notiMap, writerId);
-		}
+	   @ResponseBody
+	   public ResponseEntity<?> updateApproval(@RequestParam Map<String, Object> map) throws ParseException {
+	      log.info("DocumentController updateApproval POST /updateApproval.do 결재선 업데이트: {}", map);
+	      List<EmployeeVo> lists = apprService.getApproval((String) map.get("docno"));
+	      System.out.println(lists);
+	      int orderno = 0;
+	      for (int i = 0; i < lists.size(); i++) {
+	         if (map.get("emp_id").equals(lists.get(i).getApprVo().getEmp_id())) {
+	            orderno = lists.get(i).getApprVo().getOrderno();
+	         }
+	      }
+	      Map<String, Object> docMap = new HashedMap<String, Object>();
+	      docMap.put("doc_status", map.get("doc_status"));
+	      docMap.put("docno", map.get("docno"));
+	      docMap.put("emp_id", map.get("emp_id"));
+	      docMap.put("comment", map.get("comment"));
+	      docMap.put("appr_status", map.get("appr_status"));
+	      String appr_status = (String) map.get("appr_status");
+	      String nextId = (String) map.get("nextId");
+	      String writer_id = (String) map.get("writer_id");
+	      String title = (String) map.get("title");
+	      apprService.updateApprStatus(docMap);
+	      apprService.updateComment(docMap);
+	      System.out.println("orderno" + orderno);
+	      
+	      // 일정 추가 scheduleVo
+	      ScheduleVo scVo = new ScheduleVo();
+	      
+	      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	      Date start_date = dateFormat.parse((String) map.get("start_date"));
+	      Date end_date = dateFormat.parse((String) map.get("end_date"));
+	      
+	      scVo.setCno((String) map.get("writer_id"));
+	      scVo.setCreator((String) map.get("creator"));
+	      scVo.setLabel_name("휴가");
+	      scVo.setCategory((String) map.get("category"));
+	      scVo.setTitle((String) map.get("title"));
+	      scVo.setMemo((String) map.get("memo"));
+	      scVo.setStart_date(start_date);
+	      scVo.setEnd_date(end_date);
+	      scVo.setLocation("");
+	      scVo.setPriority("02");
+	      scVo.setRecur("N");
+	      scVo.setVisibility("Y");
+	      scVo.setParticipants((String) map.get("participants"));
+	      scVo.setPermission("R");
+	      scVo.setAlarm("08");
+	      
+	      // 알림 추가 : 상신자
+	      Map<String, Object> notiMap = new HashMap<String, Object>();
+	      notiMap.put("noti_id", "");
+	      notiMap.put("gubun", map.get("docno"));
+	      notiMap.put("ntype", "03");
+	      notiMap.put("sender", writer_id);
+	      List<String> writerId = new ArrayList<String>();
+	      if (orderno == lists.size() || appr_status.equals("03")) {
+	         System.out.println("====================================== updateDocStatus() 실행");
+//	         service.updateDocStatus(docMap);
+//	          vacationVo
+//	         vacationService.registerVacation(vVo);
+	         writerId.add(writer_id);
+	         if (appr_status.equals("03") && orderno == lists.size() || appr_status.equals("03") && orderno != lists.size()) {
+	            notiMap.put("content", "[" + title + "] 문서가 반려(반려사유:" + map.get("comment") + ")되었습니다.");
+	         } else if (!appr_status.equals("03") && orderno == lists.size()) {
+	        	 System.out.println("==================== 승인이요 ㅋ");
+	            notiMap.put("content", "[" + title + "] 문서가 승인되었습니다.");
+	            //vacationVo
+	            System.out.println((String)map.get("writer_id"));
+	            System.out.println((String)map.get("start_day"));
+	            System.out.println((String)map.get("end_day"));
+	            System.out.println((String)map.get("vacation_half"));
+	            System.out.println(Float.parseFloat((String)map.get("getsu")));
+	            VacationVo vVo = new VacationVo("", (String)map.get("writer_id"), (String)map.get("start_day"), (String)map.get("end_day"), (String)map.get("vacation_half"), Float.parseFloat((String)map.get("getsu")), "");
+	            System.out.println("vVo"+vVo);
+	            System.out.println("================================ afterApprove()");
+	            System.out.println("==================================== afterApprove() 실행");
+	            service.afterApprove(vVo, scVo);
+	         }
+	         notiService.insertNoti(notiMap, writerId);
+	      }
+	      if (nextId != null) {
+	         writerId.add(nextId);
+	         notiMap.put("content", "[" + title + "] 문서를 결재할 순서입니다.");
+	         notiService.insertNoti(notiMap, writerId);
+	      }
 
-		SignVo signVo = signService.selectMainSign((String) map.get("emp_id"));
-		System.out.println("signVo" + signVo);
+	      SignVo signVo = signService.selectMainSign((String) map.get("emp_id"));
+	      System.out.println("signVo" + signVo);
 
-		System.out.println("nextId" + nextId);
-		System.out.println("writer_id" + writer_id);
-		return ResponseEntity.ok(signVo);
-	}
+	      System.out.println("nextId" + nextId);
+	      System.out.println("writer_id" + writer_id);
+	      return ResponseEntity.ok(signVo);
+	   }
 
 	@PostMapping(value = "/updateContent.do")
 	@ResponseBody

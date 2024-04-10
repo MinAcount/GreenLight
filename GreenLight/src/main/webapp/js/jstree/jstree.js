@@ -796,8 +796,8 @@ async function selectComplete() {
 					"endDate": new Date(),
 					"drops": "down"
 				}, function(start, end, label) {
-					$('#start_day').val(start.format('YYYY-MM-DD'));
-					$('#end_day').val(end.format('YYYY-MM-DD'));
+					$('#start_day').val(start.format('YYYY-MM-DD HH:mm'));
+					$('#end_day').val(end.format('YYYY-MM-DD HH:mm'));
 					var halfStatus = document.getElementById("halfStatus");
 					var halfStatusCheckboxes = halfStatus.querySelectorAll("input[type='checkbox']");
 					halfStatusCheckboxes.forEach(function(halfStatusCheckbox) {
@@ -811,7 +811,7 @@ async function selectComplete() {
 					})
 
 					console.log("============================================================== typeof start:", typeof start);
-					console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+					console.log('New date range selected: ' + start.format('YYYY-MM-DD HH:mm') + ' to ' + end.format('YYYY-MM-DD HH:mm') + ' (predefined range: ' + label + ')');
 
 
 					var start_date = new Date(start);

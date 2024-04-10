@@ -10,6 +10,9 @@ import com.green.light.vo.ScheduleVo;
 import com.green.light.vo.VacationVo;
 
 public interface IDocumentService {
+	
+	// vacation, schedule 등록
+	public int afterApprove(VacationVo vVo, ScheduleVo scVo);
 
 	// 기안서 상신 + 파일 등록 + 결재자/참조자 등록
 	public int insertDraft(DocumentVo docVo, List<FileStorageVo> files, List<ApprovalVo> approval);
@@ -54,7 +57,7 @@ public interface IDocumentService {
 	public DocumentVo getDocumentDetail(String docno);
 	
 	// 기안서 상태 업데이트
-	public int updateDocStatus(Map<String, Object> map, VacationVo vVo, ScheduleVo scVo);
+	public int updateDocStatus(Map<String, Object> map);
 	
 	// 기안서 내용 업데이트
 	public int updateContent(Map<String, Object> map);
