@@ -604,7 +604,7 @@ function insertDocument(gubun) {
 
 		//알림
 		notify('전자결재', title + " 문서가 상신되었습니다");
-//		window.location.href = "./draftList.do";
+		window.location.href = "./draftList.do";
 
 	} else if (gubun == '04') {
 		console.log("구분 04===========")
@@ -706,7 +706,7 @@ function insertDocument(gubun) {
 			.catch(error => {
 				console.error('오류 발생:', error);
 			});
-//		window.location.href = "./tempDraftList.do";
+		window.location.href = "./tempDraftList.do";
 	}
 
 
@@ -1145,7 +1145,7 @@ async function approve() {
 		console.error('오류 발생:', error);
 	}
 
-//	window.location.href = "./getAllPendingApprovalDraft.do"
+	window.location.href = "./getAllPendingApprovalDraft.do"
 
 }
 
