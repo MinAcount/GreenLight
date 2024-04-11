@@ -110,7 +110,6 @@
 								</td>
 								<td style="text-align: center;">${vo.tempcode}</td>
                         		<td style="text-align: center;">${vo.doc_status}</td>
-								<td style="text-align: center;">${vo.doc_status}</td>
 							</tr>
 						</c:forEach>
 						</c:otherwise>

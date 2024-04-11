@@ -372,8 +372,11 @@ var deletedRef = [];
 // 결재자 삭제
 function del(event) {
 	
-	var apprLimit = document.getElementById("apprLimit");
-	apprLimit.remove();
+		var apprLimit = document.getElementById("apprLimit");
+	if(apprLimit){
+		console.log("지우자")
+		apprLimit.remove();
+	}
 	// 클릭된 span의 parent div
 	var parentDiv = event.target.parentElement;
 	console.log("parentDiv", parentDiv)
@@ -1024,6 +1027,8 @@ async function selectComplete() {
 						"<input type='hidden' class='autoAppr' name='id' value='" + list.empVo[0].id + "'>" +
 						"</div>";
 					$("#apprJstree").jstree().hide_node(list.empVo[0].id);
+					
+					console.log("list.empVo[0].id",list.empVo[0].id)
 				}
 			})
 		})

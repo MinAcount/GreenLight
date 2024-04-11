@@ -36,9 +36,6 @@
 				<table class="datatable-table">
 					<thead>
 						<tr style="width: 100%;">
-							<th style="width: 2.5%;">
-								<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-							</th>
 							<th style="width: 35%; text-align: center;">제목</th>
 		                     <th style="width: 17.5%; text-align: center;">생성일</th>
 		                     <th style="width: 20%; text-align: center;">문서양식유형</th>
@@ -55,9 +52,6 @@
 						<c:otherwise>
 						<c:forEach var="vo" items="${lists}" varStatus="vs">
 							<tr>
-								<td class="chkbox-td">
-									<input class="form-check-input" id="flexCheckDefault" type="checkbox" value="">
-								</td>
 								<td>
 									<a href="./tempDraftDetail.do?docno=${vo.docno}">
 										<c:choose>

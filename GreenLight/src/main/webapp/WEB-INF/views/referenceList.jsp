@@ -60,7 +60,7 @@
 						<c:choose>
 						<c:when test="${empty lists || lists.size() eq 0}">
 						<tr>
-							<td style="text-align: center;"><b>표시할 기안서가 없습니다..</b></td>
+							<td colspan="6" style="text-align: center;"><b>표시할 기안서가 없습니다..</b></td>
 						</tr>
 						</c:when>
 						<c:otherwise>
