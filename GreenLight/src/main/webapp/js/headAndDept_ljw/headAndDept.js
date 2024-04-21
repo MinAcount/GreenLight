@@ -230,17 +230,19 @@ function modifyHeadManager(val){
 	var selectedHeadHubo = document.querySelector("#managerHubo input[type='radio']:checked").parentNode.nextElementSibling.innerText;
 	headHubo.forEach(function(head){
 		if(head.checked){
-			document.getElementById("primaryConfirm").style.display = "block";
-			document.getElementById("primaryConfirm").style.zIndex = "9999";
-			document.querySelector("#primaryConfirm #modalTitle").innerText = "본부장 변경";
-			document.querySelector("#primaryConfirm #modalContent").innerText = "선택한 사람을 본부장으로 등록하시겠습니까?";
-			document.querySelector("#primaryConfirm").style.display = "block";
-			document.querySelector("#primaryConfirm #firstBtn").addEventListener("click", function() {
-				document.querySelector("#primaryConfirm").style.display = "none";
-			})
-			document.querySelector("#primaryConfirm #secondBtn").addEventListener("click", function() {
-				document.querySelector("#primaryConfirm").style.display = "none";
-				document.querySelector("#headManagerModal").style.display = "none";
+			var confirmResult = confirm("본부장으로 등록하시겠습니까?");
+			if(confirmResult){
+//			document.getElementById("primaryConfirm").style.display = "block";
+//			document.getElementById("primaryConfirm").style.zIndex = "9999";
+//			document.querySelector("#primaryConfirm #modalTitle").innerText = "본부장 변경";
+//			document.querySelector("#primaryConfirm #modalContent").innerText = "선택한 사람을 본부장으로 등록하시겠습니까?";
+//			document.querySelector("#primaryConfirm").style.display = "block";
+//			document.querySelector("#primaryConfirm #firstBtn").addEventListener("click", function() {
+//				document.querySelector("#primaryConfirm").style.display = "none";
+//			})
+//			document.querySelector("#primaryConfirm #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#primaryConfirm").style.display = "none";
+//				document.querySelector("#headManagerModal").style.display = "none";
 				fetch("./updateHeadManager.do",{
 					method:"POST",
 					headers:{"content-type":"application/json"},
@@ -251,17 +253,17 @@ function modifyHeadManager(val){
 				})
 				.then(data => data.json())
 				.then(result => {
-					console.log(result);
+					alert("본부장 변경이 완료되었습니다");
 					closeModal();
-					document.getElementById("primaryAlert").style.display = "block";
-					document.getElementById("primaryAlert").style.zIndex = "9999";
-					document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-					document.querySelector("#primaryAlert #modalContent").innerText = "본부장 변경이 완료되었습니다";
-					document.querySelector("#primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#primaryAlert").style.display = "none";
-						document.querySelector("#primaryConfirm").style.display = "none";
-					})
+//					document.getElementById("primaryAlert").style.display = "block";
+//					document.getElementById("primaryAlert").style.zIndex = "9999";
+//					document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//					document.querySelector("#primaryAlert #modalContent").innerText = "본부장 변경이 완료되었습니다";
+//					document.querySelector("#primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#primaryAlert").style.display = "none";
+//						document.querySelector("#primaryConfirm").style.display = "none";
+//					})
 					document.getElementById("managerZone").innerText = "본부장 : "+selectedHeadHubo;
 					var managerHubo = document.getElementById("managerHubo");
    					managerHubo.innerHTML ='';
@@ -286,8 +288,8 @@ function modifyHeadManager(val){
 					}
 					managerHubo.innerHTML = huboHTML;
 				})
-
-			})
+			}
+//			})
 		}
 	})
 }
@@ -302,17 +304,19 @@ function modifyDeptManager(val) {
 	}else{
 		deptHuboId = deptHubo.closest('tr').querySelector(".dept_mgr_hubo_id").innerText;
 	}
-	document.getElementById("primaryConfirm").style.display = "block";
-	document.getElementById("primaryConfirm").style.zIndex = "9999";
-	document.querySelector("#primaryConfirm #modalTitle").innerText = "부서장 등록";
-	document.querySelector("#primaryConfirm #modalContent").innerText = "선택한 사람을 부서장으로 등록하시겠습니까?";
-	document.querySelector("#primaryConfirm").style.display = "block";
-	document.querySelector("#primaryConfirm #firstBtn").addEventListener("click", function() {
-		document.querySelector("#primaryConfirm").style.display = "none";
-	})
-	document.querySelector("#primaryConfirm #secondBtn").addEventListener("click", function() {
-		document.querySelector("#primaryConfirm").style.display = "none";
-		document.querySelector("#headManagerModal").style.display = "none";
+	var confirmResult = confirm("부서장으로 등록하시겠습니까?");
+	if (confirmResult) {
+//	document.getElementById("primaryConfirm").style.display = "block";
+//	document.getElementById("primaryConfirm").style.zIndex = "9999";
+//	document.querySelector("#primaryConfirm #modalTitle").innerText = "부서장 등록";
+//	document.querySelector("#primaryConfirm #modalContent").innerText = "선택한 사람을 부서장으로 등록하시겠습니까?";
+//	document.querySelector("#primaryConfirm").style.display = "block";
+//	document.querySelector("#primaryConfirm #firstBtn").addEventListener("click", function() {
+//		document.querySelector("#primaryConfirm").style.display = "none";
+//	})
+//	document.querySelector("#primaryConfirm #secondBtn").addEventListener("click", function() {
+//		document.querySelector("#primaryConfirm").style.display = "none";
+//		document.querySelector("#headManagerModal").style.display = "none";
 		fetch("./updateDeptManager.do", {
 			method: "POST",
 			headers: { "content-type": "application/json" },
@@ -323,19 +327,20 @@ function modifyDeptManager(val) {
 		})
 		.then(data => data.text())
 		.then(result => {
-			console.log(result);
 			selectDept(deptno);
-			document.getElementById("primaryAlert").style.display = "block";
-			document.getElementById("primaryAlert").style.zIndex = "9999";
-			document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-			document.querySelector("#primaryAlert #modalContent").innerText = "부서장 변경이 완료되었습니다";
-			document.querySelector("#primaryAlert").style.display = "block";
-			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#primaryAlert").style.display = "none";
-				document.querySelector("#primaryConfirm").style.display = "none";
-			})
+			alert("부서장 변경이 완료되었습니다");
+//			document.getElementById("primaryAlert").style.display = "block";
+//			document.getElementById("primaryAlert").style.zIndex = "9999";
+//			document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//			document.querySelector("#primaryAlert #modalContent").innerText = "부서장 변경이 완료되었습니다";
+//			document.querySelector("#primaryAlert").style.display = "block";
+//			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#primaryAlert").style.display = "none";
+//				document.querySelector("#primaryConfirm").style.display = "none";
+//			})
 		})
-	})
+	}
+//	})
 }
 
 //모달 닫히는 function

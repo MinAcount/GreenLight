@@ -148,6 +148,7 @@
 						"last" : "마지막"
 					},
 				},
+				stateSave: true, //해당 페이지 상태 저장
 				autoWidth : false,
 				info : true, // 좌측하단 정보 표시 
 				searching : true, // 검색 기능 
