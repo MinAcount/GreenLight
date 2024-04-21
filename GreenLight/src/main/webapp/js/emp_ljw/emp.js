@@ -7,13 +7,14 @@ function profileUpload(input) {
 
     
     if (input.files[0].size > 500 * 1024) {
-        document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "업로드 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "500KB 이하의 사진만 가능합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("500KB 이하의 사진만 가능합니다.");
+//        document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "업로드 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "500KB 이하의 사진만 가능합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
         input.value = '';
         document.getElementById('preview').src ='assets/img/illustrations/profiles/profile-2.png';
         return;
@@ -23,13 +24,14 @@ function profileUpload(input) {
     if(fileExtension != 'png' && fileExtension != 'jpeg' && fileExtension != 'jpg' && fileExtension != 'gif'){
         input.value = '';
         document.getElementById('preview').src ='assets/img/illustrations/profiles/profile-2.png';
-        document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "업로드 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "이미지 파일만 업로드 가능합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+        alert("이미지 파일만 업로드 가능합니다.");
+//        document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "업로드 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "이미지 파일만 업로드 가능합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
         return;
     }
 
@@ -62,37 +64,41 @@ function checkUploadEmployee(){
 	const emailREX = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
 	
 	if(name == "" || join_day == "" || email == "" || phone == ""){
-        document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "필수사항 미입력";
-        document.querySelector("#dangerAlert #modalContent").innerText = "필수사항을 모두 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("필수사항을 모두 입력해주세요");
+//        document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "필수사항 미입력";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "필수사항을 모두 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(!phoneREX.test(phone)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "전화번호 유효성 체크 실패";
-        document.querySelector("#dangerAlert #modalContent").innerText = "전화번호는 숫자만 가능합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("전화번호는 숫자만 가능합니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "전화번호 유효성 체크 실패";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "전화번호는 숫자만 가능합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(!emailREX.test(email)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "이메일 형식 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "이메일 형식에 맞게 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("이메일 형식에 맞게 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "이메일 형식 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "이메일 형식에 맞게 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(new Date(join_day)>new Date() || new Date(birthday)>new Date()){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else{
 		var formData = new FormData();
 		if (profileInput.files.length > 0) {
@@ -120,23 +126,27 @@ function checkUploadEmployee(){
 		.then(result =>{
 			console.log(result);
 			if(result.msg == "success"){
-				document.getElementById("primaryAlert").style.display = "block";
-		        document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
-		        document.querySelector("#primaryAlert #modalContent").innerText = "성공적으로 추가되었습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
-					document.querySelector("#primaryAlert").style.display = "none";
-					location.href="./employeeList.do";
-				})
+				alert("성공적으로 추가되었습니다");
+//				document.getElementById("primaryAlert").style.display = "block";
+//		        document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
+//		        document.querySelector("#primaryAlert #modalContent").innerText = "성공적으로 추가되었습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
+//					document.querySelector("#primaryAlert").style.display = "none";
+//					location.href="./employeeList.do";
+//				})
+				location.href="./employeeList.do";
 			}else{
-				document.getElementById("dangerAlert").style.display = "block";
-		        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
-		        document.querySelector("#dangerAlert #modalContent").innerText = "직원 등록에 실패하였습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-					document.querySelector("#dangerAlert").style.display = "none";
-					location.href="./employeeList.do";
-				})
+				alert("직원 등록에 실패하였습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//		        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
+//		        document.querySelector("#dangerAlert #modalContent").innerText = "직원 등록에 실패하였습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//					document.querySelector("#dangerAlert").style.display = "none";
+//					location.href="./employeeList.do";
+//				})
+				location.href="./employeeList.do";
 			}
 		});
 	}
@@ -206,45 +216,50 @@ function modifyPassword(){
 	const spaceNo = /\s/g;
 	
 	if(currentPassword == "" || newPassword == "" || confirmPassword == ""){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "필수사항 미입력";
-		document.querySelector("#dangerAlert #modalContent").innerText = "모든 사항을 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("모든 사항을 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "필수사항 미입력";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "모든 사항을 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(newPassword != confirmPassword){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
-		document.querySelector("#dangerAlert #modalContent").innerText = "입력하신 비밀번호와 확인하신 비밀번호가 다릅니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("입력하신 비밀번호와 확인하신 비밀번호가 다릅니다.");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "입력하신 비밀번호와 확인하신 비밀번호가 다릅니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(currentPassword == newPassword){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
-		document.querySelector("#dangerAlert #modalContent").innerText = "새로운 비밀번호는 기존의 비밀번호와 달라야 합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("새로운 비밀번호는 기존의 비밀번호와 달라야 합니다.");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "새로운 비밀번호는 기존의 비밀번호와 달라야 합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(newPassword.match(spaceNo)){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
-		document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호에 공백은 들어갈 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("비밀번호에 공백은 들어갈 수 없습니다.");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 오류";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호에 공백은 들어갈 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(!reg.test(newPassword)){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 유효성 오류";
-		document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호는 최소 6자이상이고, 최소한 하나 이상의 영문자, 숫자, 특수문자를 포함해야 합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("비밀번호는 최소 6자이상이고, 최소한 하나 이상의 영문자, 숫자, 특수문자를 포함해야 합니다.");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "비밀번호 유효성 오류";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호는 최소 6자이상이고, 최소한 하나 이상의 영문자, 숫자, 특수문자를 포함해야 합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else{
 		fetch('./passwordCheck.do', {
 			method: 'POST',
@@ -259,30 +274,33 @@ function modifyPassword(){
 		.then(result => {
 			console.log(result);
 			if (result.msg == 'SUCCESS') {
-				document.getElementById("primaryAlert").style.display = "block";
-		        document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-		        document.querySelector("#primaryAlert #modalContent").innerText = "비밀번호 수정이 완료되었습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
-					document.querySelector("#primaryAlert").style.display = "none";
-				})
+				alert("비밀번호 수정이 완료되었습니다.");
+//				document.getElementById("primaryAlert").style.display = "block";
+//		        document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//		        document.querySelector("#primaryAlert #modalContent").innerText = "비밀번호 수정이 완료되었습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
+//					document.querySelector("#primaryAlert").style.display = "none";
+//				})
 				location.href="./mypage.do";
 			}else if (result.msg == 'FAIL'){
-				document.getElementById("dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #modalTitle").innerText = "기존 비밀번호 오류";
-				document.querySelector("#dangerAlert #modalContent").innerText = "기존 비밀번호가 맞지 않습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("기존 비밀번호가 맞지 않습니다.");
+//				document.getElementById("dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #modalTitle").innerText = "기존 비밀번호 오류";
+//				document.querySelector("#dangerAlert #modalContent").innerText = "기존 비밀번호가 맞지 않습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}else if (result.msg == 'UPDATEFAIL'){
-				document.getElementById("dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #modalTitle").innerText = "변경 실패";
-				document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호 변경에 실패하였습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("비밀번호 변경에 실패하였습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #modalTitle").innerText = "변경 실패";
+//				document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호 변경에 실패하였습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}
 		});
 	}
@@ -475,30 +493,33 @@ function updateExitDay(id){
 	var exit_day = document.getElementById("litepickerDate").value;
 	var join_day = document.getElementById("hidden_join_day").value;
 	if(new Date(exit_day)>new Date()){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(new Date(exit_day)<new Date(join_day)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일이 입사일보다 먼저일 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일이 입사일보다 먼저일 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else{
 		location.href="./updateExitDay.do?id="+id+"&exit_day="+exit_day;
-		document.getElementById("primaryAlert").style.display = "block";
-		document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-		document.querySelector("#primaryAlert #modalContent").innerText = "퇴사일 수정이 완료되었습니다";
-		document.querySelector("#primaryAlert").style.display = "block";
-		document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#primaryAlert").style.display = "none";
-		})
+		alert("퇴사일 수정이 완료되었습니다");
+//		document.getElementById("primaryAlert").style.display = "block";
+//		document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//		document.querySelector("#primaryAlert #modalContent").innerText = "퇴사일 수정이 완료되었습니다";
+//		document.querySelector("#primaryAlert").style.display = "block";
+//		document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#primaryAlert").style.display = "none";
+//		})
 	}
 }
 
@@ -507,40 +528,47 @@ function updateExit(id){
 	var exit_day = document.getElementById("litepickerDate").value;
 	var join_day = document.getElementById("hidden_join_day").value;
 	if(exit_day == ""){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "필수값 미입력";
-        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일을 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("퇴사일을 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "필수값 미입력";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일을 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(new Date(exit_day)>new Date()){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(new Date(exit_day)<new Date(join_day)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일이 입사일보다 먼저일 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("퇴사일이 입사일보다 먼저일 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사일이 입사일보다 먼저일 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else{
 		var name = document.getElementById("name").value;
-		document.getElementById("dangerConfirm").style.display = "block";
-		document.querySelector("#dangerConfirm #modalTitle").innerText = "퇴사처리 확인";
-		document.querySelector("#dangerConfirm #modalContent").innerText = "정말 "+name+"님을 퇴사시키시겠습니까?";
-		document.querySelector("#dangerConfirm").style.display = "block";
-		document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
-			document.querySelector("#dangerConfirm").style.display = "none";
-		})
-		document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerConfirm").style.display = "none";
+		var confirmResult = confirm("정말 "+name+"님을 퇴사시키시겠습니까?");
+
+		if(confirmResult){
+//		document.getElementById("dangerConfirm").style.display = "block";
+//		document.querySelector("#dangerConfirm #modalTitle").innerText = "퇴사처리 확인";
+//		document.querySelector("#dangerConfirm #modalContent").innerText = "정말 "+name+"님을 퇴사시키시겠습니까?";
+//		document.querySelector("#dangerConfirm").style.display = "block";
+//		document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerConfirm").style.display = "none";
+//		})
+//		document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerConfirm").style.display = "none";
+
 			//결재대기중인 문서가 있다면 퇴사 불가 => fetch를 통해 확인하기
 			fetch("./updateExit.do",{
 				method:"POST",
@@ -552,38 +580,41 @@ function updateExit(id){
 			})
 			.then(data => data.text())
 			.then(result => {
-				console.log(result);
 				if(result == "success"){
-					document.getElementById("primaryAlert").style.display = "block";
-			        document.querySelector("#primaryAlert #modalTitle").innerText = "퇴사처리 성공";
-			        document.querySelector("#primaryAlert #modalContent").innerText = name+"님이 퇴사 처리되었습니다";
-					document.querySelector("#primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
-						document.querySelector("#primaryAlert").style.display = "none";
-						location.href='./employeeOne.do?id='+id;
-					})
+					alert(name+"님이 퇴사 처리되었습니다");
+//					document.getElementById("primaryAlert").style.display = "block";
+//			        document.querySelector("#primaryAlert #modalTitle").innerText = "퇴사처리 성공";
+//			        document.querySelector("#primaryAlert #modalContent").innerText = name+"님이 퇴사 처리되었습니다";
+//					document.querySelector("#primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #secondBtn" ).addEventListener("click", function(){
+//						document.querySelector("#primaryAlert").style.display = "none";
+//						location.href='./employeeOne.do?id='+id;
+//					})
 				}else if(result == "appr"){
-					document.getElementById("dangerAlert").style.display = "block";
-			        document.querySelector("#dangerAlert #modalTitle").innerText = "퇴사 실패";
-			        document.querySelector("#dangerAlert #modalContent").innerText = name+"의 결재대기중인 문서가 있습니다 결재완료 후 퇴사처리를 진행해주세요";
-					document.querySelector("#dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-						document.querySelector("#dangerAlert").style.display = "none";
-						location.href='./employeeOne.do?id='+id;
-					})
+					alert(name+"의 결재대기중인 문서가 있습니다 \n결재완료 후 퇴사처리를 진행해주세요");
+//					document.getElementById("dangerAlert").style.display = "block";
+//			        document.querySelector("#dangerAlert #modalTitle").innerText = "퇴사 실패";
+//			        document.querySelector("#dangerAlert #modalContent").innerText = name+"의 결재대기중인 문서가 있습니다 결재완료 후 퇴사처리를 진행해주세요";
+//					document.querySelector("#dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//						document.querySelector("#dangerAlert").style.display = "none";
+//						location.href='./employeeOne.do?id='+id;
+//					})
 				}else{
-					document.getElementById("dangerAlert").style.display = "block";
-			        document.querySelector("#dangerAlert #modalTitle").innerText = "퇴사 실패";
-			        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사 처리에 실패하였습니다";
-					document.querySelector("#dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-						document.querySelector("#dangerAlert").style.display = "none";
-						location.href='./employeeOne.do?id='+id;
-					})
+					alert("퇴사 처리에 실패하였습니다");
+//					document.getElementById("dangerAlert").style.display = "block";
+//			        document.querySelector("#dangerAlert #modalTitle").innerText = "퇴사 실패";
+//			        document.querySelector("#dangerAlert #modalContent").innerText = "퇴사 처리에 실패하였습니다";
+//					document.querySelector("#dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//						document.querySelector("#dangerAlert").style.display = "none";
+//						location.href='./employeeOne.do?id='+id;
+//					})
 				}
-				
+				location.href='./employeeOne.do?id='+id;
 			})
-		})
+		}
+//		})
 	}
 }
 
@@ -649,37 +680,41 @@ function updateEmployee(id){
 	
 	
 	if(name == "" || join_day == "" || email == "" || phone == ""){
-		document.getElementById("dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #modalTitle").innerText = "필수값 미입력";
-		document.querySelector("#dangerAlert #modalContent").innerText = "필수사항을 모두 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("필수사항을 모두 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #modalTitle").innerText = "필수값 미입력";
+//		document.querySelector("#dangerAlert #modalContent").innerText = "필수사항을 모두 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(!phoneREX.test(phone)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "전화번호 유효성 체크 실패";
-        document.querySelector("#dangerAlert #modalContent").innerText = "전화번호는 숫자만 가능합니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("전화번호는 숫자만 가능합니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "전화번호 유효성 체크 실패";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "전화번호는 숫자만 가능합니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(!emailREX.test(email)){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "이메일 형식 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "이메일 형식에 맞게 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("이메일 형식에 맞게 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "이메일 형식 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "이메일 형식에 맞게 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else if(new Date(join_day)>new Date()){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
-        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "날짜 오류";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "날짜는 오늘보다 늦은 날짜를 선택할 수 없습니다";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	}else{
 		var formData = new FormData();
 		if (profileInput.files.length > 0) {
@@ -704,21 +739,23 @@ function updateEmployee(id){
 		.then(data => data.json())
 		.then(result =>{
 			if(result.msg == "success"){
-				document.getElementById("primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-				document.querySelector("#primaryAlert #modalContent").innerText = "성공적으로 수정되었습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#primaryAlert").style.display = "none";
-				})
+				alert("성공적으로 수정되었습니다");
+//				document.getElementById("primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//				document.querySelector("#primaryAlert #modalContent").innerText = "성공적으로 수정되었습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#primaryAlert").style.display = "none";
+//				})
 			}else{
-				document.getElementById("dangerAlert").style.display = "block";
-		        document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
-		        document.querySelector("#dangerAlert #modalContent").innerText = "직원 수정에 실패하였습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-				document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("직원 수정에 실패하였습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//		        document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
+//		        document.querySelector("#dangerAlert #modalContent").innerText = "직원 수정에 실패하였습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//				document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}
 			location.href="./employeeOne.do?id="+id;
 		});
@@ -728,15 +765,17 @@ function updateEmployee(id){
 //employeeOneModify.jsp
 function passwordReset(id){
 	var name = document.getElementById("name").value;
-	document.getElementById("dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #modalTitle").innerText = "비밀번호 초기화 확인";
-	document.querySelector("#dangerConfirm #modalContent").innerText = name + "님의 비밀번호를 초기화 하시겠습니까?";
-	document.querySelector("#dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
-	})
-	document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
+	var confirmResult = confirm(name+"님의 비밀번호를 초기화 하시겠습니까?");
+	if(confirmResult){
+//	document.getElementById("dangerConfirm").style.display = "block";
+//	document.querySelector("#dangerConfirm #modalTitle").innerText = "비밀번호 초기화 확인";
+//	document.querySelector("#dangerConfirm #modalContent").innerText = name + "님의 비밀번호를 초기화 하시겠습니까?";
+//	document.querySelector("#dangerConfirm").style.display = "block";
+//	document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
+//		document.querySelector("#dangerConfirm").style.display = "none";
+//	})
+//	document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
+//		document.querySelector("#dangerConfirm").style.display = "none";
 		fetch("./passwordReset.do",{
 			method: 'POST',
 			body: id,
@@ -744,24 +783,27 @@ function passwordReset(id){
 			.then(data => data.text())
 			.then(result => {
 				if (result == 'fail') {
-					document.getElementById("dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
-					document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호 초기화에 실패하였습니다";
-					document.querySelector("#dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#dangerAlert").style.display = "none";
-					})
+					alert("비밀번호 초기화에 실패하였습니다");
+//					document.getElementById("dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
+//					document.querySelector("#dangerAlert #modalContent").innerText = "비밀번호 초기화에 실패하였습니다";
+//					document.querySelector("#dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#dangerAlert").style.display = "none";
+//					})
 				} else {
-					document.getElementById("primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
-					document.querySelector("#primaryAlert #modalContent").innerText = "비밀번호는 " + result + " 입니다 수정을 권장합니다";
-					document.querySelector("#primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#primaryAlert").style.display = "none";
-					})
+					alert("비밀번호는 "+result+" 입니다\n수정을 권장합니다");
+//					document.getElementById("primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #modalTitle").innerText = "수정 성공";
+//					document.querySelector("#primaryAlert #modalContent").innerText = "비밀번호는 " + result + " 입니다 수정을 권장합니다";
+//					document.querySelector("#primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#primaryAlert").style.display = "none";
+//					})
 				}
 			});
-	})
+		}
+//	})
 }
 
 //employeeDocument.jsp
@@ -794,7 +836,8 @@ function modalOpen(result, val, name){
 	    				'<svg onclick=\"fileDownload('+val+','+item.ftype+')\" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>' : "-") + "</td>";
 	    tableHTML += "<td style='text-align: center;' class='gubunBtn'>" + 
              (item.stored_name != null ? 
-              "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#dangerConfirmDocument' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
+//              "<button type='button' class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#dangerConfirmDocument' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
+              "<button type='button' class='btn btn-danger' onclick=\"empFileDel('"+item.ref_id+"','"+item.ftype+"','"+name+"')\">삭제</button>" : 
               "<label for='fileInput_"+val+"_"+item.comVo.code+"' class='btn btn-primary'>등록<input id='fileInput_"+val+"_"+item.comVo.code+"' accept='image/jpeg, image/jpg, image/png, image/gif, .pdf, .hwp' type='file' style='display: none;' onchange=\"empFileUpload(this.files[0],'"+val+"','"+item.comVo.code+"')\"></label>"+
               "<button type='button' style='display:none;' class='btn btn-info' onclick=\"empFileInsert('"+val+"','"+item.comVo.code+"','"+name+"')\">완료</button>") + 
              "</td>";
@@ -804,19 +847,19 @@ function modalOpen(result, val, name){
 }
 
 function empFileDel(id, type, name){
-	console.log(id);
-	console.log(type);
-	var modalTitleIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" id="toastFeather"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
-	document.querySelector("#dangerConfirmDocument #exampleModalLabel").innerHTML = modalTitleIcon+"파일삭제 확인";
-	document.querySelector("#dangerConfirmDocument #modalContent").innerHTML = "정말 삭제하시겠습니까? \n삭제하신 파일은 복구할 수 없습니다";
-	document.getElementById("dangerConfirmDocument").style.display = "block";
-	document.getElementById("dangerConfirmDocument").style.zIndex = "9999";
-	document.querySelector("#dangerConfirmDocument #firstBtn").addEventListener("click", function() {
-		openFileList(id,name);
-		document.querySelector("#dangerConfirmDocument").style.display = "none";
-	})
-	document.querySelector("#dangerConfirmDocument #secondBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirmDocument").style.display = "none";
+	var confirmResult = confirm("정말 삭제하시겠습니까?\n삭제하신 파일은 복구할 수 없습니다");
+	if(confirmResult){
+//	var modalTitleIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle" id="toastFeather"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>';
+//	document.querySelector("#dangerConfirmDocument #exampleModalLabel").innerHTML = modalTitleIcon+"파일삭제 확인";
+//	document.querySelector("#dangerConfirmDocument #modalContent").innerHTML = "정말 삭제하시겠습니까? \n삭제하신 파일은 복구할 수 없습니다";
+//	document.getElementById("dangerConfirmDocument").style.display = "block";
+//	document.getElementById("dangerConfirmDocument").style.zIndex = "9999";
+//	document.querySelector("#dangerConfirmDocument #firstBtn").addEventListener("click", function() {
+//		openFileList(id,name);
+//		document.querySelector("#dangerConfirmDocument").style.display = "none";
+//	})
+//	document.querySelector("#dangerConfirmDocument #secondBtn").addEventListener("click", function() {
+//		document.querySelector("#dangerConfirmDocument").style.display = "none";
 		fetch("./empFileDel.do",{
 			method : "POST",
 			headers : {"content-type" : "application/json"},
@@ -829,39 +872,44 @@ function empFileDel(id, type, name){
 		.then(result => {
 			console.log(result);
 			if(result.isc == 'fail'){
-				document.getElementById("dangerAlert").style.display = "block";
-		        document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
-		        document.querySelector("#dangerAlert #modalContent").innerText = "삭제에 실패하였습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-				document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("삭제에 실패하였습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//		        document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
+//		        document.querySelector("#dangerAlert #modalContent").innerText = "삭제에 실패하였습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//				document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}else{
-				document.getElementById("primaryAlert").style.display = "block";
-				document.getElementById("primaryAlert").style.zIndex = "9999";
-				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
-				document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 삭제되었습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#primaryAlert").style.display = "none";
-					location.reload();
-				})
+				alert("정상적으로 삭제되었습니다");
+//				document.getElementById("primaryAlert").style.display = "block";
+//				document.getElementById("primaryAlert").style.zIndex = "9999";
+//				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
+//				document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 삭제되었습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#primaryAlert").style.display = "none";
+//					location.reload();
+//				})
+				location.reload();
 				modalOpen(result, id, name);
 			}
 		})
-	})
+	}
+//	})
 }
 
 function empFileUpload(file, id, type){
 	var fileExtension = file.name.split(".")[1];
 	if(fileExtension != 'png' && fileExtension != 'jpeg' && fileExtension != 'jpg' && fileExtension != 'gif' && fileExtension != 'hwp' && fileExtension != 'pdf'){
-		document.getElementById("primaryAlert").style.display = "block";
-		document.querySelector("#primaryAlert #modalTitle").innerText = "파일 형식 오류";
-		document.querySelector("#primaryAlert #modalContent").innerText = "정해진 파일 형식이 아닙니다";
-		document.querySelector("#primaryAlert").style.display = "block";
-		document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-			document.querySelector("#primaryAlert").style.display = "none";
-		})
+		alert("정해진 파일이 아닙니다");
+//		document.getElementById("primaryAlert").style.display = "block";
+//		document.querySelector("#primaryAlert #modalTitle").innerText = "파일 형식 오류";
+//		document.querySelector("#primaryAlert #modalContent").innerText = "정해진 파일 형식이 아닙니다";
+//		document.querySelector("#primaryAlert").style.display = "block";
+//		document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#primaryAlert").style.display = "none";
+//		})
 		document.getElementById("fileInput_"+id+"_"+type).value = '';
 		return;
 	}
@@ -884,8 +932,6 @@ function empFileUpload(file, id, type){
 }
 
 function empFileInsert(id, type, name){
-	console.log(id);
-	console.log(type);
 	document.getElementById("fileInput_"+id+"_"+type).removeAttribute("disabled");
 	var fileStoredName = document.getElementById("fileInput_"+id+"_"+type).closest("tr").querySelector(".code_name").innerText;
 	var fileInput = document.getElementById("fileInput_"+id+"_"+type).files[0];
@@ -905,25 +951,27 @@ function empFileInsert(id, type, name){
 	.then(data => data.json())
 	.then(result => {
 		if(result.isc == 'fail'){
-			document.getElementById("dangerAlert").style.display = "block";
-	        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
-	        document.querySelector("#dangerAlert #modalContent").innerText = "등록에 실패하였습니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-			document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("등록에 실패하였습니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//	        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
+//	        document.querySelector("#dangerAlert #modalContent").innerText = "등록에 실패하였습니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//			document.querySelector("#dangerAlert").style.display = "none";
+//			})
 		}else{
-			document.getElementById("primaryAlert").style.zIndex = "9999";
-			document.getElementById("primaryAlert").style.display = "block";
-			document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
-			document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 등록되었습니다";
-			document.querySelector("#primaryAlert").style.display = "block";
-			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#primaryAlert").style.display = "none";
-				location.reload();
-			})
-			
-			
+			alert("정상적으로 등록되었습니다");
+//			document.getElementById("primaryAlert").style.zIndex = "9999";
+//			document.getElementById("primaryAlert").style.display = "block";
+//			document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
+//			document.querySelector("#primaryAlert #modalContent").innerText = "정상적으로 등록되었습니다";
+//			document.querySelector("#primaryAlert").style.display = "block";
+//			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#primaryAlert").style.display = "none";
+//				location.reload();
+//			})
+			location.reload();
+			modalOpen(result, id, name);
 		}
 	});
 }

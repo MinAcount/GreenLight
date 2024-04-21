@@ -1,7 +1,5 @@
 function readNoti(noti_id){
 	let loginVoId = document.getElementById("loginVoId").value;
-	console.log(loginVoId);
-	console.log(noti_id);
 	
 	fetch("./readNoti.do", {
 		method:"POST",

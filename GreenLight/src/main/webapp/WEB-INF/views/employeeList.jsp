@@ -117,7 +117,7 @@
 						"last" : "마지막"
 					},
 				},
-
+				stateSave: true, //해당 페이지 상태 저장
 				info : true, // 좌측하단 정보 표시 
 				searching : true, // 검색 기능 
 				ordering : false, // 정렬 기능

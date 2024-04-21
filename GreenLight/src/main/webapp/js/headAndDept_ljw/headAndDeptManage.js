@@ -55,13 +55,14 @@ function headPlus(){
 function okHeadPlus(){
 	let hname = document.getElementById("inputHeadPlus").value;
 	if(hname == ""){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "본부명 미입력";
-        document.querySelector("#dangerAlert #modalContent").innerText = "본부명을 입력해주세요";
-		document.querySelector("#dangerAlert").style.display = "block";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-			document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("본부명을 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "본부명 미입력";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "본부명을 입력해주세요";
+//		document.querySelector("#dangerAlert").style.display = "block";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//			document.querySelector("#dangerAlert").style.display = "none";
+//		})
     	return;
 	}
 	fetch("./insertHead.do", {
@@ -72,13 +73,14 @@ function okHeadPlus(){
 	.then(result => {
 		console.log(result);
 		if(result.length == 0){
-			document.getElementById("dangerAlert").style.display = "block";
-	        document.querySelector("#dangerAlert #modalTitle").innerText = "이름 중복";
-	        document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름이 이미 존재합니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("같은 이름이 이미 존재합니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//	        document.querySelector("#dangerAlert #modalTitle").innerText = "이름 중복";
+//	        document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름이 이미 존재합니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 			return;
 		}
 		document.getElementById("inputHeadPlus").value = "";
@@ -138,12 +140,13 @@ function deptPlus(headno){
 function okDeptPlus(headno){
 	let dname = document.getElementById("inputDeptPlus").value;
 	if(dname == ""){
-		document.getElementById("dangerAlert").style.display = "block";
-        document.querySelector("#dangerAlert #modalTitle").innerText = "부서명 미입력";
-        document.querySelector("#dangerAlert #modalContent").innerText = "부서명을 입력해주세요";
-		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-		document.querySelector("#dangerAlert").style.display = "none";
-		})
+		alert("부서명을 입력해주세요");
+//		document.getElementById("dangerAlert").style.display = "block";
+//        document.querySelector("#dangerAlert #modalTitle").innerText = "부서명 미입력";
+//        document.querySelector("#dangerAlert #modalContent").innerText = "부서명을 입력해주세요";
+//		document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//		document.querySelector("#dangerAlert").style.display = "none";
+//		})
 	    return;
 	}else{
 		fetch("./insertDept.do", {
@@ -158,30 +161,34 @@ function okDeptPlus(headno){
 		.then(result => {
 			console.log(result);
 			if(result.isc == "same"){
-				document.getElementById("dangerAlert").style.display = "block";
-		        document.querySelector("#dangerAlert #modalTitle").innerText = "이름 중복";
-		        document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름이 이미 존재합니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("같은 이름이 이미 존재합니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//		        document.querySelector("#dangerAlert #modalTitle").innerText = "이름 중복";
+//		        document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름이 이미 존재합니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}else if(result.isc == "fail"){
-				document.getElementById("dangerAlert").style.display = "block";
-		        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
-		        document.querySelector("#dangerAlert #modalContent").innerText = "부서 등록에 실패하였습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("부서 등록에 실패하였습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//		        document.querySelector("#dangerAlert #modalTitle").innerText = "등록 실패";
+//		        document.querySelector("#dangerAlert #modalContent").innerText = "부서 등록에 실패하였습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn" ).addEventListener("click", function(){
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}else if(result.isc == "success"){
-				document.getElementById("primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
-				document.querySelector("#primaryAlert #modalContent").innerText = "부서 등록에 성공하였습니다 부서탭에서 확인하세요";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#primaryAlert").style.display = "none";
-					location.reload();
-				})
+				alert("부서 등록에 성공하였습니다 부서탭에서 확인하세요");
+//				document.getElementById("primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #modalTitle").innerText = "등록 성공";
+//				document.querySelector("#primaryAlert #modalContent").innerText = "부서 등록에 성공하였습니다 부서탭에서 확인하세요";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#primaryAlert").style.display = "none";
+//					location.reload();
+//				})
+				location.reload();
 			}
 		});
 		document.getElementById("inputDeptPlus").value = "";
@@ -209,13 +216,14 @@ function editHeadName(element){
 	var okIcons = document.querySelectorAll(".okIcon");
 	okIcons.forEach(function(okicon){
 		if(okicon.style.display == 'block'){
-			document.getElementById("dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #modalTitle").innerText = "초과 클릭";
-			document.querySelector("#dangerAlert #modalContent").innerText = "이름은 한번에 하나만 수정 가능합니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("이름은 한번에 하나만 수정 가능합니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #modalTitle").innerText = "초과 클릭";
+//			document.querySelector("#dangerAlert #modalContent").innerText = "이름은 한번에 하나만 수정 가능합니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 			document.getElementsByClassName('editIcon')[rowIndex-1].style = "display : block;"
 			okicon.style.display = "none;"
 			return;
@@ -246,21 +254,23 @@ function okHeadName(element, headno){
 	.then(data => data.json())
 	.then(result => {
 		if(result.isc == "same"){
-			document.getElementById("dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #modalTitle").innerText = "동일 이름 변경 불가";
-			document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름으로 변경 불가합니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("같은 이름으로 변경 불가합니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #modalTitle").innerText = "동일 이름 변경 불가";
+//			document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름으로 변경 불가합니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 		}else if(result.isc == "fail"){
-			document.getElementById("dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
-			document.querySelector("#dangerAlert #modalContent").innerText = "이름 수정이 실패하였습니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("이름 수정이 실패하였습니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
+//			document.querySelector("#dangerAlert #modalContent").innerText = "이름 수정이 실패하였습니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 		}
 		document.getElementsByClassName('hname')[rowIndex-1].setAttribute('disabled','disabled');
 		document.getElementsByClassName('editIcon')[rowIndex-1].style = "display : block;"
@@ -298,21 +308,23 @@ function okDeptName(element, deptno){
 	.then(data => data.json())
 	.then(result => {
 		if(result.isc == "same"){
-			document.getElementById("dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #modalTitle").innerText = "동일 이름 변경 불가";
-			document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름으로 변경 불가합니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("같은 이름으로 변경 불가합니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #modalTitle").innerText = "동일 이름 변경 불가";
+//			document.querySelector("#dangerAlert #modalContent").innerText = "같은 이름으로 변경 불가합니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 		}else if(result.isc == "fail"){
-			document.getElementById("dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
-			document.querySelector("#dangerAlert #modalContent").innerText = "이름 수정이 실패하였습니다";
-			document.querySelector("#dangerAlert").style.display = "block";
-			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#dangerAlert").style.display = "none";
-			})
+			alert("이름 수정이 실패하였습니다");
+//			document.getElementById("dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #modalTitle").innerText = "수정 실패";
+//			document.querySelector("#dangerAlert #modalContent").innerText = "이름 수정이 실패하였습니다";
+//			document.querySelector("#dangerAlert").style.display = "block";
+//			document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#dangerAlert").style.display = "none";
+//			})
 		}
 		document.getElementsByClassName('dname')[rowIndex-1 - HeadListTableBodyLength].setAttribute('disabled','disabled');
 		document.getElementsByClassName('editIcon')[rowIndex-1].style = "display : block;"
@@ -328,15 +340,17 @@ function headRecycle(headno){
 
 function headDel(headno, val){
 	console.log(headno, val);
-	document.getElementById("dangerConfirm").style.display = "block";
-		document.querySelector("#dangerConfirm #modalTitle").innerText = "삭제 확인";
-		document.querySelector("#dangerConfirm #modalContent").innerText = "정말 삭제 하시겠습니까?";
-		document.querySelector("#dangerConfirm").style.display = "block";
-		document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
-			document.querySelector("#dangerConfirm").style.display = "none";
-		})
-		document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
-			document.querySelector("#dangerConfirm").style.display = "none";
+	var confirmResult = confirm("정말 삭제하시겠습니까?");
+	if(confirmResult){
+//	document.getElementById("dangerConfirm").style.display = "block";
+//		document.querySelector("#dangerConfirm #modalTitle").innerText = "삭제 확인";
+//		document.querySelector("#dangerConfirm #modalContent").innerText = "정말 삭제 하시겠습니까?";
+//		document.querySelector("#dangerConfirm").style.display = "block";
+//		document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerConfirm").style.display = "none";
+//		})
+//		document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
+//			document.querySelector("#dangerConfirm").style.display = "none";
 		fetch("./headDel.do", {
 			method:"POST",
 			headers: { "Content-Type": "application/json" },
@@ -348,41 +362,46 @@ function headDel(headno, val){
 		.then(data => data.json())
 		.then(result => {
 			if(result.isc == "dept"){
-				document.getElementById("dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
-				document.querySelector("#dangerAlert #modalContent").innerText ="해당 본부 아래에 존재하는 부서가 있습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("해당 본부 아래에 존재하는 부서가 있습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
+//				document.querySelector("#dangerAlert #modalContent").innerText ="해당 본부 아래에 존재하는 부서가 있습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}else if(result.isc == "delSuccess"){
-				document.getElementById("primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
-				document.querySelector("#primaryAlert #modalContent").innerText = "삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#primaryAlert").style.display = "none";
-				})
+				alert("삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다");
+//				document.getElementById("primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
+//				document.querySelector("#primaryAlert #modalContent").innerText = "삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#primaryAlert").style.display = "none";
+//				})
 			}else if(result.isc == "deleteSuccess"){
-				document.getElementById("primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
-				document.querySelector("#primaryAlert #modalContent").innerText = "완전히 삭제되었습니다";
-				document.querySelector("#primaryAlert").style.display = "block";
-				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#primaryAlert").style.display = "none";
-				})
+				alert("완전히 삭제되었습니다");
+//				document.getElementById("primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
+//				document.querySelector("#primaryAlert #modalContent").innerText = "완전히 삭제되었습니다";
+//				document.querySelector("#primaryAlert").style.display = "block";
+//				document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#primaryAlert").style.display = "none";
+//				})
 			}else{
-				document.getElementById("dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
-				document.querySelector("#dangerAlert #modalContent").innerText ="해당 본부 아래에 완전히 삭제되지 않은 부서가 있습니다";
-				document.querySelector("#dangerAlert").style.display = "block";
-				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-					document.querySelector("#dangerAlert").style.display = "none";
-				})
+				alert("해당 본부 아래에 완전히 삭제되지 않은 부서가 있습니다");
+//				document.getElementById("dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
+//				document.querySelector("#dangerAlert #modalContent").innerText ="해당 본부 아래에 완전히 삭제되지 않은 부서가 있습니다";
+//				document.querySelector("#dangerAlert").style.display = "block";
+//				document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//					document.querySelector("#dangerAlert").style.display = "none";
+//				})
 			}
 			window.location.reload();
 		});
-	})
+	}
+//	})
 }
 
 
@@ -393,12 +412,13 @@ function deptRecycle(element, deptno){
     .then(data => data.text())
     .then(result => {
 		if(result>0){
-			document.getElementById("primaryAlert").style.display = "block";
-			document.querySelector("#primaryAlert #modalTitle").innerText = "복구 성공";
-			document.querySelector("#primaryAlert #modalContent").innerText = "복구가 완료되었습니다";
-			document.querySelector("#primaryAlert").style.display = "block";
-			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-				document.querySelector("#primaryAlert").style.display = "none";
+			alert("복구가 완료되었습니다");
+//			document.getElementById("primaryAlert").style.display = "block";
+//			document.querySelector("#primaryAlert #modalTitle").innerText = "복구 성공";
+//			document.querySelector("#primaryAlert #modalContent").innerText = "복구가 완료되었습니다";
+//			document.querySelector("#primaryAlert").style.display = "block";
+//			document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//				document.querySelector("#primaryAlert").style.display = "none";
 				var trElement = element.closest('tr');
 				if (trElement) {
 					var tdElement = trElement.querySelector('.recycleIcon');
@@ -409,7 +429,7 @@ function deptRecycle(element, deptno){
 						tdElement.innerHTML = '삭제 ' + delIcon;
 					}
 				}
-			})
+//			})
 		}
     });
 }
@@ -420,15 +440,17 @@ function deptRecycle(element, deptno){
 function deptDel(element, deptno, val){
 	var recycleIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>';
 	console.log(deptno, val);
-	document.getElementById("dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #modalTitle").innerText = "삭제 확인";
-	document.querySelector("#dangerConfirm #modalContent").innerText = "정말 삭제 하시겠습니까?";
-	document.querySelector("#dangerConfirm").style.display = "block";
-	document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
-	})
-	document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
-		document.querySelector("#dangerConfirm").style.display = "none";
+	var confirmResult = confirm("정말 부서를 삭제하시겠습니까?");
+	if(confirmResult){
+//	document.getElementById("dangerConfirm").style.display = "block";
+//	document.querySelector("#dangerConfirm #modalTitle").innerText = "삭제 확인";
+//	document.querySelector("#dangerConfirm #modalContent").innerText = "정말 삭제 하시겠습니까?";
+//	document.querySelector("#dangerConfirm").style.display = "block";
+//	document.querySelector("#dangerConfirm #firstBtn").addEventListener("click", function() {
+//		document.querySelector("#dangerConfirm").style.display = "none";
+//	})
+//	document.querySelector("#dangerConfirm #secondBtn").addEventListener("click", function() {
+//		document.querySelector("#dangerConfirm").style.display = "none";
 		fetch("./deptDel.do", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -440,20 +462,22 @@ function deptDel(element, deptno, val){
 			.then(data => data.json())
 			.then(result => {
 				if (result.isc == "emp") {
-					document.getElementById("dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
-					document.querySelector("#dangerAlert #modalContent").innerText = "해당 부서 아래에 존재하는 직원이 있습니다";
-					document.querySelector("#dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#dangerAlert").style.display = "none";
-					})
+					alert("해당 부서 아래에 존재하는 직원이 있습니다");
+//					document.getElementById("dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
+//					document.querySelector("#dangerAlert #modalContent").innerText = "해당 부서 아래에 존재하는 직원이 있습니다";
+//					document.querySelector("#dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#dangerAlert").style.display = "none";
+//					})
 				} else if (result.isc == "delSuccess") {
-					document.getElementById("primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
-					document.querySelector("#primaryAlert #modalContent").innerText = "삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다";
-					document.querySelector("#primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#primaryAlert").style.display = "none";
+					alert("삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다");
+//					document.getElementById("primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
+//					document.querySelector("#primaryAlert #modalContent").innerText = "삭제가 완료되었습니다 \n다시 복구하여 이름을 재사용 할 수 있습니다";
+//					document.querySelector("#primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#primaryAlert").style.display = "none";
 						var trElement = element.closest('tr');
 						if (trElement) {
 							var tdElement = trElement.querySelector('.delIcon');
@@ -464,14 +488,15 @@ function deptDel(element, deptno, val){
 								tdElement.innerHTML = '복구 ' + recycleIcon;
 							}
 						}
-					})
+//					})
 				} else if (result.isc == "deleteSuccess") {
-					document.getElementById("primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
-					document.querySelector("#primaryAlert #modalContent").innerText = "완전히 삭제되었습니다";
-					document.querySelector("#primaryAlert").style.display = "block";
-					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#primaryAlert").style.display = "none";
+					alert("완전히 삭제되었습니다");
+//					document.getElementById("primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #modalTitle").innerText = "삭제 성공";
+//					document.querySelector("#primaryAlert #modalContent").innerText = "완전히 삭제되었습니다";
+//					document.querySelector("#primaryAlert").style.display = "block";
+//					document.querySelector("#primaryAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#primaryAlert").style.display = "none";
 						var trElement = element.closest('tr');
 						if (trElement) {
 							var tdElement = trElement.querySelector('.allDelIcon');
@@ -484,16 +509,18 @@ function deptDel(element, deptno, val){
 								trElement.style.display = "none";
 							}
 						}
-					})
+//					})
 				} else {
-					document.getElementById("dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
-					document.querySelector("#dangerAlert #modalContent").innerText = "삭제에 실패하였습니다";
-					document.querySelector("#dangerAlert").style.display = "block";
-					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
-						document.querySelector("#dangerAlert").style.display = "none";
-					})
+					alert("삭제에 실패하였습니다");
+//					document.getElementById("dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #modalTitle").innerText = "삭제 실패";
+//					document.querySelector("#dangerAlert #modalContent").innerText = "삭제에 실패하였습니다";
+//					document.querySelector("#dangerAlert").style.display = "block";
+//					document.querySelector("#dangerAlert #secondBtn").addEventListener("click", function() {
+//						document.querySelector("#dangerAlert").style.display = "none";
+//					})
 				}
 			});
-	})
+		}
+//	})
 }

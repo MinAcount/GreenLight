@@ -95,7 +95,7 @@
             },
 //           https://datatables.net/reference/option/language   위를 더 디테일하게 수정하고싶으면 여기로~
         },
-        
+        stateSave: true, //해당 페이지 상태 저장
         info: true, // 좌측하단 정보 표시 
         searching: false, // 검색 기능 
         ordering: false, // 정렬 기능
