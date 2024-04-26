@@ -273,14 +273,14 @@
 			<div class="modal fade" id="partModal" tabindex="-1"
 				aria-labelledby="partModalLabel" aria-hidden="true"
 				data-bs-backdrop="static">
-				<div class="modal-dialog jstreeModal">
+				<div class="modal-dialog modal-dialog-centered modal-md custom-class">
 					<div class="modal-content" style="width: 800px; height: 630px;">
 						<div class="modal-header">
 							<h5 class="modal-title" id="partModalLabel">참여자 선택</h5>
 						</div>
 						<div class="modal-body"
 							style="display: flex; flex-direction: column; justify-content: space-between; margin-top: 15px;">
-							<div class="toast-body"
+							<div id="toast-body"
 								style="display: flex; flex-direction: row; justify-content: space-around; border: none;">
 								<!-- 참조자들(js tree) -->
 								<div id="part_sel"

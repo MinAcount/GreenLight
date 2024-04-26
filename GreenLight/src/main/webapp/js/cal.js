@@ -417,19 +417,21 @@ function oneScheduleView(schedule_id) {
                         <div class="modal-body" style="padding: 50px;">
                             <div class="row">
                                 <div>
-                                    <h3 class="modal-title viewcal" id="detailModalLabel">${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</h3>
+                                    <h3 class="modal-title viewcal" id="detailModalLabel"><span>${data.title}&nbsp;&nbsp;&nbsp;${data.visibility === 'Y' ? '<i class="fa-solid fa-lock-open"></i>' : '<i class="fa-solid fa-lock"></i>'}</span><input id="title" type="hidden" value="${data.title}"></h3>
                                     ${data.start_date != null ? `<p><strong class="viewcal" style="padding-right: 6px;"></strong> ${formattedStartDate} ~ ${formattedEndDate}</p>` : ''}
-                                    ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> ${data.label_name}</p>` : ''}
-                                    ${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> ${data.location}</p>` : ''}
-                                    ${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> ${data.priority}</p>` : ''}
+                                    ${data.label_name != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-regular fa-calendar"></i></strong> <span>${data.label_name}</span><input id="label_name" type="hidden" value="${data.label_name}"></p>` : ''}
+                                    ${data.location != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-location-dot"></i></strong> <span>${data.location}</span><input id="location" type="hidden" value="${data.location}"></p>` : ''}
+                                    ${data.priority != null ? `<p><strong class="viewcal" style="padding-right: 6px;"><i class="fa-solid fa-business-time"></i></strong> <span>${data.priority}</span><input id="priority" type="hidden" value="${data.priority}"></p>` : ''}
                                     <p><strong class="viewcal" style="padding-right: 6px;">등록자</strong> ${data.creator}</p>
                                     ${participants != null ? `<p><strong class="viewcal" style="padding-right: 6px;">참석자</strong> 
-                                    ${participants.map(participant => `<button type="button" class="name_btn">${participant.name}</button>`).join(' ')}</p>` : ''}
-                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;">메모</strong> ${data.memo}</p>` : ''}
+                                    ${participants.map(participant => `<button type="button" class="name_btn">${participant.name} ${participant.id}</button>`).join(' ')}</p>` : ''}
+                                    ${data.memo != null ? `<p><strong class="viewcal" style="padding-right: 6px;">메모</strong> <span>${data.memo}</span><input id="memo" type="hidden" value="${data.memo}"></p>` : ''}
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="updateSchedule('${schedule_id}')">수정</button>
+                            <button type="button" class="btn btn-danger" onclick="delModal('${schedule_id}')">삭제</button>
                             <button type="button" class="btn btn-secondary" id="closeModalBtn" data-bs-dismiss="modal">닫기</button>
                         </div>
                     </div>
@@ -466,7 +468,7 @@ function roomInsertModal() {
 }
 
 function alertModel() {
-    var modalContent = `
+	var modalContent = `
         <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="reserveModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered custom-class">
                 <div class="modal-content" style="max-width: 300px;">
@@ -479,21 +481,62 @@ function alertModel() {
         </div>
     `;
 
-    var modalElement = $(modalContent);
-    modalElement.modal('show');
+	var modalElement = $(modalContent);
+	modalElement.modal('show');
 
-    // 모달이 표시된 후에 실행되는 코드
-    modalElement.on('shown.bs.modal', function() {
-        var modalDialog = modalElement.find('.modal-dialog');
-        var windowHeight = $(window).height();
-        var modalHeight = modalDialog.height();
-        var topMargin = (windowHeight - modalHeight) / 2;
-        modalDialog.css('margin-top', topMargin);
-    });
+	// 모달이 표시된 후에 실행되는 코드
+	modalElement.on('shown.bs.modal', function() {
+		var modalDialog = modalElement.find('.modal-dialog');
+		var windowHeight = $(window).height();
+		var modalHeight = modalDialog.height();
+		var topMargin = (windowHeight - modalHeight) / 2;
+		modalDialog.css('margin-top', topMargin);
+	});
 
-    // 모달 닫기 버튼에 클릭 이벤트 추가
-    modalElement.find('#close').on('click', function() {
-        // 모달 닫기 버튼을 클릭하면 페이지를 새로고침
-        window.location.reload();
-    });
+	// 모달 닫기 버튼에 클릭 이벤트 추가
+	modalElement.find('#close').on('click', function() {
+		// 모달 닫기 버튼을 클릭하면 페이지를 새로고침
+		window.location.reload();
+	});
+}
+
+function delModal(schedule_id){
+	 var modalContent = `<div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered custom-class">
+			<div class="modal-content" style="width: 400px;">
+				<div class="modal-body" style="padding: 30px">
+					<p class="text-center" style="margin-top: 40px; margin-bottom: 40px;">일정을 삭제하시겠습니까?</p>
+					<div class="text-center" style="margin-top: 20px; margin-bottom: 20px;">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 100px;">취소</button>
+						<button type="button" class="btn btn-danger" onclick="deleteSchedule('${schedule_id}')" style="width: 100px;">삭제</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>`;
+	
+	var modalElement = $(modalContent);
+	modalElement.modal('show');
+}
+
+function deleteSchedule(schedule_id) {
+	console.log("일정 삭제 : ", schedule_id);
+	fetch('./deleteSchedule.do?schedule_id=' + schedule_id)
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('서버 응답 실패');
+			}
+			return response.json();
+		})
+		.then(data => {
+			if (data === 1) {
+				console.log('일정이 성공적으로 삭제되었습니다.');
+				$('#delModal').modal('hide'); // 확인 모달 숨기기
+			} else {
+				console.error('일정 삭제에 실패했습니다.');
+			}
+		})
+		.catch(error => {
+			console.error('오류 발생:', error);
+		});
 }

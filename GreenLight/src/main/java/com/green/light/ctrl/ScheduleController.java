@@ -154,10 +154,10 @@ public class ScheduleController {
 			return isc;
 	}
 	
-	@PostMapping(value = "/deleteSchedule.do")
+	@GetMapping(value = "/deleteSchedule.do")
 	@ResponseBody
 	public int DeleteSchedule(@RequestParam("schedule_id") String schedule_id) {
-		log.info("ScheduleController POST deleteSchedule.do 일정삭제 : {}", schedule_id);
+		log.info("ScheduleController GET deleteSchedule.do 일정삭제 : {}", schedule_id);
 		int cnt = service.deleteSchedule(schedule_id);
 		return cnt;
 	}
